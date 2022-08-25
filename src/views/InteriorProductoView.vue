@@ -13,12 +13,12 @@
       <div class="columns is-centered is-gapless mt-6">
         <div class="column is-11-fullhd is-12-desktop">
           <div
-            class="columns is-multiline box bg-tercero px-1 py-1 no-shadow mb-6"
+            class="columns is-multiline box px-1 py-1 no-shadow mb-6"
           >
             <div
               class="column is-7-fullhd is-8-desktop is-12-tablet detalle-producto"
             >
-              <div class="box height-100 producto interior pb-6">
+              <div class="card height-100 producto interior pb-6">
                 <div
                   class="columns is-vcentered is-gapless px-2 mb-6 is-mobile"
                 >
@@ -97,7 +97,7 @@
               </div>
             </div>
             <div class="column descripcion is-size-6">
-              <div class="box height-100 p-6">
+              <div class="card height-100 p-6">
                 <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
                 <div class="content gris3" v-html="producto.descripcion"></div>
               </div>

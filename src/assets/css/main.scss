@@ -15,6 +15,12 @@
     color:inherit
   }
 }
+.is-borderless{
+  border:none !important;
+  td{
+    border:none;
+  }
+}
 .column{
   width: 100%;
 }
@@ -114,6 +120,17 @@ section{
   &.button-1{
     border-width: 2px;
     border-color: color("primero");
+    &.active,
+    &:hover{
+      background:color("primero");
+      color:#FFF;
+      i{
+        color:#FFF;
+      }
+    }
+    i{
+      color:color("primero");
+    }
   }
   &.button-2{
     background: #B1B1B1;
@@ -953,7 +970,15 @@ footer{
         margin-right: .5em;
       }
     }
-
+  }
+  &.carro{
+    height: auto;
+    position: relative;
+    .delete{
+      position: absolute;
+      right: 2%;
+      top:5%;
+    }
   }
 }
 
@@ -1037,5 +1062,28 @@ footer{
       padding:0 .5em;
     }
   }
+}
+
+.pasos-carro{
+  position: relative;
+  &:after{
+    content:"";
+    position: absolute;
+    top: 50%;
+    height: 2px;
+    left: 0;
+    right: 0;
+    background-color: color("primero");
+    z-index: 1;
+  }
+  .paso{
+    position: relative;
+    z-index: 2;
+  }
+  .button{
+    min-width: 200px;
+    font-size: .9em;
+  }
+
 }
 // @import 'media.scss';

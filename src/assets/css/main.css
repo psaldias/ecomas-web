@@ -285,6 +285,14 @@ p {
   color: inherit;
 }
 
+.is-borderless {
+  border: none !important;
+}
+
+.is-borderless td {
+  border: none;
+}
+
 .column {
   width: 100%;
 }
@@ -397,6 +405,19 @@ section {
 .button.button-1 {
   border-width: 2px;
   border-color: #5ABE00;
+}
+
+.button.button-1.active, .button.button-1:hover {
+  background: #5ABE00;
+  color: #FFF;
+}
+
+.button.button-1.active i, .button.button-1:hover i {
+  color: #FFF;
+}
+
+.button.button-1 i {
+  color: #5ABE00;
 }
 
 .button.button-2 {
@@ -1289,6 +1310,17 @@ footer nav a:hover {
   margin-right: .5em;
 }
 
+.producto.carro {
+  height: auto;
+  position: relative;
+}
+
+.producto.carro .delete {
+  position: absolute;
+  right: 2%;
+  top: 5%;
+}
+
 .toplayer {
   background: rgba(0, 0, 0, 0.5);
   position: fixed;
@@ -1374,4 +1406,29 @@ footer nav a:hover {
 .slider-productos .slick-track .slick-slide {
   height: auto !important;
   padding: 0 .5em;
+}
+
+.pasos-carro {
+  position: relative;
+}
+
+.pasos-carro:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  left: 0;
+  right: 0;
+  background-color: #5ABE00;
+  z-index: 1;
+}
+
+.pasos-carro .paso {
+  position: relative;
+  z-index: 2;
+}
+
+.pasos-carro .button {
+  min-width: 200px;
+  font-size: .9em;
 }

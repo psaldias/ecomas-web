@@ -38,10 +38,10 @@
                   <router-link to="/ingresar" class="has-text-white"><i class="has-text-white mr-2 fa-solid fa-circle-user"></i>Ingresar</router-link>
                 </div>
                 <div class="column is-narrow icono-carro active">
-                  <a href="#" class="has-text-white ">
-                    <i class="has-text-white fa-solid fa-cart-shopping is-size-5"></i>
-                    <span class="contador-carro">1</span>
-                  </a>
+                <router-link to="carro" class="has-text-white ">
+                  <i class="has-text-white fa-solid fa-cart-shopping is-size-5"></i>
+                  <span class="contador-carro">1</span>
+                </router-link>
                 </div>
               </div>
             </div>

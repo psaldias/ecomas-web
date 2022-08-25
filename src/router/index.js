@@ -50,6 +50,14 @@ const router = createRouter({
       path: "/interior-producto/:slug",
       name: "Interior Producto",
       component: () => import("../views/InteriorProductoView.vue")
+    },{
+      path: "/distribuidores/",
+      name: "Distribuidores",
+      component: () => import("../views/DistribuidoresView.vue")
+    },{
+      path: "/carro/",
+      name: "Carro",
+      component: () => import("../views/CarroView.vue")
     },
 
 

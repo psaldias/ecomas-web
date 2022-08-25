@@ -13,11 +13,7 @@
               class="has-text-weight-bold"
             >
               <option value="">Todos</option>
-              <option
-                v-for="(region, index) in regiones"
-                :key="index"
-                :value="region"
-              >
+              <option v-for="(region, index) in regiones" :key="index" :value="region">
                 {{ region }}
               </option>
             </select>
@@ -27,11 +23,7 @@
           <div class="select is-fullwidth">
             <select v-model="comuna" id="" class="has-text-weight-bold">
               <option value="">Todos</option>
-              <option
-                v-for="(comuna, index) in comunas"
-                :key="index"
-                :value="comuna"
-              >
+              <option v-for="(comuna, index) in comunas" :key="index" :value="comuna">
                 {{ comuna }}
               </option>
             </select>
@@ -49,7 +41,7 @@
           <div class="listado-sucursales">
             <div class="columns is-multiline is-mobile">
               <div
-                class="column is-4"
+                class="column is-4-fullhd is-6-desktop"
                 v-for="sucursal in sucursalesFiltradas"
                 :key="sucursal.id"
               >

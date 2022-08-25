@@ -29,7 +29,7 @@
                 <li><router-link to="/bases-promocionales">Bases Promocionales</router-link></li>
                 <li><router-link to="/terminos-y-condiciones">Terminos y Condiciones</router-link></li>
                 <li><router-link to="/politicas-y-devoluciones">Politicas y Devoluciones</router-link></li>
-                <li><a href="#">Distribuidores</a></li>
+                <li><router-link to="/distribuidores/">Distribuidores</router-link></li>
               </nav>
             </div>
             <div class="column is-narrow-desktop is-align-self-center has-text-centered-mobile">
