@@ -1,0 +1,267 @@
+.primero {
+  color: #5ABE00 !important;
+}
+
+.bg-primero {
+  background-color: #5ABE00 !important;
+}
+
+.segundo {
+  color: #1A1519 !important;
+}
+
+.bg-segundo {
+  background-color: #1A1519 !important;
+}
+
+.tercero {
+  color: #F7F7F7 !important;
+}
+
+.bg-tercero {
+  background-color: #F7F7F7 !important;
+}
+
+.cuarto {
+  color: #2D2D2D !important;
+}
+
+.bg-cuarto {
+  background-color: #2D2D2D !important;
+}
+
+.verde {
+  color: #488500 !important;
+}
+
+.bg-verde {
+  background-color: #488500 !important;
+}
+
+.blanco {
+  color: #FFF !important;
+}
+
+.bg-blanco {
+  background-color: #FFF !important;
+}
+
+.negro {
+  color: #000 !important;
+}
+
+.bg-negro {
+  background-color: #000 !important;
+}
+
+.gris {
+  color: #E5E5E5 !important;
+}
+
+.bg-gris {
+  background-color: #E5E5E5 !important;
+}
+
+.gris2 {
+  color: #c5c5c5 !important;
+}
+
+.bg-gris2 {
+  background-color: #c5c5c5 !important;
+}
+
+.gris3 {
+  color: #8E8E8E !important;
+}
+
+.bg-gris3 {
+  background-color: #8E8E8E !important;
+}
+
+@keyframes pulso {
+  0% {
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2, 1.2);
+    transform-origin: 50% 50%;
+    opacity: 0;
+  }
+}
+
+@keyframes animacionnavegar {
+  0% {
+    transform: translate(0, 0px);
+  }
+  50% {
+    transform: translate(0, -10px);
+  }
+  90% {
+    transform: translate(0, 0px);
+  }
+}
+
+@keyframes swipe {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  40% {
+    transform: translateX(40%);
+  }
+  50% {
+    transform: translateX(40%);
+  }
+  90% {
+    transform: translateX(0);
+  }
+}
+
+.text-nowrap {
+  white-space: nowrap;
+}
+
+a {
+  outline: none;
+}
+
+.columns {
+  margin: 0;
+}
+
+.columns:last-child {
+  margin-bottom: 0;
+}
+
+.wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+
+.wrapper2 {
+  width: 80%;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+p {
+  margin-bottom: 10px;
+}
+
+.img-background {
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.slick-disabled {
+  opacity: .6;
+}
+
+.slick-dots {
+  text-align: center;
+}
+
+.slick-dots li {
+  display: inline-block;
+  margin-right: 7px;
+}
+
+.slick-dots li:last-child {
+  margin-right: 0;
+}
+
+.slick-dots li.slick-active button {
+  background: #000;
+  position: relative;
+}
+
+.slick-dots li.slick-active button:after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #FFF;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.slick-dots li button {
+  cursor: pointer;
+  background: #000;
+  width: 15px;
+  height: 15px;
+  border: none;
+  font-size: 0;
+  line-height: 0;
+  border-radius: 50%;
+}
+
+.slider-flechas {
+  padding: 0 50px;
+}
+
+.slider-flechas .slick-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
+}
+
+.slider-flechas .slick-arrow i {
+  font-size: 2em;
+}
+
+.slider-flechas .slick-prev {
+  left: 0;
+}
+
+.slider-flechas .slick-next {
+  right: 0;
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  font-style: normal;
+  font-weight: normal;
+  src: local("Myriad Pro"), url("../fonts/MYRIADPRO-REGULAR.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: local("Myriad Pro"), url("../fonts/MyriadPro-Light.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  font-style: normal;
+  font-weight: 500;
+  src: local("Myriad Pro"), url("../fonts/MYRIADPRO-SEMIBOLD.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  font-style: italic;
+  font-weight: 500;
+  src: local("Myriad Pro"), url("../fonts/MYRIADPRO-SEMIBOLDIT.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local("Myriad Pro"), url("../fonts/MYRIADPRO-BOLD.woff") format("woff");
+}
+
+@font-face {
+  font-family: 'Myriad Pro';
+  font-style: italic;
+  font-weight: 600;
+  src: local("Myriad Pro"), url("../fonts/MYRIADPRO-BOLDIT.woff") format("woff");
+}
