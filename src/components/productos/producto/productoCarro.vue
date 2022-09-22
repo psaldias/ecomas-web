@@ -2,13 +2,13 @@
   <main>
 
 
-    <div class="card  mb-4"  >
+    <div class="card  mb-4 min-h-250"  >
       <div class="producto horizontal carro">
-        <button class="delete ecomas is-large" @click.prevent="cerrar($event)"></button>
+        <button class="delete ecomas is-large" @click.prevent="eliminar()"></button>
 
         <div class="columns is-vcentered">
           <div class="column is-narrow py-0">
-            <div class="imagen">
+            <div class="imagen mx-auto">
               <Imagen
                 :imagen="producto.imagen"
                 :alt="producto.nombre"
@@ -44,11 +44,6 @@
         </div>
       </div>
     </div>
-    <Toplayer
-      :producto="producto"
-      :data="datos_toplayer"
-      :key="'toplayer_' + producto.id"
-    ></Toplayer>
   </main>
 </template>
 
@@ -74,18 +69,13 @@ export default {
   },
   data() {
     return {
-      datos_toplayer: {
-        cantidad: 1,
-        mostrar: false,
-      },
     }
   },
   computed: {},
   methods: {
-    TopLayer(cantidad) {
-      this.datos_toplayer.cantidad = cantidad
-      this.datos_toplayer.mostrar = true
-    },
+    eliminar(){
+      console.log("Eliminar producto")
+    }
   },
 }
 </script>

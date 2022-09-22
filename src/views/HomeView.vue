@@ -7,29 +7,39 @@ import Marcas from "../components/general/Marcas.vue";
 
 <template>
   <main>
-    <div class="wrapper">
-      <section class="columns compra-rapida is-vcentered is-gapless">
-        <div class="column is-narrow mr-6">
-          <h2>
+    <div class="wrapper wrapper-fullm">
+      <section class="columns compra-rapida is-vcentered is-gapless is-mobile">
+        <div class="column is-narrow titulo">
+          <h2 class="pr-4">
             Aquí haz tu<br />
             compra rápida<br />
             <b>en un solo click!</b>
           </h2>
         </div>
+        <div class="column is-1 is-hidden-mobile"></div>
 
         <CompraRapida />
       </section>
-
-      <section class="banner-principal mt-6">
+    </div>
+    <div class="wrapper">
+      <section class="banner-principal mt-4">
         <div class="imagen">
-          <img data-src="img/banner-1.jpg" class="is-block" />
+
+          <img src="/img/banner-1.jpg" class="is-hidden-mobile is-block"/>
+          <img src="/img/banner-1-movil.jpg" class="is-hidden-tablet is-block"/>
         </div>
       </section>
+    </div>
 
+    <div class="wrapper wrapper-fullm">
       <SucursalesHome titulo="Sucursales"></SucursalesHome>
+    </div>
 
+    <div class="wrapper">
       <marcas titulo="Nuestras Marcas"></marcas>
+    </div>
 
+    <div class="wrapper wrapper-fullm">
       <section class="quienes-somos-home my-6">
         <div class="wrapper">
           <div class="columns p-0 contenedor is-vcentered">
@@ -45,21 +55,21 @@ import Marcas from "../components/general/Marcas.vue";
                   debitis possimus?
                 </div>
                 <div class="block">
-                  <a href="#" class="button button-2 bg-verde is-rounded"
-                    >QUIENES SOMOS
-                    <i class="has-text-white ml-2 fa-solid fa-arrow-pointer"></i
-                  ></a>
+                  <router-link to="/quienes-somos/" class="button button-2 bg-verde is-rounded">
+                    QUIENES SOMOS
+                      <i class="has-text-white ml-2 fa-solid fa-arrow-pointer"></i>
+                  </router-link>
                 </div>
               </div>
             </div>
-            <div class="column p-0 is-6">
+            <div class="column p-0 is-6 is-align-self-flex-end imagen">
               <img src="/img/bg-home-quienes-somos-planta.jpg" class="mt-6 is-block" />
             </div>
           </div>
         </div>
       </section>
 
-      <NoticiasDestacada titulo="Noticias" />
+      <NoticiasDestacada titulo="Noticias" class="is-hidden-mobile"/>
     </div>
   </main>
 </template>

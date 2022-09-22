@@ -3,26 +3,26 @@
 <template>
     <main class="productos">
         <div class="wrapper">
-            <div class="columns is-vcentered mb-4">
+            <div class="columns is-vcentered mb-4 is-mobile is-multiline titulo-opciones is-variable is-1">
                 <div class="column is-3 py-0">
-                    <h2 class="primero is-size-4"><b>ESTUFAS</b></h2>
+                    <h2 class="primero is-size-4"><b>PELLETS</b></h2>
                 </div>
-                <div class="column py-0">
+                <div class="column py-0 ">
                     <div class="opciones columns is-vcentered is-gapless  mb-0 px-3">
-                        <div class="column">
+                        <div class="column is-hidden-mobile">
                             <nav class="breadcrumb  is-small" aria-label="breadcrumbs">
                                 <ul>
-                                    <li ><a href="#">Estufas</a></li>
+                                    <li ><a href="#">Pellet</a></li>
                                     <li><a href="#">Ecoheat</a></li>
                                     <li><a href="#">55  70m2</a></li>
                                     <li><a href="#">$500.000 - $1.000.000</a></li>
                                 </ul>
                             </nav>
                         </div>
-                        <div class="column is-narrow">
-                            <div class="columns is-mobile is-vcentered is-gapless">
-                                    <AccionesGrilla  @cambiarGrilla="cambiarGrilla"></AccionesGrilla>
-                                <div class="column">
+                        <div class="column is-narrow acciones-paginador">
+                            <div class="columns is-mobile is-vcentered is-gapless  is-justify-content-flex-end">
+                                <AccionesGrilla  @cambiarGrilla="cambiarGrilla" class="is-hidden-mobile"></AccionesGrilla>
+                                <div class="column is-narrow">
                                     <Paginador></Paginador>
                                 </div>
 
@@ -31,11 +31,15 @@
                     </div>
                 </div>
             </div>
-            <div class="columns">
-                <div class="column is-3 filtros">
+            <div class="columns is-variable is-1">
+                <div class="column is-3 filtros ">
 
+                    <a href="#" class="button button-filtro is-hidden-tablet" @click.prevent="toggleFiltros($event)">
+                        Filtros
+                        <img src="/img/icono-filtro.png" alt="">
+                    </a>
 
-                    <div class="card p-5 ">
+                    <div class="card p-5 is-hidden-mobile" ref="filtrosMovil">
                         <h6 class="primero mb-4"><b>FILTROS</b></h6>
 
                         <div class="filtro">
@@ -307,6 +311,11 @@ export default {
     methods: {
         cambiarGrilla(grilla){
             this.grilla = grilla;
+        },
+        toggleFiltros(e){
+            console.log(e.target);
+            e.target.classList.toggle('active');
+            this.$refs.filtrosMovil.classList.toggle("is-hidden-mobile");
         }
     },
 }

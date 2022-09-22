@@ -7,53 +7,14 @@
         <BannerSeccion titulo="Contacto" imagen="/img/banner-contacto.jpg" />
 
 
-        <div class="columns is-centered mt-5">
-            <div class="column is-10">
-                <div class="columns is-multiline mt-4 listado-contacto">
 
-                    <div class="column is-4">
-                        <div class="card is-height-100 has-text-centered">
-                            <div class="imagen telefono">
-                                <img src="/img/telefono.jpg" />
-                            </div>
-                            <div class="content">
-                                <b>Teléfono</b><br>
-                                600 401 0606
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-4">
-                        <div class="card is-height-100 has-text-centered">
-                            <div class="imagen ">
-                                <img src="/img/ubicacion.jpg" />
-                            </div>
-                            <div class="content">
-                                <b>Casa matriz</b><br>
-                                Avenida Las Industrias #1245, Los Ángeles, Chile
-                            </div>
-                        </div>
-                    </div>
-                    <div class="column is-4">
-                        <div class="card is-height-100 has-text-centered">
-                            <div class="imagen ">
-                                <img src="/img/email.jpg" />
-                            </div>
-                            <div class="content">
-                                <b>Email</b><br>
-                                contacto@ecomas.cl
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="columns is-centered mt-6">
+        <div class="columns is-centered mt-6 is-gapless">
             <div class="column is-8">
 
                 <h2 class="has-text-centered primero is-size-4"><b>Comunicate con nosotros,<br> ingrese sus datos en el siguiente formulario</b></h2>
 
-                <div class="columns is-multiline mt-6">
+                <div class="columns is-multiline mt-5">
 
                     <div class="column is-6">
                         <InputBase
@@ -144,6 +105,47 @@
                                         Continuar
                                     </button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="columns is-centered mt-5 is-gapless">
+            <div class="column is-10">
+                <div class="columns is-multiline mt-4 listado-contacto">
+
+                    <div class="column is-4">
+                        <div class="card is-height-100 has-text-centered">
+                            <div class="imagen telefono">
+                                <img src="/img/telefono.jpg" />
+                            </div>
+                            <div class="content">
+                                <b>Teléfono</b><br>
+                                600 401 0606
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="card is-height-100 has-text-centered">
+                            <div class="imagen ">
+                                <img src="/img/ubicacion.jpg" />
+                            </div>
+                            <div class="content">
+                                <b>Casa matriz</b><br>
+                                Avenida Las Industrias #1245, Los Ángeles, Chile
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-4">
+                        <div class="card is-height-100 has-text-centered">
+                            <div class="imagen ">
+                                <img src="/img/email.jpg" />
+                            </div>
+                            <div class="content">
+                                <b>Email</b><br>
+                                contacto@ecomas.cl
                             </div>
                         </div>
                     </div>

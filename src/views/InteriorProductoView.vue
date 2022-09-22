@@ -52,8 +52,8 @@
 
                     <Precio :precios="producto.precios" class="mb-5"></Precio>
 
-                    <div class="columns is-gapless is-mobile mb-5">
-                      <div class="column is-6 mr-2">
+                    <div class="columns is-gapless is-mobile mb-5 caracteristicas ">
+                      <div class="column is-6">
                         <div
                           class="columns is-mobile is-gapless envio-despacho is-vcentered"
                         >

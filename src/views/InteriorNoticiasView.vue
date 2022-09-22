@@ -6,7 +6,7 @@
 
         <BannerSeccionNoticia :titulo="noticia.nombre ?? '' " imagen="/img/banner-interior-noticia.jpg" />
 
-        <div class="columns is-centered ">
+        <div class="columns is-centered is-gapless">
             <div class="column is-8" >
                 <div class="imagen mt-4 has-text-centered" v-if="noticia.imagen">
                     <img :src="noticia.imagen" alt="">

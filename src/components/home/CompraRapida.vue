@@ -1,25 +1,25 @@
 
 <template>
-    <div class="column columns ">
+    <div class="column columns productos-compra-rapida is-mobile">
         <div class="column py-0" v-for="producto in productos" :key="producto.id">
         <div class="card py-4 px-3 ">
-            <div class="columns is-gapless is-vcentered mb-4">
-            <div class="column is-narrow mr-2">
-                <img  src="/img/icono-bolsa-ecomas.png" alt="">
-            </div>
-            <div class="column text-nowrap has-text-right">
-                <b>{{producto.bolsas}}</b> Bolsas
-            </div>
+            <div class="columns is-gapless is-vcentered mb-4 is-mobile">
+                <div class="column is-narrow mr-2">
+                    <img  src="/img/icono-bolsa-ecomas.png" alt="">
+                </div>
+                <div class="column text-nowrap has-text-right">
+                    <b>{{producto.bolsas}}</b> Bolsas
+                </div>
             </div>
             <div class="valor primero has-text-centered ">
             <b>{{producto.valor}}</b>
             </div>
 
             <div class="block mt-4">
-            <a href="#" class="button is-rounded has-background-black is-toggle-rounded is-block has-text-centered has-text-white">
+            <router-link :to="'/compra-rapida/'" class="button is-rounded has-background-black is-toggle-rounded is-block has-text-centered has-text-white">
                 <i class="has-text-white fa-solid fa-cart-shopping mr-1"></i>
                 Comprar
-            </a>
+            </router-link>
             </div>
         </div>
         </div>

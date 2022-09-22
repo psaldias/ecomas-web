@@ -56,8 +56,62 @@ const router = createRouter({
       component: () => import("../views/DistribuidoresView.vue")
     },{
       path: "/carro/",
-      name: "Carro",
-      component: () => import("../views/CarroView.vue")
+      component: () => import("../views/CarroView.vue"),
+      children:[
+        {
+          path:"",
+          name:"Carro",
+          component: () => import("../components/carro/Index.vue"),
+          meta:{paso:'paso-1'},
+        },
+        {
+          path:"registro",
+          name:"Registro - Carro",
+          component: () => import("../components/carro/Registro.vue"),
+          meta:{paso:'paso-2'},
+        },{
+          path:"despacho",
+          name:"Despacho",
+          component: () => import("../components/carro/Despacho.vue"),
+          meta:{paso:'paso-3'},
+        },{
+          path:"pago",
+          name:"Pago",
+          component: () => import("../components/carro/Pago.vue"),
+          meta:{paso:'paso-4'},
+        },
+      ]
+    },{
+      path: "/compra-rapida/",
+      component: () => import("../views/CompraRapidaView.vue"),
+      children:[
+        {
+          path:"",
+          name:"Telefono - Compra Rápida",
+          component: () => import("../components/compra-rapida/Telefono.vue"),
+        },
+        {
+          path:"direccion",
+          name:"Dirección - Compra Rápida",
+          component: () => import("../components/compra-rapida/Direccion.vue"),
+        },{
+          path:"producto",
+          name:"Producto - Compra Rápida",
+          component: () => import("../components/compra-rapida/Producto.vue"),
+        },{
+          path:"final",
+          name:"Final - Compra Rápida",
+          component: () => import("../components/compra-rapida/Final.vue"),
+        },
+      ]
+    },{
+      path: "/mi-cuenta/",
+      name: "Mi Cuenta",
+      component: () => import("../views/MiCuentaView.vue")
+    },{
+      path: "/pedidos/",
+      name: "Pedidos",
+      component: () => import("../views/PedidosView.vue")
     },
 
 

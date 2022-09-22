@@ -36,12 +36,12 @@
         </div> -->
       </div>
 
-      <div class="columns is-centered">
+      <div class="columns is-centered is-gapless">
         <div class="column is-11">
           <div class="listado-sucursales">
-            <div class="columns is-multiline is-mobile">
+            <div class="columns is-multiline is-mobile ">
               <div
-                class="column is-4-fullhd is-6-desktop"
+                class="column is-4-fullhd is-6-desktop is-12-mobile"
                 v-for="sucursal in sucursalesFiltradas"
                 :key="sucursal.id"
               >

@@ -18,7 +18,7 @@ export default {
 
 <template>
     <section class="bloque-texto-imagen mt-4 ">
-        <div class="columns " :class="data.posicionImagen">
+        <div class="columns is-multiline" :class="data.posicionImagen">
             <div class="column contenedor-imagen is-4">
 
                 <div class="imagen">

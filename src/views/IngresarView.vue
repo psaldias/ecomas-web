@@ -3,9 +3,9 @@
 <template>
   <main class="noticias">
     <div class="wrapper">
-        <div class="columns is-centered">
-            <div class="column is-10-fullhd is-11-desktop">
-                <div class="columns">
+        <div class="columns is-centered is-gapless">
+            <div class="column is-10-fullhd is-11-desktop is-12-mobbile">
+                <div class="columns is-variable is-0-mobile">
                     <div class="column is-6">
 
                         <div class="card height-100 p-5">
@@ -75,7 +75,7 @@
                                         <div class="control has-text-right">
                                             <div class="columns is-gapless is-justify-content-flex-end">
                                                 <div class="column is-5">
-                                                    <button type="submit" class="button button-1 bg-primero has-text-white is-fullwidth">Continuar</button>
+                                                <router-link to="/mi-cuenta/" class="button button-1 bg-primero has-text-white is-fullwidth">Continuar</router-link>
                                                 </div>
                                             </div>
                                         </div>

@@ -30,9 +30,28 @@
 .is-rounded15{
   border-radius: 15px !important;
 }
+.min-h-250{
+  min-height: 250px;
+}
+.ls-1{
+  letter-spacing: -1px;
+}
 .tabs li.is-active a {
   border-bottom-color: color("primero");
   color: color("primero");
+}
+
+.message{
+  &.is-ecomas{
+    font-size: .9em;
+    overflow: hidden;
+    background-color:inherit;
+    border:1px  solid color("primero");
+    .message-header{
+      background-color: #EDEDED;
+      color:color("segundo");
+    }
+  }
 }
 input[type=radio]{
   vertical-align: middle;
@@ -146,6 +165,30 @@ section{
       display: inline-block;
     }
   }
+  &.button-3{
+    background: #FFF;
+    font-weight: bold;
+    border:1px solid color("primero");
+    justify-content: flex-start;
+    text-align: left;
+    &.active,
+    &:hover{
+      background:color("primero");
+      color:#FFF;
+      i{
+        vertical-align: middle;
+        display: inline-block;
+        color:#FFF;
+      }
+    }
+    i{
+      vertical-align: middle;
+      display: inline-block;
+      color:color("primero");
+      font-size: 1.2em;
+      width: 20px;
+    }
+  }
   &.button-fono{
     background:none;
     border:2px solid color("primero");
@@ -172,6 +215,20 @@ section{
     text-align: center;
     i{
       color:color("primero") !important;
+    }
+  }
+  &.button-filtro{
+    background:color("primero");
+    color:#FFF;
+    width: 100%;
+    text-align: left;
+    justify-content: space-between;
+    font-weight: 500;
+    img{
+      width: 25px;
+    }
+    &.active{
+      background: darken(color("primero"),5%);
     }
   }
 }
@@ -270,6 +327,7 @@ h2{
   font-weight: 400;
   font-size: 1.2em;
   line-height: 1.3em;
+  letter-spacing: -1px;
 }
 h3{
   font-weight: normal;
@@ -299,7 +357,47 @@ body{
   padding:.75em;
 }
 
+.seleccionar-ubicacion{
+  position: absolute;
+  top:50px;
+  z-index: 9999;
+  transform:translateX(-60%);
+  max-width: 400px;
+  width: 100%;
+  .card{
+    padding:4em 2em 2em;
+    position: relative;
+  }
+  .delete{
+    position: absolute;
+    right:10px;
+    top: 10px;
+  }
+  p{
+    letter-spacing: -1px;
+    font-size: 1.2em;
+    line-height: 1.2em;
+  }
+  &:after{
 
+    left: 70%;
+    border: solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+  }
+
+  &:after {
+    z-index: -1;
+    top:-29px;
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #FFF;
+    border-width: 15px;
+    margin-left: -15px;
+  }
+}
 
 header{
   position: relative;
@@ -388,6 +486,11 @@ header{
       }
       .icono-carro{
         position: relative;
+        width: 33px !important;
+        padding:0;
+        a{
+          display: inline-block;
+        }
         &.active{
           .contador-carro{
             display: block;
@@ -422,6 +525,19 @@ header{
       }
     }
   }
+  .logo{
+    display: block;
+  }
+  .menu-movil{
+    align-items: center;
+    width: 100%;
+    #btn-menu{
+      margin-top: .3em;
+      font-size: 2.4em;
+      line-height: .4em;
+      display: inline-block;
+    }
+  }
 }
 
 footer{
@@ -453,11 +569,21 @@ footer{
 
     }
   }
+  .productos-compra-rapida{
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    .card{
+      scroll-snap-align: start;
+      margin-bottom: .8em;
+    }
+  }
 }
 .marcas-home{
   .listado-marcas{
     .card{
       height: 100%;
+      min-height: 100px;
     }
   }
 }
@@ -470,7 +596,6 @@ footer{
     overflow: hidden;
     img{
       display: block;
-      height: 223px;
       object-fit: cover;
       object-position: center;
       width: 100%;
@@ -517,7 +642,7 @@ footer{
     background-image:
     url(../img/bg-home-quienes-somos.jpg);
     background-size: cover;
-    padding:0;
+    padding:2em 0 0 0;
     border-radius: 15px;
   }
   h1{
@@ -525,6 +650,9 @@ footer{
   }
   .button{
     font-size: .8em;
+  }
+  .contenido{
+    padding-bottom: 2em !important;
   }
 }
 
@@ -611,7 +739,6 @@ footer{
 }
 
 .listado-cards{
-  padding:0 2em;
   .card{
     height: 100%;
     padding:2em;
@@ -691,6 +818,7 @@ footer{
         position: absolute;
         right: 0;
         z-index: 10;
+        top:0;
       }
     }
     .content{
@@ -994,10 +1122,11 @@ footer{
   align-items: center;
   justify-content: center;
   overflow: auto;
+  padding:0 2em;
   .toplayer_content{
     max-width: 800px;
     width: 100%;
-    position: relative;;
+    position: relative;
   }
   .acciones-cabecera{
     .button{
@@ -1036,6 +1165,7 @@ footer{
   position: relative;
   .slick-arrow{
     position: absolute;
+    background:#FFF;
     top:50%;
     transform:translateY(-50%);
     z-index: 10;
@@ -1079,11 +1209,225 @@ footer{
   .paso{
     position: relative;
     z-index: 2;
+    a{
+      opacity: 1 !important;
+    }
   }
   .button{
     min-width: 200px;
     font-size: .9em;
   }
 
+}
+
+.totales{
+  .item{
+    font-size:.85em;
+  }
+  .total{
+    font-size:1.1em;
+
+  }
+}
+.interior-compra-rapida{
+  padding:2em 0;
+  .pasos{
+    img{
+       max-width: 400px;
+       display: block;
+       margin:0 auto;
+       width: 100%;
+    }
+  }
+  .card-compra-rapida{
+    padding:2em 0 1em 0;
+    &.card-direccion{
+      background: url('/img/direccion-compra-rapida.jpg') no-repeat left center;
+    }
+    &.card-telefono{
+      background: url('/img/telefono-compra-rapida.jpg') no-repeat left center;
+    }
+    &.card-producto{
+      background: url('/img/producto-compra-rapida.jpg') no-repeat left center;
+      .wrapper-imagen-descripcion-producto{
+        min-width: 200px;
+        max-width: 300px;
+        width: 100%;
+
+      }
+    }
+    &.card-final{
+      padding:2em 1em 1em;
+      h2{
+        font-size: 1.5em;
+        margin-bottom: .2em;
+      }
+      h3{
+        font-size: 1.1em;
+      }
+      .border{
+        border-bottom: 1px solid rgb(160, 160, 160);
+        padding-bottom: .2em !important;
+        margin-bottom: .2em !important;
+      }
+    }
+    h2{
+      color:color("primero");
+      font-weight: bold;
+      font-size: 2em;
+      line-height: 1em;
+    }
+    h3{
+      color:color("primero");
+      font-size: 1.2em;
+      line-height: 1.1em;
+    }
+    .input-2{
+      border:none ;
+      border-radius: 0;
+      border-bottom:1px solid #000 ;
+      width: auto;
+      box-shadow:none;
+      font-weight: bold;
+      background: none;
+      padding:0 1em 0 0;
+    }
+    .select-2{
+      min-width: 200px;
+      max-width: 300px;
+      width: 100%;
+      select{
+        width: 100%;
+        font-weight: bold;
+      }
+    }
+  }
+
+}
+.carro{
+  .card.pago{
+    padding:2em;
+    .metodo{
+      border:1px solid color("primero");
+      border-radius: 5px;
+      padding:.5em;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      .imagen{
+        display: inline-block;
+        width: 80px ;
+        margin:0 .5em;
+      }
+      img{
+        max-width: 80px;
+        max-height: 40px;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.pedidos{
+  .seguimiento{
+    .pasos{
+      padding:2em;
+      .column{
+        position: relative;
+        padding: 0 2em !important;
+
+        &:last-child{
+          &:after{
+            content:none;
+          }
+        }
+        &:after{
+          content:"";
+          height: 1px;
+          background-color:color("gris3");
+          width: 100%;
+          position: absolute;
+          top: 20px;
+          z-index: 0;
+        }
+      }
+      .numero{
+        position: relative;
+        z-index: 10;
+        span{
+          display: block;
+          background:color("gris3");
+          width: 40px;
+          height: 40px;
+          line-height: 42px;
+          margin:0 auto 1em auto;
+          text-align: center;
+          color:#FFF;
+          font-weight: bold;
+          border-radius: 50%;
+        }
+      }
+      h4{
+        font-size: 1.1em;
+        margin-bottom: .5em;
+        color:color("gris3");
+        opacity: .7;
+      }
+      p{
+        color:color("gris3");
+        font-size: .9em;
+        opacity: .7;
+      }
+      .active{
+        h4{
+          color:color("primero");
+          opacity:1;
+        }
+        p{
+          color:color("segundo");
+          opacity:1;
+        }
+        .numero{
+          z-index: 10;
+          span{
+            position: relative;
+            background:color("primero");
+            &:after{
+              z-index: -1;
+              content:"";
+              position: absolute;
+              left: -5px;
+              top: -5px;
+              border-radius: 50%;
+              border:1px solid color("primero");
+              width: 50px;
+              height: 50px;
+              margin:0 auto .5em auto;
+              padding-top: 5px;
+              background-color: #FFF;
+            }
+          }
+        }
+      }
+    }
+  }
+  .table{
+    th{
+      background:color('gris') !important;
+      border:none;
+      padding:.7em 1em;
+      &:first-child{
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
+      }
+      &:last-child{
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+      }
+    }
+    td{
+      vertical-align: middle;
+    }
+  }
 }
 // @import 'media.scss';

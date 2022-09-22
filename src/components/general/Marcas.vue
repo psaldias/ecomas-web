@@ -6,9 +6,9 @@
                 <h3 class="primero has-text-weight-bold px-4">{{titulo}}</h3>
             </div>
 
-            <div class="columns listado-marcas is-mobile is-multiline ">
+            <div class="columns listado-marcas is-mobile is-multiline px-0 ">
                 <div class="column is-4-mobile " v-for="marca in marcas" :key="marca.id">
-                    <div class="card py-4 px-4 is-flex is-align-items-center is-justify-content-center ">
+                    <div class="card py-4 px-2 is-flex is-align-items-center is-justify-content-center ">
                         <a :href="marca.url">
                             <img :src="marca.imagen"  :alt="marca.nombre"/>
                         </a>

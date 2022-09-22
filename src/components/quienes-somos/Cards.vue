@@ -24,7 +24,7 @@ export default {
     <section class="listado-cards ">
         <div class="columns is-multiline is-mobile " >
             <div
-                class="column is-3-desktop is-6-mobile  has-text-centered"
+                class="column is-3-desktop is-12-mobile  has-text-centered"
                 v-for="(card, index) in cards"
                 :key="index"
                 >

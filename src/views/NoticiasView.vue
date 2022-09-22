@@ -6,7 +6,7 @@
 
         <BannerSeccion titulo="Noticias" imagen="/img/banner-noticias.jpg" />
 
-        <div class="columns is-multiline mt-4">
+        <div class="columns is-multiline mt-4 is-variable is-2-desktop">
 
             <div class="column is-6" v-for="noticia in noticias" :key="noticia.id">
                 <Noticia :noticia="noticia"/>
