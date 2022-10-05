@@ -1,74 +1,47 @@
 
 
 <template>
-    <section class="marcas-home mt-6">
+    <main>
+    <section class="marcas-home mt-6" v-if="!cargando">
             <div class="titulo bg-tercero mb-4">
-                <h3 class="primero has-text-weight-bold px-4">{{titulo}}</h3>
+                <h3 class="primero has-text-weight-bold px-4">{{data.title.rendered}}</h3>
             </div>
 
             <div class="columns listado-marcas is-mobile is-multiline px-0 ">
-                <div class="column is-4-mobile " v-for="marca in marcas" :key="marca.id">
+                <div class="column is-4-mobile " v-for="marca,index in data.acf.marcas" :key="index">
                     <div class="card py-4 px-2 is-flex is-align-items-center is-justify-content-center ">
-                        <a :href="marca.url">
-                            <img :src="marca.imagen"  :alt="marca.nombre"/>
+                        <a :href="marca.link" v-if="marca.link" target="_blank">
+                            <img :src="marca.imagen.sizes.medium"  :alt="marca.name"/>
                         </a>
+                        <div v-else>
+                            <img :src="marca.imagen.sizes.medium"  :alt="marca.name"/>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+    </section>
+    <CargandoSeccion v-if="cargando"></CargandoSeccion>
+    </main>
 </template>
 
 <script>
+import CargandoSeccion from './CargandoSeccion.vue';
 export default{
-     props:{
-        titulo:String
-    },
     data() {
         return {
-            marcas:[
-                {
-                    id:1,
-                    nombre:"ecoheat",
-                    imagen:"/img/marcas/ecoheat.jpg",
-                    url:"#"
-                },{
-                    id:2,
-                    nombre:"winterofen",
-                    imagen:"/img/marcas/winterofen.jpg",
-                    url:"#"
-                },{
-                    id:3,
-                    nombre:"thermorossi",
-                    imagen:"/img/marcas/thermorossi.jpg",
-                    url:"#"
-                },{
-                    id:4,
-                    nombre:"paterno",
-                    imagen:"/img/marcas/paterno.jpg",
-                    url:"#"
-                },{
-                    id:4,
-                    nombre:"easypell",
-                    imagen:"/img/marcas/easypell.jpg",
-                    url:"#"
-                },{
-                    id:4,
-                    nombre:"okofen",
-                    imagen:"/img/marcas/okofen.jpg",
-                    url:"#"
-                },{
-                    id:4,
-                    nombre:"zgrills",
-                    imagen:"/img/marcas/zgrills.jpg",
-                    url:"#"
-                },
-            ]
-        }
+            data: {},
+            cargando: true,
+            marcas: {}
+        };
     },
-    computed:{
+    async mounted() {
+        const respuesta = await this.obtenerInfoInicial("pages/106");
+        this.data = respuesta.data;
+        this.cargando = false;
     },
-    methods:{
-    }
+    computed: {},
+    methods: {},
+    components: { CargandoSeccion }
 }
 </script>
 

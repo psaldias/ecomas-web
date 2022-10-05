@@ -10,7 +10,7 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: "/quienes-somos",
+      path: "/somos-ecomas",
       name: "Quienes Somos",
       component: () => import("../views/QuienesSomosView.vue")
     },
@@ -126,6 +126,12 @@ const router = createRouter({
       path: "/404",
       name: "404",
       component: () => import("../views/404View.vue")
+    },
+    //PAGINA CRITICO
+    {
+      path: "/error",
+      name: "error",
+      component: () => import("../views/ErrorView.vue")
     }
   ],
   scrollBehavior(to, from, savedPosition) {

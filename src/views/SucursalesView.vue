@@ -1,9 +1,14 @@
 <template>
-  <main class="quienes-somos">
-    <div class="wrapper">
-      <BannerSeccion titulo="Sucursales" imagen="/img/banner-sucursales.jpg" />
+  <main class="sucursales">
+    <div class="wrapper" v-if="!cargando">
+      <BannerSeccion :titulo="data.title.rendered" :imagen="data.acf.imagen_banner.sizes['2048x2048']" />
+      <!-- <pre>{{data.title.rendered}}</pre> -->
 
-      <div class="columns is-centered mt-4 is-size-6">
+      <div class="wrapper wrapper-fullm">
+        <SucursalesHome titulo="Sucursales"></SucursalesHome>
+      </div>
+
+      <!-- <div class="columns is-centered mt-4 is-size-6">
         <div class="column is-3">
           <div class="select is-fullwidth">
             <select
@@ -29,14 +34,9 @@
             </select>
           </div>
         </div>
-        <!-- <div class="column is-2">
-          <button class="button bg-primero has-text-white is-fullwidth">
-            BUSCAR
-          </button>
-        </div> -->
-      </div>
+      </div> -->
 
-      <div class="columns is-centered is-gapless">
+      <!-- <div class="columns is-centered is-gapless">
         <div class="column is-11">
           <div class="listado-sucursales">
             <div class="columns is-multiline is-mobile ">
@@ -78,164 +78,40 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
     </div>
+    <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
 </template>
 
 <script>
 import BannerSeccion from "../components/general/BannerSeccion.vue";
+import SucursalesHome from "@/components/home/SucursalesHome.vue";
+import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
 
 export default {
   components: {
     BannerSeccion,
-  },
+    SucursalesHome,
+    CargandoSeccion
+},
   data() {
     return {
-      region: "",
-      comuna: "",
-      sucursales: [
-        {
-          id: 1,
-          region: "O'Higgins",
-          nombre: "Rancagua",
-          detalle: {
-            direccion: "Javiera Carrera #1085 Local 2 Villa Caren",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 2,
-          region: "Ñuble",
-          nombre: "Chillán",
-          detalle: {
-            direccion: "Avda. Ecuador #852",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 3,
-          region: "Bíobio",
-          nombre: "Concepción",
-          detalle: {
-            direccion: "Pedro Aguirre Cerda #786",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 4,
-          nombre: "Los Angeles",
-          region: "Bíobio",
-          detalle: {
-            direccion: "Avda. Las Industrias #1245",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 5,
-          nombre: "Temuco",
-          region: "La Araucanía",
-          detalle: {
-            direccion: "Avenida San Martín #0301",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 6,
-          nombre: "Valdivia",
-          region: "Los Ríos",
-          detalle: {
-            direccion: "Carlos Anwandter #782",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 7,
-          nombre: "Osorno",
-          region: "Los Lagos",
-          detalle: {
-            direccion: "Ramón Freire #303",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-        {
-          id: 8,
-          nombre: "Puerto Montt",
-          region: "Los Lagos",
-          detalle: {
-            direccion: "Avda. Presidente Ibáñez #296",
-            telefono_fijo: "+56 9 9448 8926",
-            telefono_celular: "7 2241 8453",
-          },
-        },
-      ],
+      data:{},
+      cargando:true,
     };
   },
+  async mounted (){
+   const respuesta = await this.obtenerInfoInicial('pages/180');
+   if(respuesta){
+    this.data = respuesta.data;
+    this.cargando = false;
+   }
+  },
   computed: {
-    regiones() {
-      let array_regiones = [];
-      this.sucursales.forEach((element) => {
-        array_regiones.push(element.region);
-      });
-      return [...new Set(array_regiones)];
-    },
-    comunas() {
-      let comunas = [];
-      this.sucursales.forEach((element) => {
-        if (this.region) {
-          if (element.region == this.region) {
-            comunas.push(element.nombre);
-          }
-        } else comunas.push(element.nombre);
-      });
-
-      return [...new Set(comunas)];
-    },
-    sucursalesFiltradas() {
-      return this.sucursales.filter((sucursal) => {
-        if (this.comuna) return sucursal.nombre == this.comuna;
-        else if (this.region) return sucursal.region == this.region;
-        else return true;
-      });
-    },
   },
   methods: {
-    cambioRegion() {
-      this.comuna = "";
-    },
-    urlGoogle: function (sucursal) {
-      return (
-        "https://maps.google.com/maps?q=ecomas " +
-        encodeURIComponent(sucursal.detalle.direccion) +
-        ", " +
-        sucursal.nombre +
-        "&t=&z=13&ie=UTF8&iwloc="
-      );
-    },
-    urlWaze: function (sucursal) {
-      return (
-        "https://waze.com/ul?q=ecomas " +
-        encodeURIComponent(sucursal.detalle.direccion) +
-        ", " +
-        sucursal.nombre
-      );
-    },
-    urlIframe: function (sucursal) {
-      return (
-        "https://maps.google.com/maps?q=ecomas " +
-        encodeURIComponent(sucursal.detalle.direccion) +
-        ", " +
-        sucursal.nombre +
-        "&z=13&output=embed"
-      );
-    },
   },
 };
 </script>

@@ -7,40 +7,75 @@
                 <img src="/img/logo-ecomas-blanco.png" alt="">
               </router-link>
 
-              <div class="has-text-centered  rrss is-narrow mt-4">
-                <a href="https://www.instagram.com/ecomascl/" target="blank" class="ml-2"><i class="has-text-white fa-brands is-size-5 fa-instagram"></i></a>
-                <a href="https://www.facebook.com/EcomasChile" target="blank" class="ml-2"><i class="has-text-white fa-brands is-size-5 fa-square-facebook"></i></a>
-                <a href="https://www.youtube.com/channel/UC6ad6RxmUSQ-uMo-W8TDKxw" target="blank" class="ml-2"><i class="has-text-white fa-brands is-size-5 fa-square-youtube"></i></a>
+              <div class="has-text-centered  rrss is-narrow mt-4" v-if="!store_opciones_generales.cargando">
+                <a :href="store_opciones_generales.rrss.instagram" v-if="store_opciones_generales.rrss.instagram" target="blank" class="ml-2"><i class="has-text-white fa-brands is-size-5 fa-instagram"></i></a>
+                <a :href="store_opciones_generales.rrss.facebook" v-if="store_opciones_generales.rrss.facebook" target="blank" class="ml-2"><i class="has-text-white fa-brands is-size-5 fa-square-facebook"></i></a>
+                <a :href="store_opciones_generales.rrss.youtube" v-if="store_opciones_generales.rrss.youtube" target="blank" class="ml-2"><i class="has-text-white fa-brands is-size-5 fa-square-youtube"></i></a>
               </div>
             </div>
             <div class="column is-narrow-desktop is-12-mobile px-4 "></div>
-            <div class="column is-narrow-desktop  is-6-mobile ">
+            <div class="column is-narrow-desktop  is-6-mobile " v-if="footer1">
               <nav>
-                <li><router-link to="/quienes-somos">Sobre Nosotros</router-link></li>
+                <li v-for="menu in footer1" :key="menu.ID"><router-link :to="obtenerSlug(menu.url)" >{{menu.title}}</router-link></li>
+                <!-- <li><router-link to="/quienes-somos">Sobre Nosotros</router-link></li>
                 <li><a href="#">Únete a Nuestro Equipo</a></li>
                 <li><router-link to="/preguntas-frecuentes">Preguntas Frecuentes</router-link></li>
                 <li><router-link to="/sucursales">Sucursales</router-link></li>
-                <li><router-link to="/contacto">Contacto</router-link></li>
+                <li><router-link to="/contacto">Contacto</router-link></li> -->
 
               </nav>
             </div>
             <div class="column is-narrow px-4 is-hidden-mobile"></div>
-            <div class="column is-narrow-desktop is-6-mobile ">
+            <div class="column is-narrow-desktop is-6-mobile " v-if="footer2">
               <nav>
-                <li><router-link to="/productos">Productos</router-link></li>
+                <li v-for="menu in footer2" :key="menu.ID"><router-link :to="obtenerSlug(menu.url)" >{{menu.title}}</router-link></li>
+                <!-- <li><router-link to="/productos">Productos</router-link></li>
                 <li><router-link to="/bases-promocionales">Bases Promocionales</router-link></li>
                 <li><router-link to="/terminos-y-condiciones">Terminos y Condiciones</router-link></li>
                 <li><router-link to="/politicas-y-devoluciones">Politicas y Devoluciones</router-link></li>
-                <li><router-link to="/distribuidores/">Distribuidores</router-link></li>
+                <li><router-link to="/distribuidores/">Distribuidores</router-link></li> -->
               </nav>
             </div>
             <div class="column is-narrow-desktop is-12-mobile px-4 "></div>
             <div class="column is-narrow-desktop is-align-self-center has-text-centered-mobile">
-              <a href="tel:6004010606" class="button is-rounded button-fono has-text-white">
-                <b><i class="fa-solid fa-phone-volume primero"></i> <span class="primero">FONO:</span> 600 401 0606</b>
+              <a :href="'tel:'+store_opciones_generales.telefono_footer" class="button is-rounded button-fono has-text-white" v-if="!store_opciones_generales.cargando">
+                <b><i class="fa-solid fa-phone-volume primero"></i> <span class="primero">FONO:</span> {{store_opciones_generales.telefono_footer}}</b>
               </a>
             </div>
           </div>
       </div>
     </footer>
 </template>
+
+<script>
+  import CargandoSeccion from '../general/CargandoSeccion.vue';
+  import { useOpcionesGeneralesStore } from "@/stores/opcionesGenerales";
+    export default {
+      data() {
+          return {
+              store_opciones_generales:useOpcionesGeneralesStore(),
+          };
+      },
+      computed: {
+        footer1(){
+          return this.store_opciones_generales.menus["footer-1"];
+        },
+        footer2(){
+          return this.store_opciones_generales.menus["footer-2"];
+        }
+      },
+      mounted (){
+      },
+      methods: {
+        obtenerSlug(url){
+          url = url.replace(/^.*\/\/[^\/]+/, '');
+          // const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
+          // console.log(matches);
+          // const newUrl  = new URL(url);
+          console.log(url);
+          return url;
+        }
+      },
+      components: { CargandoSeccion }
+  }
+    </script>

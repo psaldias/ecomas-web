@@ -45,7 +45,7 @@ export default {
 
                         <div class="descargar has-text-centered mt-4" v-if="card.archivo">
                             <img :src="card.imagen" alt="">
-                            <a :href="card.archivo">
+                            <a :href="card.archivo" target="_blank">
                                 <img src="/img/descargar.png" alt="">
                                 <div>Descargar</div>
                             </a>

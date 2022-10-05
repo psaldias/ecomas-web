@@ -1,20 +1,20 @@
 
 
 <template>
-  <main class="quienes-somos">
-    <div class="wrapper">
+  <main class="bases-promocionales">
+    <div class="wrapper" v-if="!cargando">
 
       <BannerSeccion
-        titulo="Bases Promocionales"
-        imagen="/img/banner-bases-promo.jpg"
+        :titulo="data.title.rendered"
+        :imagen="data.acf.imagen_banner.sizes['2048x2048']"
       />
 
     <section class="mt-6">
       <Cards class="mt-6" :cards="cards" :numero="false"></Cards>
-
     </section>
 
     </div>
+    <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
 </template>
 
@@ -22,65 +22,45 @@
 
 <script>
 import Marcas from "../components/general/Marcas.vue";
-import BloqueImagenTexto from "../components/quienes-somos/BloqueImagenTexto.vue";
 import BannerSeccion from "../components/general/BannerSeccion.vue";
-import Cards from "../components/quienes-somos/Cards.vue";
+import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
+import Cards from "@/components/quienes-somos/Cards.vue";
 
 export default {
     components:{
-      BannerSeccion,Marcas,BloqueImagenTexto
-    },
+    BannerSeccion,
+    Marcas,
+    CargandoSeccion,
+    Cards
+},
     data() {
         return {
-            cards:[
-              {
-                titulo: "DESCUENTOS 50% OFF ASPIRADORAS",
-                descripcion:"20 de Junio de 2022",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },{
-                titulo: "DESCUENTOS DÍA DEL PADRE",
-                descripcion:"13 de Junio de 2022",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },{
-                titulo: "EcoCyber",
-                descripcion:"30 de mayo de 2022",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },{
-                titulo: "DESCUENTO NUEVOS CLIENTES",
-                descripcion:"9 de mayo de 2022",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },{
-                titulo: "CAMPAÑA INVIERNO PROMOCION PATERNO",
-                descripcion:"15 de marzo de 2022",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },{
-                titulo: "ESTE VERANO PREPARA TU CALEFACCIÓN",
-                descripcion:"03 de enero de 2022",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },{
-                titulo: "NO NECESITAS UNA CHIMENEA PARA ABRIR EL MEJOR REGALO",
-                descripcion:"16 de diciembre de 2021",
-                archivo:"#",
-                estilo: "",
-                imagen: "",
-              },
-            ]
+            data:{},
+            cargando:true,
         };
     },
-    computed: {},
+    async mounted (){
+      const respuesta = await this.obtenerInfoInicial('pages/150');
+      if(respuesta){
+        this.data = respuesta.data;
+        this.cargando = false;
+      }
+    },
+    computed: {
+      cards(){
+      let cards = {};
+      cards = this.data.acf.bases.map(card => {
+        return {
+          titulo:card.titulo,
+          descripcion:card.descripcion,
+          estilo:card.tipo,
+          imagen: (card.imagen ? card.imagen.sizes.medium:''),
+          archivo: (card.archivo ? card.archivo.url:''),
+        }
+      });
+      return cards;
+      },
+    },
     methods: {},
-    components: { BloqueImagenTexto, Marcas, BannerSeccion, Cards }
 }
 </script>

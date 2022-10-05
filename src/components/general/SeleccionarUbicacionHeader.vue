@@ -29,8 +29,8 @@
                 <label for="" class="label">Región</label>
                 <div class="control">
                   <div class="select is-fullwidth">
-                    <select name="region" id="">
-                      <option value="Región del Biobio">Región del Biobio</option>
+                    <select  v-model="regionSeleccionada">
+                      <option :value="region.term_id" v-for="region in regiones" :key="region.term_id">{{region.name}}</option>
                     </select>
                   </div>
                 </div>
@@ -41,8 +41,8 @@
                 <label for="" class="label">Comuna</label>
                 <div class="control">
                   <div class="select is-fullwidth">
-                    <select name="comuna" id="">
-                      <option value="Concepción">Concepción</option>
+                    <select  id=""  v-model="comunaSeleccionada">
+                      <option :value="comuna.term_id" v-for="comuna in comunas" :key="comuna.term_id">{{comuna.name}}</option>
                     </select>
                   </div>
                 </div>
@@ -70,9 +70,38 @@ export default {
     return {
       error_ubicacion: false,
       mostrarMenu: false,
+      ubicaciones:{},
+      cargando:true,
+      regionSeleccionada:0,
+      comunaSeleccionada:0,
     };
   },
-  computed: {},
+  async mounted() {
+        const respuesta = await this.obtenerInfoInicial("ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=sucursales");
+        if(respuesta){
+          this.ubicaciones = respuesta.data;
+          if(this.ubicaciones)
+            this.regionSeleccionada = this.regiones[0].term_id;
+          this.cargando = false;
+        }
+  },
+  computed: {
+    regiones (){
+      let regiones = {};
+      if(this.ubicaciones){
+        regiones = this.ubicaciones.filter(ubicacion => ubicacion.parent == 0);
+      }
+      return regiones;
+    },
+    comunas(){
+      let comunas = {};
+      if(this.ubicaciones){
+        comunas = this.ubicaciones.filter(ubicacion => ubicacion.parent === this.regionSeleccionada);
+        this.comunaSeleccionada = comunas[0].term_id;
+      }
+      return comunas;
+    }
+  },
   methods: {},
 };
 </script>

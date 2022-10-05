@@ -4,9 +4,8 @@
   <div class="field">
     <label for="" class="label" v-if="label">{{ label }}</label>
     <div class="control">
-      <div class="select" :class="inputClass">
+      <div class="select" :class="[inputClass,{'is-danger':error}]">
         <select
-          :class="[{inputClass},{'is-danger':error}]"
           :value="modelValue"
           @input="$emit('update:modelValue',$event.target.value)"
           id=""

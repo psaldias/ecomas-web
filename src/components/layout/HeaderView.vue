@@ -3,16 +3,16 @@
     <header>
       <div class="top bg-segundo">
         <div class="columns is-vcentered is-mobile">
-          <div class="column rrss is-narrow is-hidden-mobile">
-            <a href="https://www.instagram.com/ecomascl/" class="ml-2" target="_blank">
+          <div class="column rrss is-narrow is-hidden-mobile" v-if="!store_opciones_generales.cargando">
+            <a :href="store_opciones_generales.rrss.instagram" class="ml-2" target="_blank" v-if="store_opciones_generales.rrss.instagram">
               <i class="has-text-white fa-brands is-size-5 fa-instagram"></i>
             </a>
-            <a href="https://www.facebook.com/EcomasChile" class="ml-2" target="_blank">
+            <a :href="store_opciones_generales.rrss.facebook" class="ml-2" target="_blank"  v-if="store_opciones_generales.rrss.facebook">
               <i
                 class="has-text-white fa-brands is-size-5 fa-square-facebook"
               ></i>
             </a>
-            <a href="https://www.youtube.com/channel/UC6ad6RxmUSQ-uMo-W8TDKxw" class="ml-2" target="_blank">
+            <a :href="store_opciones_generales.rrss.youtube" class="ml-2" target="_blank"  v-if="store_opciones_generales.rrss.youtube">
               <i
                 class="has-text-white fa-brands is-size-5 fa-square-youtube"
               ></i>
@@ -26,6 +26,8 @@
               </a>
             </span>
           </div>
+          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-narrow is-hidden-mobile"></CargandoSeccion>
+
           <div class="column buscador">
             <form action="#">
               <input
@@ -38,13 +40,14 @@
               </button>
             </form>
           </div>
-          <div class="column menu is-narrow" :class="{'active':mostrarMenu}" ref="menuMovil">
+          <div class="column menu is-narrow" :class="{'active':mostrarMenu}" ref="menuMovil" v-if="menuPrincipal">
             <ul>
               <li><router-link to="/productos" class="is-hidden-tablet">PELLET</router-link></li>
-              <li><router-link to="/quienes-somos">SOMOS</router-link></li>
+              <li v-for="menu in menuPrincipal" :key="menu.ID"><router-link :to="obtenerSlug(menu.url)" >{{menu.title}}</router-link></li>
+              <!-- <li><router-link to="/quienes-somos">SOMOS</router-link></li>
               <li><router-link to="/noticias">NOTICIAS</router-link></li>
               <li><router-link to="/sucursales">SUCURSALES</router-link></li>
-              <li><router-link to="/contacto">CONTACTO</router-link></li>
+              <li><router-link to="/contacto">CONTACTO</router-link></li> -->
             </ul>
           </div>
           <div
@@ -113,24 +116,48 @@
 
 <script>
 import SeleccionarUbicacionHeader from '../general/SeleccionarUbicacionHeader.vue';
+import CargandoSeccion from '../general/CargandoSeccion.vue';
+import { useOpcionesGeneralesStore } from "@/stores/opcionesGenerales";
   export default {
     data() {
         return {
+            store_opciones_generales:useOpcionesGeneralesStore(),
+            data:{},
+            cargando:true,
             mostrarMenu: false,
         };
     },
-    computed: {},
-    mounted() {
-        let self = this;
-        document.addEventListener("click", (e) => {
-            if (self.$refs.menuMovil && self.$refs.menuMovil !== undefined &&
-                self.$refs.menuMovil.contains(e.target) === false) {
-                self.mostrarMenu = false;
-            }
-
-        });
+    computed: {
+      menuPrincipal(){
+          return this.store_opciones_generales.menus["menu-principal"];
+        },
     },
+    mounted (){
+      let self = this;
+      document.addEventListener("click", (e) => {
+          if (self.$refs.menuMovil && self.$refs.menuMovil !== undefined &&
+              self.$refs.menuMovil.contains(e.target) === false) {
+              self.mostrarMenu = false;
+          }
+
+      });
+    },
+    // mounted() {
+    //     let self = this;
+    //     document.addEventListener("click", (e) => {
+    //         if (self.$refs.menuMovil && self.$refs.menuMovil !== undefined &&
+    //             self.$refs.menuMovil.contains(e.target) === false) {
+    //             self.mostrarMenu = false;
+    //         }
+
+    //     });
+    // },
     methods: {
+        obtenerSlug(url){
+          url = url.replace(/^.*\/\/[^\/]+/, '');
+          console.log(url);
+          return url;
+        },
         toggleMenu() {
             this.mostrarMenu = !this.mostrarMenu;
         },
@@ -138,6 +165,6 @@ import SeleccionarUbicacionHeader from '../general/SeleccionarUbicacionHeader.vu
             this.mostrarMenu = false;
         }
     },
-    components: { SeleccionarUbicacionHeader }
+    components: { SeleccionarUbicacionHeader, CargandoSeccion }
 }
   </script>
