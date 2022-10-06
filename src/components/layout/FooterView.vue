@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <footer class="mt-6">
       <div class="wrapper">
           <div class="columns is-centered is-mobile is-multiline">
@@ -69,10 +69,6 @@
       methods: {
         obtenerSlug(url){
           url = url.replace(/^.*\/\/[^\/]+/, '');
-          // const matches = url.match(/^https?\:\/\/([^\/?#]+)(?:[\/?#]|$)/i);
-          // console.log(matches);
-          // const newUrl  = new URL(url);
-          console.log(url);
           return url;
         }
       },

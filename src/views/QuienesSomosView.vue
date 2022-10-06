@@ -134,7 +134,7 @@ export default {
     }
   },
   async mounted (){
-   const respuesta = await this.obtenerInfoInicial('pages/15');
+   const respuesta = await this.enviarGet('pages/15');
    if(respuesta){
     this.contenidoInicial = respuesta.data;
     this.cargando = false;

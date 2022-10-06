@@ -78,7 +78,7 @@
     ErrorSeccion
 },
       async mounted (){
-        const respuesta = await this.obtenerInfoInicial('pages/73');
+        const respuesta = await this.enviarGet('pages/73');
         if(respuesta){
           this.contenidoInicial = respuesta.data;
           this.cargando = false;

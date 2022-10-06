@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 
 export const useLlamadasApiStore = defineStore('llamadasApi', {
   state: () => {
-    return { llamadas: {
-
-    } }
+    return {
+      llamadas: {},
+      token:false,
+    }
   },
   // could also be defined as
   // state: () => ({ count: 0 })
@@ -16,5 +17,8 @@ export const useLlamadasApiStore = defineStore('llamadasApi', {
         error
       }
     },
+    guardarToken(token){
+      this.token = token;
+    }
   },
 })

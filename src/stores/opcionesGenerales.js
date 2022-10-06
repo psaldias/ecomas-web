@@ -4,9 +4,11 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
   state: () => {
     return {
         cargando:true,
+        token:false,
         rrss:{
             instagram:false,
             facebook:false,
+            youtube:false,
             youtube:false,
             whatsapp:false
         },
@@ -23,5 +25,6 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
       this.telefono_footer = datos.telefono_footer;
       this.menus = datos.menus;
     },
+
   },
 })

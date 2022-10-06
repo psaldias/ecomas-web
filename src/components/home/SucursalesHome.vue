@@ -105,7 +105,7 @@ export default {
         };
     },
     async mounted() {
-        const respuesta = await this.obtenerInfoInicial("sucursales");
+        const respuesta = await this.enviarGet("sucursales");
         this.sucursales = respuesta.data;
         this.sucursal_actual = this.sucursales[0].id;
         this.cargando = false;

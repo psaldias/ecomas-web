@@ -35,7 +35,7 @@ export default{
         };
     },
     async mounted() {
-        const respuesta = await this.obtenerInfoInicial("pages/106");
+        const respuesta = await this.enviarGet("pages/106");
         this.data = respuesta.data;
         this.cargando = false;
     },

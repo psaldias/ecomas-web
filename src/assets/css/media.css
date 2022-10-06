@@ -300,6 +300,9 @@ p {
 }
 
 @media (max-width: 768px) {
+  .columns.is-centered-mobile {
+    justify-content: center;
+  }
   .mx-auto-mobile {
     margin-left: auto;
     margin-right: auto;

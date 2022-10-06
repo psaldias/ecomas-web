@@ -40,7 +40,7 @@ export default {
         };
     },
     async mounted (){
-      const respuesta = await this.obtenerInfoInicial('pages/150');
+      const respuesta = await this.enviarGet('pages/150');
       if(respuesta){
         this.data = respuesta.data;
         this.cargando = false;

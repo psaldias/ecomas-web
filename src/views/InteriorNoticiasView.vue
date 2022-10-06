@@ -47,7 +47,7 @@ export default {
   },
 
   async mounted (){
-    const respuesta = await this.obtenerInfoInicial("posts?_embed&slug=" + this.$route.params.slug);
+    const respuesta = await this.enviarGet("posts?_embed&slug=" + this.$route.params.slug);
     if(respuesta){
       this.noticia = respuesta.data[0];
       this.cargando = false;

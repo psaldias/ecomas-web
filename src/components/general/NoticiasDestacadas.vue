@@ -7,7 +7,7 @@ export default {
         titulo: String
     },
     async mounted (){
-        const respuesta = await this.obtenerInfoInicial('posts?per_page=3&_embed=true');
+        const respuesta = await this.enviarGet('posts?per_page=3&_embed=true');
         this.noticias = respuesta.data;
         this.cargando = false;
     },

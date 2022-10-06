@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useLlamadasApiStore } from '@/stores/llamadasApi'
+import { useOpcionesGeneralesStore } from "@/stores/opcionesGenerales";
 
 export default {
   data() {
@@ -14,12 +15,17 @@ export default {
     }
   },
     methods:{
-        async obtenerInfoInicial(url,opciones = { cache:true,baseUrl:'',requestOptions:false}){
+        /** FUNCION PARA PETICIONES GET CON AXIONS */
+        async enviarGet(url,opciones = { cache:true, baseUrl:'', requestOptions:false}){
           // return JSON.parse(atob("eyJ0ZXN0IjoiaG9sYSIsIm9qbyI6InRlc3QifQ=="));
 
             if( this.store.llamadas[url]  && opciones.cache){
               return this.store.llamadas[url].respuesta;
             }else{
+
+              if(!this.store.token){
+                await this.obtenerToken();
+              }
 
               if(opciones.baseUrl)
                 this.baseUrl = opciones.baseUrl;
@@ -41,8 +47,8 @@ export default {
               return response;
             }
         },
+        /** FUNCION PARA PETICIONES POST CON AXIONS */
         async enviarPost(url,data,opciones = { baseUrl:'',opciones:false}){
-          // return JSON.parse(atob("eyJ0ZXN0IjoiaG9sYSIsIm9qbyI6InRlc3QifQ=="));
             let baseUrl = this.baseUrl;
 
             if(opciones.baseUrl)
@@ -65,6 +71,28 @@ export default {
 
 
             return response;
+        },
+        /** OBTENER JSON TOKEN */
+        async obtenerToken() {
+
+          const credenciales = {"username":"psaldias@mandrildigital.cl","password":"a4ifPaL&An%x9@FoIj"};
+          const response = await axios.post(this.url_api+'/jwt-auth/v1/token',credenciales)
+          .catch(error => {
+            if(error.code == "ERR_NETWORK")
+              this.$router.replace({ name: 'error' })
+              return false;
+          });
+
+          /** SI NO SE OBTIENE EL TOKEN REDIRECCION A ERROR */
+          if(!response.data.token){
+              this.$router.replace({ name: 'error' })
+              return false;
+          }
+
+          this.store.guardarToken(response.data.token);
+          axios.defaults.headers.common['Authorization'] = 'Bearer '+this.store.token;
+
+
         },
         base64_encode(s) {
             return btoa(unescape(encodeURIComponent(s)));

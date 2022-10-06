@@ -19,7 +19,7 @@ export default {
         };
     },
     async mounted (){
-        const respuesta = await this.obtenerInfoInicial('pages/120');
+        const respuesta = await this.enviarGet('pages/120');
         this.contenido = respuesta.data;
         this.cargando = false;
     },

@@ -59,7 +59,7 @@ export default {
     // },
     async mounted (){
       const slug = this.$route.params.pathMatch[0];
-      const respuesta = await this.obtenerInfoInicial('pages?slug='+slug);
+      const respuesta = await this.enviarGet('pages?slug='+slug);
       if(respuesta){
         if(!respuesta.data[0]){
             this.$router.replace({ name: '404' })

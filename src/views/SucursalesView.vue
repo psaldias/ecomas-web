@@ -103,7 +103,7 @@ export default {
     };
   },
   async mounted (){
-   const respuesta = await this.obtenerInfoInicial('pages/180');
+   const respuesta = await this.enviarGet('pages/180');
    if(respuesta){
     this.data = respuesta.data;
     this.cargando = false;

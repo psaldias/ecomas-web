@@ -204,14 +204,13 @@ export default {
     };
   },
   async mounted (){
-    const respuesta = await this.obtenerInfoInicial('pages/185');
+    const respuesta = await this.enviarGet('pages/185');
     if(respuesta){
         this.data = respuesta.data;
 
     }
-    const respuesta_formulario = await this.obtenerInfoInicial('contact-forms/223',{cache:true,baseUrl:'/contact-form-7/v1/'});
+    const respuesta_formulario = await this.enviarGet('contact-forms/223',{cache:true,baseUrl:'/contact-form-7/v1/'});
     this.configuracionFormulario = respuesta_formulario.data;
-    console.log(this.configuracionFormulario);
     this.cargando = false;
   },
   computed: {

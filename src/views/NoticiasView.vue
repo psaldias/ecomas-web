@@ -35,7 +35,7 @@ export default {
     BannerNoticias,
 },
   async mounted (){
-   const respuesta = await this.obtenerInfoInicial('posts?_embed');
+   const respuesta = await this.enviarGet('posts?_embed');
    if(respuesta){
     this.contenidoInicial = respuesta.data;
     this.cargando = false;

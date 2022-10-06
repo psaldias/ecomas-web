@@ -115,19 +115,19 @@ export default {
   },
   async mounted (){
 
-   const respuesta =  await this.obtenerInfoInicial('pages/203');
+   const respuesta =  await this.enviarGet('pages/203');
    if(respuesta){
     this.data = respuesta.data;
     this.cargando = false;
    }
 
-   const respuesta_regiones =  await this.obtenerInfoInicial('ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=distribuidores');
+   const respuesta_regiones =  await this.enviarGet('ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=distribuidores');
    if(respuesta_regiones){
     this.regiones_comunas = respuesta_regiones.data;
     this.cargando_regiones = false;
    }
 
-   const respuesta_distribbuidores = await this.obtenerInfoInicial('distribuidores');
+   const respuesta_distribbuidores = await this.enviarGet('distribuidores');
    if(respuesta_distribbuidores){
      this.distribuidoreswp = respuesta_distribbuidores.data;
      this.cargando_distribuidores = false;

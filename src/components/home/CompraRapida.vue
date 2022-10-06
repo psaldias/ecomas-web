@@ -39,7 +39,7 @@ export default {
         };
     },
     async mounted() {
-        const respuesta = await this.obtenerInfoInicial("/products?orderby=price&order=asc", { cache: true, baseUrl: "/wc/v3" });
+        const respuesta = await this.enviarGet("/products?orderby=price&order=asc", { cache: true, baseUrl: "/wc/v3" });
         if (respuesta) {
             this.productos = respuesta.data;
             this.cargando = false;

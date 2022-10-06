@@ -77,7 +77,7 @@ export default {
     };
   },
   async mounted() {
-        const respuesta = await this.obtenerInfoInicial("ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=sucursales");
+        const respuesta = await this.enviarGet("ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=sucursales");
         if(respuesta){
           this.ubicaciones = respuesta.data;
           if(this.ubicaciones)
