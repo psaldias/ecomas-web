@@ -208,6 +208,9 @@ export default {
     if(respuesta){
         this.data = respuesta.data;
 
+        if(this.data.title.rendered)
+            document.title = this.data.title.rendered
+
     }
     const respuesta_formulario = await this.enviarGet('contact-forms/223',{cache:true,baseUrl:'/contact-form-7/v1/'});
     this.configuracionFormulario = respuesta_formulario.data;

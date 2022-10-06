@@ -107,6 +107,9 @@ export default {
    if(respuesta){
     this.data = respuesta.data;
     this.cargando = false;
+
+    if(this.contenidoInicial.title.rendered)
+      document.title = this.contenidoInicial.title.rendered
    }
   },
   computed: {

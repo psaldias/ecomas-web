@@ -39,6 +39,9 @@ export default {
    if(respuesta){
     this.contenidoInicial = respuesta.data;
     this.cargando = false;
+
+    if(this.contenidoInicial.title.rendered)
+      document.title = this.contenidoInicial.title.rendered
    }
   },
   data() {

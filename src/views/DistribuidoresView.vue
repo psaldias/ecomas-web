@@ -119,6 +119,9 @@ export default {
    if(respuesta){
     this.data = respuesta.data;
     this.cargando = false;
+
+    if(this.data.title.rendered)
+      document.title = this.data.title.rendered
    }
 
    const respuesta_regiones =  await this.enviarGet('ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=distribuidores');

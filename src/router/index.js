@@ -144,7 +144,10 @@ const router = createRouter({
 
 
 router.beforeEach((to) => {
-  document.title = to.name || import.meta.env.VITE_DEFAULT_TITLE;
+  if(to.name == "paginaDefault"){
+    document.title = import.meta.env.VITE_DEFAULT_TITLE;
+  }else
+    document.title = to.name || import.meta.env.VITE_DEFAULT_TITLE;
 });
 
 export default router;
