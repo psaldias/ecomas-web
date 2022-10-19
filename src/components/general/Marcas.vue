@@ -35,7 +35,7 @@ export default{
         };
     },
     async mounted() {
-        const respuesta = await this.enviarGet("pages/106");
+        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_MARCAS);
         this.data = respuesta.data;
         this.cargando = false;
     },

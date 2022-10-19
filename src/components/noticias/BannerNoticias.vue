@@ -19,9 +19,12 @@ export default {
         };
     },
     async mounted (){
-        const respuesta = await this.enviarGet('pages/120');
+        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_BANNER_NOTICIA);
         this.contenido = respuesta.data;
         this.cargando = false;
+
+        if(this.contenido.title.rendered)
+            document.title = this.contenido.title.rendered
     },
     computed: {},
     methods: {},

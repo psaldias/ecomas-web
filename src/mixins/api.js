@@ -1,6 +1,5 @@
 import axios from 'axios'
-import { useLlamadasApiStore } from '@/stores/llamadasApi'
-import { useOpcionesGeneralesStore } from "@/stores/opcionesGenerales";
+import { useLlamadasApiStore } from '/src/stores/llamadasApi'
 
 export default {
   data() {
@@ -9,33 +8,31 @@ export default {
       opciones:{},
       respuesta:{},
       store:useLlamadasApiStore(),
-      // url_api:'http://ecomaswp.localhost/wp-json',
-      url_api:'https://ecomaswp.mandrildigital.cl/wp-json',
-      baseUrl:'/wp/v2/',
     }
   },
     methods:{
         /** FUNCION PARA PETICIONES GET CON AXIONS */
-        async enviarGet(url,opciones = { cache:true, baseUrl:'', requestOptions:false}){
-          // return JSON.parse(atob("eyJ0ZXN0IjoiaG9sYSIsIm9qbyI6InRlc3QifQ=="));
-
+        async enviarGet(url,opciones = { cache:true, requestOptions:false}){
+            /** verficar si la url ya está en cache y si se solicita leer el cache */
             if( this.store.llamadas[url]  && opciones.cache){
               return this.store.llamadas[url].respuesta;
             }else{
 
-              if(!this.store.token){
-                await this.obtenerToken();
+              let headers = {};
+
+              /** validar si el endpoint necesita autorización */
+              if(opciones.authorization){
+                /** si no existe el token se obtiene */
+                if(!this.store.token)
+                  await this.obtenerToken();
+
+                headers["Authorization"] =  'Bearer '+this.store.token;
               }
 
-              if(opciones.baseUrl)
-                this.baseUrl = opciones.baseUrl;
-
-              const response = await axios.get(this.url_api+this.baseUrl+url,opciones.requestOptions).catch(error => {
+              const response = await axios.get(url,{headers}).catch(error => {
                 if(error.code == "ERR_NETWORK")
-                  this.$router.replace({ name: 'error' })
-
+                  this.$router.push({ name: 'error' })
                   return false;
-
               });
 
               if(response.status != 200)
@@ -48,49 +45,62 @@ export default {
             }
         },
         /** FUNCION PARA PETICIONES POST CON AXIONS */
-        async enviarPost(url,data,opciones = { baseUrl:'',opciones:false}){
-            let baseUrl = this.baseUrl;
+        async enviarPost(url,data,opciones = { opciones:false}){
+            let headers = {
+              "Content-Type": "multipart/form-data",
+            }
 
-            if(opciones.baseUrl)
-              baseUrl = opciones.baseUrl;
-
-            const response = await axios.post(this.url_api+baseUrl+url,data,{
-              headers: {
-                "Content-Type": "multipart/form-data",
-              }}).catch(error => {
+            const response = await axios.post(
+              url,
+              data,{
+                headers: headers
+              }).catch(error => {
               if(error.code == "ERR_NETWORK")
-                this.$router.replace({ name: 'error' })
-
+                this.$router.push({ name: 'error' })
                 return false;
-
             });
 
             if(response.status != 200)
               this.errorData = true
 
-
-
             return response;
         },
+        /** FUNCION PARA PETICIONES POST CON AXIONS */
+        async enviarDelete(url,data,opciones = {}){
+
+          const response = await axios.post(
+            url,
+            data).catch(error => {
+            if(error.code == "ERR_NETWORK")
+              this.$router.push({ name: 'error' })
+              return false;
+          });
+
+          if(response.status != 200)
+            this.errorData = true
+
+          return response;
+      },
         /** OBTENER JSON TOKEN */
         async obtenerToken() {
 
           const credenciales = {"username":"psaldias@mandrildigital.cl","password":"a4ifPaL&An%x9@FoIj"};
-          const response = await axios.post(this.url_api+'/jwt-auth/v1/token',credenciales)
-          .catch(error => {
-            if(error.code == "ERR_NETWORK")
+
+          const response = await axios.post(
+            import.meta.env.VITE_ENDPOINT_GENERAR_TOKEN,credenciales
+          ).catch(error => {
               this.$router.replace({ name: 'error' })
               return false;
           });
 
           /** SI NO SE OBTIENE EL TOKEN REDIRECCION A ERROR */
-          if(!response.data.token){
+          if(!response){
               this.$router.replace({ name: 'error' })
               return false;
           }
 
           this.store.guardarToken(response.data.token);
-          axios.defaults.headers.common['Authorization'] = 'Bearer '+this.store.token;
+          // axios.defaults.headers.common['Authorization'] = 'Bearer '+this.store.token;
 
 
         },

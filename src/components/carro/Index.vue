@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import ProductoCarro from "@/components/productos/producto/productoCarro.vue";
-import BoxDespacho from "@/components/carro/BoxDespacho.vue";
-import BoxCupon from "@/components/carro/BoxCupon.vue";
-import BoxTotales from "@/components/carro/BoxTotales.vue";
+import ProductoCarro from "/src/components/productos/producto/productoCarro.vue";
+import BoxDespacho from "/src/components/carro/BoxDespacho.vue";
+import BoxCupon from "/src/components/carro/BoxCupon.vue";
+import BoxTotales from "/src/components/carro/BoxTotales.vue";
 export default {
   components: { ProductoCarro, BoxDespacho, BoxCupon, BoxTotales, ProductoCarro },
   data() {

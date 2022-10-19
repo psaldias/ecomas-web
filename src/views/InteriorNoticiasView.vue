@@ -28,7 +28,7 @@
 import Noticia from "../components/general/Noticia.vue";
 import BannerSeccionNoticia from "../components/general/BannerSeccionNoticia.vue";
 import NoticiasDestacadas from "../components/general/NoticiasDestacadas.vue";
-import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
+import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 
 export default {
   components: {
@@ -47,7 +47,7 @@ export default {
   },
 
   async mounted (){
-    const respuesta = await this.enviarGet("posts?_embed&slug=" + this.$route.params.slug);
+    const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_INTERIOR_NOTICIA + this.$route.params.slug);
     if(respuesta){
       this.noticia = respuesta.data[0];
       this.cargando = false;

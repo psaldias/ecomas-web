@@ -3,19 +3,33 @@
     <header>
       <div class="top bg-segundo">
         <div class="columns is-vcentered is-mobile">
-          <div class="column rrss is-narrow is-hidden-mobile" v-if="!store_opciones_generales.cargando">
-            <a :href="store_opciones_generales.rrss.instagram" class="ml-2" target="_blank" v-if="store_opciones_generales.rrss.instagram">
+          <div
+            class="column rrss is-narrow is-hidden-mobile"
+            v-if="!store_opciones_generales.cargando"
+          >
+            <a
+              :href="store_opciones_generales.rrss.instagram"
+              class="ml-2"
+              target="_blank"
+              v-if="store_opciones_generales.rrss.instagram"
+            >
               <i class="has-text-white fa-brands is-size-5 fa-instagram"></i>
             </a>
-            <a :href="store_opciones_generales.rrss.facebook" class="ml-2" target="_blank"  v-if="store_opciones_generales.rrss.facebook">
-              <i
-                class="has-text-white fa-brands is-size-5 fa-square-facebook"
-              ></i>
+            <a
+              :href="store_opciones_generales.rrss.facebook"
+              class="ml-2"
+              target="_blank"
+              v-if="store_opciones_generales.rrss.facebook"
+            >
+              <i class="has-text-white fa-brands is-size-5 fa-square-facebook"></i>
             </a>
-            <a :href="store_opciones_generales.rrss.youtube" class="ml-2" target="_blank"  v-if="store_opciones_generales.rrss.youtube">
-              <i
-                class="has-text-white fa-brands is-size-5 fa-square-youtube"
-              ></i>
+            <a
+              :href="store_opciones_generales.rrss.youtube"
+              class="ml-2"
+              target="_blank"
+              v-if="store_opciones_generales.rrss.youtube"
+            >
+              <i class="has-text-white fa-brands is-size-5 fa-square-youtube"></i>
             </a>
             <span class="ml-4 has-text-white whatsapp">
               <a href="#">
@@ -26,7 +40,10 @@
               </a>
             </span>
           </div>
-          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-narrow is-hidden-mobile"></CargandoSeccion>
+          <CargandoSeccion
+            v-if="store_opciones_generales.cargando"
+            class="small column is-narrow is-hidden-mobile"
+          ></CargandoSeccion>
 
           <div class="column buscador">
             <form action="#">
@@ -40,10 +57,19 @@
               </button>
             </form>
           </div>
-          <div class="column menu is-narrow" :class="{'active':mostrarMenu}" ref="menuMovil" v-if="menuPrincipal">
+          <div
+            class="column menu is-narrow"
+            :class="{ active: mostrarMenu }"
+            ref="menuMovil"
+            v-if="menuPrincipal"
+          >
             <ul>
-              <li><router-link to="/productos" class="is-hidden-tablet">PELLET</router-link></li>
-              <li v-for="menu in menuPrincipal" :key="menu.ID"><router-link :to="obtenerSlug(menu.url)" >{{menu.title}}</router-link></li>
+              <li>
+                <router-link to="/productos" class="is-hidden-tablet">PELLET</router-link>
+              </li>
+              <li v-for="menu in menuPrincipal" :key="menu.ID">
+                <router-link :to="obtenerSlug(menu.url)">{{ menu.title }}</router-link>
+              </li>
               <!-- <li><router-link to="/quienes-somos">SOMOS</router-link></li>
               <li><router-link to="/noticias">NOTICIAS</router-link></li>
               <li><router-link to="/sucursales">SUCURSALES</router-link></li>
@@ -54,26 +80,29 @@
             class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow"
           >
             <div class="column is-narrow comuna">
-
-              <SeleccionarUbicacionHeader></SeleccionarUbicacionHeader>
+              <SeleccionarUbicacionHeader v-if="!store_opciones_generales.cargando"></SeleccionarUbicacionHeader>
             </div>
             <div class="column is-narrow is-hidden-mobile">
               <router-link to="/pedidos/" class="has-text-white">
-                  <i class="has-text-white mr-1 fa-solid fa-truck-fast"></i>
-                  Pedido
+                <i class="has-text-white mr-1 fa-solid fa-truck-fast"></i>
+                Pedido
               </router-link>
             </div>
-            <div class="column is-narrow ingresar">
+            <div class="column is-narrow ingresar" v-if="!usuarioCarroCompra()">
               <router-link to="/ingresar" class="has-text-white">
                 <i class="has-text-white mr-2 fa-solid fa-circle-user"></i>
                 Ingresar
               </router-link>
             </div>
+            <div class="column is-narrow ingresar" v-if="usuarioCarroCompra()">
+              <router-link to="/ingresar" class="has-text-white">
+                <i class="has-text-white mr-2 fa-solid fa-circle-user"></i>
+                {{ usuarioCarroCompra().user_display_name }}
+              </router-link>
+            </div>
             <div class="column is-narrow icono-carro active">
               <router-link to="/carro" class="has-text-white">
-                <i
-                  class="has-text-white fa-solid fa-cart-shopping is-size-5"
-                ></i>
+                <i class="has-text-white fa-solid fa-cart-shopping is-size-5"></i>
                 <span class="contador-carro">1</span>
               </router-link>
             </div>
@@ -100,10 +129,7 @@
         <div class="column links-externos is-narrow is-hidden-mobile">
           <ul>
             <li>
-              <a
-                href="#"
-                class="button button-1 is-rounded has-text-weight-medium"
-              >
+              <a href="#" class="button button-1 is-rounded has-text-weight-medium">
                 CONOCE NUESTROS EQUIPOS
               </a>
             </li>
@@ -115,56 +141,57 @@
 </template>
 
 <script>
-import SeleccionarUbicacionHeader from '../general/SeleccionarUbicacionHeader.vue';
-import CargandoSeccion from '../general/CargandoSeccion.vue';
-import { useOpcionesGeneralesStore } from "@/stores/opcionesGenerales";
-  export default {
-    data() {
-        return {
-            store_opciones_generales:useOpcionesGeneralesStore(),
-            data:{},
-            cargando:true,
-            mostrarMenu: false,
-        };
+import SeleccionarUbicacionHeader from "../general/SeleccionarUbicacionHeader.vue";
+import CargandoSeccion from "../general/CargandoSeccion.vue";
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+export default {
+  data() {
+    return {
+      store_opciones_generales: useOpcionesGeneralesStore(),
+      data: {},
+      cargando: true,
+      mostrarMenu: false,
+    };
+  },
+  computed: {
+    menuPrincipal() {
+      return this.store_opciones_generales.menus["menu-principal"];
     },
-    computed: {
-      menuPrincipal(){
-          return this.store_opciones_generales.menus["menu-principal"];
-        },
-    },
-    mounted (){
-      let self = this;
-      document.addEventListener("click", (e) => {
-          if (self.$refs.menuMovil && self.$refs.menuMovil !== undefined &&
-              self.$refs.menuMovil.contains(e.target) === false) {
-              self.mostrarMenu = false;
-          }
+  },
+  mounted() {
+    let self = this;
+    document.addEventListener("click", (e) => {
+      if (
+        self.$refs.menuMovil &&
+        self.$refs.menuMovil !== undefined &&
+        self.$refs.menuMovil.contains(e.target) === false
+      ) {
+        self.mostrarMenu = false;
+      }
+    });
+  },
+  // mounted() {
+  //     let self = this;
+  //     document.addEventListener("click", (e) => {
+  //         if (self.$refs.menuMovil && self.$refs.menuMovil !== undefined &&
+  //             self.$refs.menuMovil.contains(e.target) === false) {
+  //             self.mostrarMenu = false;
+  //         }
 
-      });
+  //     });
+  // },
+  methods: {
+    obtenerSlug(url) {
+      url = url.replace(/^.*\/\/[^\/]+/, "");
+      return url;
     },
-    // mounted() {
-    //     let self = this;
-    //     document.addEventListener("click", (e) => {
-    //         if (self.$refs.menuMovil && self.$refs.menuMovil !== undefined &&
-    //             self.$refs.menuMovil.contains(e.target) === false) {
-    //             self.mostrarMenu = false;
-    //         }
-
-    //     });
-    // },
-    methods: {
-        obtenerSlug(url){
-          url = url.replace(/^.*\/\/[^\/]+/, '');
-          console.log(url);
-          return url;
-        },
-        toggleMenu() {
-            this.mostrarMenu = !this.mostrarMenu;
-        },
-        ocultarMenu() {
-            this.mostrarMenu = false;
-        }
+    toggleMenu() {
+      this.mostrarMenu = !this.mostrarMenu;
     },
-    components: { SeleccionarUbicacionHeader, CargandoSeccion }
-}
-  </script>
+    ocultarMenu() {
+      this.mostrarMenu = false;
+    },
+  },
+  components: { SeleccionarUbicacionHeader, CargandoSeccion },
+};
+</script>

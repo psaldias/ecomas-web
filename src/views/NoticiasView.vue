@@ -23,9 +23,9 @@
 
 <script>
 import Noticia from "../components/general/Noticia.vue";
-import ErrorSeccion from "@/components/general/ErrorSeccion.vue";
-import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
-import BannerNoticias from "@/components/noticias/BannerNoticias.vue";
+import ErrorSeccion from "/src/components/general/ErrorSeccion.vue";
+import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
+import BannerNoticias from "/src/components/noticias/BannerNoticias.vue";
 
 export default {
   components: {
@@ -35,13 +35,12 @@ export default {
     BannerNoticias,
 },
   async mounted (){
-   const respuesta = await this.enviarGet('posts?_embed');
+   const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_NOTICIAS_LISTADO);
    if(respuesta){
     this.contenidoInicial = respuesta.data;
     this.cargando = false;
 
-    if(this.contenidoInicial.title.rendered)
-      document.title = this.contenidoInicial.title.rendered
+
    }
   },
   data() {

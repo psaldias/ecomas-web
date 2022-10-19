@@ -12,14 +12,23 @@
                 <h2>Dirección de entrega</h2>
                 <h3 class="mb-1">Dirección registrada para próxima entrega:</h3>
 
-                <div class="field mb-5">
-                  <input type="text" class="input input-2" >
+                <article class="message is-danger my-2 is-small" v-if="error">
+                  <div class="message-body">
+                    {{error}}
+                  </div>
+                </article>
+
+                <div class="field  columns">
+                  <VueGoogleAutocomplete id="direccion_google" :country="['cl']" classname="input input-2 w-80" placeholder="Ingresar Dirección" v-on:placechanged="obtenerDireccion" ></VueGoogleAutocomplete>
+                </div>
+                <div v-if="direccionActual" class="is-size-7">
+                  Dirección Seleccionada: <b>{{direccionActual}}</b>
                 </div>
 
-                <div class="block has-text-right-tablet">
-                <router-link to="/compra-rapida/producto" class="button is-rounded is-small button-icono px-5">
+                <div class="block has-text-right-tablet mt-5">
+                <a  class="button is-rounded is-small button-icono px-5" @click.prevent="validarDireccion()">
                   Continuar
-                </router-link>
+                </a>
                 </div>
               </div>
             </div>
@@ -30,13 +39,64 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
+  import { useCarroCompraStore } from '/src/stores/carroCompra'
+  import VueGoogleAutocomplete from "vue-google-autocomplete";
 
-    };
-  },
-  computed: {},
-  methods: {},
+  export default {
+    data() {
+        return {
+            error: "",
+            storeCarroCompra: useCarroCompraStore(),
+        };
+    },
+    mounted () {
+      if(!this.storeCarroCompra.compraRapida.telefono)
+        this.$router.push({ path: "/compra-rapida/" });
+    },
+    computed: {
+      direccionActual(){
+        return (Object.keys(this.storeCarroCompra.compraRapida.direccion).length === 0)
+        ? ''
+        : this.storeCarroCompra.compraRapida.direccion.direccionCompleta;
+      }
+    },
+    methods: {
+        validarDireccion() {
+            if (Object.keys(this.storeCarroCompra.compraRapida.direccion).length === 0) {
+                this.error = "Debes indicar una Dirección Válida";
+            }
+            else {
+                this.$router.push({ path: "/compra-rapida/producto" });
+            }
+            return false;
+        },
+
+        obtenerDireccion(data) {
+            const direccion = {
+                region:data.administrative_area_level_1,
+                ciudad:data.administrative_area_level_2,
+                comuna:data.locality,
+                pais:data.country,
+                latitud:data.latitude,
+                longitud:data.longitude,
+                calle:data.route,
+                numero: data.street_number ?? '',
+                direccionCompleta : ''
+            };
+
+            if(direccion.calle)
+              direccion.direccionCompleta += direccion.calle;
+            if(direccion.numero)
+              direccion.direccionCompleta += " "+direccion.numero;
+            if(direccion.ciudad)
+              direccion.direccionCompleta += ", "+direccion.ciudad;
+            if(direccion.pais)
+              direccion.direccionCompleta += ", "+direccion.pais;
+
+            this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
+        }
+    },
+    components: { VueGoogleAutocomplete }
 };
-</script>
+  </script>
+

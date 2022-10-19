@@ -105,7 +105,7 @@ export default {
         };
     },
     async mounted() {
-        const respuesta = await this.enviarGet("sucursales");
+        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_SUCURSALES_LISTADO);
         this.sucursales = respuesta.data;
         this.sucursal_actual = this.sucursales[0].id;
         this.cargando = false;

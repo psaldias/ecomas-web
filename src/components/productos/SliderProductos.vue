@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import "@/assets/libs/jquery.min.js";
-import "@/assets/libs/slick/slick.min.js";
-import "@/assets/libs/slick/slick.min.css";
-import "@/assets/libs/slick/slick-theme.min.css";
+import "/src/assets/libs/jquery.min.js";
+import "/src/assets/libs/slick/slick.min.js";
+import "/src/assets/libs/slick/slick.min.css";
+import "/src/assets/libs/slick/slick-theme.min.css";
 import Producto from './producto/producto.vue';
 export default{
     props: {

@@ -114,7 +114,7 @@ import Marcas from '../components/general/Marcas.vue'
 import BloqueImagenTexto from '../components/quienes-somos/BloqueImagenTexto.vue'
 import BannerSeccion from '../components/general/BannerSeccion.vue'
 import Cards from '../components/quienes-somos/Cards.vue'
-import ErrorSeccion from '@/components/general/ErrorSeccion.vue'
+import ErrorSeccion from '/src/components/general/ErrorSeccion.vue'
 import CargandoSeccion from '../components/general/CargandoSeccion.vue'
 
 export default {
@@ -134,7 +134,7 @@ export default {
     }
   },
   async mounted (){
-   const respuesta = await this.enviarGet('pages/15');
+   const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_SOMOS);
    if(respuesta){
     this.contenidoInicial = respuesta.data;
     this.cargando = false;

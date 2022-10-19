@@ -1,7 +1,10 @@
 <template>
   <main class="sucursales">
     <div class="wrapper" v-if="!cargando">
-      <BannerSeccion :titulo="data.title.rendered" :imagen="data.acf.imagen_banner.sizes['2048x2048']" />
+      <BannerSeccion
+        :titulo="data.title.rendered"
+        :imagen="data.acf.imagen_banner.sizes['2048x2048']"
+      />
       <!-- <pre>{{data.title.rendered}}</pre> -->
 
       <div class="wrapper wrapper-fullm">
@@ -79,7 +82,6 @@
           </div>
         </div>
       </div> -->
-
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
@@ -87,34 +89,33 @@
 
 <script>
 import BannerSeccion from "../components/general/BannerSeccion.vue";
-import SucursalesHome from "@/components/home/SucursalesHome.vue";
-import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
+import SucursalesHome from "/src/components/home/SucursalesHome.vue";
+import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 
 export default {
   components: {
     BannerSeccion,
     SucursalesHome,
-    CargandoSeccion
-},
+    CargandoSeccion,
+  },
   data() {
     return {
-      data:{},
-      cargando:true,
+      data: {},
+      cargando: true,
     };
   },
-  async mounted (){
-   const respuesta = await this.enviarGet('pages/180');
-   if(respuesta){
-    this.data = respuesta.data;
-    this.cargando = false;
+  async mounted() {
+    const respuesta = await this.enviarGet(
+      import.meta.env.VITE_ENDPOINT_PAGINA_SUCURSALES
+    );
+    if (respuesta) {
+      this.data = respuesta.data;
+      this.cargando = false;
 
-    if(this.contenidoInicial.title.rendered)
-      document.title = this.contenidoInicial.title.rendered
-   }
+      if (this.data.title.rendered) document.title = this.data.title.rendered;
+    }
   },
-  computed: {
-  },
-  methods: {
-  },
+  computed: {},
+  methods: {},
 };
 </script>

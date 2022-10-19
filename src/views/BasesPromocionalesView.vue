@@ -23,8 +23,8 @@
 <script>
 import Marcas from "../components/general/Marcas.vue";
 import BannerSeccion from "../components/general/BannerSeccion.vue";
-import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
-import Cards from "@/components/quienes-somos/Cards.vue";
+import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
+import Cards from "/src/components/quienes-somos/Cards.vue";
 
 export default {
     components:{
@@ -40,7 +40,7 @@ export default {
         };
     },
     async mounted (){
-      const respuesta = await this.enviarGet('pages/150');
+      const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_BASES_PROMOCIONALES);
       if(respuesta){
         this.data = respuesta.data;
         this.cargando = false;

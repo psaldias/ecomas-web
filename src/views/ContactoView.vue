@@ -161,7 +161,7 @@ import InputBase from "../components/formulario/InputBase.vue";
 import InputSelect from "../components/formulario/InputSelect.vue";
 import InputTextarea from "../components/formulario/InputTextarea.vue";
 import InputFile from "../components/formulario/InputFile.vue";
-import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
+import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 
 export default {
   components: {
@@ -204,7 +204,7 @@ export default {
     };
   },
   async mounted (){
-    const respuesta = await this.enviarGet('pages/185');
+    const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_CONTACTO);
     if(respuesta){
         this.data = respuesta.data;
 
@@ -212,7 +212,11 @@ export default {
             document.title = this.data.title.rendered
 
     }
-    const respuesta_formulario = await this.enviarGet('contact-forms/223',{cache:true,baseUrl:'/contact-form-7/v1/'});
+    const respuesta_formulario = await this.enviarGet(import.meta.env.VITE_ENDPOINT_CONTACTO_FORMULARIO,{
+        cache:true,
+        authorization:true
+    });
+
     this.configuracionFormulario = respuesta_formulario.data;
     this.cargando = false;
   },
@@ -233,7 +237,11 @@ export default {
         /** reset errores */
         this.resetErrores();
         /** enviar data de formulario al api rest */
-        const respuesta_formulario = await this.enviarPost('contact-forms/223/feedback',this.dataFormulario,{baseUrl:'/contact-form-7/v1/'});
+        const respuesta_formulario = await this.enviarPost(
+            import.meta.env.VITE_ENDPOINT_CONTACTO_FORMULARIO_ENVIAR,
+            this.dataFormulario,
+            {baseUrl:import.meta.env.VITE_ENDPOINT_CONTACTO_BASE_URL}
+        );
 
         /** en caso de que hayan errores de validación */
         if(respuesta_formulario.data.status === "validation_failed"){

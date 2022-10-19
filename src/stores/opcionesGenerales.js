@@ -5,25 +5,32 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
     return {
         cargando:true,
         token:false,
-        rrss:{
-            instagram:false,
-            facebook:false,
-            youtube:false,
-            youtube:false,
-            whatsapp:false
-        },
+        rrss:false,
         telefono_footer:false,
-        menus:{}
+        menus:{},
+        sucursales:[],
+        ubicaciones_sucursales:false,
+        sucursal_seleccionada:false,
      }
   },
-  // could also be defined as
-  // state: () => ({ count: 0 })
   actions: {
     guardarDatos(datos) {
-      this.cargando = datos.cargando;
-      this.rrss = datos.rrss;
-      this.telefono_footer = datos.telefono_footer;
-      this.menus = datos.menus;
+      /** ALMACENAR LOS DATOS QUE LLEGAN */
+      Object.keys(datos).map(key => {
+        this[key] = datos[key];
+      });
+      /** SI EXISTEN SUCURSALES OBTENER LA QUE ES POR DEFECTO */
+      if(datos.sucursales){
+        this.sucursal_seleccionada = datos.sucursales.find(sucursal => {
+          return sucursal.fields.sucursal_por_defecto;
+        });
+      }
+    },
+
+    actualizarSucuralSeleccionada(id_comuna) {
+      this.sucursal_seleccionada = this.sucursales.find(sucursal => {
+        return sucursal.regiones_comunas[0].term_id == id_comuna;
+      });
     },
 
   },

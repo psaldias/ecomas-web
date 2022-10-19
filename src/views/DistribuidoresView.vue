@@ -94,7 +94,7 @@
 
 <script>
 import BannerSeccion from "../components/general/BannerSeccion.vue";
-import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
+import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 
 export default {
   components: {
@@ -115,7 +115,7 @@ export default {
   },
   async mounted (){
 
-   const respuesta =  await this.enviarGet('pages/203');
+   const respuesta =  await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_DISTRIBUIDORES);
    if(respuesta){
     this.data = respuesta.data;
     this.cargando = false;
@@ -124,13 +124,13 @@ export default {
       document.title = this.data.title.rendered
    }
 
-   const respuesta_regiones =  await this.enviarGet('ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=distribuidores');
+   const respuesta_regiones =  await this.enviarGet(import.meta.env.VITE_ENDPOINT_DISTRIBUIDORES_COMUNAS,{cache:true,authorization:true});
    if(respuesta_regiones){
     this.regiones_comunas = respuesta_regiones.data;
     this.cargando_regiones = false;
    }
 
-   const respuesta_distribbuidores = await this.enviarGet('distribuidores');
+   const respuesta_distribbuidores = await this.enviarGet(import.meta.env.VITE_ENDPOINT_DISTRIBUIDORES_LISTADO);
    if(respuesta_distribbuidores){
      this.distribuidoreswp = respuesta_distribbuidores.data;
      this.cargando_distribuidores = false;

@@ -2,7 +2,7 @@
 <template>
     <main class="column">
         <div class=" columns productos-compra-rapida is-mobile" v-if="!cargando">
-            <div class="column py-0" v-for="producto in productos" :key="producto.id" >
+            <div class="column py-0" v-for="producto in productosDisponibles" :key="producto.id" >
             <div class="card py-4 px-3 ">
                 <div class="columns is-gapless is-vcentered mb-4 is-mobile">
                     <div class="column is-narrow mr-2">
@@ -17,10 +17,10 @@
                 </div>
 
                 <div class="block mt-4">
-                <router-link :to="'/compra-rapida/'" class="button is-rounded has-background-black is-toggle-rounded is-block has-text-centered has-text-white">
+                <a href="#" @click.prevent="irACompraRapida(producto.id)" class="button is-rounded has-background-black is-toggle-rounded is-block has-text-centered has-text-white">
                     <i class="has-text-white fa-solid fa-cart-shopping mr-1"></i>
                     Comprar
-                </router-link>
+                </a>
                 </div>
             </div>
             </div>
@@ -30,27 +30,50 @@
 </template>
 
 <script>
-import CargandoSeccion from '../general/CargandoSeccion.vue';
-export default {
-    data() {
-        return {
-            productos: {},
-            cargando: true,
-        };
-    },
-    async mounted() {
-        const respuesta = await this.enviarGet("/products?orderby=price&order=asc", { cache: true, baseUrl: "/wc/v3" });
-        if (respuesta) {
-            this.productos = respuesta.data;
-            this.cargando = false;
-        }
-    },
-    computed: {},
-    methods: {
-        precioFormateado(valor){
-            return new Intl.NumberFormat('cl-CL').format(valor);
-        }
-    },
-    components: { CargandoSeccion }
-}
+    import { useCarroCompraStore } from '/src/stores/carroCompra'
+    import CargandoSeccion from '../general/CargandoSeccion.vue';
+    import { useOpcionesGeneralesStore } from '/src/stores/opcionesGenerales'
+    export default {
+        data() {
+            return {
+                cargando: false,
+                storeCarroCompra: useCarroCompraStore(),
+                store_opciones_generales: useOpcionesGeneralesStore(),
+            };
+        },
+        mounted() {
+            this.obtenerProductosCarro();
+        },
+        watch:{
+            async sucursalCarro(){
+                this.obtenerProductosCarro();
+            }
+        },
+        computed: {
+            productosDisponibles(){
+                return this.storeCarroCompra.ComraRapidaproductosConStock.filter(producto => {
+                    return (producto.stock_quantity == null || producto.stock_quantity > 0);
+                });
+            },
+            sucursalCarro(){
+                return this.store_opciones_generales.sucursal_seleccionada.ID
+            }
+        },
+        methods: {
+            precioFormateado(valor){
+                return new Intl.NumberFormat('cl-CL').format(valor);
+            },
+            irACompraRapida(id){
+                this.storeCarroCompra.actualizarCompraRapida(id, "productoSeleccionado");
+                this.$router.push({ path: "/compra-rapida/" });
+            },
+            async obtenerProductosCarro(){
+                this.cargando = true;
+                await this.obtenerProductosCompraRapida();
+                this.cargando = false;
+
+            }
+        },
+        components: { CargandoSeccion }
+    }
 </script>

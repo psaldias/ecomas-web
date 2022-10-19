@@ -1,5 +1,10 @@
 @import "variables.scss";
 
+:root{
+  --vdp-hover-bg-color: #80BD01;
+  --vdp-selected-bg-color: #80BD01;
+}
+
 *{
   font-family: 'Heebo', sans-serif;
   color:inherit;
@@ -907,9 +912,6 @@ footer{
     }
   }
 
-  .opciones{
-
-  }
 }
 .breadcrumb{
   a{
@@ -1291,6 +1293,9 @@ footer{
       font-weight: bold;
       background: none;
       padding:0 1em 0 0;
+      &.is-danger{
+        border-color:#f14668;
+      }
     }
     .select-2{
       min-width: 200px;

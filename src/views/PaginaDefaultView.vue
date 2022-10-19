@@ -31,7 +31,7 @@ import Marcas from "../components/general/Marcas.vue";
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import Acordeon from '../components/general/Acordeon.vue';
 import BD_JSON from '../assets/helpers/ContenidoPaginas.json';
-import CargandoSeccion from '@/components/general/CargandoSeccion.vue';
+import CargandoSeccion from '/src/components/general/CargandoSeccion.vue';
 
 
 export default {
@@ -59,7 +59,7 @@ export default {
     // },
     async mounted (){
       const slug = this.$route.params.pathMatch[0];
-      const respuesta = await this.enviarGet('pages?slug='+slug);
+      const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_DEFAULT+slug);
       if(respuesta){
         if(!respuesta.data[0]){
             this.$router.replace({ name: '404' })

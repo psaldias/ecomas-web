@@ -61,12 +61,12 @@
 </template>
 
 <script>
-  import CompraRapida from "@/components/home/CompraRapida.vue";
-  import NoticiasDestacada from "@/components/general/NoticiasDestacadas.vue";
-  import Marcas from "@/components/general/Marcas.vue";
-  import BannerHome from "../components/home/BannerHome.vue"
-  import CargandoSeccion from "@/components/general/CargandoSeccion.vue";
-  import ErrorSeccion from "@/components/general/ErrorSeccion.vue";
+  import CompraRapida from "/src/components/home/CompraRapida.vue";
+  import NoticiasDestacada from "/src/components/general/NoticiasDestacadas.vue";
+  import Marcas from "/src/components/general/Marcas.vue";
+  import BannerHome from "/src/components/home/BannerHome.vue"
+  import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
+  import ErrorSeccion from "/src/components/general/ErrorSeccion.vue";
 
     export default {
       components: {
@@ -78,11 +78,12 @@
     ErrorSeccion
 },
       async mounted (){
-        const respuesta = await this.enviarGet('pages/73');
+        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_HOME);
         if(respuesta){
           this.contenidoInicial = respuesta.data;
           this.cargando = false;
         }
+
       },
       data() {
         return {

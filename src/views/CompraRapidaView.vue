@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import PasosCarro from "@/components/carro/PasosCarro.vue";
-import SliderProductos from "@/components/productos/SliderProductos.vue";
+import PasosCarro from "/src/components/carro/PasosCarro.vue";
+import SliderProductos from "/src/components/productos/SliderProductos.vue";
 export default {
   components: { PasosCarro, SliderProductos },
   data() {

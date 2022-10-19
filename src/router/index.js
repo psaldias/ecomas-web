@@ -111,7 +111,11 @@ const router = createRouter({
     },{
       path: "/pedidos/",
       name: "Pedidos",
-      component: () => import("../views/PedidosView.vue")
+      component: () => import("../views/PedidosView.vue"),
+    },{
+      path:"/orden/",
+      name:"Orden",
+      component: () => import("../views/pedidos/OrdenView.vue"),
     },
 
 

@@ -1,8 +1,8 @@
 <template>
-  <main>
+  <main v-if="store_opciones_generales.sucursales">
     <a href="#" class="primero ubicacion" @click.prevent="mostrarMenu = !mostrarMenu; error_ubicacion= false">
       <i class="primero mr-1 fa-solid fa-location-dot"></i>
-      Comuna
+      {{store_opciones_generales.sucursal_seleccionada.post_title}}
     </a>
 
     <section class="seleccionar-ubicacion" ref="seleccionarUbicacion" v-if="mostrarMenu">
@@ -23,13 +23,13 @@
             Seleccionar comuna en la que encuentras para ver la disponibilidad despacho o
             tiempos de entrega.
           </p>
-          <div class="columns is-variable mb-3 mt-5 is-1">
+          <div class="columns is-variable mb-3 mt-5 is-1" v-if="!store_opciones_generales.cargando">
             <div class="column mr-2">
               <div class="field">
                 <label for="" class="label">Región</label>
                 <div class="control">
                   <div class="select is-fullwidth">
-                    <select  v-model="regionSeleccionada">
+                    <select  v-model="regionSeleccionada" @change="cambiarComunas()">
                       <option :value="region.term_id" v-for="region in regiones" :key="region.term_id">{{region.name}}</option>
                     </select>
                   </div>
@@ -52,7 +52,7 @@
           <div class="field">
             <button
               class="button button-icono is-fullwidth"
-              @click="error_ubicacion = true"
+              @click="guardarUbicacion()"
             >
               Guardar Ubicación
             </button>
@@ -64,44 +64,61 @@
 </template>
 
 <script>
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 export default {
   props: {},
   data() {
     return {
       error_ubicacion: false,
       mostrarMenu: false,
-      ubicaciones:{},
       cargando:true,
       regionSeleccionada:0,
       comunaSeleccionada:0,
+      store_opciones_generales: useOpcionesGeneralesStore(),
+      comunas:{},
     };
   },
-  async mounted() {
-        const respuesta = await this.enviarGet("ecomas/taxonomies?slug=regiones_comunas&hide_empty=true&post_type=sucursales");
-        if(respuesta){
-          this.ubicaciones = respuesta.data;
-          if(this.ubicaciones)
-            this.regionSeleccionada = this.regiones[0].term_id;
-          this.cargando = false;
-        }
+  mounted() {
+
+    if(this.sucursal_por_defecto){
+      this.regionSeleccionada = this.sucursal_por_defecto.regiones_comunas[0].parent;
+      this.comunaSeleccionada = this.sucursal_por_defecto.regiones_comunas[0].term_id;
+    }else if(this.regiones){
+      console.log(this.regiones);
+      this.regionSeleccionada = this.regiones[0].term_id;
+    }
+
+    if(this.ubicaciones){
+        this.comunas = this.ubicaciones.filter(ubicacion => ubicacion.parent === this.regionSeleccionada);
+    }
   },
   computed: {
+    ubicaciones(){
+      return this.store_opciones_generales.ubicaciones_sucursales ?? [];
+    },
+    sucursal_por_defecto(){
+      return this.store_opciones_generales.sucursales.find(sucursal => {
+        return sucursal.fields.sucursal_por_defecto;
+      });
+    },
     regiones (){
-      let regiones = {};
+      let regiones = false;
       if(this.ubicaciones){
         regiones = this.ubicaciones.filter(ubicacion => ubicacion.parent == 0);
       }
       return regiones;
     },
-    comunas(){
-      let comunas = {};
-      if(this.ubicaciones){
-        comunas = this.ubicaciones.filter(ubicacion => ubicacion.parent === this.regionSeleccionada);
-        this.comunaSeleccionada = comunas[0].term_id;
-      }
-      return comunas;
+  },
+  methods: {
+    cambiarComunas(){
+      this.comunas = this.ubicaciones.filter(ubicacion => ubicacion.parent === this.regionSeleccionada);
+      if(this.comunas.length > 0)
+          this.comunaSeleccionada = this.comunas[0].term_id;
+    },
+    guardarUbicacion(){
+      this.store_opciones_generales.actualizarSucuralSeleccionada(this.comunaSeleccionada);
+      this.mostrarMenu = false;
     }
   },
-  methods: {},
 };
 </script>
