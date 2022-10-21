@@ -23,23 +23,27 @@
             <div class="card p-4">
               <div class="columns">
                 <div class="column is-3-desktop is-12-mobile">
-                  <h5 class="primero mb-2"><strong>Dirección de facturación</strong></h5>
-                  <div class="block is-size-6">
-                    {{
-                      ordenActiva.billing.first_name +
-                      " " +
-                      ordenActiva.billing.last_name
-                    }}<br />
-                    {{ ordenActiva.billing.address_1 }}<br />
-                    {{ ordenActiva.billing.address_2 }}<br />
-                    {{ ordenActiva.billing.city }}<br />
-                    {{ ordenActiva.billing.phone }}<br />
-                    {{ ordenActiva.billing.email }}<br />
+                  <div v-if="ordenActiva.billing.address_1">
+                    <h5 class="primero mb-2"><strong>Dirección de facturación</strong></h5>
+                    <div class="block is-size-6">
+                      {{
+                        ordenActiva.billing.first_name +
+                        " " +
+                        ordenActiva.billing.last_name
+                      }}<br />
+                      {{ ordenActiva.billing.address_1 }}<br />
+                      {{ ordenActiva.billing.address_2 }}<br />
+                      {{ ordenActiva.billing.city }}<br />
+                      {{ ordenActiva.billing.phone }}<br />
+                      {{ ordenActiva.billing.email }}<br />
+                    </div>
                   </div>
 
                   <h5 class="primero mb-2"><strong>Dirección de Envío</strong></h5>
                   <div class="block is-size-6">
-                    Fecha Entrega: {{ obtenerDatoMetaData("fecha_entrega") }}<br />
+                    <div v-if="obtenerDatoMetaData('fecha_entrega')">
+                      Fecha Entrega: {{ obtenerDatoMetaData("fecha_entrega") }}<br />
+                    </div>
                     {{
                       ordenActiva.shipping.first_name +
                       " " +
@@ -49,7 +53,14 @@
                     {{ ordenActiva.shipping.address_2 }}<br />
                     {{ ordenActiva.shipping.city }}<br />
                     {{ ordenActiva.shipping.phone }}<br />
-                    {{ ordenActiva.shipping.email }}<br />
+                    {{ ordenActiva.billing.email }}<br />
+                  </div>
+
+                  <div v-if="ordenActiva.customer_note">
+                    <h5 class="primero mb-2"><strong>Información Adicional</strong></h5>
+                    <div class="block is-size-6" v-html="ordenActiva.customer_note.replace(/\n/g, '<br />')">
+
+                    </div>
                   </div>
                 </div>
                 <div class="column is-5-desktop is-12-mobile">
@@ -216,10 +227,15 @@ export default {
     if (respuesta.data){ this.ordenActiva = respuesta.data}
     else  this.mensajes.error = "No existe el pedido";
 
-
+    console.log(this.ordenActiva);
     this.cargando = false;
 
     document.title = 'Orden #'+this.ordenActiva.id;
+
+    const tipo_compra = this.obtenerDatoMetaData("tipo_compra");
+    if(tipo_compra == 'normal'){
+      this.limpiarCarro();
+    }
   },
   methods: {
     obtenerDatoMetaData(key = false) {

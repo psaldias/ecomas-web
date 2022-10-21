@@ -1,12 +1,17 @@
 <template >
-    <main>
-        <div class="tabs" v-if="tabs">
+    <main v-if="tabs">
+        <div class="tabs" >
             <ul>
-                <li v-for="tab, index in tabs" :key="index" :class="{ 'is-active': activo == index }"><a href="#" @click.prevent="cambiarActivo(index)">{{tab.titulo}}</a></li>
+                <li v-for="tab, index in tabs" :key="index" :class="{ 'is-active': activo == index }">
+                    <a href="#" @click.prevent="cambiarActivo(index)">{{tab.titulo}}</a>
+                </li>
             </ul>
         </div>
-        <div class="tabs-content content"  v-html="tabActivo.descripcion">
-
+        <div class="tabs-content content" >
+            <div class="columns">
+                <div class="column" v-html="tabActivo.descripcion"></div>
+                <div class="column" v-if="tabActivo.descripcion2" v-html="tabActivo.descripcion2"></div>
+            </div>
 
         </div>
    </main>
@@ -24,7 +29,9 @@ export default {
     },
     computed: {
         tabActivo(){
-            return this.tabs.find( (tab,index) => index == this.activo);
+            if(this.tabs)
+                return this.tabs.find( (tab,index) => index == this.activo);
+            return false;
 
         }
     },

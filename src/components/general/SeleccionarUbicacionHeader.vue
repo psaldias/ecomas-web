@@ -2,7 +2,7 @@
   <main v-if="store_opciones_generales.sucursales">
     <a href="#" class="primero ubicacion" @click.prevent="mostrarMenu = !mostrarMenu; error_ubicacion= false">
       <i class="primero mr-1 fa-solid fa-location-dot"></i>
-      {{store_opciones_generales.sucursal_seleccionada.post_title}}
+      {{this.store_opciones_generales.sucursal_seleccionada.post_title}}
     </a>
 
     <section class="seleccionar-ubicacion" ref="seleccionarUbicacion" v-if="mostrarMenu">
@@ -79,12 +79,10 @@ export default {
     };
   },
   mounted() {
-
     if(this.sucursal_por_defecto){
       this.regionSeleccionada = this.sucursal_por_defecto.regiones_comunas[0].parent;
       this.comunaSeleccionada = this.sucursal_por_defecto.regiones_comunas[0].term_id;
     }else if(this.regiones){
-      console.log(this.regiones);
       this.regionSeleccionada = this.regiones[0].term_id;
     }
 
@@ -94,9 +92,14 @@ export default {
   },
   computed: {
     ubicaciones(){
-      return this.store_opciones_generales.ubicaciones_sucursales ?? [];
+      return this.store_opciones_generales.ubicaciones_sucursales ?? false;
     },
     sucursal_por_defecto(){
+      if(localStorage.sucursalSeleccionada){
+        return this.store_opciones_generales.sucursales.find(sucursal => {
+          return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
+        });
+      }
       return this.store_opciones_generales.sucursales.find(sucursal => {
         return sucursal.fields.sucursal_por_defecto;
       });
@@ -112,11 +115,13 @@ export default {
   methods: {
     cambiarComunas(){
       this.comunas = this.ubicaciones.filter(ubicacion => ubicacion.parent === this.regionSeleccionada);
-      if(this.comunas.length > 0)
-          this.comunaSeleccionada = this.comunas[0].term_id;
+      if(this.comunas.length > 0){
+        this.comunaSeleccionada = this.comunas[0].term_id;
+      }
     },
     guardarUbicacion(){
       this.store_opciones_generales.actualizarSucuralSeleccionada(this.comunaSeleccionada);
+      localStorage.sucursalSeleccionada = (this.comunaSeleccionada);
       this.mostrarMenu = false;
     }
   },

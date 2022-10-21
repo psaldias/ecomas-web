@@ -7,19 +7,25 @@
             <table class="table is-borderless has-text-left	 is-narrow mx-auto">
                 <tr class="item">
                     <td class=""><b>SUBTOTAL</b></td>
-                    <td><b>$3.200.156</b></td>
+                    <td><b>{{monedaChilena(storeCarroCompra.carro.validado.subtotal)}}</b></td>
                 </tr>
-                <tr class="item">
+                <tr class="item" v-if="storeCarroCompra.carro.validado.get_shipping_total && !storeCarroCompra.carro.validado.error_despacho">
                     <td class=""><b>DESPACHO</b></td>
-                    <td><b>$16.990</b></td>
+                    <td><b>{{monedaChilena(storeCarroCompra.carro.validado.get_shipping_total)}}</b></td>
+                </tr>
+                <tr class="item" v-if="storeCarroCompra.carro.validado.get_discount_total">
+                    <td class=""><b>CUPONES</b></td>
+                    <td><b>- {{monedaChilena(storeCarroCompra.carro.validado.get_discount_total)}}</b></td>
                 </tr>
                 <tr class="total">
                     <td class=" primero"><b>TOTAL</b></td>
-                    <td class="primero"><b>$3.217.146</b></td>
+                    <td class="primero"><b>{{monedaChilena(storeCarroCompra.carro.validado.total)}}</b></td>
                 </tr>
             </table>
-            <div class="field" v-if="boton">
-                <router-link to="/carro/registro/" class="button bg-primero has-text-white is-rounded px-6"><b>Ir a Pagar</b></router-link>
+            <div class="field" >
+                <slot v-if="!this.storeCarroCompra.carro.cargando"></slot>
+                <CargandoSeccion v-else class="medium"></CargandoSeccion>
+
             </div>
         </div>
     </div>
@@ -27,21 +33,22 @@
 
 
 <script>
-
+import { useCarroCompraStore } from '/src/stores/carroCompra'
+import CargandoSeccion from '../general/CargandoSeccion.vue';
 export default {
-    props:{
-        boton:{
-            type:Boolean,
-            default:true,
-        }
+    props: {
     },
     data() {
         return {
+            storeCarroCompra: useCarroCompraStore(),
+        };
+    },
+    computed: {},
+    methods: {
+        validarCarro() {
+            this.validarCompraNormal();
         }
     },
-    computed: {
-    },
-    methods: {
-    },
+    components: { CargandoSeccion }
 }
 </script>

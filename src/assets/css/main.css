@@ -338,6 +338,10 @@ p {
   border: none;
 }
 
+.image.is-16by9 {
+  margin: 0;
+}
+
 .column {
   width: 100%;
 }
@@ -1407,6 +1411,19 @@ footer nav a:hover {
   vertical-align: middle;
 }
 
+.producto .disponible .error {
+  font-size: 1.2em;
+  border: 3px solid #8E8E8E;
+  color: #8E8E8E;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  line-height: 38px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
 .producto.interior .nombre {
   font-size: 1.8em;
 }
@@ -1869,6 +1886,19 @@ footer nav a:hover {
   width: 15px;
   height: 15px;
   margin: 3px;
+  border-radius: 50%;
+  border-width: 2px;
+}
+
+.medium .lds-dual-ring {
+  width: 30px;
+  height: 30px;
+}
+
+.medium .lds-dual-ring:after {
+  width: 20px;
+  height: 20px;
+  margin: 5px;
   border-radius: 50%;
   border-width: 2px;
 }

@@ -1,7 +1,7 @@
 <template>
-    <div class="precio " :class="{'en-oferta':precios.oferta > 0}">
-        <div class="oferta" v-if="precios.oferta">$ {{valorFormateado(precios.oferta)}}</div>
-        <div class="normal">$ {{valorFormateado(precios.normal)}}</div>
+    <div class="precio " :class="{'en-oferta':precios.on_sale > 0}">
+        <div class="oferta" v-if="precios.on_sale">{{monedaChilena(precios.oferta)}}</div>
+        <div class="normal">{{monedaChilena(precios.normal)}}</div>
     </div>
 </template>
 
@@ -12,22 +12,12 @@ export default {
         precios:{
             normal:0,
             oferta:0,
+            on_sale:false,
         }
     },
     data() {
         return {
         };
-    },
-    computed: {
-    },
-    methods: {
-        valorFormateado(valor){
-            return new Intl.NumberFormat('cl-CL').format(valor);
-            return valor.toLocaleString('cl-CL', {
-                    style: 'currency',
-                    currency: 'CLP',
-                });
-        }
     },
 }
 </script>

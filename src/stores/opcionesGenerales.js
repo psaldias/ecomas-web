@@ -8,7 +8,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         rrss:false,
         telefono_footer:false,
         menus:{},
-        sucursales:[],
+        sucursales:false,
         ubicaciones_sucursales:false,
         sucursal_seleccionada:false,
      }
@@ -33,5 +33,21 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
       });
     },
 
+  },
+  getters: {
+    sucursalSeleccionada : (state) => {
+      let sucursal = false;
+      if(localStorage.sucursalSeleccionada){
+        if(state.sucursales){
+          sucursal = state.sucursales.find(sucursal => {
+            return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
+          });
+        }
+      }else if(state.sucursal_seleccionada){
+        sucursal = state.sucursal_seleccionada;
+      }
+
+      return  sucursal;
+    }
   },
 })

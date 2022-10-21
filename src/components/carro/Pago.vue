@@ -21,11 +21,7 @@
           <div class="content is-size-6 mt-6">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ornare elit auctor turpis pretium tempus. Duis volutpat quam sit amet nunc tincidunt vestibulum. Curabitur feugiat, tortor ut euismod pharetra, erat metus tempus turpis, sit amet accumsan ipsum ex at orci. Integer pellentesque ullamcorper risus, <router-link to="/terminos-y-condiciones/" class="primero">Terminos y Condiciones</router-link>
 
-          <InputCheck
-              label="Aceptar Texto terminos y condiciones."
-              :error="false"
-              class="mt-4"
-            />
+
         </div>
 
 

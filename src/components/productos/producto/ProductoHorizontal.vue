@@ -39,6 +39,7 @@
                 <Acciones
                   :stock="producto.stock"
                   :idProducto="producto.id"
+                  :producto="producto"
                   @agregarProducto="TopLayer"
                 ></Acciones>
               </div>
@@ -47,11 +48,6 @@
         </div>
       </div>
     </div>
-    <Toplayer
-      :producto="producto"
-      :data="datos_toplayer"
-      :key="'toplayer_' + producto.id"
-    ></Toplayer>
   </main>
 </template>
 
@@ -59,7 +55,6 @@
 import Imagen from './Imagen.vue'
 import Precio from './Precio.vue'
 import Acciones from './Acciones.vue'
-import Toplayer from './Toplayer.vue'
 
 export default {
   props: {
@@ -69,7 +64,6 @@ export default {
     Imagen,
     Precio,
     Acciones,
-    Toplayer,
   },
   data() {
     return {

@@ -97,13 +97,13 @@
             <div class="column is-narrow ingresar" v-if="usuarioCarroCompra()">
               <router-link to="/ingresar" class="has-text-white">
                 <i class="has-text-white mr-2 fa-solid fa-circle-user"></i>
-                {{ usuarioCarroCompra().user_display_name }}
+                {{ usuarioCarroCompra().user_first_name }}
               </router-link>
             </div>
             <div class="column is-narrow icono-carro active">
               <router-link to="/carro" class="has-text-white">
                 <i class="has-text-white fa-solid fa-cart-shopping is-size-5"></i>
-                <span class="contador-carro">1</span>
+                <span class="contador-carro" v-if="cantidadProductos">{{cantidadProductos}}</span>
               </router-link>
             </div>
           </div>
@@ -144,19 +144,17 @@
 import SeleccionarUbicacionHeader from "../general/SeleccionarUbicacionHeader.vue";
 import CargandoSeccion from "../general/CargandoSeccion.vue";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+import { useCarroCompraStore } from '/src/stores/carroCompra'
+
 export default {
   data() {
     return {
       store_opciones_generales: useOpcionesGeneralesStore(),
+      storeCarroCompra: useCarroCompraStore(),
       data: {},
       cargando: true,
       mostrarMenu: false,
     };
-  },
-  computed: {
-    menuPrincipal() {
-      return this.store_opciones_generales.menus["menu-principal"];
-    },
   },
   mounted() {
     let self = this;
@@ -169,6 +167,7 @@ export default {
         self.mostrarMenu = false;
       }
     });
+    console.log(this.store_opciones_generales.menus["menu-principal"]);
   },
   // mounted() {
   //     let self = this;
@@ -180,6 +179,14 @@ export default {
 
   //     });
   // },
+  computed:{
+    menuPrincipal() {
+      return this.store_opciones_generales.menus["menu-principal"];
+    },
+    cantidadProductos(){
+      return this.storeCarroCompra.carro.data.productos.length;
+    }
+  },
   methods: {
     obtenerSlug(url) {
       url = url.replace(/^.*\/\/[^\/]+/, "");

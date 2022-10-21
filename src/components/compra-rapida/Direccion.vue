@@ -41,7 +41,7 @@
 <script>
   import { useCarroCompraStore } from '/src/stores/carroCompra'
   import VueGoogleAutocomplete from "vue-google-autocomplete";
-
+  import  RegionesYComunas  from '/src/utils/regionesComunas'
   export default {
     data() {
         return {
@@ -72,28 +72,31 @@
         },
 
         obtenerDireccion(data) {
-            const direccion = {
-                region:data.administrative_area_level_1,
-                ciudad:data.administrative_area_level_2,
-                comuna:data.locality,
-                pais:data.country,
-                latitud:data.latitude,
-                longitud:data.longitude,
-                calle:data.route,
-                numero: data.street_number ?? '',
-                direccionCompleta : ''
-            };
+          const region = RegionesYComunas.find(region => {
+            return region.name == data.administrative_area_level_1
+          });
+          const direccion = {
+            region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
+            ciudad:data.administrative_area_level_2,
+            comuna:data.locality,
+            pais:data.country,
+            latitud:data.latitude,
+            longitud:data.longitude,
+            calle:data.route,
+            numero: data.street_number ?? '',
+            direccionCompleta : ''
+          };
 
-            if(direccion.calle)
-              direccion.direccionCompleta += direccion.calle;
-            if(direccion.numero)
-              direccion.direccionCompleta += " "+direccion.numero;
-            if(direccion.ciudad)
-              direccion.direccionCompleta += ", "+direccion.ciudad;
-            if(direccion.pais)
-              direccion.direccionCompleta += ", "+direccion.pais;
+          if(direccion.calle)
+            direccion.direccionCompleta += direccion.calle;
+          if(direccion.numero)
+            direccion.direccionCompleta += " "+direccion.numero;
+          if(direccion.ciudad)
+            direccion.direccionCompleta += ", "+direccion.ciudad;
+          if(direccion.pais)
+            direccion.direccionCompleta += ", "+direccion.pais;
 
-            this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
+          this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
         }
     },
     components: { VueGoogleAutocomplete }

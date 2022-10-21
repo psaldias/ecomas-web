@@ -12,11 +12,11 @@
                 <a href="#" class="button button-3 active is-block mb-2">
                    <i class=" mr-2 fa-solid fa-circle-user"></i> Mi información Personal
                 </a>
-                <a href="#" class="button button-3 is-block mb-2">
+                <!-- <a href="#" class="button button-3 is-block mb-2">
                    <i class=" mr-2 fa-solid fa-location-dot"></i> Mis Direcciones
-                </a>
+                </a> -->
                 <RouterLink to="/pedidos/"  class="button button-3 is-block mb-2">
-                   <i class=" mr-2 fa-solid fa-list-check"></i> Mis pedidos ({{usuarioCarroCompra().pedidos}})
+                   <i class=" mr-2 fa-solid fa-list-check"></i> Mis pedidos
                 </RouterLink>
                 <a @click.prevent="cerrarSesion()" class="button button-3 is-block">
                    <i class=" mr-2 fa-solid fa-arrow-right-from-bracket"></i> Cerrar Sesión

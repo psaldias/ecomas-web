@@ -3,25 +3,26 @@
     <div class="card producto" :class="formato" v-if="formato == 'vertical'">
       <a class="link-categoria">
         <div class="categoria">
-          {{ producto.categoria.nombre }}
+          {{ categoria }}
         </div>
       </a>
       <Imagen
-        :imagen="producto.imagen"
-        :alt="producto.nombre"
-        :url="producto.url"
+        :imagen="imagen"
+        :alt="producto.name"
+        :url="url"
       ></Imagen>
 
-      <div class="nombre">{{ producto.nombre }}</div>
+      <div class="nombre">{{ producto.name }}</div>
 
-      <Precio :precios="producto.precios"></Precio>
+      <Precio :precios="precios"></Precio>
 
-      <div class="descripcion" v-html="producto.descripcion"></div>
+      <div class="descripcion" v-html="producto.short_description"></div>
 
       <Acciones
-        :stock="producto.stock"
+        :stock="producto.stock_quantity"
+        :stockStatus="producto.stock_status"
         :idProducto="producto.id"
-        @agregarProducto="TopLayer"
+        :producto="producto"
       ></Acciones>
     </div>
 
@@ -32,27 +33,27 @@
             <div class="imagen-categoria">
               <a class="link-categoria">
                 <div class="categoria">
-                  {{ producto.categoria.nombre }}
+                  {{ categoria }}
                 </div>
               </a>
               <Imagen
-                :imagen="producto.imagen"
-                :alt="producto.nombre"
-                :url="producto.url"
+                :imagen="imagen"
+                :alt="producto.name"
+                :url="url"
               ></Imagen>
             </div>
           </div>
           <div class="column py-0">
             <div class="columns is-vcentered">
               <div class="column is-narrow">
-                <div class="nombre">{{ producto.nombre }}</div>
-                <Precio :precios="producto.precios"></Precio>
+                <div class="nombre">{{ producto.name }}</div>
+                <Precio :precios="precios"></Precio>
               </div>
               <div class="column is-hidden-mobile is-1"></div>
               <div class="column">
                 <div
                   class="descripcion mb-0"
-                  v-html="producto.descripcion"
+                  v-html="producto.short_description"
                 ></div>
               </div>
             </div>
@@ -61,9 +62,10 @@
               <div class="column is-hidden-mobile"></div>
               <div class="column is-narrow">
                 <Acciones
-                  :stock="producto.stock"
+                  :stock="producto.stock_quantity"
+                  :stockStatus="producto.stock_status"
                   :idProducto="producto.id"
-                  @agregarProducto="TopLayer"
+                  :producto="producto"
                 ></Acciones>
               </div>
             </div>
@@ -71,11 +73,6 @@
         </div>
       </div>
     </div>
-    <Toplayer
-      :producto="producto"
-      :data="datos_toplayer"
-      :key="'toplayer_' + producto.id"
-    ></Toplayer>
   </main>
 </template>
 
@@ -83,12 +80,10 @@
 import Imagen from './Imagen.vue'
 import Precio from './Precio.vue'
 import Acciones from './Acciones.vue'
-import Toplayer from './Toplayer.vue'
 
 export default {
   props: {
     formato: {
-      type: String,
       default: 'vertical',
     },
     producto: {},
@@ -97,22 +92,27 @@ export default {
     Imagen,
     Precio,
     Acciones,
-    Toplayer,
   },
   data() {
     return {
-      datos_toplayer: {
-        cantidad: 1,
-        mostrar: false,
-      },
     }
   },
-  computed: {},
-  methods: {
-    TopLayer(cantidad) {
-      this.datos_toplayer.cantidad = cantidad
-      this.datos_toplayer.mostrar = true
+  computed: {
+    precios(){
+      return {normal:this.producto.price,oferta:this.producto.regular_price,on_sale:this.producto.on_sale};
     },
+    url(){
+      return '/producto/'+this.producto.slug;
+    },
+    categoria(){
+      return this.producto.categories[0].name;
+    },
+    imagen(){
+      return this.producto.images[0].src;
+    }
+  },
+  methods: {
+
   },
 }
 </script>

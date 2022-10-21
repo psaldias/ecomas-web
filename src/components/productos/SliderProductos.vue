@@ -7,7 +7,7 @@
         </div>
         <div class="slider-productos">
             <div class="item" v-for="(producto, index) in productos">
-                <Producto  :key="producto.id" :producto="producto" formato="vertical"></Producto>
+                <Producto  :key="'slider_productos_'+producto.id" :producto="producto" formato="vertical"></Producto>
             </div>
         </div>
 
@@ -20,16 +20,15 @@ import "/src/assets/libs/slick/slick.min.js";
 import "/src/assets/libs/slick/slick.min.css";
 import "/src/assets/libs/slick/slick-theme.min.css";
 import Producto from './producto/producto.vue';
+import { useCarroCompraStore } from '/src/stores/carroCompra'
 export default{
     props: {
         titulo: String,
-        productos: {
-            type: Object,
-            default: {}
-        }
     },
     data() {
-        return {};
+        return {
+            storeCarroCompra: useCarroCompraStore(),
+        };
     },
     mounted() {
         $(".slider-productos").slick({
@@ -61,7 +60,13 @@ export default{
 
         });
     },
-    computed: {},
+    computed: {
+        productos(){
+            return this.storeCarroCompra.carro.productos.filter(producto => {
+                return (producto.stock_quantity == null || producto.stock_quantity > 0);
+            });
+        },
+    },
     methods: {},
     components: { Producto }
 }

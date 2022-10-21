@@ -322,7 +322,6 @@ export default {
 
         this.cargando = true;
         const respuesta = await this.registrar_usuario(dataFormularioPost);
-        console.log(respuesta);
         this.mensajes[respuesta.tipo] = respuesta.mensaje;
         if(respuesta.tipo == 'exito'){
           setTimeout(() => {

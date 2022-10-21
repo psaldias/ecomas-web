@@ -1,16 +1,16 @@
 <template>
   <main class="interior-producto">
     <div class="wrapper">
-      <div class="px-3">
+      <div class="px-3" v-if="!cargando">
         <nav class="breadcrumb is-small" aria-label="breadcrumbs">
           <ul>
             <li><router-link to="/productos/">PRODUCTOS</router-link></li>
             <li><a href="#">PELLETS</a></li>
-            <li class="is-active"><a href="#">WO85</a></li>
+            <li class="is-active"><a href="#">{{producto.name}}</a></li>
           </ul>
         </nav>
       </div>
-      <div class="columns is-centered is-gapless mt-6">
+      <div class="columns is-centered is-gapless mt-6" v-if="!cargando">
         <div class="column is-11-fullhd is-12-desktop">
           <div
             class="columns is-multiline box px-1 py-1 no-shadow mb-6"
@@ -25,15 +25,21 @@
                   <div class="column">
                     <a class="link-categoria">
                       <div class="categoria">
-                        {{ producto.categoria.nombre }}
+                        {{ categoria }}
                       </div>
                     </a>
                   </div>
                   <div class="column is-narrow">
-                    <div class="disponible gris3">
+                    <div class="disponible gris3" v-if="conStock">
                       Disponible
                       <span class="check ml-2">
                         <i class="fa-solid fa-check"></i>
+                      </span>
+                    </div>
+                    <div class="disponible gris3" v-else>
+                      Agotado
+                      <span class="error ml-2 is-danger">
+                        <i class="fa-solid fa-xmark "></i>
                       </span>
                     </div>
                   </div>
@@ -42,15 +48,15 @@
                 <div class="columns">
                   <div class="column is-5">
                     <Imagen
-                      :imagen="producto.imagen"
-                      :alt="producto.nombre"
-                      :url="producto.url"
+                      :imagen="imagen"
+                      :alt="producto.name"
+                      :url="url"
                     ></Imagen>
                   </div>
                   <div class="column">
-                    <div class="nombre">{{ producto.nombre }}</div>
+                    <div class="nombre">{{ producto.name }} </div>
 
-                    <Precio :precios="producto.precios" class="mb-5"></Precio>
+                    <Precio :precios="precios" class="mb-5"></Precio>
 
                     <div class="columns is-gapless is-mobile mb-5 caracteristicas ">
                       <div class="column is-6">
@@ -86,12 +92,12 @@
                         </div>
                       </div>
                     </div>
-
                     <Acciones
-                      :stock="producto.stock"
+                      :stock="producto.stock_quantity"
+                      :stockStatus="producto.stock_status"
                       :idProducto="producto.id"
-                      @agregarProducto="TopLayer"
-                    />
+                      :producto="producto"
+                    ></Acciones>
                   </div>
                 </div>
               </div>
@@ -99,7 +105,7 @@
             <div class="column descripcion is-size-6">
               <div class="card height-100 p-6">
                 <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
-                <div class="content gris3" v-html="producto.descripcion"></div>
+                <div class="content gris3" v-html="producto.description"></div>
               </div>
             </div>
           </div>
@@ -108,18 +114,13 @@
             <Tabs :tabs="tabs"></Tabs>
           </div>
           <SliderProductos
-            :productos="productos"
             titulo="Productos Relacionados"
           ></SliderProductos>
         </div>
       </div>
+      <CargandoSeccion v-if="cargando"></CargandoSeccion>
     </div>
 
-    <Toplayer
-      :producto="producto"
-      :data="datos_toplayer"
-      :key="'toplayer_' + producto.id"
-    ></Toplayer>
   </main>
 </template>
 
@@ -127,263 +128,122 @@
 import Imagen from '../components/productos/producto/Imagen.vue'
 import Precio from '../components/productos/producto/Precio.vue'
 import Acciones from '../components/productos/producto/Acciones.vue'
-import Toplayer from '../components/productos/producto/Toplayer.vue'
+
 import Tabs from '../components/general/Tabs.vue'
 import SliderProductos from '../components/productos/SliderProductos.vue'
+import CargandoSeccion from '../components/general/CargandoSeccion.vue'
+import { useCarroCompraStore } from '/src/stores/carroCompra'
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 
 export default {
   components: {
     Imagen,
     Precio,
     Acciones,
-    Toplayer,
     Tabs,
     SliderProductos,
-  },
+    CargandoSeccion
+},
   data() {
     return {
+      cargando:true,
       datos_toplayer: {
         cantidad: 1,
         mostrar: false,
       },
-      tabs: [
-        {
-          id: 1,
-          titulo: 'CARACTERÍSTICAS',
-          descripcion:
-            '<div class="columns"><div class="column"><figure class="image is-16by9 mx-0"><iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/eX83a6HRfSU" frameborder="0" allowfullscreen></iframe></figure><p><b class="primero">WO 85</b><br>Estufa a pellet<br>Salida de humos trasera<br>Cierre de sello en fibra de vidrio<br>Recuperación de las cenizas instantánea<br>Tarjeta electrónica con la programación semanal<br>Termostato de ambiente<br>Mando a distancia incluido</p></div><div class="column"><figure class="image is-16by9 mx-0"><iframe class="has-ratio" width="640" height="360" src="https://www.youtube.com/embed/Tch4psovKlw" frameborder="0" allowfullscreen></iframe></figure><p><b class="primero">Datos Técnicos </b><br>Dimensiones (AxFxA)  51,5 x 53,3 x 98,7 cm<br>Potencia calorífica 7,5 kW<br>Rendimiento  91,6 %<br>Peso  61 kg<br>Tipo de combustible  Pellet Ø 6 mm<br>Capacidad del depósito  15 Kg<br>Salida de humos  Ø 8 cm<br>Consumo horario  Min. 0,7 kg/h – Max. 1,6 Kg/h<br>Consumo de energía  100 W<br>Autonomía  Min. 9,7 h – Max. 20,8 h</p></div></div>',
-        },
-        {
-          id: 2,
-          titulo: 'INFORMACIÓN',
-          descripcion: '<h1>Información</h1>',
-        },
-        {
-          id: 2,
-          titulo: 'MANUAL DE EQUIPO',
-          descripcion: '<h1>Manual</h1>',
-        },
-      ],
-      productos: [
-        {
-          id: 1,
-          url: '/interior-producto/1',
-          imagen: '/img/pellet-15-kg.webp',
-          nombre: 'Pellet 15kg',
-          descripcion:
-            'Pellets ECOMAS, se caracteriza por ser un producto de alta calidad.',
-          precios: {
-            normal: 47880,
-            // oferta:1290000
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 2,
-          url: '/interior-producto/2',
-          imagen: '/img/prod-2.jpg',
-          nombre: 'WO 85 2',
-          descripcion: 'lorem ipsum',
-          precios: {
-            normal: 1290000,
-            oferta: 0,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 3,
-          url: '/interior-producto/3',
-          imagen: '/img/interior-producto.jpg',
-          nombre: 'WO 85 3',
-          descripcion: 'Rango de calefacción: aaxx asdas as das as dasd',
-          precios: {
-            normal: 850000,
-            oferta: 759000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 4,
-          url: '/interior-producto/4',
-          imagen: '/img/prod-1.jpg',
-          nombre: 'WO 85',
-          descripcion: 'Rango de calefacción: 70 a 90 metros cuadrados',
-          precios: {
-            normal: 1650000,
-            oferta: 1290000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 5,
-          url: '/interior-producto/5',
-          imagen: '/img/prod-2.jpg',
-          nombre: 'WO 85 2',
-          descripcion: 'lorem ipsum',
-          precios: {
-            normal: 1290000,
-            oferta: 0,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 6,
-          url: '/interior-producto/6',
-          imagen: '/img/prod-3.jpg',
-          nombre: 'WO 85 3',
-          descripcion: 'Rango de calefacción: aaxx asdas as das as dasd',
-          precios: {
-            normal: 850000,
-            oferta: 759000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 7,
-          url: '/interior-producto/7',
-          imagen: '/img/prod-1.jpg',
-          nombre: 'WO 85',
-          descripcion: 'Rango de calefacción: 70 a 90 metros cuadrados',
-          precios: {
-            normal: 1650000,
-            oferta: 1290000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 8,
-          url: '/interior-producto/8',
-          imagen: '/img/prod-2.jpg',
-          nombre: 'WO 85 2',
-          descripcion: 'lorem ipsum',
-          precios: {
-            normal: 1290000,
-            oferta: 0,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 9,
-          url: '/interior-producto/9',
-          imagen: '/img/prod-3.jpg',
-          nombre: 'WO 85 3',
-          descripcion: 'Rango de calefacción: aaxx asdas as das as dasd',
-          precios: {
-            normal: 850000,
-            oferta: 759000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 10,
-          url: '/interior-producto/10',
-          imagen: '/img/prod-1.jpg',
-          nombre: 'WO 85',
-          descripcion: 'Rango de calefacción: 70 a 90 metros cuadrados',
-          precios: {
-            normal: 1650000,
-            oferta: 1290000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 11,
-          url: '/interior-producto/11',
-          imagen: '/img/prod-2.jpg',
-          nombre: 'WO 85 2',
-          descripcion: 'lorem ipsum',
-          precios: {
-            normal: 1290000,
-            oferta: 0,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-        {
-          id: 12,
-          url: '/interior-producto/12',
-          imagen: '/img/prod-3.jpg',
-          nombre: 'WO 85 3',
-          descripcion: 'Rango de calefacción: aaxx asdas as das as dasd',
-          precios: {
-            normal: 850000,
-            oferta: 759000,
-          },
-          categoria: {
-            nombre: 'pellet',
-            url: '#',
-          },
-          stock: 5,
-          estado: 1,
-        },
-      ],
+      storeCarroCompra: useCarroCompraStore(),
+      store_opciones_generales: useOpcionesGeneralesStore(),
     }
   },
+  async mounted(){
+    if(this.storeCarroCompra.carro.productos.length == 0){
+      await this.obtenerProductos();
+    }else{
+      this.cargando = false;
+    }
+    document.title = this.producto.name || VUE_APP_DEFAULT_TITLE;
+
+
+  },
+  watch:{
+      async sucursalCarro(){
+          this.obtenerProductos();
+      }
+  },
   computed: {
-    producto() {
-      return this.productos.find(
-        (producto) => producto.id == this.$route.params.slug,
-      )
+    conStock(){
+      if ((this.producto.stock_quantity == null & this.producto.stock_status == 'instock') || parseInt(this.producto.stock_quantity) > 0){
+        return true;
+      }
+      return false;
     },
+    sucursalCarro(){
+      return this.store_opciones_generales.sucursal_seleccionada.ID
+    },
+    producto() {
+      return this.storeCarroCompra.carro.productos.find(producto => {
+          return producto.slug == this.$route.params.slug;
+      });
+    },
+    precios(){
+      return {normal:this.producto.price,oferta:this.producto.regular_price,on_sale:this.producto.on_sale};
+    },
+    url(){
+      return '/producto/'+this.producto.slug;
+    },
+    categoria(){
+      return this.producto.categories[0].name;
+    },
+    imagen(){
+      return this.producto.images[0].src;
+    },
+    tabs(){
+      let contenido_tabs = false;
+
+      if(this.producto.campos_adicionales){
+        contenido_tabs = [
+          { id: 1,
+            titulo: 'CARACTERÍSTICAS',
+            columnas: this.producto.campos_adicionales.caracteristicas.columnas ?? 0,
+            descripcion: this.producto.campos_adicionales.caracteristicas.descripcion ?? '',
+            descripcion2: this.producto.campos_adicionales.caracteristicas.descripcion_2 ?? '',
+          },
+          {
+            id: 2,
+            titulo: 'INFORMACIÓN',
+            columnas:1,
+            descripcion: this.producto.campos_adicionales.informacion,
+            descripcion2: '',
+          },
+          {
+            id: 2,
+            titulo: 'MANUAL DE EQUIPO',
+            columnas:1,
+            descripcion: this.producto.campos_adicionales.manual_de_equipo,
+            descripcion2: '',
+          },
+        ]
+      }
+      return contenido_tabs;
+    }
   },
   methods: {
+    async obtenerProductos(){
+      this.cargando = true;
+      await this.obtenerProductosTienda();
+      this.cargando = false;
+    },
     TopLayer(cantidad) {
       this.datos_toplayer.cantidad = cantidad
       this.datos_toplayer.mostrar = true
+    },
+    obtenerDatoMetaData(key = false){
+        if(key && this.producto){
+            const dato = this.producto.meta_data.find(meta_data => {  return meta_data.key == key});
+            if(dato)
+                return dato.value;
+        }
+        return '';
     },
   },
 }

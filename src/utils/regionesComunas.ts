@@ -140,7 +140,7 @@ interface RegionType {
       ],
     },
     {
-      name: "Metropolitana de Santiago",
+      name: "Región Metropolitana",
       region_iso_3166_2: "CL-RM",
       romanNumber: "XIII",
       number: "13",
@@ -201,7 +201,7 @@ interface RegionType {
       ],
     },
     {
-      name: "Libertador Gral. Bernardo O’Higgins",
+      name: "O'Higgins",
       "region_iso_3166_2": "CL-LI",
       romanNumber: "VI",
       number: "6",
@@ -312,7 +312,7 @@ interface RegionType {
       ],
     },
     {
-      name: "Biobío",
+      name: "Bío Bío",
       "region_iso_3166_2": "CL-BI",
       romanNumber: "VIII",
       number: "8",
@@ -455,7 +455,7 @@ interface RegionType {
       ],
     },
     {
-      name: "Aisén del Gral. Carlos Ibáñez del Campo",
+      name: "Aysén",
       "region_iso_3166_2": "CL-AI",
       romanNumber: "XI",
       number: "11",
@@ -474,7 +474,7 @@ interface RegionType {
       ],
     },
     {
-      name: "Magallanes y de la Antártica Chilena",
+      name: "Magallanes y la Antártica Chilena",
       "region_iso_3166_2": "CL-MA",
       romanNumber: "XII",
       number: "12",

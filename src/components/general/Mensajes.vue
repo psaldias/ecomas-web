@@ -1,12 +1,12 @@
 <template >
     <main>
-        <article class="message is-success" v-if="mensajes.exito">
+        <article class="message is-success" :class="clases" v-if="mensajes.exito">
             <div class="message-body " v-html="mensajes.exito">
 
             </div>
         </article>
 
-        <article class="message is-danger" v-if="mensajes.error">
+        <article class="message is-danger" :class="clases" v-if="mensajes.error">
             <div class="message-body" v-html="mensajes.error">
 
             </div>
@@ -22,7 +22,8 @@ export default {
                 exito:false,
                 error:false,
             }
-        }
+        },
+        clases:''
     },
     data() {
     },

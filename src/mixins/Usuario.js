@@ -5,7 +5,6 @@ import { useLlamadasApiStore } from '/src/stores/llamadasApi'
 export default {
   data() {
     return {
-      cart_key:false,
       opciones:{},
       respuesta:{},
       storeCarroCompra: useCarroCompraStore(),
@@ -42,6 +41,25 @@ export default {
             mensaje = {tipo:'exito',mensaje:''};
             this.definirUsuario(response.data);
           }
+
+          let dataCarro = this.storeCarroCompra.carro.data;
+          dataCarro.registro = {
+            rut: response.data.usuario_rut,
+            nombre: response.data.usuario_rut,
+            apellido_paterno: response.data.user_last_name.split(' ')[0],
+            apellido_materno: response.data.user_last_name.split(' ')[1],
+            tipoDocumento: 'Boleta',
+            email: response.data.user_email,
+            confirmar_email: response.data.user_email,
+            password: '',
+            confirmar_password: '',
+            crearCuenta:false,
+          };
+          dataCarro.despacho = response.data.shipping_direccion_completa;
+          dataCarro.facturacion = response.data.billing_direccion_completa;
+          this.storeCarroCompra.actualizarCarro(dataCarro,'data');
+
+
 
           return mensaje;
         },

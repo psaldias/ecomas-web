@@ -1,45 +1,40 @@
 <template>
   <main>
-
-
-    <div class="card  mb-4 min-h-250"  >
+    <div class="card mb-4 min-h-250">
       <div class="producto horizontal carro">
-        <button class="delete ecomas is-large" @click.prevent="eliminar()"></button>
+        <button
+          class="delete ecomas is-large"
+          @click.prevent="eliminarProductoCarro(producto.id)"
+        ></button>
 
         <div class="columns is-vcentered">
           <div class="column is-narrow py-0">
             <div class="imagen mx-auto">
-              <Imagen
-                :imagen="producto.imagen"
-                :alt="producto.nombre"
-                :url="producto.url"
-              ></Imagen>
+              <Imagen :imagen="producto.image" :alt="producto.name" :url="url"></Imagen>
             </div>
           </div>
           <div class="column py-0">
             <div class="columns is-vcentered">
               <div class="column is-8">
-                <div class="nombre">{{ producto.nombre }}</div>
-                <Precio :precios="producto.precios"></Precio>
-                <div class="content is-size-7" v-html="producto.descripcion">
-                </div>
+                <div class="nombre">{{ producto.name }}</div>
+                <Precio :precios="precios"></Precio>
+                <div class="content is-size-7" v-html="producto.short_description"></div>
               </div>
               <div class="column is-narrow">
+                <Acciones
+                  :stock="producto.stock_quantity"
+                  :stockStatus="producto.stock_status"
+                  :idProducto="producto.id"
+                  :producto="producto"
+                  :toplayer="false"
+                  :cantidadCarro="producto.quantity"
+                  formato="horizontal"
+                ></Acciones>
 
-                    <div class=" acciones ">
-                        <div class=" cantidad mx-auto has-text-centered ">
-                            <b class="primero is-size-7">Cantidad</b>
-                            <div class="is-flex is-fullwidth is-justify-content-center">
-                                <button  class="button is-small is-rounded50">-</button>
-                                <input type="text" class="input is-rounded is-small is-inline-block" value="1" readonly>
-                                <button  class="button is-small is-rounded50 " >+</button>
-                            </div>
-                        </div>
-                    </div>
               </div>
             </div>
 
-
+            <Mensajes :mensajes="mensajes" clases="is-small"></Mensajes>
           </div>
         </div>
       </div>
@@ -48,16 +43,16 @@
 </template>
 
 <script>
-import Imagen from './Imagen.vue'
-import Precio from './Precio.vue'
-import Acciones from './Acciones.vue'
-import Toplayer from './Toplayer.vue'
+import Imagen from "./Imagen.vue";
+import Precio from "./Precio.vue";
+import Acciones from "./Acciones.vue";
+import Mensajes from '/src/components/general/Mensajes.vue';
 
 export default {
   props: {
     formato: {
       type: String,
-      default: 'vertical',
+      default: "vertical",
     },
     producto: {},
   },
@@ -65,17 +60,34 @@ export default {
     Imagen,
     Precio,
     Acciones,
-    Toplayer,
+    Mensajes
   },
   data() {
-    return {
-    }
+    return {};
   },
-  computed: {},
-  methods: {
-    eliminar(){
-      console.log("Eliminar producto")
-    }
+  mounted() {
   },
-}
+  methods: {},
+  computed: {
+    mensajes() {
+      if (this.producto.errores) return { error: this.producto.errores };
+    },
+    precios() {
+      return {
+        normal: this.producto.price,
+        oferta: this.producto.regular_price,
+        on_sale: this.producto.on_sale,
+      };
+    },
+    url() {
+      return "/producto/" + this.producto.slug;
+    },
+    categoria() {
+      return this.producto.categories[0].name;
+    },
+    imagen() {
+      return this.producto.images[0].src;
+    },
+  },
+};
 </script>
