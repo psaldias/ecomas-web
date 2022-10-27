@@ -21,25 +21,26 @@
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
+
+  <Seo v-if="data.hasOwnProperty('yoast_head_json')" :data="data.yoast_head_json"></Seo>
 </template>
 
 
 
 <script>
-import {useRoute} from 'vue-router'
 import Marcas from "../components/general/Marcas.vue";
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import Acordeon from '../components/general/Acordeon.vue';
-import BD_JSON from '../assets/helpers/ContenidoPaginas.json';
 import CargandoSeccion from '/src/components/general/CargandoSeccion.vue';
-
+import Seo from '../components/general/Seo.vue'
 
 export default {
     components:{
     BannerSeccion,
     Marcas,
     Acordeon,
-    CargandoSeccion
+    CargandoSeccion,
+    Seo
 },
     data() {
         return {

@@ -8,6 +8,7 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
+    "@vueuse/head": "^0.9.8",
     "axios": "^0.27.2",
     "axios-cookiejar-support": "^4.0.3",
     "pinia": "^2.0.22",

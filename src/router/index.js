@@ -62,23 +62,23 @@ const router = createRouter({
           path:"",
           name:"Carro",
           component: () => import("../components/carro/Index.vue"),
-          meta:{paso:'paso-1'},
+          meta:{paso:1},
         },
         {
           path:"registro",
           name:"Registro - Carro",
           component: () => import("../components/carro/Registro.vue"),
-          meta:{paso:'paso-2'},
+          meta:{paso:2},
         },{
           path:"despacho",
           name:"Despacho",
           component: () => import("../components/carro/Despacho.vue"),
-          meta:{paso:'paso-3'},
+          meta:{paso:3},
         },{
           path:"pago",
           name:"Pago",
           component: () => import("../components/carro/Pago.vue"),
-          meta:{paso:'paso-4'},
+          meta:{paso:4},
         },
       ]
     },{
@@ -87,7 +87,7 @@ const router = createRouter({
       children:[
         {
           path:"",
-          name:"Telefono - Compra Rápida",
+          name:"Tus Datos - Compra Rápida",
           component: () => import("../components/compra-rapida/Telefono.vue"),
         },
         {

@@ -51,6 +51,8 @@ export const useCarroCompraStore = defineStore('carroCompra', {
         },
         compraRapida:{
           telefono:'',
+          nombre:'',
+          email:'',
           direccion:false,
           codigoDescuento:false,
           horarioEntrega:false,
@@ -101,6 +103,10 @@ export const useCarroCompraStore = defineStore('carroCompra', {
     },
     actualizarUsuarioStore(data) {
       this.usuario = data;
+    },
+
+    actualizarDireccionDespacho(data) {
+      this.carro.data.despacho.direccion = data;
     },
 
   },

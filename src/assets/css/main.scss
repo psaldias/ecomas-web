@@ -1,4 +1,5 @@
 @import "variables.scss";
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap');
 
 :root{
   --vdp-hover-bg-color: #80BD01;
@@ -586,6 +587,12 @@ footer{
     .card{
       scroll-snap-align: start;
       margin-bottom: .8em;
+    }
+
+    .text-nowrap{
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
   }
 }
@@ -1248,6 +1255,7 @@ footer{
 
   }
 }
+
 .interior-compra-rapida{
   padding:2em 0;
   .pasos{
@@ -1266,6 +1274,19 @@ footer{
     &.card-telefono{
       background: url('/img/telefono-compra-rapida.jpg') no-repeat left center;
     }
+    &.card-datos{
+      background: url('/img/datos-compra-rapida.jpg') no-repeat left center;
+      .input{
+        height: 1.5em;
+        width:100%;
+      }
+      .control.has-icons-left .icon, .control.has-icons-right .icon{
+        height: 1.5em;
+        font-weight: bold;
+        color:#000;
+      }
+    }
+
     &.card-producto{
       background: url('/img/producto-compra-rapida.jpg') no-repeat left center;
       .wrapper-imagen-descripcion-producto{

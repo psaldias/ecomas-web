@@ -57,6 +57,8 @@ export default {
         data.quantity = 1;
         data.accion = accion;
         data.direccion = this.storeCarroCompra.compraRapida.direccion;
+        data.email = this.storeCarroCompra.compraRapida.email;
+        data.nombre = this.storeCarroCompra.compraRapida.nombre;
         data.telefono = this.storeCarroCompra.compraRapida.telefono;
         data.horario_entrega = this.storeCarroCompra.compraRapida.horarioEntrega;
         data.cupon = this.storeCarroCompra.compraRapida.codigoDescuento;
@@ -157,6 +159,7 @@ export default {
         data.extra = extra;
         data.cupon = this.storeCarroCompra.carro.data.cupon;
         data.accion = accion;
+        data.usuario = this.storeCarroCompra.usuarioCarroCompra.id;
         if(data.productos.length > 0){
 
           // data.direccion = this.storeCarroCompra.compraRapida.direccion;

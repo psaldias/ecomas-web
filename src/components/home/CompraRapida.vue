@@ -9,7 +9,7 @@
         <div class="card py-4 px-3">
           <div class="columns is-gapless is-vcentered mb-4 is-mobile">
             <div class="column is-narrow mr-2">
-              <img src="/img/icono-bolsa-ecomas.png" alt="" />
+              <img src="/img/icono-bolsa-ecomas.png" alt="" width="19" height="25"/>
             </div>
             <div class="column text-nowrap has-text-right">
               <b>{{ producto.name }}</b>

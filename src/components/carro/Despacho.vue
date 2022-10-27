@@ -18,7 +18,7 @@
                 classname="input input-2  "
                 placeholder="Ingresar Dirección"
                 :key="'map1'"
-                ref="map1"
+                :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
                 ></VueGoogleAutocomplete
               >
               <div v-if="dataFormularioDespacho.direccion.data.direccionCompleta" class="is-size-7 mt-2">
@@ -131,17 +131,18 @@
 
         <div class="columns is-centered">
           <div class="column is-5">
-            <button type="submit" class="button button-icono is-fullwidth"><b>Continuar</b></button>
+            <button type="submit" class="button button-icono is-fullwidth" v-if="!cargando"><b>Continuar</b></button>
+            <CargandoSeccion v-if="cargando"></CargandoSeccion>
           </div>
         </div>
 
       </form>
 
-      <form :action="urBackEnd+'wp-admin/admin-post.php?sucursal='+store_opciones_generales.sucursal_seleccionada.ID" method="POST" v-if="!storeCarroCompra.carro.validado.con_errores" ref="form_pago">
+      <form :action="urBackEnd+'wp-admin/admin-post.php?sucursal='+sucursalSeleccionada.ID" method="POST" v-if="!storeCarroCompra.carro.validado.con_errores" ref="form_pago">
         <input type="hidden" name="action" value="init_cart_normal">
         <input type="hidden" name="data" :value='JSON.stringify(storeCarroCompra.carro.data)'>
         <input type="hidden" name="id" v-if="storeCarroCompra.usuarioCarroCompra" :value='storeCarroCompra.usuarioCarroCompra.id'>
-        <input type="hidden" name="sucursal" v-if="store_opciones_generales.sucursal_seleccionada.ID" :value='store_opciones_generales.sucursal_seleccionada.ID'>
+        <input type="hidden" name="sucursal" v-if="sucursalSeleccionada.ID" :value='sucursalSeleccionada.ID'>
       </form>
 
     </div>
@@ -166,6 +167,7 @@ import  RegionesYComunas  from '/src/utils/regionesComunas'
 
 import { useCarroCompraStore } from '/src/stores/carroCompra'
 import { useOpcionesGeneralesStore } from '/src/stores/opcionesGenerales'
+import CargandoSeccion from '../general/CargandoSeccion.vue';
 export default {
   data() {
     return {
@@ -191,31 +193,66 @@ export default {
       cargando:false,
     }
   },
-  mounted(){
-    if(!this.storeCarroCompra.carro.validado)
-      this.validarCompraNormal();
+  async mounted(){
+    /** VALIDAR CARRO */
+    this.cargando = true;
+    await this.validarCompraNormal();
+    this.cargando = false;
 
-      this.dataFormularioDespacho.telefono.data = this.storeCarroCompra.carro.data.despacho.telefono
-      // this.dataFormularioDespacho.direccion.data.direccionCompleta = this.storeCarroCompra.carro.data.despacho.direccion.direccionCompleta
-      Object.keys(this.storeCarroCompra.carro.data.despacho.direccion).map(key => {
-        // console.log(key);
-        this.dataFormularioDespacho.direccion.data[key] = this.storeCarroCompra.carro.data.despacho.direccion[key]
-      });
-      Object.keys(this.dataFormularioFacturacion).map(key => {
-        this.dataFormularioFacturacion[key].data = this.storeCarroCompra.carro.data.facturacion[key]
-      });
+    /** EN CASO DE QUE EL CARRO CONTENGA ERRORES, REDIRECCIONA A /CARRO */
+    // if(this.storeCarroCompra.carro.validado.con_errores)
+    //   this.$router.replace({ path: '/carro/' });
 
+    this.preLlenarDatos()
+
+
+
+  },
+  watch:{
+    'sucursalSeleccionada.fields.coordenadas_sucursal':{
+      handler(newValue, oldValue) {
+        this.dataFormularioDespacho.direccion.data.direccionCompleta='';
+      },
+      deep: true
+    },
   },
   computed: {
     dataCarro(){
       return this.storeCarroCompra.carro.data;
     },
+    gmapsBounds(){
+      if(typeof this.sucursalSeleccionada.fields.coordenadas_sucursal != 'undefined'){
+        return {lat:parseFloat(this.sucursalSeleccionada.fields.coordenadas_sucursal.latitud),lng:parseFloat(this.sucursalSeleccionada.fields.coordenadas_sucursal.longitud)}
+      }return false
+    },
     urBackEnd(){
       return import.meta.env.VITE_ENDPOINT_BACKEND;
-    }
+    },
+    sucursalSeleccionada(){
+        return this.store_opciones_generales.sucursal_seleccionada;
+      }
   },
   methods: {
+    /** RELLENA LOS DATOS DEL FORMULARIO  SI EXISTE INFORMACIÓN EN LOCALSTORA O SI ES UN USUARIO REGISTRADO TOMA SUS DATOS */
+    preLlenarDatos(){
+      /** DESPACHO */
+      if(this.storeCarroCompra.carro.data.despacho.direccion)
+        this.dataFormularioDespacho.direccion.data = this.storeCarroCompra.carro.data.despacho.direccion
+
+      this.dataFormularioDespacho.telefono.data = (this.storeCarroCompra.carro.data.despacho.telefono) ? this.storeCarroCompra.carro.data.despacho.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.shipping.phone :
+                                                  '';
+
+      /** FACTURACION */
+      this.dataFormularioFacturacion.rut.data = (this.storeCarroCompra.carro.data.facturacion.rut)?this.storeCarroCompra.carro.data.facturacion.rut : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.rut:''
+      this.dataFormularioFacturacion.razon_social.data = (this.storeCarroCompra.carro.data.facturacion.razon_social)?this.storeCarroCompra.carro.data.facturacion.razon_social : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.razon_social:''
+      this.dataFormularioFacturacion.giro.data = (this.storeCarroCompra.carro.data.facturacion.giro)?this.storeCarroCompra.carro.data.facturacion.giro : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.giro:''
+      this.dataFormularioFacturacion.nombre.data = (this.storeCarroCompra.carro.data.facturacion.nombre)?this.storeCarroCompra.carro.data.facturacion.nombre : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre:''
+      this.dataFormularioFacturacion.apellidos.data = (this.storeCarroCompra.carro.data.facturacion.apellidos)?this.storeCarroCompra.carro.data.facturacion.apellidos : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos:''
+      this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:''
+    },
+    /** OBTIENE LOS DATOS DEL INPUT DIRECCIÓN CON INFORMACIÓN DE GOOGLE */
     obtenerDireccionDespacho(data) {
+      /** BUSCA LA REGIÓN EN BD LOCAL DE REGIONES PARA OBTENER EL CÓDIGO ISO */
       const region = RegionesYComunas.find(region => {
         return region.name == data.administrative_area_level_1
       });
@@ -250,6 +287,7 @@ export default {
 
       this.storeCarroCompra.actualizarCarro(dataCarro,'data');
     },
+
     obtenerDireccionFacturacion(data) {
       const region = RegionesYComunas.find(region => {
         return region.name == data.administrative_area_level_1
@@ -287,11 +325,12 @@ export default {
         telefono: this.dataFormularioFacturacion.telefono.data,
         direccion,
       };
-      console.log(dataCarro);
       this.storeCarroCompra.actualizarCarro(dataCarro,'data');
     },
     async submitFormulario(){
+
       this.limpiarMensajes();
+
       this.cargando = true;
       let errorGeneral = false;
       let dataFormularioPost = {};
@@ -308,8 +347,8 @@ export default {
         errorGeneral = true;
       }else
         this.dataFormularioDespacho.telefono.error = false;
-      /** VALIDAR FACTURACION */
 
+      /** VALIDAR FACTURACION */
       if(this.storeCarroCompra.carro.data.registro.tipoDocumento == 'Facturacion'){
         const rutValido = helpers.validaRut(this.dataFormularioFacturacion.rut.data);
         this.dataFormularioFacturacion.rut.error=!rutValido;
@@ -373,17 +412,14 @@ export default {
         this.storeCarroCompra.actualizarCarro(dataCarro,'data');
         await this.validarCompraNormal();
 
-        console.log(errorGeneral);
         if(!this.storeCarroCompra.carro.validado.con_errores){
           this.$refs.form_pago.submit()
-          // console.log();
-          // this.$router.push({ path: '/carro/pago' });
           return false;
         }
 
         // return false;
-        this.cargando=false;
       }
+      this.cargando=false;
 
     },
     limpiarMensajes(){
@@ -393,6 +429,6 @@ export default {
       }
     },
   },
-  components: { BoxDespacho, BoxTotales, InputBase, InputSelect, InputCheck,VueGoogleAutocomplete,VueGoogleAutocomplete2, Mensajes },
+  components: { BoxDespacho, BoxTotales, InputBase, InputSelect, InputCheck, VueGoogleAutocomplete, VueGoogleAutocomplete2, Mensajes, CargandoSeccion },
 }
 </script>

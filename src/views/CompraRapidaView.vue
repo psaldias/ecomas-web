@@ -3,7 +3,7 @@
     <div class="wrapper">
 
         <div class="pasos has-text-centered">
-            <img src="/img/pasos-compra-rapida.png" alt="">
+            <img src="/img/pasos-compra-rapida.v2.png" alt="">
         </div>
       <div class="columns is-centered is-gapless mt-6">
         <div class="column is-12-fullhd is-12-desktop">

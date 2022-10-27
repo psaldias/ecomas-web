@@ -7,6 +7,8 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         token:false,
         rrss:false,
         telefono_footer:false,
+        restricciones_compras:false,
+        restricciones_sucursales:false,
         menus:{},
         sucursales:false,
         ubicaciones_sucursales:false,

@@ -81,10 +81,8 @@ export default {
       this.validarCompraNormal();
     },
     continuar(){
-      if(!this.conErrores){
         this.$router.push({ path: "/carro/registro" });
         return false;
-      }
       let carroValidado = this.storeCarroCompra.carro.validado;
       carroValidado.mensajes = '<article class="message is-danger" ><div class="message-body" >Hay Productos que debes revisar.</div></article>';
       this.storeCarroCompra.actualizarCarro(carroValidado,'validado');

@@ -19,7 +19,15 @@
                 </article>
 
                 <div class="field  columns">
-                  <VueGoogleAutocomplete id="direccion_google" :country="['cl']" classname="input input-2 w-80" placeholder="Ingresar Dirección" v-on:placechanged="obtenerDireccion" ></VueGoogleAutocomplete>
+                  <VueGoogleAutocomplete
+                    v-on:placechanged="obtenerDireccion"
+                    :country="['cl']"
+                    id="direccion_google"
+                    classname="input input-2 w-80"
+                    placeholder="Ingresar Dirección"
+                    :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
+                    ></VueGoogleAutocomplete
+                  >
                 </div>
                 <div v-if="direccionActual" class="is-size-7">
                   Dirección Seleccionada: <b>{{direccionActual}}</b>
@@ -40,6 +48,7 @@
 
 <script>
   import { useCarroCompraStore } from '/src/stores/carroCompra'
+  import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
   import VueGoogleAutocomplete from "vue-google-autocomplete";
   import  RegionesYComunas  from '/src/utils/regionesComunas'
   export default {
@@ -47,17 +56,27 @@
         return {
             error: "",
             storeCarroCompra: useCarroCompraStore(),
+            store_opciones_generales: useOpcionesGeneralesStore(),
         };
     },
     mounted () {
       if(!this.storeCarroCompra.compraRapida.telefono)
         this.$router.push({ path: "/compra-rapida/" });
+
     },
     computed: {
+      gmapsBounds(){
+        if(typeof this.sucursalSeleccionada.fields.coordenadas_sucursal != 'undefined'){
+          return {lat:parseFloat(this.sucursalSeleccionada.fields.coordenadas_sucursal.latitud),lng:parseFloat(this.sucursalSeleccionada.fields.coordenadas_sucursal.longitud)}
+        }return false
+      },
       direccionActual(){
         return (Object.keys(this.storeCarroCompra.compraRapida.direccion).length === 0)
         ? ''
         : this.storeCarroCompra.compraRapida.direccion.direccionCompleta;
+      },
+      sucursalSeleccionada(){
+        return this.store_opciones_generales.sucursal_seleccionada;
       }
     },
     methods: {
@@ -75,6 +94,8 @@
           const region = RegionesYComunas.find(region => {
             return region.name == data.administrative_area_level_1
           });
+
+          this.error = '';
           const direccion = {
             region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
             ciudad:data.administrative_area_level_2,

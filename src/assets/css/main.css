@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap");
 .primero {
   color: #80BD01 !important;
 }
@@ -958,6 +959,12 @@ footer nav a:hover {
   margin-bottom: .8em;
 }
 
+.compra-rapida .productos-compra-rapida .text-nowrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .marcas-home .listado-marcas .card {
   height: 100%;
   min-height: 100px;
@@ -1674,6 +1681,21 @@ footer nav a:hover {
 
 .interior-compra-rapida .card-compra-rapida.card-telefono {
   background: url("/img/telefono-compra-rapida.jpg") no-repeat left center;
+}
+
+.interior-compra-rapida .card-compra-rapida.card-datos {
+  background: url("/img/datos-compra-rapida.jpg") no-repeat left center;
+}
+
+.interior-compra-rapida .card-compra-rapida.card-datos .input {
+  height: 1.5em;
+  width: 100%;
+}
+
+.interior-compra-rapida .card-compra-rapida.card-datos .control.has-icons-left .icon, .interior-compra-rapida .card-compra-rapida.card-datos .control.has-icons-right .icon {
+  height: 1.5em;
+  font-weight: bold;
+  color: #000;
 }
 
 .interior-compra-rapida .card-compra-rapida.card-producto {

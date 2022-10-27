@@ -227,7 +227,6 @@ export default {
     if (respuesta.data){ this.ordenActiva = respuesta.data}
     else  this.mensajes.error = "No existe el pedido";
 
-    console.log(this.ordenActiva);
     this.cargando = false;
 
     document.title = 'Orden #'+this.ordenActiva.id;

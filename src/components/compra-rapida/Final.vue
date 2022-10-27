@@ -1,4 +1,11 @@
 <template>
+
+  <div class="columns">
+    <div class="column">
+      <div v-html="storeCarroCompra.compraRapida.carro.mensajes" class="mb-2"></div>
+    </div>
+  </div>
+
   <div class="columns is-centered">
     <div class="column">
       <div class="card card-compra-rapida card-final height-100">
@@ -34,13 +41,7 @@
             <h3 class="mb-4">Horario seleccionado:</h3>
 
             <div class="field mb-5">
-              <datepicker
-                v-model="fecha"
-                :locale="locale_es"
-                :lowerLimit="new Date(Date.now() + (3600 * 1000 * 24) * 3)"
-                class="input input-2 w-100"
-                inputFormat="dd-MM-yyyy"
-              />
+            <input type="text" disabled class="input input-2 w-100" v-model="fecha" />
             </div>
           </div>
         </div>
@@ -93,14 +94,16 @@
               </div>
             </div>
 
-            <div v-html="storeCarroCompra.compraRapida.carro.mensajes" class="mb-2"></div>
 
 
-            <form action="http://ecomaswp.localhost/wp-admin/admin-post.php" method="POST" v-if="storeCarroCompra.compraRapida.carro.total > 0">
+
+            <form :action="urBackEnd+'/wp-admin/admin-post.php'" method="POST" v-if="storeCarroCompra.compraRapida.carro.total > 0">
               <input type="hidden" name="action" value="init_cart">
-              <input type="hidden" name="productos" :value='JSON.stringify(storeCarroCompra.compraRapida.carro.productos)'>
+              <input type="hidden" name="producto" :value='storeCarroCompra.compraRapida.productoSeleccionado'>
               <input type="hidden" name="direccion" :value='JSON.stringify(storeCarroCompra.compraRapida.direccion)'>
               <input type="hidden" name="telefono" :value='storeCarroCompra.compraRapida.telefono'>
+              <input type="hidden" name="nombre" :value='storeCarroCompra.compraRapida.nombre'>
+              <input type="hidden" name="email" :value='storeCarroCompra.compraRapida.email'>
               <input type="hidden" name="horario_entrega" :value='storeCarroCompra.compraRapida.horarioEntrega'>
               <input type="hidden" name="cupon" :value='storeCarroCompra.compraRapida.codigoDescuento'>
               <input type="hidden" name="id" v-if="storeCarroCompra.usuarioCarroCompra" :value='storeCarroCompra.usuarioCarroCompra.id'>
@@ -109,7 +112,7 @@
 
 
               <div class="block has-text-right-tablet has-text-centered-mobile">
-                <button class="button is-rounded is-small button-icono px-5" v-if="!cargando">
+                <button class="button is-rounded is-small button-icono px-5" v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores">
                   Continuar
                 </button>
               </div>
@@ -127,7 +130,6 @@
 
 <script>
 import { useCarroCompraStore } from "/src/stores/carroCompra";
-import Datepicker from "vue3-datepicker";
 import locale_es from "date-fns/locale/es";
 import { useOpcionesGeneralesStore } from '/src/stores/opcionesGenerales'
 import CargandoSeccion from "../general/CargandoSeccion.vue";
@@ -142,14 +144,14 @@ export default {
       cargando:true,
       locale_es,
       codigoDescuento: "",
-      fecha: new Date(Date.now() + (3600 * 1000 * 24) * 3),
+      fecha: '',
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
   async mounted() {
     /** VALIDAMOS QUE EXISTA EL TELÉFONO */
-    if (!this.storeCarroCompra.compraRapida.telefono){
+    if (!this.storeCarroCompra.compraRapida.telefono || !this.storeCarroCompra.compraRapida.nombre || !this.storeCarroCompra.compraRapida.email){
       this.$router.push({ path: "/compra-rapida/" });
     /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
     }else if (!this.storeCarroCompra.compraRapida.direccion){
@@ -158,32 +160,30 @@ export default {
     }else if (!this.storeCarroCompra.compraRapida.productoSeleccionado){
       this.$router.push({ path: "/compra-rapida/producto" });
     }else{
-
-      var date = new Date(Date.now() + (3600 * 1000 * 24) * 3);
+      /** DEFINIR FECHA DE ENTREGA SEGÚN LO CONFIGURADO PARA LA SUCURSAL SELECCIONADA */
+      var date = new Date();
+      date.setDate(date.getDate() + parseInt(this.sucursalCarro.fields.tiempo_de_despacho))
       const fecha_formateada = date.toLocaleDateString('es-ES').split('/').join('-');
-      this.storeCarroCompra.actualizarCompraRapida(fecha_formateada, "horarioEntrega");
+      this.fecha = fecha_formateada;
+      this.storeCarroCompra.actualizarCompraRapida(this.fecha, "horarioEntrega");
 
+      /** VALIDAR Y OBTENER VALORES DE LA COMPRA RAPIDA */
       const respuesta = await this.validarCompraRapida('agregar-producto');
       this.cargando = false;
     }
-      // if (Object.values(this.storeCarroCompra.compraRapida.carro.productos).length === 1) {
-      // }
+
   },
   watch: {
-    fecha(nuevoValor) {
-      var date = new Date(nuevoValor);
-      const fecha_formateada = date.toLocaleDateString('es-ES').split('/').join('-');
-      this.storeCarroCompra.actualizarCompraRapida(fecha_formateada, "horarioEntrega");
-    },
-    async sucursalCarro(nuevoValor){
-      this.cargando = true;
-      await this.validarCompraRapida('agregar-producto');
-      this.cargando = false;
+    async 'sucursalCarro.ID'(nuevoValor){
+      this.$router.push({ path: "/compra-rapida/direccion" });
     }
   },
   computed: {
+    urBackEnd(){
+      return import.meta.env.VITE_ENDPOINT_BACKEND;
+    },
     sucursalCarro(){
-      return this.store_opciones_generales.sucursal_seleccionada.ID
+      return this.store_opciones_generales.sucursal_seleccionada
     },
     dataProducto() {
       if (!this.storeCarroCompra.compraRapida.carro.is_empty || this.storeCarroCompra.compraRapida.carro.is_empty > 0) {
@@ -206,6 +206,9 @@ export default {
         this.cargando=true;
         this.storeCarroCompra.actualizarCompraRapida(this.codigoDescuento, "codigoDescuento");
         await this.validarCompraRapida('agregar-cupon');
+        if(!this.storeCarroCompra.compraRapida.carro.cupon_agregado){
+          this.storeCarroCompra.actualizarCompraRapida('', "codigoDescuento");
+        }
         this.cargando=false;
 
       }else{
@@ -220,6 +223,6 @@ export default {
       // let respuesta = await this.obtenerCarroTest(this.codigoDescuento);
     },
   },
-  components: { Datepicker, CargandoSeccion, Mensajes },
+  components: { CargandoSeccion, Mensajes },
 };
 </script>

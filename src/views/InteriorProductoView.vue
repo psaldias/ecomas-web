@@ -122,6 +122,7 @@
     </div>
 
   </main>
+  <Seo v-if="producto.hasOwnProperty('yoast_head_json')" :data="producto.yoast_head_json"></Seo>
 </template>
 
 <script>
@@ -134,7 +135,7 @@ import SliderProductos from '../components/productos/SliderProductos.vue'
 import CargandoSeccion from '../components/general/CargandoSeccion.vue'
 import { useCarroCompraStore } from '/src/stores/carroCompra'
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
-
+import Seo from '../components/general/Seo.vue'
 export default {
   components: {
     Imagen,
@@ -142,7 +143,8 @@ export default {
     Acciones,
     Tabs,
     SliderProductos,
-    CargandoSeccion
+    CargandoSeccion,
+    Seo
 },
   data() {
     return {

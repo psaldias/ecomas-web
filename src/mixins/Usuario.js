@@ -40,26 +40,10 @@ export default {
           if(response.status == 200){
             mensaje = {tipo:'exito',mensaje:''};
             this.definirUsuario(response.data);
+            localStorage.removeItem('dataCarro');
+          }else{
+            return mensaje;
           }
-
-          let dataCarro = this.storeCarroCompra.carro.data;
-          dataCarro.registro = {
-            rut: response.data.usuario_rut,
-            nombre: response.data.usuario_rut,
-            apellido_paterno: response.data.user_last_name.split(' ')[0],
-            apellido_materno: response.data.user_last_name.split(' ')[1],
-            tipoDocumento: 'Boleta',
-            email: response.data.user_email,
-            confirmar_email: response.data.user_email,
-            password: '',
-            confirmar_password: '',
-            crearCuenta:false,
-          };
-          dataCarro.despacho = response.data.shipping_direccion_completa;
-          dataCarro.facturacion = response.data.billing_direccion_completa;
-          this.storeCarroCompra.actualizarCarro(dataCarro,'data');
-
-
 
           return mensaje;
         },
@@ -119,7 +103,8 @@ export default {
         /** CERRAR SESIÓN USUARIO*/
         async cerrarSesion() {
           localStorage.removeItem('usuario');
-          this.storeCarroCompra.actualizarUsuarioStore({}) ;
+          localStorage.removeItem('dataCarro');
+          this.storeCarroCompra.actualizarUsuarioStore(false) ;
           // this.$router.replace({ path: '/ingresar' });
           location.reload();
         },
@@ -163,7 +148,7 @@ export default {
         /** HELPERS */
 
         validateEmail(email) {
-            return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))? true:false;
+            return (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))? true:false;
         }
 
     },

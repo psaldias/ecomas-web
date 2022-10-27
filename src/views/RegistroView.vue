@@ -11,7 +11,7 @@
               <div class="column is-12">
                 <InputBase
                     label="Rut Compra"
-                    placeHolder='ej:16.777.555-0'
+                    placeHolder='ej:16777555-0'
                     type="rut"
                     v-model="dataFormulario.rut"
                     :error="false"
@@ -89,7 +89,7 @@
 
           <div class="column">
             <div class="columns is-multiline">
-                <div class="column is-6">
+                <div class="column is-12">
                     <InputBase
                         label="Email"
                         placeHolder='nombre@contacto.cl'
@@ -97,7 +97,7 @@
                         v-model="dataFormulario.email"
                     />
                 </div>
-                <div class="column is-6">
+                <div class="column is-12">
                     <InputBase
                         label="Confirmar Email"
                         placeHolder='nombre@contacto.cl'
@@ -212,6 +212,7 @@ import {useUsuarioRegistroStore} from '/src/stores/usuarioRegistro'
 
 import  RegionesYComunas  from '/src/utils/regionesComunas'
 import helperFechas from '/src/utils/diasMesesAnios.ts'
+import helpers from '../utils/helpers';
 
 import InputBase from "../components/formulario/InputBase.vue";
 import InputSelect from "../components/formulario/InputSelect.vue";
@@ -223,22 +224,22 @@ export default {
   data() {
     return {
       dataFormulario: {
-        rut: {data:'16010906-8',error:false,requerido:true},
-        nombre: {data:'aa',error:false,requerido:true},
-        apellido_paterno: {data:'bb',error:false,requerido:true},
-        apellido_materno: {data:'cc',error:false,requerido:true},
-        telefono: {data:'123123',error:false,requerido:true},
+        rut: {data:'',error:false,requerido:true},
+        nombre: {data:'',error:false,requerido:true},
+        apellido_paterno: {data:'',error:false,requerido:true},
+        apellido_materno: {data:'',error:false,requerido:true},
+        telefono: {data:'',error:false,requerido:true},
         region: {data:'',error:false,requerido:true},
         comuna: {data:'',error:false,requerido:true},
-        direccion: {data:'aadasdasd',error:false,requerido:true},
+        direccion: {data:'',error:false,requerido:true},
         direccion_numero: {data:'',error:false,requerido:false},
-        email: {data:'psaldias@creatividadeinteligencia.cl',error:false,requerido:true},
-        confirmar_email: {data:'psaldias@creatividadeinteligencia.cl',error:false,requerido:true},
-        password: {data:'123456',error:false,requerido:true},
-        confirmar_password: {data:'123456',error:false,requerido:true},
-        fecha_nacimiento_dia: {data:'11',error:false,requerido:true},
-        fecha_nacimiento_mes: {data:'Mayo',error:false,requerido:true},
-        fecha_nacimiento_anio: {data:'1985',error:false,requerido:true},
+        email: {data:'',error:false,requerido:true},
+        confirmar_email: {data:'',error:false,requerido:true},
+        password: {data:'',error:false,requerido:true},
+        confirmar_password: {data:'',error:false,requerido:true},
+        fecha_nacimiento_dia: {data:'',error:false,requerido:true},
+        fecha_nacimiento_mes: {data:'',error:false,requerido:true},
+        fecha_nacimiento_anio: {data:'',error:false,requerido:true},
         boletin:{data:false,requerido:false},
         ofertas:{data:true,requerido:false},
       },
@@ -288,16 +289,19 @@ export default {
   },
   methods: {
     async submitFormulario(){
+
       this.limpiarMensajes();
+
       let errorGeneral = false;
       let dataFormularioPost = {};
+
       Object.keys(this.dataFormulario).map(key => {
         let error = false;
         if(this.dataFormulario[key].requerido && this.dataFormulario[key].data == ''){
           this.dataFormulario[key].error=true;
           errorGeneral = true;
         }else if(key == 'rut'){
-          const rutValido = this.validaRut(this.dataFormulario[key].data);
+          const rutValido = helpers.validaRut(this.dataFormulario[key].data);
           this.dataFormulario[key].error=!rutValido;
           errorGeneral = !rutValido;
         }else if(key == 'email' && !this.validateEmail(this.dataFormulario[key].data )){
@@ -331,31 +335,13 @@ export default {
         this.cargando = false;
       }
     },
+
     limpiarMensajes(){
       this.mensajes = {
           exito:'',
           error:'',
       }
-    },
-    // Valida el rut con su cadena completa "XXXXXXXX-X"
-    validaRut(rutCompleto) {
-
-        rutCompleto = rutCompleto.replace("‐","-");
-        if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto )){
-            return false;
-        }
-        var tmp     = rutCompleto.split('-');
-        var digv    = tmp[1];
-        var rut     = tmp[0];
-        if ( digv == 'K' ) digv = 'k' ;
-        return (this.dv(rut) == digv);
-    },
-    dv (T){
-        var M=0,S=1;
-        for(;T;T=Math.floor(T/10))
-            S=(S+T%10*(9-M++%6))%11;
-        return S?S-1:'k';
-    },
+    }
   },
 };
 </script>

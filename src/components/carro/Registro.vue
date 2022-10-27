@@ -155,52 +155,72 @@ export default {
       // },
     }
   },
-  mounted(){
+  async mounted(){
     if(!this.storeCarroCompra.carro.validado)
-      this.validarCompraNormal();
+      await this.validarCompraNormal();
 
-    Object.keys(this.dataFormulario).map(key => {
-      this.dataFormulario[key].data = this.storeCarroCompra.carro.data.registro[key]
-    });
+    // if(this.storeCarroCompra.carro.validado.con_errores)
+    //   this.$router.replace({ path: '/carro/' });
+
+    this.preLlenarDatos()
+
+
 
   },
   computed: {},
   methods: {
+    /** RELLENA LOS DATOS DEL FORMULARIO  SI EXISTE INFORMACIÓN EN LOCALSTORA O SI ES UN USUARIO REGISTRADO TOMA SUS DATOS */
+    preLlenarDatos(){
+      this.dataFormulario.rut.data = (this.storeCarroCompra.carro.data.registro.rut)?this.storeCarroCompra.carro.data.registro.rut : this.storeCarroCompra.usuario.usuario_rut
+      this.dataFormulario.nombre.data = (this.storeCarroCompra.carro.data.registro.nombre)?this.storeCarroCompra.carro.data.registro.nombre : this.storeCarroCompra.usuario.user_first_name
+      this.dataFormulario.apellido_paterno.data = (this.storeCarroCompra.carro.data.registro.apellido_paterno)?this.storeCarroCompra.carro.data.registro.apellido_paterno : this.storeCarroCompra.usuario.user_last_name.split(' ')[0]
+      this.dataFormulario.apellido_materno.data = (this.storeCarroCompra.carro.data.registro.apellido_materno)?this.storeCarroCompra.carro.data.registro.apellido_materno : this.storeCarroCompra.usuario.user_last_name.split(' ')[1]
+      this.dataFormulario.tipoDocumento.data = this.storeCarroCompra.carro.data.registro.tipoDocumento
+      this.dataFormulario.email.data = this.storeCarroCompra.carro.data.registro.email
+      this.dataFormulario.confirmar_email.data = this.storeCarroCompra.carro.data.registro.confirmar_email
+      this.dataFormulario.crearCuenta.data = this.storeCarroCompra.carro.data.registro.crearCuenta
+
+    },
     async submitFormulario(){
+
       this.limpiarMensajes();
+
       this.cargando = true;
       let errorGeneral = false;
       let dataFormularioPost = {};
 
+      /** VALIDAR CAMPOS */
+      const rutValido = helpers.validaRut(this.dataFormulario.rut.data);
+      this.dataFormulario.rut.error=!rutValido;
+      this.dataFormulario.nombre.error = (this.dataFormulario.nombre.data == '') ? true : false;
+      this.dataFormulario.apellido_paterno.error = (this.dataFormulario.apellido_paterno.data == '') ? true : false;
+      this.dataFormulario.apellido_materno.error = (this.dataFormulario.apellido_materno.data == '') ? true : false;
+
+      /** VALIDACIONES EN CASO DE NO ESTAR CONECTADO */
+      if(!this.storeCarroCompra.usuarioCarroCompra){
+        /** VALIDAR CAMPO EMAIL */
+        this.dataFormulario.email.error = (!helpers.validateEmail(this.dataFormulario.email.data )) ? true : false
+
+        /** VALIDAR CAMPO CONFIRMAR EMAIL */
+        this.dataFormulario.confirmar_email.error = (this.dataFormulario.confirmar_email.data != this.dataFormulario.email.data) ? true : false
+
+        /** VALIDAR CAMPO PASSWORD */
+        this.dataFormulario.password.error = (this.dataFormulario.crearCuenta.data == true && this.dataFormulario.password.data.length < 6) ? true : false
+
+        /** VALIDAR CONFIRMAR PASSWORD */
+        this.dataFormulario.password.error = (this.dataFormulario.confirmar_password.data == true && this.dataFormulario.password.data.length < 6) ? true : false
+
+      }
+      /** GENERA OBJETO PARA GUARDAR EN LOCALSTORA CON LA INFORMACIÓN DEL FORMULARIO Y VALIDA SI HUBO ALGUN ERROR */
       Object.keys(this.dataFormulario).map(key => {
-        let error = false;
-        if(this.dataFormulario[key].requerido && this.dataFormulario[key].data == ''){
-          this.dataFormulario[key].error=true;
-          errorGeneral = true;
-        }else if(key == 'rut'){
-          const rutValido = helpers.validaRut(this.dataFormulario[key].data);
-          this.dataFormulario[key].error=!rutValido;
-          errorGeneral = !rutValido;
-        }else if(key == 'email' && !helpers.validateEmail(this.dataFormulario[key].data )){
-          this.dataFormulario[key].error=true;
-          errorGeneral = true;
-        }else if(key == 'confirmar_email' && (this.dataFormulario[key].data != this.dataFormulario.email.data || !helpers.validateEmail(this.dataFormulario[key].data))){
-          this.dataFormulario[key].error=true;
-          errorGeneral = true;
-        }else if(this.dataFormulario.crearCuenta.data == true && key == 'password' && this.dataFormulario[key].data.length < 6){
-          this.dataFormulario[key].error=true;
-          errorGeneral = true;
-        }else if(this.dataFormulario.crearCuenta.data  == true && key == 'confirmar_password' && this.dataFormulario[key].data != this.dataFormulario.password.data){
-          this.dataFormulario[key].error=true;
-          errorGeneral = true;
-        }else{
-          this.dataFormulario[key].error=false;
-        }
         dataFormularioPost[key] = this.dataFormulario[key].data;
-
+        if(this.dataFormulario[key].error){
+          errorGeneral = true;
+        }
       });
-
+      /** VALIDA QUE NO EXISTAN ERRORES */
       if(!errorGeneral){
+        /** EN CASO DE CREAR UNA CUENTA VALIDA QUE EL EMAIL NO ESTÉ CREADO */
         if(this.dataFormulario.crearCuenta.data){
           let respuesta = await this.validarEmailRegistro(this.dataFormulario.email.data);
           if(respuesta.tipo == 'error'){
@@ -209,31 +229,17 @@ export default {
             return false;
           }
         }
-
+        /** OBTENER INFORMACIÓN ACTUAL DEL CARRO */
         let dataCarro = this.storeCarroCompra.carro.data;
+        /** AGREGAR LOS NUEVOS DATOS DEL FORMULARIO Y LUEGO ACTUALIZAR */
         dataCarro.registro = dataFormularioPost;
-
         this.storeCarroCompra.actualizarCarro(dataCarro,'data');
+
         this.$router.push({ path: '/carro/despacho' });
         return false;
       }
       this.cargando=false;
-      // if(respuesta.tipo == 'exito'){
-      //     this.storeUsuario.guardarDato('email',this.email);
-      //     this.$router.push({ name: 'Registro' });
-      // }
-      // if(!errorGeneral){
 
-      //   this.cargando = true;
-      //   const respuesta = await this.registrar_usuario(dataFormularioPost);
-      //   this.mensajes[respuesta.tipo] = respuesta.mensaje;
-      //   if(respuesta.tipo == 'exito'){
-      //     setTimeout(() => {
-      //       this.$router.replace({ path: '/mi-cuenta/' });
-      //     }, 2000);
-      //   }
-      //   this.cargando = false;
-      // }
     },
     limpiarMensajes(){
       this.mensajes = {

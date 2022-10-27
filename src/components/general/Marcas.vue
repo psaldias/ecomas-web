@@ -11,10 +11,10 @@
                 <div class="column is-4-mobile " v-for="marca,index in data.acf.marcas" :key="index">
                     <div class="card py-4 px-2 is-flex is-align-items-center is-justify-content-center ">
                         <a :href="marca.link" v-if="marca.link" target="_blank">
-                            <img :src="marca.imagen.sizes.medium"  :alt="marca.name"/>
+                            <img :src="marca.imagen.sizes.medium"  :alt="marca.name" loading="lazy"/>
                         </a>
                         <div v-else>
-                            <img :src="marca.imagen.sizes.medium"  :alt="marca.name"/>
+                            <img :src="marca.imagen.sizes.medium"  :alt="marca.name" loading="lazy"/>
                         </div>
                     </div>
                 </div>

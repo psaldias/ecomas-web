@@ -16,6 +16,7 @@
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
+  <Seo v-if="data.hasOwnProperty('yoast_head_json')" :data="data.yoast_head_json"></Seo>
 </template>
 
 
@@ -25,13 +26,14 @@ import Marcas from "../components/general/Marcas.vue";
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 import Cards from "/src/components/quienes-somos/Cards.vue";
-
+import Seo from '../components/general/Seo.vue'
 export default {
     components:{
     BannerSeccion,
     Marcas,
     CargandoSeccion,
-    Cards
+    Cards,
+    Seo
 },
     data() {
         return {

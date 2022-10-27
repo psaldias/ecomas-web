@@ -5,7 +5,7 @@
         <div class="column">
             <img src="/img/despacho-ecomas.jpg" alt="" class="mb-2">
             <p class="primero mb-0"><b>TIEMPO DE DESPACHO</b></p>
-            <p class="">{{this.store_opciones_generales.sucursal_seleccionada.fields.tiempo_de_despacho}}</p>
+            <p class="">{{this.store_opciones_generales.sucursal_seleccionada.fields.tiempo_de_despacho}} Días aproximado {{this.store_opciones_generales.sucursal_seleccionada.post_title}}</p>
         </div>
     </div>
 </template>

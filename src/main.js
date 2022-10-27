@@ -10,6 +10,8 @@ import usuario from "/src/mixins/Usuario";
 
 import App from "./App.vue";
 
+import {createHead} from "@vueuse/head"
+
 axios.defaults.withCredentials = true
 
 // import "./assets/main.css";
@@ -24,5 +26,6 @@ createApp(App)
 .mixin( carroCompra )
 .mixin( usuario )
 .use(router)
+.use(createHead())
 .mount("#app");
 

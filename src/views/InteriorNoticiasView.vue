@@ -22,6 +22,8 @@
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
 
   </main>
+
+  <Seo  v-if="noticia.hasOwnProperty('yoast_head_json')" :data="noticia.yoast_head_json"></Seo>
 </template>
 
 <script>
@@ -29,20 +31,20 @@ import Noticia from "../components/general/Noticia.vue";
 import BannerSeccionNoticia from "../components/general/BannerSeccionNoticia.vue";
 import NoticiasDestacadas from "../components/general/NoticiasDestacadas.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
-
+import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     Noticia,
     BannerSeccionNoticia,
     NoticiasDestacadas,
-    CargandoSeccion
+    CargandoSeccion,
+    Seo
 },
   data() {
     return {
       cargando:true,
       noticia:{
       },
-      contenidoInicial: {},
     };
   },
 

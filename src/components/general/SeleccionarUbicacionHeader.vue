@@ -65,6 +65,7 @@
 
 <script>
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+import { useCarroCompraStore } from '/src/stores/carroCompra'
 export default {
   props: {},
   data() {
@@ -74,6 +75,7 @@ export default {
       cargando:true,
       regionSeleccionada:0,
       comunaSeleccionada:0,
+      storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
       comunas:{},
     };
@@ -121,6 +123,8 @@ export default {
     },
     guardarUbicacion(){
       this.store_opciones_generales.actualizarSucuralSeleccionada(this.comunaSeleccionada);
+      this.storeCarroCompra.actualizarDireccionDespacho({direccionCompleta:''});
+      this.storeCarroCompra.actualizarCompraRapida(false, "direccion");
       localStorage.sucursalSeleccionada = (this.comunaSeleccionada);
       this.mostrarMenu = false;
     }

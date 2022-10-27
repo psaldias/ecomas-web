@@ -4,12 +4,12 @@
     <div class="slider">
       <div class="imagen" v-for="imagen in imagenes">
         <router-link :to="imagen.link" v-if="imagen.link">
-          <img :src='imagen.imagen.sizes["2048x2048"]' class="is-hidden-mobile is-block"/>
-          <img :src="imagen.imagen_responsiva.sizes.large" v-if="imagen.imagen_responsiva" class="is-hidden-tablet is-block"/>
+          <img :src='imagen.imagen.sizes["2048x2048"]' :width="imagen.imagen.sizes['2048x2048-width']" :height="imagen.imagen.sizes['2048x2048-height']" class="is-hidden-mobile is-block"/>
+          <img :src="imagen.imagen_responsiva.sizes.large" :width="imagen.imagen_responsiva.sizes['large-width']" :height="imagen.imagen_responsiva.sizes['large-height']" v-if="imagen.imagen_responsiva" class="is-hidden-tablet is-block"/>
         </router-link>
         <div v-else>
-          <img :src='imagen.imagen.sizes["2048x2048"]' class="is-hidden-mobile is-block"/>
-          <img :src="imagen.imagen_responsiva.sizes.large" v-if="imagen.imagen_responsiva" class="is-hidden-tablet is-block"/>
+          <img :src='imagen.imagen.sizes["2048x2048"]' :width="imagen.imagen.sizes['2048x2048-width']" :height="imagen.imagen.sizes['2048x2048-height']" class="is-hidden-mobile is-block"/>
+          <img :src="imagen.imagen_responsiva.sizes.large" :width="imagen.imagen_responsiva.sizes['large-width']" :height="imagen.imagen_responsiva.sizes['large-height']" v-if="imagen.imagen_responsiva" class="is-hidden-tablet is-block"/>
         </div>
       </div>
     </div>

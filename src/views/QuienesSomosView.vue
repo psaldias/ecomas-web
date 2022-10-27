@@ -102,11 +102,13 @@
         <marcas titulo="Nuestras Marcas" />
       </div>
 
+
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
 
 
   </main>
+  <Seo v-if="contenidoInicial.hasOwnProperty('yoast_head_json')" :data="contenidoInicial.yoast_head_json"></Seo>
 </template>
 
 <script>
@@ -116,7 +118,7 @@ import BannerSeccion from '../components/general/BannerSeccion.vue'
 import Cards from '../components/quienes-somos/Cards.vue'
 import ErrorSeccion from '/src/components/general/ErrorSeccion.vue'
 import CargandoSeccion from '../components/general/CargandoSeccion.vue'
-
+import Seo from '../components/general/Seo.vue'
 export default {
   components: {
     BannerSeccion,
@@ -124,7 +126,8 @@ export default {
     BloqueImagenTexto,
     Cards,
     ErrorSeccion,
-    CargandoSeccion
+    CargandoSeccion,
+    Seo
 },
   data() {
     return {
@@ -134,6 +137,8 @@ export default {
     }
   },
   async mounted (){
+
+
    const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_SOMOS);
    if(respuesta){
     this.contenidoInicial = respuesta.data;
@@ -143,6 +148,12 @@ export default {
    }
   },
   computed: {
+    titulo(){
+      return this.contenidoInicial.title.rendered;
+    },
+    descripcion(){
+      return this.cuadrosTextoImagen[0].descripcion;
+    },
     numeros(){
         return this.contenidoInicial.acf.numeros
     },

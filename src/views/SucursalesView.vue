@@ -85,18 +85,20 @@
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
+  <Seo  v-if="data.hasOwnProperty('yoast_head_json')" :data="data.yoast_head_json"></Seo>
 </template>
 
 <script>
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import SucursalesHome from "/src/components/home/SucursalesHome.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
-
+import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     BannerSeccion,
     SucursalesHome,
     CargandoSeccion,
+    Seo
   },
   data() {
     return {
