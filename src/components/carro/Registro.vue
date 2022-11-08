@@ -161,7 +161,6 @@ export default {
 
     // if(this.storeCarroCompra.carro.validado.con_errores)
     //   this.$router.replace({ path: '/carro/' });
-
     this.preLlenarDatos()
 
 
@@ -171,10 +170,10 @@ export default {
   methods: {
     /** RELLENA LOS DATOS DEL FORMULARIO  SI EXISTE INFORMACIÓN EN LOCALSTORA O SI ES UN USUARIO REGISTRADO TOMA SUS DATOS */
     preLlenarDatos(){
-      this.dataFormulario.rut.data = (this.storeCarroCompra.carro.data.registro.rut)?this.storeCarroCompra.carro.data.registro.rut : this.storeCarroCompra.usuario.usuario_rut
-      this.dataFormulario.nombre.data = (this.storeCarroCompra.carro.data.registro.nombre)?this.storeCarroCompra.carro.data.registro.nombre : this.storeCarroCompra.usuario.user_first_name
-      this.dataFormulario.apellido_paterno.data = (this.storeCarroCompra.carro.data.registro.apellido_paterno)?this.storeCarroCompra.carro.data.registro.apellido_paterno : this.storeCarroCompra.usuario.user_last_name.split(' ')[0]
-      this.dataFormulario.apellido_materno.data = (this.storeCarroCompra.carro.data.registro.apellido_materno)?this.storeCarroCompra.carro.data.registro.apellido_materno : this.storeCarroCompra.usuario.user_last_name.split(' ')[1]
+      this.dataFormulario.rut.data = (this.storeCarroCompra.carro.data.registro.rut)?this.storeCarroCompra.carro.data.registro.rut : ((this.usuarioCarroCompra())? this.storeCarroCompra.usuario.usuario_rut:'')
+      this.dataFormulario.nombre.data = (this.storeCarroCompra.carro.data.registro.nombre)?this.storeCarroCompra.carro.data.registro.nombre : ((this.usuarioCarroCompra())? this.storeCarroCompra.usuario.user_first_name:'')
+      this.dataFormulario.apellido_paterno.data = (this.storeCarroCompra.carro.data.registro.apellido_paterno)?this.storeCarroCompra.carro.data.registro.apellido_paterno : ((this.usuarioCarroCompra())? this.storeCarroCompra.usuario.user_last_name.split(' ')[0]:'')
+      this.dataFormulario.apellido_materno.data = (this.storeCarroCompra.carro.data.registro.apellido_materno)?this.storeCarroCompra.carro.data.registro.apellido_materno : ((this.usuarioCarroCompra())? this.storeCarroCompra.usuario.user_last_name.split(' ')[1]:'')
       this.dataFormulario.tipoDocumento.data = this.storeCarroCompra.carro.data.registro.tipoDocumento
       this.dataFormulario.email.data = this.storeCarroCompra.carro.data.registro.email
       this.dataFormulario.confirmar_email.data = this.storeCarroCompra.carro.data.registro.confirmar_email

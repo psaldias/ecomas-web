@@ -349,7 +349,7 @@ export default {
         this.dataFormularioDespacho.telefono.error = false;
 
       /** VALIDAR FACTURACION */
-      if(this.storeCarroCompra.carro.data.registro.tipoDocumento == 'Facturacion'){
+      if(this.storeCarroCompra.carro.data.registro.tipoDocumento == 'Factura'){
         const rutValido = helpers.validaRut(this.dataFormularioFacturacion.rut.data);
         this.dataFormularioFacturacion.rut.error=!rutValido;
         errorGeneral = !rutValido;
@@ -390,7 +390,7 @@ export default {
         }else
           this.dataFormularioFacturacion.direccion.error = false;
       }
-      // return false;
+
 
       if(!errorGeneral){
         this.cargando = true;

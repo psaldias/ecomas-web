@@ -46,11 +46,12 @@
           ></CargandoSeccion>
 
           <div class="column buscador">
-            <form action="#">
+            <form action="#" @submit.prevent="enviarBuscador()">
               <input
                 type="text"
                 class="input is-small"
                 placeholder="¿Que estás buscando?"
+                v-model="buscar"
               />
               <button type="submit" class="bg-blanco">
                 <i class="fa-solid fa-magnifying-glass primero"></i>
@@ -97,7 +98,7 @@
             <div class="column is-narrow ingresar" v-if="usuarioCarroCompra()">
               <router-link to="/ingresar" class="has-text-white">
                 <i class="has-text-white mr-2 fa-solid fa-circle-user"></i>
-                {{ usuarioCarroCompra().user_first_name }}
+                {{ nombreUsuario }}
               </router-link>
             </div>
             <div class="column is-narrow icono-carro active">
@@ -154,6 +155,7 @@ export default {
       data: {},
       cargando: true,
       mostrarMenu: false,
+      buscar:''
     };
   },
   mounted() {
@@ -184,6 +186,9 @@ export default {
     },
     cantidadProductos(){
       return this.storeCarroCompra.carro.data.productos.length;
+    },
+    nombreUsuario(){
+      return this.usuarioCarroCompra().user_first_name;
     }
   },
   methods: {
@@ -197,6 +202,9 @@ export default {
     ocultarMenu() {
       this.mostrarMenu = false;
     },
+    enviarBuscador(){
+      this.$router.push('/'+this.buscar);
+    }
   },
   components: { SeleccionarUbicacionHeader, CargandoSeccion },
 };

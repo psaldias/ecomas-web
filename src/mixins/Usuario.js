@@ -48,6 +48,66 @@ export default {
           return mensaje;
         },
 
+        /** ACTUALIZAR DATOS USUARIO */
+        async actualizar_usuario(data) {
+          let headers = {};
+
+          if(!this.store.token)
+              await this.obtenerToken();
+
+          headers["Authorization"] =  'Bearer '+this.store.token;
+
+          let mensaje = {tipo:'exito',mensaje:'Datos actualizados correctamente.'};
+
+          const response = await axios.post(
+            import.meta.env.VITE_ENDPOINT_ACTUALIZAR_USUARIO+this.usuarioCarroCompra().id,data,{headers}
+          ).catch(error => {
+            mensaje = {tipo:'error',mensaje:error.response.data.message};
+            return error.response;
+          });
+
+          if(response.status == 200){
+            let dataUsuario = this.usuarioCarroCompra();
+            if(data?.first_name)
+              dataUsuario.user_first_name = data.first_name
+            if(data?.last_name)
+              dataUsuario.user_last_name = data.last_name
+            if(data?.phone)
+              dataUsuario.billing.phone = data.phone
+
+            this.definirUsuario(dataUsuario);
+          }
+
+          return mensaje;
+        },
+
+        /** ACTUALIZAR DATOS USUARIO */
+        async actualizar_billing_usuario(data) {
+          let headers = {};
+
+          if(this.storeCarroCompra.usuarioCarroCompra.token)
+            headers["Authorization"] =  'Bearer '+this.storeCarroCompra.usuarioCarroCompra.token;
+
+          let mensaje = {tipo:'exito',mensaje:'Datos actualizados correctamente.'};
+
+          const response = await axios.post(
+            import.meta.env.VITE_ACTUALIZAR_BILLING_USUARIO,data,{headers}
+          ).catch(error => {
+            mensaje = {tipo:'error',mensaje:error.response.data.message};
+            return error.response;
+          });
+
+          if(response.status == 200){
+            let dataUsuario = this.usuarioCarroCompra();
+            if(data?.billing_phone)
+              dataUsuario.billing.phone = data.billing_phone
+
+            this.definirUsuario(dataUsuario);
+          }
+
+          return mensaje;
+        },
+
         /** VALIDAR EMAIL PARA INICIAR PROCESO REGISTRO */
         async validarEmailRegistro(email) {
 

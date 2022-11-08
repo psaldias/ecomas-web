@@ -122,7 +122,7 @@
     </div>
 
   </main>
-  <Seo v-if="producto.hasOwnProperty('yoast_head_json')" :data="producto.yoast_head_json"></Seo>
+  <Seo v-if="producto && producto.hasOwnProperty('yoast_head_json')" :data="producto.yoast_head_json"></Seo>
 </template>
 
 <script>
@@ -161,8 +161,12 @@ export default {
     if(this.storeCarroCompra.carro.productos.length == 0){
       await this.obtenerProductos();
     }else{
+      if(!this.producto){
+        this.$router.replace({ name: '404' });
+      }
       this.cargando = false;
     }
+
     document.title = this.producto.name || VUE_APP_DEFAULT_TITLE;
 
 
@@ -233,6 +237,9 @@ export default {
     async obtenerProductos(){
       this.cargando = true;
       await this.obtenerProductosTienda();
+      if(!this.producto){
+        this.$router.replace({ name: '404' });
+      }
       this.cargando = false;
     },
     TopLayer(cantidad) {

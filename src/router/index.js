@@ -5,10 +5,16 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: "/:q",
+      name: "Buscador",
+      component: () => import("../views/BuscadorView.vue")
+    },
+    {
       path: "/",
       name: "",
       component: HomeView
     },
+
     {
       path: "/somos-ecomas",
       name: "Quienes Somos",

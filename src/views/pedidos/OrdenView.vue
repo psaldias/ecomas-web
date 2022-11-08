@@ -11,7 +11,7 @@
                 <strong class="primero">N° Pedido:</strong> {{ ordenActiva.id }}
               </div>
               <div class="column is-1"></div>
-              <div class="column has-text-right-desktop">
+              <div class="column has-text-right-desktop" v-if="ordenActiva.date_paid">
                 <strong class="primero">Fecha Pago:</strong>
                 {{ (ordenActiva.date_paid) }}
               </div>
@@ -20,12 +20,13 @@
                     </div> -->
             </div>
 
+            <Mensajes :mensajes="mensajes" class="mb-4"></Mensajes>
             <div class="card p-4">
               <div class="columns">
                 <div class="column is-3-desktop is-12-mobile">
                   <div v-if="ordenActiva.billing.address_1">
-                    <h5 class="primero mb-2"><strong>Dirección de facturación</strong></h5>
-                    <div class="block is-size-6">
+                    <h5 class="primero mb-2"><strong>Datos del cliente</strong></h5>
+                    <div class="block is-size-6 mb-4">
                       {{
                         ordenActiva.billing.first_name +
                         " " +
@@ -39,21 +40,22 @@
                     </div>
                   </div>
 
-                  <h5 class="primero mb-2"><strong>Dirección de Envío</strong></h5>
-                  <div class="block is-size-6">
-                    <div v-if="obtenerDatoMetaData('fecha_entrega')">
-                      Fecha Entrega: {{ obtenerDatoMetaData("fecha_entrega") }}<br />
+                  <div v-if="ordenActiva.shipping.address_1">
+                    <h5 class="primero mb-2"><strong>Datos de Envío</strong></h5>
+                    <div class="block is-size-6 mb-4">
+                      <div v-if="obtenerDatoMetaData('fecha_entrega')">
+                        Fecha Entrega: {{ obtenerDatoMetaData("fecha_entrega") }}<br />
+                      </div>
+                      {{
+                        ordenActiva.shipping.first_name +
+                        " " +
+                        ordenActiva.shipping.last_name
+                      }}<br />
+                      {{ ordenActiva.shipping.address_1 }}<br />
+                      {{ ordenActiva.shipping.address_2 }}<br />
+                      {{ ordenActiva.shipping.city }}<br />
+                      {{ ordenActiva.billing.email }}<br />
                     </div>
-                    {{
-                      ordenActiva.shipping.first_name +
-                      " " +
-                      ordenActiva.shipping.last_name
-                    }}<br />
-                    {{ ordenActiva.shipping.address_1 }}<br />
-                    {{ ordenActiva.shipping.address_2 }}<br />
-                    {{ ordenActiva.shipping.city }}<br />
-                    {{ ordenActiva.shipping.phone }}<br />
-                    {{ ordenActiva.billing.email }}<br />
                   </div>
 
                   <div v-if="ordenActiva.customer_note">
@@ -63,7 +65,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="column is-5-desktop is-12-mobile">
+                <div class="column is-5-desktop is-12-mobile" >
                   <h5 class="primero mb-2"><strong>Detalles del pedido</strong></h5>
                   <div class="block is-size-6">
                     <table class="table is-fullwidth">
@@ -112,7 +114,12 @@
                     </table>
                   </div>
                 </div>
-                <div class="column is-4-desktop is-12-mobile">
+                <div class="column is-4-desktop is-12-mobile" v-if="ordenActiva.status == 'failed'">
+                  <a :href="urBackEnd+'/finalizar-compra/order-pay/'+ordenActiva.id+'/?pay_for_order=true&key='+ordenActiva.order_key" class="btn w-100 has-text-centered bg-primero">
+                    Volver a intentar el pago
+                  </a>
+                </div>
+                <div class="column is-4-desktop is-12-mobile" v-if="ordenActiva.status != 'failed'">
                   <h5 class="primero mb-2"><strong>Detalles del pago</strong></h5>
                   <div class="block is-size-6">
                     <table class="table is-fullwidth">
@@ -197,7 +204,7 @@
         </div>
       </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
-    <Mensajes :mensajes="mensajes"></Mensajes>
+
     </div>
   </main>
 </template>
@@ -231,10 +238,19 @@ export default {
 
     document.title = 'Orden #'+this.ordenActiva.id;
 
+    if(this.ordenActiva.status == 'failed'){
+      this.mensajes.error = 'Transacción fallida. Puedes volver a intentar el pago'
+    }
+
     const tipo_compra = this.obtenerDatoMetaData("tipo_compra");
-    if(tipo_compra == 'normal'){
+    if(tipo_compra == 'normal' && this.ordenActiva.status != 'failed'){
       this.limpiarCarro();
     }
+  },
+  computed:{
+    urBackEnd(){
+      return import.meta.env.VITE_ENDPOINT_BACKEND;
+    },
   },
   methods: {
     obtenerDatoMetaData(key = false) {
@@ -247,7 +263,7 @@ export default {
       return "";
     },
     tipoPago() {
-      if (this.ordenActiva) {
+      if (this.ordenActiva && this.ordenActiva.status != 'failed') {
         let webpay_response = this.obtenerDatoMetaData("webpay_rest_response");
         webpay_response = JSON.parse(webpay_response);
         switch (webpay_response.paymentTypeCode) {
@@ -263,7 +279,7 @@ export default {
       return false;
     },
     tipoCuota() {
-      if (this.ordenActiva) {
+      if (this.ordenActiva && this.ordenActiva.status != 'failed') {
         let webpay_response = this.obtenerDatoMetaData("webpay_rest_response");
         webpay_response = JSON.parse(webpay_response);
         switch (webpay_response.paymentTypeCode) {

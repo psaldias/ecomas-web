@@ -59,11 +59,13 @@ export default {
 
     // },
     async mounted (){
-      const slug = this.$route.params.pathMatch[0];
+      const slug = this.$route.params.slug;
       const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_DEFAULT+slug);
       if(respuesta){
-        if(!respuesta.data[0]){
-            this.$router.replace({ name: '404' })
+
+        if(respuesta.data.length == 0){
+            this.$router.replace({ name: '404' });
+            return false;
         }
 
         this.data = respuesta.data[0];

@@ -29,7 +29,7 @@
                 <div class="field mb-4 ">
                   <label class="primero">Ingresa tu Email</label>
                   <div class="control">
-                    <input type="email" class="input input-2" v-model.number="email"  />
+                    <input type="email" class="input input-2 " v-model.number="email" :class="{'disabled':this.usuarioCarroCompra()}"  :readonly="this.usuarioCarroCompra()"/>
                   </div>
                 </div>
 
@@ -74,7 +74,7 @@ export default {
   mounted () {
     /** COMPLETAR TELEFONO SI YA LO INGRESÓ ANTES O SI ESTÁ REGISTRADO */
     console.log(this.usuarioCarroCompra().user_email);
-    this.telefono = (this.storeCarroCompra.compraRapida.telefono != '') ? this.storeCarroCompra.compraRapida.telefono : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().shipping.phone : '') ;
+    this.telefono = (this.storeCarroCompra.compraRapida.telefono != '') ? this.storeCarroCompra.compraRapida.telefono : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().billing.phone : '') ;
     this.nombre = (this.storeCarroCompra.compraRapida.nombre != '') ? this.storeCarroCompra.compraRapida.nombre : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_display_name : '') ;
     this.email = (this.storeCarroCompra.compraRapida.email != '') ? this.storeCarroCompra.compraRapida.email :  ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_email: '') ;
 

@@ -13,7 +13,7 @@
                         <strong class="primero">N° Pedido:</strong> {{ordenActiva.id}}
                     </div>
                     <div class="column is-1"></div>
-                    <div class="column has-text-right-desktop" >
+                    <div class="column has-text-right-desktop" v-if="ordenActiva.date_paid">
                         <strong class="primero">Fecha Pago:</strong> {{ordenActiva.date_paid}}
                     </div>
                     <!-- <div class="column has-text-right-desktop">
@@ -25,8 +25,8 @@
                     <div class="columns ">
                         <div class="column is-3-desktop is-12-mobile ">
 
-                            <h5 class="primero mb-2"><strong>Dirección de facturación</strong></h5>
-                            <div class="block is-size-6">
+                            <h5 class="primero mb-2"><strong>Datos del cliente</strong></h5>
+                            <div class="block is-size-6 mb-4">
                                 {{ordenActiva.billing.first_name + ' '+ ordenActiva.billing.last_name}}<br>
                                 {{ordenActiva.billing.address_1}}<br>
                                 {{ordenActiva.billing.address_2}}<br>
@@ -34,16 +34,22 @@
                                 {{ordenActiva.billing.phone}}<br>
                                 {{ordenActiva.billing.email}}<br>
                             </div>
+                            <div v-if="ordenActiva.shipping.address_1">
+                                <h5 class="primero "><strong>Datos de Envío</strong></h5>
+                                <div class="block is-size-6 mb-4">
+                                    Fecha Entrega: {{obtenerDatoMetaData('fecha_entrega')}}<br>
+                                    {{ordenActiva.shipping.first_name + ' '+ ordenActiva.shipping.last_name}}<br>
+                                    {{ordenActiva.shipping.address_1}}<br>
+                                    {{ordenActiva.shipping.address_2}}<br>
+                                    {{ordenActiva.shipping.city}}<br>
+                                    {{ordenActiva.shipping.email}}<br>
+                                </div>
+                            </div>
+                            <div v-if="ordenActiva.customer_note">
+                                <h5 class="primero mb-2"><strong>Información Adicional</strong></h5>
+                                <div class="block is-size-6" v-html="ordenActiva.customer_note.replace(/\n/g, '<br />')">
 
-                            <h5 class="primero mb-2"><strong>Dirección de Envío</strong></h5>
-                            <div class="block is-size-6">
-                                Fecha Entrega: {{obtenerDatoMetaData('fecha_entrega')}}<br>
-                                {{ordenActiva.shipping.first_name + ' '+ ordenActiva.shipping.last_name}}<br>
-                                {{ordenActiva.shipping.address_1}}<br>
-                                {{ordenActiva.shipping.address_2}}<br>
-                                {{ordenActiva.shipping.city}}<br>
-                                {{ordenActiva.shipping.phone}}<br>
-                                {{ordenActiva.shipping.email}}<br>
+                                </div>
                             </div>
                         </div>
                         <div class="column is-5-desktop is-12-mobile ">
@@ -77,7 +83,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="column is-4-desktop is-12-mobile ">
+                        <div class="column is-4-desktop is-12-mobile "  v-if="ordenActiva.status != 'failed'">
                             <h5 class="primero mb-2"><strong>Detalles del pago</strong></h5>
                             <div class="block is-size-6">
                                 <table class="table is-fullwidth">
