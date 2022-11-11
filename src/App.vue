@@ -9,6 +9,7 @@
     <FooterView></FooterView>
     <Toplayer></Toplayer>
   </main>
+  <Seo></Seo>
 </template>
 
 <script>
@@ -19,13 +20,14 @@ import { useOpcionesGeneralesStore } from "./stores/opcionesGenerales";
 import { useCarroCompraStore } from '/src/stores/carroCompra'
 import CargandoSeccion from "./components/general/CargandoSeccion.vue";
 import helpers from '/src/utils/helpers.js'
-
+import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     HeaderView,
     FooterView,
     CargandoSeccion,
     Toplayer,
+    Seo,
   },
   data() {
     return {

@@ -18,7 +18,6 @@
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
 
-  <Seo  v-if="contenidoInicial.hasOwnProperty('yoast_head_json')" :data="contenidoInicial.yoast_head_json"></Seo>
 </template>
 
 
@@ -28,14 +27,12 @@ import Noticia from "../components/general/Noticia.vue";
 import ErrorSeccion from "/src/components/general/ErrorSeccion.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 import BannerNoticias from "/src/components/noticias/BannerNoticias.vue";
-import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     Noticia,
     ErrorSeccion,
     CargandoSeccion,
     BannerNoticias,
-    Seo
 },
   async mounted (){
    const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_NOTICIAS_LISTADO);

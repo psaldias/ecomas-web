@@ -203,7 +203,7 @@ export default {
       this.mostrarMenu = false;
     },
     enviarBuscador(){
-      this.$router.push('/'+this.buscar);
+      this.$router.push('/buscador/'+this.buscar);
     }
   },
   components: { SeleccionarUbicacionHeader, CargandoSeccion },

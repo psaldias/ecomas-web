@@ -4,11 +4,7 @@ import HomeView from "../views/HomeView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    {
-      path: "/:q",
-      name: "Buscador",
-      component: () => import("../views/BuscadorView.vue")
-    },
+
     {
       path: "/",
       name: "",
@@ -57,7 +53,7 @@ const router = createRouter({
       name: "Producto",
       component: () => import("../views/InteriorProductoView.vue")
     },{
-      path: "/distribuidores/",
+      path: "/distribuidores",
       name: "Distribuidores",
       component: () => import("../views/DistribuidoresView.vue")
     },{
@@ -124,6 +120,31 @@ const router = createRouter({
       component: () => import("../views/pedidos/OrdenView.vue"),
     },
 
+    //PREGUNTAS FRECUENTES
+    {
+      path: "/preguntas-frecuentes",
+      name: "Preguntas Frecuentes",
+      component: () => import("../views/PaginaDefaultView.vue"),
+
+    },
+    //PREGUNTAS FRECUENTES
+    {
+      path: "/bases-promocionales",
+      name: "Bases Promocionales",
+      component: () => import("../views/PaginaDefaultView.vue")
+    },
+    //PREGUNTAS FRECUENTES
+    {
+      path: "/terminos-y-condiciones",
+      name: "Términos y Condiciones",
+      component: () => import("../views/PaginaDefaultView.vue")
+    },//PREGUNTAS FRECUENTES
+    {
+      path: "/politicas-y-devoluciones",
+      name: "Políticas y Devoluciones",
+      component: () => import("../views/PaginaDefaultView.vue")
+    },
+
 
     //PAGINA POR DEFECTO
     {
@@ -142,7 +163,13 @@ const router = createRouter({
       path: "/error",
       name: "error",
       component: () => import("../views/ErrorView.vue")
-    }
+    },
+    //BUSCADOR
+    {
+      path: "/buscador/:q",
+      name: "Buscador",
+      component: () => import("../views/BuscadorView.vue")
+    },
   ],
   scrollBehavior(to, from, savedPosition) {
     // always scroll to top

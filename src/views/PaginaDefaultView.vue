@@ -22,7 +22,7 @@
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
 
-  <Seo v-if="data.hasOwnProperty('yoast_head_json')" :data="data.yoast_head_json"></Seo>
+
 </template>
 
 
@@ -32,7 +32,6 @@ import Marcas from "../components/general/Marcas.vue";
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import Acordeon from '../components/general/Acordeon.vue';
 import CargandoSeccion from '/src/components/general/CargandoSeccion.vue';
-import Seo from '../components/general/Seo.vue'
 
 export default {
     components:{
@@ -40,7 +39,6 @@ export default {
     Marcas,
     Acordeon,
     CargandoSeccion,
-    Seo
 },
     data() {
         return {
@@ -59,7 +57,7 @@ export default {
 
     // },
     async mounted (){
-      const slug = this.$route.params.slug;
+      const slug = this.$route.params.slug ?? this.$route.path;
       const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_DEFAULT+slug);
       if(respuesta){
 
