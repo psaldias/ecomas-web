@@ -33,3 +33,6 @@ npm run build
 ```sh
 npm run lint
 ```
+
+#despliegue de dist
+aws s3 sync . s3://frontend.ecomas.cl
