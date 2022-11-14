@@ -95,6 +95,11 @@
             return region.name == data.administrative_area_level_1
           });
 
+          if(data.street_number == undefined){
+            this.error = "Debes indicar una Dirección Válida";
+            return false;
+          }
+
           this.error = '';
           const direccion = {
             region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,

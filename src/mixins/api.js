@@ -22,9 +22,6 @@ export default {
 
               /** validar si el endpoint necesita autorización */
               if(opciones.authorization){
-                /** si no existe el token se obtiene */
-                if(!this.store.token)
-                  await this.obtenerToken();
 
                 headers["Authorization"] =  'Bearer '+this.store.token;
               }
@@ -82,28 +79,28 @@ export default {
           return response;
       },
         /** OBTENER JSON TOKEN */
-        async obtenerToken() {
+        // async obtenerToken() {
 
-          const credenciales = {"username":"psaldias@mandrildigital.cl","password":"a4ifPaL&An%x9@FoIj"};
+        //   const credenciales = {"username":import.meta.env.VITE_USUARIO_ADMIN,"password":import.meta.env.VITE_CLAVE_USUARIO_ADMIN};
 
-          const response = await axios.post(
-            import.meta.env.VITE_ENDPOINT_GENERAR_TOKEN,credenciales
-          ).catch(error => {
-              this.$router.replace({ name: 'error' })
-              return false;
-          });
+        //   const response = await axios.post(
+        //     import.meta.env.VITE_ENDPOINT_GENERAR_TOKEN,credenciales
+        //   ).catch(error => {
+        //       this.$router.replace({ name: 'error' })
+        //       return false;
+        //   });
 
-          /** SI NO SE OBTIENE EL TOKEN REDIRECCION A ERROR */
-          if(!response){
-              this.$router.replace({ name: 'error' })
-              return false;
-          }
+        //   /** SI NO SE OBTIENE EL TOKEN REDIRECCION A ERROR */
+        //   if(!response){
+        //       this.$router.replace({ name: 'error' })
+        //       return false;
+        //   }
 
-          this.store.guardarToken(response.data.token);
-          // axios.defaults.headers.common['Authorization'] = 'Bearer '+this.store.token;
+        //   this.store.guardarToken(response.data.token);
+        //   // axios.defaults.headers.common['Authorization'] = 'Bearer '+this.store.token;
 
 
-        },
+        // },
         base64_encode(s) {
             return btoa(unescape(encodeURIComponent(s)));
         },

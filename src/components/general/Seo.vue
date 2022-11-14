@@ -61,7 +61,6 @@ export default{
     },
     mounted() {
         this.pathActual = this.$route.path;
-        console.log(this.pathActual);
     },
     components: { Head }
 }

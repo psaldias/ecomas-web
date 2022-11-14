@@ -35,12 +35,7 @@
 
                 <label class="primero">Ingresa tu teléfono</label>
                 <div class="field">
-                  <p class="control has-icons-left">
-                    <input class="input input-2 pl-6" type="text"   v-model.number="telefono"  @keypress="soloNumeros">
-                    <span class="icon is-left ">
-                      +569
-                    </span>
-                  </p>
+                    <input class="input input-2 " type="text"   v-model.number="telefono"  @keypress="validarTelefono" maxlength="12">
                 </div>
 
 
@@ -66,15 +61,17 @@ export default {
     return {
       email:'',
       nombre:'',
-      telefono:'',
+      telefono:{
+        type: String,
+        default:'+569'
+      },
       error:'',
       storeCarroCompra:useCarroCompraStore(),
     };
   },
   mounted () {
     /** COMPLETAR TELEFONO SI YA LO INGRESÓ ANTES O SI ESTÁ REGISTRADO */
-    console.log(this.usuarioCarroCompra().user_email);
-    this.telefono = (this.storeCarroCompra.compraRapida.telefono != '') ? this.storeCarroCompra.compraRapida.telefono : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().billing.phone : '') ;
+    this.telefono = (this.storeCarroCompra.compraRapida.telefono != '') ? this.storeCarroCompra.compraRapida.telefono : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().billing.phone : '+569') ;
     this.nombre = (this.storeCarroCompra.compraRapida.nombre != '') ? this.storeCarroCompra.compraRapida.nombre : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_display_name : '') ;
     this.email = (this.storeCarroCompra.compraRapida.email != '') ? this.storeCarroCompra.compraRapida.email :  ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_email: '') ;
 
@@ -90,18 +87,23 @@ export default {
       }else if(!this.email || !helpers.validateEmail(this.email)){
         this.error = "Debes ingresar un email válido";
       }else{
-        this.storeCarroCompra.actualizarCompraRapida(this.telefono,'telefono');
+        console.log(this.telefono);
+        this.storeCarroCompra.actualizarCompraRapida(String(this.telefono),'telefono');
         this.storeCarroCompra.actualizarCompraRapida(this.nombre,'nombre');
         this.storeCarroCompra.actualizarCompraRapida(this.email,'email');
         this.$router.push({ path: '/compra-rapida/direccion' })
       }
       return false;
     },
-    soloNumeros ($event) {
+    validarTelefono ($event) {
       let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-      if ((keyCode < 48 || keyCode > 57)) { // 46 is dot
+
+      if ((keyCode < 48 || keyCode > 57) || $event.target.value.length == 12) { // 46 is dot
           $event.preventDefault();
       }
+
+      if(!$event.target.value.startsWith('+569'))
+        $event.target.value = '+569'
     }
   },
 };

@@ -28,9 +28,8 @@ export default {
 
         let headers = {};
 
-        if(!this.store.token)
-          await this.obtenerToken();
-
+        // if(!this.store.token)
+        //   await this.obtenerToken();
         headers["Authorization"] =  'Bearer '+this.store.token;
 
 
@@ -96,8 +95,8 @@ export default {
 
         let headers = {};
 
-        if(!this.store.token)
-          await this.obtenerToken();
+        // if(!this.store.token)
+        //   await this.obtenerToken();
 
         headers["Authorization"] =  'Bearer '+this.store.token;
 
@@ -125,8 +124,8 @@ export default {
         };
 
         let headers = {};
-        if(!this.store.token)
-          await this.obtenerToken();
+        // if(!this.store.token)
+        //   await this.obtenerToken();
 
         headers["Authorization"] =  'Bearer '+this.store.token;
 

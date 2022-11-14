@@ -12,7 +12,7 @@
         :type="type"
         :value="modelValue.data"
         @input="$emit('update:modelValue',{data:$event.target.value,error:modelValue.error,requerido:modelValue.requerido})"
-
+        :maxlength="max"
       />
       <small v-if="helpText" class="is-size-7" v-html="helpText"></small>
     </div>
@@ -27,6 +27,7 @@ export default {
     inputClass:"",
     type:'',
     helpText:'',
+    max:'',
     modelValue:{data:'',error:false,requerido:false },
   },
   data() {

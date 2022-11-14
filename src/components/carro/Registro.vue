@@ -8,7 +8,7 @@
           <div class="column">
             <InputBase
                 label="Rut Compra"
-                placeHolder='ej:16.777.555-0'
+                placeHolder='ej:16777555-0'
                 type="rut"
                 v-model="dataFormulario.rut"
                 :error="false"

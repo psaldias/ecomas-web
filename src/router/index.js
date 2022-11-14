@@ -185,6 +185,7 @@ router.beforeEach((to) => {
     document.title = import.meta.env.VITE_DEFAULT_TITLE;
   }else
     document.title = to.name || import.meta.env.VITE_DEFAULT_TITLE;
+
 });
 
 export default router;

@@ -27,10 +27,11 @@
             </div>
             <InputBase
               label="Teléfono Móvil"
-              placeHolder="ej:123456789"
+              placeHolder="ej:+56912345678"
               type="text"
               :error="false"
               v-model="dataFormularioDespacho.telefono"
+              @keypress="validarTelefono"
             />
 
           </div>
@@ -116,10 +117,11 @@
               <div class="column py-0">
                 <InputBase
                   label="Teléfono Móvil"
-                  placeHolder="ej:123456789"
+                  placeHolder="ej:+56912345678"
                   type="text"
                   :error="false"
                   v-model="dataFormularioFacturacion.telefono"
+                  @keypress="validarTelefono"
                 />
               </div>
             </div>
@@ -175,7 +177,7 @@ export default {
       store_opciones_generales: useOpcionesGeneralesStore(),
       dataFormularioDespacho: {
         direccion: {data:{direccionCompleta:''},error:false,requerido:false},
-        telefono: {data:'',error:false,requerido:true},
+        telefono: {data:'+569',error:false,requerido:true},
       },
       dataFormularioFacturacion: {
         rut: {data:'',error:false,requerido:true},
@@ -240,7 +242,7 @@ export default {
         this.dataFormularioDespacho.direccion.data = this.storeCarroCompra.carro.data.despacho.direccion
 
       this.dataFormularioDespacho.telefono.data = (this.storeCarroCompra.carro.data.despacho.telefono) ? this.storeCarroCompra.carro.data.despacho.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.shipping.phone :
-                                                  '';
+                                                  '+569';
 
       /** FACTURACION */
       this.dataFormularioFacturacion.rut.data = (this.storeCarroCompra.carro.data.facturacion.rut)?this.storeCarroCompra.carro.data.facturacion.rut : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.rut:''
@@ -256,6 +258,13 @@ export default {
       const region = RegionesYComunas.find(region => {
         return region.name == data.administrative_area_level_1
       });
+
+      if(data.street_number == undefined){
+        this.mensajes.error = "Debes indicar una Dirección de Despacho Válida";
+        return false;
+      }
+
+      this.mensajes.error = "";
 
       const direccion = {
           region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
@@ -292,6 +301,12 @@ export default {
       const region = RegionesYComunas.find(region => {
         return region.name == data.administrative_area_level_1
       });
+
+      if(data.street_number == undefined){
+        this.mensajes.error = "Debes indicar una Dirección de Facturación Válida";
+        return false;
+      }
+      this.mensajes.error = "";
 
       const direccion = {
           region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
@@ -428,6 +443,16 @@ export default {
           error:'',
       }
     },
+    validarTelefono ($event) {
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+
+      if ((keyCode < 48 || keyCode > 57) || $event.target.value.length == 12) { // 46 is dot
+          $event.preventDefault();
+      }
+
+      if(!$event.target.value.startsWith('+569'))
+        $event.target.value = '+569'
+    }
   },
   components: { BoxDespacho, BoxTotales, InputBase, InputSelect, InputCheck, VueGoogleAutocomplete, VueGoogleAutocomplete2, Mensajes, CargandoSeccion },
 }

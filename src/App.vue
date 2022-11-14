@@ -16,8 +16,11 @@
 import HeaderView from "./components/layout/HeaderView.vue";
 import FooterView from "./components/layout/FooterView.vue";
 import Toplayer from '/src/components/productos/producto/Toplayer.vue'
+
 import { useOpcionesGeneralesStore } from "./stores/opcionesGenerales";
 import { useCarroCompraStore } from '/src/stores/carroCompra'
+import { useLlamadasApiStore } from '/src/stores/llamadasApi'
+
 import CargandoSeccion from "./components/general/CargandoSeccion.vue";
 import helpers from '/src/utils/helpers.js'
 import Seo from "/src/components/general/Seo.vue";
@@ -33,12 +36,17 @@ export default {
     return {
       store_opciones_generales: useOpcionesGeneralesStore(),
       storeCarroCompra: useCarroCompraStore(),
+      store:useLlamadasApiStore(),
     };
   },
   async mounted() {
-    const respuesta = await this.enviarGet(import.meta.env.VITE_INIT,{cache:true,authorization:true});
+    const respuesta = await this.enviarGet(import.meta.env.VITE_INIT,{cache:true,authorization:false});
     if (respuesta) {
+      const token = respuesta.data.token;
+      delete respuesta.data.token;
       this.store_opciones_generales.guardarDatos(respuesta.data);
+      this.store.guardarToken(token);
+
       if(localStorage.sucursalSeleccionada){
         this.store_opciones_generales.actualizarSucuralSeleccionada(localStorage.sucursalSeleccionada);
       }
