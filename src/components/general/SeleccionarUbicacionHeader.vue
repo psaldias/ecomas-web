@@ -97,6 +97,9 @@ export default {
       return this.store_opciones_generales.ubicaciones_sucursales ?? false;
     },
     sucursal_por_defecto(){
+      if(!this.store_opciones_generales.sucursales)
+        return false;
+
       if(localStorage.sucursalSeleccionada){
         return this.store_opciones_generales.sucursales.find(sucursal => {
           return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;

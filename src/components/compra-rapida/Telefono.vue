@@ -87,7 +87,6 @@ export default {
       }else if(!this.email || !helpers.validateEmail(this.email)){
         this.error = "Debes ingresar un email válido";
       }else{
-        console.log(this.telefono);
         this.storeCarroCompra.actualizarCompraRapida(String(this.telefono),'telefono');
         this.storeCarroCompra.actualizarCompraRapida(this.nombre,'nombre');
         this.storeCarroCompra.actualizarCompraRapida(this.email,'email');
