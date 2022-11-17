@@ -19,14 +19,14 @@
                 </article>
 
                 <div class="field  columns">
-                  <VueGoogleAutocomplete
+                  <GoogleMapsAutocompleteVue
                     v-on:placechanged="obtenerDireccion"
                     :country="['cl']"
                     id="direccion_google"
                     classname="input input-2 w-80"
                     placeholder="Ingresar Dirección"
                     :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
-                    ></VueGoogleAutocomplete
+                    ></GoogleMapsAutocompleteVue
                   >
                 </div>
                 <div v-if="direccionActual" class="is-size-7">
@@ -49,7 +49,8 @@
 <script>
   import { useCarroCompraStore } from '/src/stores/carroCompra'
   import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
-  import VueGoogleAutocomplete from "vue-google-autocomplete";
+  import GoogleMapsAutocompleteVue from '../general/GoogleMapsAutocomplete.vue';
+
   import  RegionesYComunas  from '/src/utils/regionesComunas'
   export default {
     data() {
@@ -96,7 +97,7 @@
           });
 
           if(data.street_number == undefined){
-            this.error = "Debes indicar una Dirección Válida";
+            this.error = "Debes indicar el número de la Dirección";
             return false;
           }
 
@@ -125,7 +126,7 @@
           this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
         }
     },
-    components: { VueGoogleAutocomplete }
+    components: { GoogleMapsAutocompleteVue }
 };
   </script>
 

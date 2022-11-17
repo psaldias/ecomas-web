@@ -11,7 +11,22 @@
             s = JSON.parse(s);
         return s;
     },
+    validarInputTelefono ($event) {
+        let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
 
+        if ((keyCode < 48 || keyCode > 57) ) { // 46 is dot
+            $event.preventDefault();
+        }
+
+        if(!$event.target.value.startsWith("+569"))
+            $event.target.value = "+569"
+    },
+    validarTelefono (telefono) {
+        if (telefono.length != 12 ) {
+            return false;
+        }
+        return true;
+    },
     validateEmail(email) {
         return (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))? true:false;
     },

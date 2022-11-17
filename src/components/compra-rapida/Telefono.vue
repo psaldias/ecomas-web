@@ -22,20 +22,20 @@
                   <label class="primero">Ingresa tu nombre</label>
 
                   <div class="control">
-                    <input type="text" class="input input-2 " v-model.number="nombre"  />
+                    <input type="text" class="input input-2 " v-model="nombre"  />
                   </div>
                 </div>
 
                 <div class="field mb-4 ">
                   <label class="primero">Ingresa tu Email</label>
                   <div class="control">
-                    <input type="email" class="input input-2 " v-model.number="email" :class="{'disabled':this.usuarioCarroCompra()}"  :readonly="this.usuarioCarroCompra()"/>
+                    <input type="email" class="input input-2 " v-model="email" :class="{'disabled':this.usuarioCarroCompra()}"  :readonly="this.usuarioCarroCompra()"/>
                   </div>
                 </div>
 
                 <label class="primero">Ingresa tu teléfono</label>
                 <div class="field">
-                    <input class="input input-2 " type="text"   v-model.number="telefono"  @keypress="validarTelefono" maxlength="12">
+                    <input class="input input-2" type="text"  v-model="telefono" @focus="moverCursor"  @keypress="validarInputTelefono" maxlength="12">
                 </div>
 
 
@@ -63,7 +63,7 @@ export default {
       nombre:'',
       telefono:{
         type: String,
-        default:'+569'
+        default:"+569"
       },
       error:'',
       storeCarroCompra:useCarroCompraStore(),
@@ -80,8 +80,9 @@ export default {
   computed: {},
   methods: {
     validar(){
-      if(!this.telefono){
-        this.error = "Debes indicar un número de teléfono";
+
+      if( !helpers.validarTelefono(this.telefono.toString())){
+        this.error = "Debes indicar un número de teléfono válido";
       }else if(!this.nombre){
         this.error = "Debes ingresar tu nombre";
       }else if(!this.email || !helpers.validateEmail(this.email)){
@@ -94,15 +95,12 @@ export default {
       }
       return false;
     },
-    validarTelefono ($event) {
-      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-
-      if ((keyCode < 48 || keyCode > 57) || $event.target.value.length == 12) { // 46 is dot
-          $event.preventDefault();
-      }
-
-      if(!$event.target.value.startsWith('+569'))
-        $event.target.value = '+569'
+    validarInputTelefono ($event) {
+      helpers.validarInputTelefono($event);
+    },
+    moverCursor($event){
+      const largo = $event.target.value.toString().length;
+      $event.target.setSelectionRange (largo,largo)
     }
   },
 };

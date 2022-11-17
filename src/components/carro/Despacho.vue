@@ -10,7 +10,7 @@
 
             <div class="field">
               <label for="" class="label" >Dirección</label>
-              <VueGoogleAutocomplete
+              <GoogleMapsAutocompleteVue
                 v-on:placechanged="obtenerDireccionDespacho"
                 :class="{'is-danger':dataFormularioDespacho.direccion.error}"
                 :country="['cl']"
@@ -19,20 +19,28 @@
                 placeholder="Ingresar Dirección"
                 :key="'map1'"
                 :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
-                ></VueGoogleAutocomplete
+                ></GoogleMapsAutocompleteVue
               >
               <div v-if="dataFormularioDespacho.direccion.data.direccionCompleta" class="is-size-7 mt-2">
                   Dirección Seleccionada: <b>{{dataFormularioDespacho.direccion.data.direccionCompleta}}</b>
               </div>
             </div>
-            <InputBase
-              label="Teléfono Móvil"
-              placeHolder="ej:+56912345678"
-              type="text"
-              :error="false"
-              v-model="dataFormularioDespacho.telefono"
-              @keypress="validarTelefono"
-            />
+
+            <div class="field" >
+              <label for="" class="label" >Teléfono Móvil</label>
+              <div class="control">
+                <input
+                  class="input"
+                  placeHolder="ej:+56912345678"
+                  type="text"
+                  v-model="dataFormularioDespacho.telefono.data"
+                  maxlength="12"
+                  :class="[{'is-danger':dataFormularioDespacho.telefono.error}]"
+                  @keypress="validarInputTelefono"
+                  @focus="moverCursor"
+                />
+              </div>
+            </div>
 
           </div>
 
@@ -96,7 +104,7 @@
                 <div class="field">
                   <label for="" class="label" >Dirección</label>
 
-                  <VueGoogleAutocomplete2
+                  <GoogleMapsAutocompleteVue2
                     id="direccion_google2"
                     :country="['cl']"
                     classname="input input-2"
@@ -104,7 +112,7 @@
                     placeholder="Ingresar Dirección"
                     v-on:placechanged="obtenerDireccionFacturacion"
                     :key="'map2'">
-                  </VueGoogleAutocomplete2>
+                  </GoogleMapsAutocompleteVue2>
 
                   <div v-if="dataFormularioFacturacion.direccion.data.direccionCompleta" class="is-size-7 mt-2">
                       Dirección Seleccionada: <b>{{dataFormularioFacturacion.direccion.data.direccionCompleta}}</b>
@@ -115,14 +123,21 @@
 
             <div class="columns is-variable is-2-desktop is-3-mobile">
               <div class="column py-0">
-                <InputBase
-                  label="Teléfono Móvil"
-                  placeHolder="ej:+56912345678"
-                  type="text"
-                  :error="false"
-                  v-model="dataFormularioFacturacion.telefono"
-                  @keypress="validarTelefono"
-                />
+                <div class="field" >
+                  <label for="" class="label" >Teléfono Móvil</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      placeHolder="ej:+56912345678"
+                      type="text"
+                      v-model="dataFormularioFacturacion.telefono.data"
+                      maxlength="12"
+                      :class="[{'is-danger':dataFormularioFacturacion.telefono.error}]"
+                      @keypress="validarInputTelefono"
+                      @focus="moverCursor"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -161,9 +176,9 @@ import BoxDespacho from './BoxDespacho.vue'
 import BoxTotales from './BoxTotales.vue'
 import InputBase from '../formulario/InputBase.vue'
 import InputSelect from '../formulario/InputSelect.vue'
-import InputCheck from '../formulario/InputCheck.vue'
-import VueGoogleAutocomplete from "vue-google-autocomplete";
-import VueGoogleAutocomplete2 from "vue-google-autocomplete";
+import InputCheck from '../formulario/InputCheck.vue';
+import GoogleMapsAutocompleteVue from '../general/GoogleMapsAutocomplete.vue';
+import GoogleMapsAutocompleteVue2 from '../general/GoogleMapsAutocomplete.vue';
 import helpers from '/src/utils/helpers.js'
 import  RegionesYComunas  from '/src/utils/regionesComunas'
 
@@ -186,7 +201,7 @@ export default {
         nombre: {data:'',error:false,requerido:true},
         apellidos: {data:'',error:false,requerido:true},
         direccion: {data:{direccionCompleta:''},error:false,requerido:false},
-        telefono: {data:'',error:false,requerido:true},
+        telefono: {data:'+569',error:false,requerido:true},
       },
       mensajes: {
         exito:'',
@@ -250,7 +265,7 @@ export default {
       this.dataFormularioFacturacion.giro.data = (this.storeCarroCompra.carro.data.facturacion.giro)?this.storeCarroCompra.carro.data.facturacion.giro : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.giro:''
       this.dataFormularioFacturacion.nombre.data = (this.storeCarroCompra.carro.data.facturacion.nombre)?this.storeCarroCompra.carro.data.facturacion.nombre : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre:''
       this.dataFormularioFacturacion.apellidos.data = (this.storeCarroCompra.carro.data.facturacion.apellidos)?this.storeCarroCompra.carro.data.facturacion.apellidos : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos:''
-      this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:''
+      this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:'+569'
     },
     /** OBTIENE LOS DATOS DEL INPUT DIRECCIÓN CON INFORMACIÓN DE GOOGLE */
     obtenerDireccionDespacho(data) {
@@ -260,7 +275,7 @@ export default {
       });
 
       if(data.street_number == undefined){
-        this.mensajes.error = "Debes indicar una Dirección de Despacho Válida";
+        this.mensajes.error = "Debes indicar el número de la Dirección de Despacho";
         return false;
       }
 
@@ -303,7 +318,7 @@ export default {
       });
 
       if(data.street_number == undefined){
-        this.mensajes.error = "Debes indicar una Dirección de Facturación Válida";
+        this.mensajes.error = "Debes indicar el número de la Dirección de Facturación";
         return false;
       }
       this.mensajes.error = "";
@@ -357,7 +372,7 @@ export default {
       }else
         this.dataFormularioDespacho.direccion.error = false;
 
-      if(!this.dataFormularioDespacho.telefono.data){
+      if(!helpers.validarTelefono(this.dataFormularioDespacho.telefono.data.toString())){
         this.dataFormularioDespacho.telefono.error = true;
         errorGeneral = true;
       }else
@@ -393,7 +408,7 @@ export default {
         }else
           this.dataFormularioFacturacion.apellidos.error = false;
 
-        if(this.dataFormularioFacturacion.telefono.data == ''){
+          if(!helpers.validarTelefono(this.dataFormularioFacturacion.telefono.data.toString())){
           this.dataFormularioFacturacion.telefono.error = true;
           errorGeneral = true;
         }else
@@ -443,17 +458,14 @@ export default {
           error:'',
       }
     },
-    validarTelefono ($event) {
-      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
-
-      if ((keyCode < 48 || keyCode > 57) || $event.target.value.length == 12) { // 46 is dot
-          $event.preventDefault();
-      }
-
-      if(!$event.target.value.startsWith('+569'))
-        $event.target.value = '+569'
+    validarInputTelefono ($event) {
+      helpers.validarInputTelefono($event);
+    },
+    moverCursor($event){
+      const largo = $event.target.value.toString().length;
+      $event.target.setSelectionRange (largo,largo)
     }
   },
-  components: { BoxDespacho, BoxTotales, InputBase, InputSelect, InputCheck, VueGoogleAutocomplete, VueGoogleAutocomplete2, Mensajes, CargandoSeccion },
+  components: { BoxDespacho, BoxTotales, InputBase, InputSelect, InputCheck, GoogleMapsAutocompleteVue, GoogleMapsAutocompleteVue2, Mensajes, CargandoSeccion },
 }
 </script>

@@ -156,7 +156,7 @@
                         <td class="has-text-right">{{ tipoCuota() }}</td>
                       </tr>
                       <tr>
-                        <td>Número de cuotas::</td>
+                        <td>Número de cuotas:</td>
                         <td class="has-text-right">
                           {{ obtenerDatoMetaData("installmentsNumber") }}
                         </td>
