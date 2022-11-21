@@ -11,13 +11,14 @@
             <div class="field">
               <label for="" class="label" >Dirección</label>
               <GoogleMapsAutocompleteVue
+                v-if="libreriaCargada"
                 v-on:placechanged="obtenerDireccionDespacho"
                 :class="{'is-danger':dataFormularioDespacho.direccion.error}"
                 :country="['cl']"
                 id="direccion_google"
                 classname="input input-2  "
                 placeholder="Ingresar Dirección"
-                :key="'map1'"
+                key="map1"
                 :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
                 ></GoogleMapsAutocompleteVue
               >
@@ -105,13 +106,16 @@
                   <label for="" class="label" >Dirección</label>
 
                   <GoogleMapsAutocompleteVue2
+                    v-if="libreriaCargada"
                     id="direccion_google2"
                     :country="['cl']"
                     classname="input input-2"
                     :class="{'is-danger':dataFormularioFacturacion.direccion.error}"
                     placeholder="Ingresar Dirección"
                     v-on:placechanged="obtenerDireccionFacturacion"
-                    :key="'map2'">
+                    key="map2"
+                    :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
+                    >
                   </GoogleMapsAutocompleteVue2>
 
                   <div v-if="dataFormularioFacturacion.direccion.data.direccionCompleta" class="is-size-7 mt-2">
@@ -188,6 +192,7 @@ import CargandoSeccion from '../general/CargandoSeccion.vue';
 export default {
   data() {
     return {
+      libreriaCargada:false,
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
       dataFormularioDespacho: {
@@ -215,6 +220,10 @@ export default {
     this.cargando = true;
     await this.validarCompraNormal();
     this.cargando = false;
+
+    /** IMPORTAR LIBRERIA GOOGLE MAPS PARA EL AUTOCOMPLETE DE LAS DIRECCIONES */
+    await helpers.importarLibereriaGoogleMaps();
+    this.libreriaCargada = true;
 
     /** EN CASO DE QUE EL CARRO CONTENGA ERRORES, REDIRECCIONA A /CARRO */
     // if(this.storeCarroCompra.carro.validado.con_errores)
@@ -275,7 +284,7 @@ export default {
       });
 
       if(data.street_number == undefined){
-        this.mensajes.error = "Debes indicar el número de la Dirección de Despacho";
+        this.mensajes.error = "Formato de la dirección de despacho incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
         return false;
       }
 
@@ -318,7 +327,7 @@ export default {
       });
 
       if(data.street_number == undefined){
-        this.mensajes.error = "Debes indicar el número de la Dirección de Facturación";
+        this.mensajes.error = "Formato de la dirección de facturación incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
         return false;
       }
       this.mensajes.error = "";

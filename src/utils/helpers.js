@@ -48,5 +48,32 @@
             S=(S+T%10*(9-M++%6))%11;
         return S?S-1:'k';
     },
+    importarLibereriaGoogleMaps(){
+        if ($('head script[src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places"]').length == 0){
+
+            return new Promise(function(resolve, reject) {
+            const s = document.createElement('script');
+            let r = false;
+            s.type = 'text/javascript';
+            s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places';
+            s.async = true;
+            s.onerror = function(err) {
+                reject(err, s);
+            };
+            s.onload = s.onreadystatechange = function() {
+                // console.log(this.readyState); // uncomment this line to see which ready states are called.
+                if (!r && (!this.readyState || this.readyState == 'complete')) {
+                r = true;
+                resolve();
+                }
+            };
+            const t = document.getElementsByTagName('script')[0];
+            t.parentElement.insertBefore(s, t);
+            });
+        //   let recaptchaScript = document.createElement('script')
+        //   recaptchaScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places')
+        //   document.head.appendChild(recaptchaScript);
+        }
+    }
 }
   export default helpers;

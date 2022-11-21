@@ -90,7 +90,7 @@
                                 <div class="column ">
                                     <div class="field">
                                         <label for="" class="primero has-text-weight-bold">Teléfono</label>
-                                        <input type="text"   class="input" v-model="billing.phone">
+                                        <input type="text"   class="input" v-model="billing.phone"  @focus="moverCursor"  @keypress="validarInputTelefono" maxlength="12">
                                     </div>
                                 </div>
                             </div>
@@ -156,6 +156,8 @@ import BannerSeccion from "../components/general/BannerSeccion.vue";
 import CargandoSeccion from "../components/general/CargandoSeccion.vue";
 import Mensajes from "../components/general/Mensajes.vue";
 
+import helpers from '/src/utils/helpers';
+
 export default {
   components: {
     BannerSeccion,
@@ -215,6 +217,12 @@ export default {
     },
     async actualizarBilling(){
         this.billing.cargando = true;
+        this.billing.mensajes = {};
+        if( !helpers.validarTelefono(this.billing.phone.toString())){
+            this.billing.mensajes.error = "Formato Teléfono Incorrecto";
+            this.billing.cargando = false;
+            return false;
+        }
         const respuesta = await this.actualizar_billing_usuario({
             billing_phone: this.billing.phone,
             id: this.usuarioCarroCompra().id,
@@ -236,6 +244,13 @@ export default {
         })
         this.password.cargando = false;
         this.password.mensajes[respuesta.tipo] = respuesta.mensaje;
+    },
+    validarInputTelefono ($event) {
+      helpers.validarInputTelefono($event);
+    },
+    moverCursor($event){
+      const largo = $event.target.value.toString().length;
+      $event.target.setSelectionRange (largo,largo)
     }
   }
 };

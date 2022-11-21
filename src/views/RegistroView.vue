@@ -19,7 +19,7 @@
               </div>
               <div class="column is-6">
                 <InputBase
-                    label="Nomre"
+                    label="Nombre"
                     placeHolder='ej:Pedro'
                     type="text"
                     v-model="dataFormulario.nombre"
@@ -42,12 +42,21 @@
                 />
               </div>
               <div class="column is-6">
-                <InputBase
-                    label="Teléfono/Celular"
-                    placeHolder='ej:+569 1234 567'
-                    type="text"
-                    v-model="dataFormulario.telefono"
-                />
+                <div class="field" >
+                  <label for="" class="label" >Teléfono/Celular</label>
+                  <div class="control">
+                    <input
+                      class="input"
+                      placeHolder="ej:+56912345678"
+                      type="text"
+                      v-model="dataFormulario.telefono.data"
+                      :class="[{'is-danger':dataFormulario.telefono.error}]"
+                      maxlength="12"
+                      @keypress="validarInputTelefono"
+                      @focus="moverCursor"
+                    />
+                  </div>
+                </div>
               </div>
               <div class="column is-6">
                 <InputSelect
@@ -228,7 +237,7 @@ export default {
         nombre: {data:'',error:false,requerido:true},
         apellido_paterno: {data:'',error:false,requerido:true},
         apellido_materno: {data:'',error:false,requerido:true},
-        telefono: {data:'',error:false,requerido:true},
+        telefono: {data:'+569',error:false,requerido:true},
         region: {data:'',error:false,requerido:true},
         comuna: {data:'',error:false,requerido:true},
         direccion: {data:'',error:false,requerido:true},
@@ -316,6 +325,9 @@ export default {
         }else if(key == 'confirmar_password' && this.dataFormulario[key].data != this.dataFormulario.password.data){
           this.dataFormulario[key].error=true;
           errorGeneral = true;
+        }else if(key == 'telefono' && !helpers.validarTelefono(this.dataFormulario[key].data.toString())){
+          this.dataFormulario[key].error=true;
+          errorGeneral = true;
         }else{
           this.dataFormulario[key].error=false;
         }
@@ -334,6 +346,13 @@ export default {
         }
         this.cargando = false;
       }
+    },
+    validarInputTelefono ($event) {
+      helpers.validarInputTelefono($event);
+    },
+    moverCursor($event){
+      const largo = $event.target.value.toString().length;
+      $event.target.setSelectionRange (largo,largo)
     },
 
     limpiarMensajes(){

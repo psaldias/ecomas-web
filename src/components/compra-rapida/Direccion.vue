@@ -26,6 +26,7 @@
                     classname="input input-2 w-80"
                     placeholder="Ingresar Dirección"
                     :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
+                    v-if="libreriaCargada"
                     ></GoogleMapsAutocompleteVue
                   >
                 </div>
@@ -50,19 +51,27 @@
   import { useCarroCompraStore } from '/src/stores/carroCompra'
   import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
   import GoogleMapsAutocompleteVue from '../general/GoogleMapsAutocomplete.vue';
-
   import  RegionesYComunas  from '/src/utils/regionesComunas'
+  import helpers from '../../utils/helpers';
+
+
   export default {
+
     data() {
         return {
+            libreriaCargada:false,
             error: "",
             storeCarroCompra: useCarroCompraStore(),
             store_opciones_generales: useOpcionesGeneralesStore(),
         };
     },
-    mounted () {
+    async mounted () {
       if(!this.storeCarroCompra.compraRapida.telefono)
         this.$router.push({ path: "/compra-rapida/" });
+
+      /** IMPORTAR LIBRERIA GOOGLE MAPS PARA EL AUTOCOMPLETE DE LAS DIRECCIONES */
+      await helpers.importarLibereriaGoogleMaps();
+      this.libreriaCargada = true;
 
     },
     computed: {
@@ -83,7 +92,7 @@
     methods: {
         validarDireccion() {
             if (Object.keys(this.storeCarroCompra.compraRapida.direccion).length === 0) {
-                this.error = "Debes indicar una Dirección Válida";
+                this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
             }
             else {
                 this.$router.push({ path: "/compra-rapida/producto" });
@@ -97,7 +106,7 @@
           });
 
           if(data.street_number == undefined){
-            this.error = "Debes indicar el número de la Dirección";
+            this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
             return false;
           }
 
