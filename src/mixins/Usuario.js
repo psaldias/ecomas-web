@@ -160,6 +160,45 @@ export default {
           return mensaje;
         },
 
+        /** RECUPERAR CONTRASEÑA */
+        async recuperarPassword(email) {
+
+          let headers = {};
+
+          // if(!this.store.token)
+          //     await this.obtenerToken();
+
+          headers["Authorization"] =  'Bearer '+this.store.token;
+
+          let mensaje = {tipo:'exito',exito:''};
+
+        const response = await axios.post(
+          import.meta.env.VITE_VALIDAR_LOST_PASSWORD,{email},{headers}
+        ).catch(error => {
+          return error.data;
+        });
+        return response.data;
+      },
+       /** RECUPERAR CONTRASEÑA */
+       async actualizarPassword(id, key = false, password) {
+
+        let headers = {};
+
+        // if(!this.store.token)
+        //     await this.obtenerToken();
+
+        headers["Authorization"] =  'Bearer '+this.store.token;
+
+        let mensaje = {tipo:'exito',exito:''};
+
+      const response = await axios.post(
+        import.meta.env.VITE_ACTUALIZAR_PASSWORD,{id,key,password},{headers}
+      ).catch(error => {
+        return error.data;
+      });
+      return response.data;
+    },
+
         /** CERRAR SESIÓN USUARIO*/
         async cerrarSesion() {
           localStorage.removeItem('usuario');

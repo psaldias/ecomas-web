@@ -62,6 +62,8 @@ export default {
         data.horario_entrega = this.storeCarroCompra.compraRapida.horarioEntrega;
         data.cupon = this.storeCarroCompra.compraRapida.codigoDescuento;
         data.sucursal = this.store_opciones_generales.sucursal_seleccionada.ID;
+        data.usuario = this.storeCarroCompra.usuarioCarroCompra.id;
+        data.metodo_pago = this.storeCarroCompra.compraRapida.metodo_pago;
 
         let headers = {};
         if(this.storeCarroCompra.usuarioCarroCompra.token){
@@ -157,6 +159,7 @@ export default {
         data.sucursal = this.store_opciones_generales.sucursal_seleccionada.ID;
         data.extra = extra;
         data.cupon = this.storeCarroCompra.carro.data.cupon;
+        data.metodo_pago = this.storeCarroCompra.carro.data.metodo_pago;
         data.accion = accion;
         data.usuario = this.storeCarroCompra.usuarioCarroCompra.id;
         if(data.productos.length > 0){
@@ -265,6 +268,54 @@ export default {
         }
 
         this.storeCarroCompra.actualizarCarro(dataCarro,'data');
+      },
+
+      /** OBTENER METODOS DE PAGO HABILITADOS */
+      async obtenerMetodosDePago(  data = { } ){
+
+        let headers = {};
+
+        // if(!this.store.token)
+        //   await this.obtenerToken();
+
+        headers["Authorization"] =  'Bearer '+this.store.token;
+
+
+        const response = await axios.get( import.meta.env.VITE_ENDPOINT_PAYMENT_GATEWAYS,{headers}).catch(error => {
+            if(error.code == "ERR_NETWORK")
+              this.$router.replace({ name: 'error' })
+              return false;
+          });
+
+        if(response.status != 200)
+          this.errorData = true;
+
+        return response.data;
+
+      },
+
+      /** OBTENER URL PAGO PARA UNA ORDEN FALLIDA */
+      async obtenerUrlPago(  orden, metodo_pago ){
+
+        let headers = {};
+
+        // if(!this.store.token)
+        //   await this.obtenerToken();
+
+        headers["Authorization"] =  'Bearer '+this.store.token;
+
+
+        const response = await axios.post( import.meta.env.VITE_ENDPOINT_URL_PAGO,{orden,metodo_pago},{headers}).catch(error => {
+            if(error.code == "ERR_NETWORK")
+              this.$router.replace({ name: 'error' })
+              return false;
+          });
+
+        if(response.status != 200)
+          this.errorData = true;
+
+        return response.data;
+
       },
 
 

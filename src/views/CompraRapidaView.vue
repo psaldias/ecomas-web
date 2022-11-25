@@ -1,5 +1,5 @@
 <template>
-  <main class="interior-compra-rapida">
+  <main class="interior-compra-rapida carro">
     <div class="wrapper">
 
         <div class="pasos has-text-centered">

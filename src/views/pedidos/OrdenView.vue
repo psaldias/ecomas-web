@@ -115,7 +115,7 @@
                   </div>
                 </div>
                 <div class="column is-4-desktop is-12-mobile" v-if="ordenActiva.status == 'failed'">
-                  <a :href="urBackEnd+'/finalizar-compra/order-pay/'+ordenActiva.id+'/?pay_for_order=true&key='+ordenActiva.order_key" class="btn w-100 has-text-centered bg-primero">
+                  <a @click.prevent="reintentarPago" class="btn w-100 has-text-centered bg-primero">
                     Volver a intentar el pago
                   </a>
                 </div>
@@ -251,8 +251,28 @@ export default {
     urBackEnd(){
       return import.meta.env.VITE_ENDPOINT_BACKEND;
     },
+    metodo_pago(){
+      return this.obtenerDatoMetaData("metodo_pago") ?? false;
+    }
   },
   methods: {
+    async reintentarPago(){
+      this.cargando = true;
+
+      if(!this.metodo_pago){
+        this.mensajes.error = 'No se pudo volver a intentar';
+        this.cargando = false;
+        return false;
+      }
+      const respuesta = await this.obtenerUrlPago(this.ordenActiva.id,this.metodo_pago);
+      if(respuesta.result != 'success'){
+          this.mensajes.error = 'Ocurrio un error';
+          this.cargando = false;
+        }else{
+          window.location.href = respuesta.redirect;
+        }
+
+    },
     obtenerDatoMetaData(key = false) {
       if (key && this.ordenActiva) {
         const dato = this.ordenActiva.meta_data.find((meta_data) => {

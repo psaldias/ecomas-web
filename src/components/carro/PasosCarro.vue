@@ -26,13 +26,16 @@
         </div>
 
         <div class="column paso is-narrow">
-          <a  class="button button-1 is-rounded is-block " :class="{'active':paso==3}">
+          <router-link v-if="paso > 3 " to="/carro/despacho" class="button button-1 is-rounded is-block " :class="{'active':paso==3}">
+            <i class="fa-solid fa-file-invoice mr-2"></i> DESPACHO
+          </router-link>
+          <a  v-else class="button button-1 is-rounded is-block " :class="{'active':paso==3}">
             <i class="fa-solid fa-truck-fast  mr-2"></i> DESPACHO
           </a>
         </div>
 
         <div class="column paso is-narrow">
-          <a  class="button button-1 is-rounded is-block ">
+          <a  class="button button-1 is-rounded is-block "  :class="{'active':paso==4}">
             <i class="fa-solid fa-money-check-dollar  mr-2"></i> PAGO
           </a>
         </div>

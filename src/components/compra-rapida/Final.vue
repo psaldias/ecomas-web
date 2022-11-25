@@ -97,26 +97,12 @@
 
 
 
-            <form :action="urBackEnd+'/wp-admin/admin-post.php'" method="POST" v-if="storeCarroCompra.compraRapida.carro.total > 0">
-              <input type="hidden" name="action" value="init_cart">
-              <input type="hidden" name="producto" :value='storeCarroCompra.compraRapida.productoSeleccionado'>
-              <input type="hidden" name="direccion" :value='JSON.stringify(storeCarroCompra.compraRapida.direccion)'>
-              <input type="hidden" name="telefono" :value='storeCarroCompra.compraRapida.telefono'>
-              <input type="hidden" name="nombre" :value='storeCarroCompra.compraRapida.nombre'>
-              <input type="hidden" name="email" :value='storeCarroCompra.compraRapida.email'>
-              <input type="hidden" name="horario_entrega" :value='storeCarroCompra.compraRapida.horarioEntrega'>
-              <input type="hidden" name="cupon" :value='storeCarroCompra.compraRapida.codigoDescuento'>
-              <input type="hidden" name="id" v-if="storeCarroCompra.usuarioCarroCompra" :value='storeCarroCompra.usuarioCarroCompra.id'>
-              <input type="hidden" name="sucursal" v-if="store_opciones_generales.sucursal_seleccionada.ID" :value='store_opciones_generales.sucursal_seleccionada.ID'>
-              <input type="hidden" name="email" v-if="storeCarroCompra.usuarioCarroCompra" :value='storeCarroCompra.usuarioCarroCompra.user_email'>
-
 
               <div class="block has-text-right-tablet has-text-centered-mobile">
-                <button class="button is-rounded is-small button-icono px-5" v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores">
+                <router-link to="/compra-rapida/pago" class="button is-rounded is-small button-icono px-5" v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores">
                   Continuar
-                </button>
+                </router-link>
               </div>
-            </form>
 
             <cargando-seccion v-if="cargando"></cargando-seccion>
 

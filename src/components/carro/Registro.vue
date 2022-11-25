@@ -205,10 +205,8 @@ export default {
 
         /** VALIDAR CAMPO PASSWORD */
         this.dataFormulario.password.error = (this.dataFormulario.crearCuenta.data == true && this.dataFormulario.password.data.length < 6) ? true : false
-
         /** VALIDAR CONFIRMAR PASSWORD */
-        this.dataFormulario.password.error = (this.dataFormulario.confirmar_password.data == true && this.dataFormulario.password.data.length < 6) ? true : false
-
+        this.dataFormulario.confirmar_password.error = (this.dataFormulario.crearCuenta.data == true && this.dataFormulario.confirmar_password.data !=  this.dataFormulario.password.data) ? true : false
       }
       /** GENERA OBJETO PARA GUARDAR EN LOCALSTORA CON LA INFORMACIÓN DEL FORMULARIO Y VALIDA SI HUBO ALGUN ERROR */
       Object.keys(this.dataFormulario).map(key => {

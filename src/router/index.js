@@ -104,12 +104,24 @@ const router = createRouter({
           path:"final",
           name:"Final - Compra Rápida",
           component: () => import("../components/compra-rapida/Final.vue"),
+        },{
+          path:"Pago",
+          name:"Pago - Compra Rápida",
+          component: () => import("../components/compra-rapida/Pago.vue"),
         },
       ]
     },{
       path: "/mi-cuenta/",
       name: "Mi Cuenta",
       component: () => import("../views/MiCuentaView.vue")
+    },{
+      path: "/mi-cuenta/recuperar",
+      name: "Recuperar Contraseña",
+      component: () => import("../views/RecuperarView.vue")
+    },{
+      path: "/mi-cuenta/lost-password",
+      name: "Actualizar Contraseña",
+      component: () => import("../views/ActualizarPasswordView.vue")
     },{
       path: "/pedidos/",
       name: "Pedidos",

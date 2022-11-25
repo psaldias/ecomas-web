@@ -159,12 +159,7 @@
 
       </form>
 
-      <form :action="urBackEnd+'wp-admin/admin-post.php?sucursal='+sucursalSeleccionada.ID" method="POST" v-if="!storeCarroCompra.carro.validado.con_errores" ref="form_pago">
-        <input type="hidden" name="action" value="init_cart_normal">
-        <input type="hidden" name="data" :value='JSON.stringify(storeCarroCompra.carro.data)'>
-        <input type="hidden" name="id" v-if="storeCarroCompra.usuarioCarroCompra" :value='storeCarroCompra.usuarioCarroCompra.id'>
-        <input type="hidden" name="sucursal" v-if="sucursalSeleccionada.ID" :value='sucursalSeleccionada.ID'>
-      </form>
+
 
     </div>
     <div class="column is-4">
@@ -275,6 +270,9 @@ export default {
       this.dataFormularioFacturacion.nombre.data = (this.storeCarroCompra.carro.data.facturacion.nombre)?this.storeCarroCompra.carro.data.facturacion.nombre : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre:''
       this.dataFormularioFacturacion.apellidos.data = (this.storeCarroCompra.carro.data.facturacion.apellidos)?this.storeCarroCompra.carro.data.facturacion.apellidos : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos:''
       this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:'+569'
+
+      if(this.storeCarroCompra.carro.data.facturacion.direccion)
+        this.dataFormularioFacturacion.direccion.data = this.storeCarroCompra.carro.data.facturacion.direccion
     },
     /** OBTIENE LOS DATOS DEL INPUT DIRECCIÓN CON INFORMACIÓN DE GOOGLE */
     obtenerDireccionDespacho(data) {
@@ -452,8 +450,11 @@ export default {
         await this.validarCompraNormal();
 
         if(!this.storeCarroCompra.carro.validado.con_errores){
-          this.$refs.form_pago.submit()
+          this.$router.push({ path: '/carro/pago' });
+          // this.$refs.form_pago.submit()
           return false;
+        }else{
+          this.$router.push({ path: '/carro/' });
         }
 
         // return false;

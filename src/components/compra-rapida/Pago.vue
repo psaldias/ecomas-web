@@ -49,8 +49,8 @@
 </template>
 
 <script>
-import BoxDespacho from './BoxDespacho.vue';
-import BoxTotales from './BoxTotales.vue';
+import BoxDespacho from '/src/components/carro/BoxDespacho.vue';
+import BoxTotales from '/src/components/compra-rapida/BoxTotales.vue';
 import InputCheck from '../formulario/InputCheck.vue';
 import CargandoSeccion from '../general/CargandoSeccion.vue';
 import Mensajes from '/src/components/general/Mensajes.vue';
@@ -86,24 +86,22 @@ export default {
         this.cargando = false;
       },
       async realizarPedido(){
+
           if(!this.metodoSeleccionado){
             this.mensajes.error = 'Debes seleccionar un método de pago';
-            this.cargando = false;
             return false;
           }
 
-          let dataCarro = this.storeCarroCompra.carro.data;
-          dataCarro.metodo_pago = this.metodoSeleccionado;
-          this.storeCarroCompra.actualizarCarro(dataCarro,'data');
+          this.storeCarroCompra.actualizarCompraRapida(this.metodoSeleccionado, "metodo_pago");
           /** VALIDAR CARRO */
           this.cargando = true;
-          await this.validarCompraNormal('pago');
+          await this.validarCompraRapida('pago');
 
-          if(this.storeCarroCompra.carro.validado.metodo_pago.result != 'success'){
+          if(this.storeCarroCompra.compraRapida.carro.metodo_pago.result != 'success'){
             this.mensajes.error = 'Ocurrio un error';
             this.cargando = false;
           }else{
-            window.location.href = this.storeCarroCompra.carro.validado.metodo_pago.redirect;
+            window.location.href = this.storeCarroCompra.compraRapida.carro.metodo_pago.redirect;
           }
 
       }
@@ -111,20 +109,32 @@ export default {
     async mounted(){
       /** VALIDAR CARRO */
       this.cargando = true;
-      await this.validarCompraNormal();
-      this.cargando = false;
+    /** VALIDAMOS QUE EXISTA EL TELÉFONO */
+    if (!this.storeCarroCompra.compraRapida.telefono || !this.storeCarroCompra.compraRapida.nombre || !this.storeCarroCompra.compraRapida.email){
+        this.$router.push({ path: "/compra-rapida/" });
+        /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
+    }else if (!this.storeCarroCompra.compraRapida.direccion){
+        this.$router.push({ path: "/compra-rapida/direccion" });
+        /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
+    }else if (!this.storeCarroCompra.compraRapida.productoSeleccionado){
+        this.$router.push({ path: "/compra-rapida/producto" });
+    }else{
 
-      this.obtenerMetodosPago();
 
-      this.metodoSeleccionado = this.storeCarroCompra.carro.data.metodo_pago;
+        await this.validarCompraRapida('agregar-producto');
+        this.cargando = false;
 
+        this.obtenerMetodosPago();
+
+        this.metodoSeleccionado = this.storeCarroCompra.compraRapida.metodo_pago;
+    }
       // window.location.href = this.storeCarroCompra.carro.validado.metodo_pago.redirect;
     },
     watch:{
     'sucursalSeleccionada.fields.coordenadas_sucursal':{
       async handler(newValue, oldValue) {
         this.cargando = true;
-        await this.validarCompraNormal();
+        await this.validarCompraRapida('agregar-producto');
         this.cargando = false;
       },
       deep: true

@@ -24,11 +24,16 @@
             </div>
             <div class="field">
                 <div class="control has-text-right">
-                    <div class="columns is-gapless is-justify-content-flex-end">
+                    <div class="columns is-variable is-1 is-justify-content-space-between">
+                        <div class="column is-narrow is-hidden-mobile">
+                            <router-link to="/mi-cuenta/recuperar" class="button button-1 bg-verde has-text-white is-fullwidth ">Olvidé mi Contraseña</router-link>
+                        </div>
                         <div class="column is-5">
                         <CargandoSeccion v-if="cargando" ></CargandoSeccion>
-                        <!-- <router-link to="/mi-cuenta/" class="button button-1 bg-primero has-text-white is-fullwidth">Continuar</router-link> -->
-                        <a v-if="!cargando"  @click.prevent="loginFormulario()" class="button button-1 bg-primero has-text-white is-fullwidth">Continuar</a>
+                        <a v-if="!cargando"  @click.prevent="loginFormulario()" class="button button-1 bg-primero has-text-white is-fullwidth ">Continuar</a>
+                        </div>
+                        <div class="column is-narrow is-hidden-tablet">
+                            <router-link to="/mi-cuenta/recuperar" class="button button-1 bg-verde has-text-white is-fullwidth ">Olvidé mi Contraseña</router-link>
                         </div>
                     </div>
                 </div>
