@@ -37,6 +37,8 @@
                       {{ ordenActiva.billing.city }}<br />
                       {{ ordenActiva.billing.phone }}<br />
                       {{ ordenActiva.billing.email }}<br />
+                      {{ ordenActiva.billing.company }}<br />
+                      {{ obtenerDatoMetaData("billing_giro") }}<br />
                     </div>
                   </div>
 

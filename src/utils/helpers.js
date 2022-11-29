@@ -31,6 +31,9 @@
         return (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email))? true:false;
     },
     validaRut(rutCompleto) {
+        if(!rutCompleto)
+            return false;
+
 
         rutCompleto = rutCompleto.replace("‐","-");
         if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto )){

@@ -264,15 +264,17 @@ export default {
                                                   '+569';
 
       /** FACTURACION */
-      this.dataFormularioFacturacion.rut.data = (this.storeCarroCompra.carro.data.facturacion.rut)?this.storeCarroCompra.carro.data.facturacion.rut : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.rut:''
-      this.dataFormularioFacturacion.razon_social.data = (this.storeCarroCompra.carro.data.facturacion.razon_social)?this.storeCarroCompra.carro.data.facturacion.razon_social : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.razon_social:''
-      this.dataFormularioFacturacion.giro.data = (this.storeCarroCompra.carro.data.facturacion.giro)?this.storeCarroCompra.carro.data.facturacion.giro : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.giro:''
-      this.dataFormularioFacturacion.nombre.data = (this.storeCarroCompra.carro.data.facturacion.nombre)?this.storeCarroCompra.carro.data.facturacion.nombre : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre:''
-      this.dataFormularioFacturacion.apellidos.data = (this.storeCarroCompra.carro.data.facturacion.apellidos)?this.storeCarroCompra.carro.data.facturacion.apellidos : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos:''
-      this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:'+569'
+      if(this.storeCarroCompra.carro.data.registro.tipoDocumento == 'Factura'){
+        this.dataFormularioFacturacion.rut.data = (this.storeCarroCompra.carro.data.facturacion.rut)?this.storeCarroCompra.carro.data.facturacion.rut : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.rut:''
+        this.dataFormularioFacturacion.razon_social.data = (this.storeCarroCompra.carro.data.facturacion.razon_social)?this.storeCarroCompra.carro.data.facturacion.razon_social : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.razon_social:''
+        this.dataFormularioFacturacion.giro.data = (this.storeCarroCompra.carro.data.facturacion.giro)?this.storeCarroCompra.carro.data.facturacion.giro : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.giro:''
+        this.dataFormularioFacturacion.nombre.data = (this.storeCarroCompra.carro.data.facturacion.nombre)?this.storeCarroCompra.carro.data.facturacion.nombre : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre:''
+        this.dataFormularioFacturacion.apellidos.data = (this.storeCarroCompra.carro.data.facturacion.apellidos)?this.storeCarroCompra.carro.data.facturacion.apellidos : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos:''
+        this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:'+569'
 
-      if(this.storeCarroCompra.carro.data.facturacion.direccion)
-        this.dataFormularioFacturacion.direccion.data = this.storeCarroCompra.carro.data.facturacion.direccion
+        if(this.storeCarroCompra.carro.data.facturacion.direccion)
+          this.dataFormularioFacturacion.direccion.data = this.storeCarroCompra.carro.data.facturacion.direccion
+      }
     },
     /** OBTIENE LOS DATOS DEL INPUT DIRECCIÓN CON INFORMACIÓN DE GOOGLE */
     obtenerDireccionDespacho(data) {
@@ -389,7 +391,8 @@ export default {
       if(this.storeCarroCompra.carro.data.registro.tipoDocumento == 'Factura'){
         const rutValido = helpers.validaRut(this.dataFormularioFacturacion.rut.data);
         this.dataFormularioFacturacion.rut.error=!rutValido;
-        errorGeneral = !rutValido;
+        if(this.dataFormularioFacturacion.rut.error)
+          errorGeneral = true;
 
         if(this.dataFormularioFacturacion.razon_social.data == ''){
           this.dataFormularioFacturacion.razon_social.error = true;
@@ -415,7 +418,7 @@ export default {
         }else
           this.dataFormularioFacturacion.apellidos.error = false;
 
-          if(!helpers.validarTelefono(this.dataFormularioFacturacion.telefono.data.toString())){
+        if(!this.dataFormularioFacturacion.telefono.data || !helpers.validarTelefono(this.dataFormularioFacturacion.telefono.data.toString())){
           this.dataFormularioFacturacion.telefono.error = true;
           errorGeneral = true;
         }else
