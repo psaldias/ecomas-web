@@ -2,6 +2,11 @@
   <div class="columns is-variable is-0-mobile">
     <div class="column ">
       <Mensajes :mensajes="mensajes"></Mensajes>
+      <div class="columns" v-if="storeCarroCompra.carro.validado.mensajes">
+        <div class="column">
+          <div v-html="storeCarroCompra.carro.validado.mensajes" class="mb-2"></div>
+        </div>
+      </div>
       <div v-html="this.storeCarroCompra.carro.validado.mensajes"></div>
       <div class="card pago">
         <h4 class="primero mb-4">MÉTODO DE PAGO</h4>

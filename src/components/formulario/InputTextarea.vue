@@ -8,10 +8,10 @@
       <textarea
         class="textarea"
         :placeHolder="placeHolder"
-        :class="[{inputClass},{'is-danger':error}]"
+        :class="[{inputClass},{'is-danger':modelValue.error}]"
         :type="type"
-        :value="modelValue"
-        @input="$emit('update:modelValue',$event.target.value)"
+        :value="modelValue.data"
+        @input="$emit('update:modelValue',{data:$event.target.value,error:modelValue.error})"
 
       />
     </div>
@@ -25,10 +25,7 @@ export default {
     placeHolder: "",
     inputClass:"",
     type:'',
-    modelValue:{
-      type:String,
-      default:''
-    },
+    modelValue:{data:'',error:false},
     error:false,
   },
   data() {

@@ -1,7 +1,12 @@
 <template>
   <div class="columns is-variable is-0-mobile">
     <div class="column ">
-      <Mensajes :mensajes="mensajes"></Mensajes>
+      <!-- <Mensajes :mensajes="mensajes"></Mensajes> -->
+      <div class="columns" v-if="storeCarroCompra.compraRapida.carro.mensajes">
+        <div class="column">
+          <div v-html="storeCarroCompra.compraRapida.carro.mensajes" class="mb-2"></div>
+        </div>
+      </div>
       <div v-html="this.storeCarroCompra.carro.validado.mensajes"></div>
       <div class="card pago">
         <h4 class="primero mb-4">MÉTODO DE PAGO</h4>
@@ -22,7 +27,7 @@
 
 
 
-            <div class="mt-4">
+            <div class="mt-4" v-if="!storeCarroCompra.compraRapida.carro.errores">
               <button class="button bg-primero has-text-white is-rounded px-6" @click.prevent="realizarPedido">Realizar el Pedido</button>
             </div>
           </div>
@@ -43,7 +48,7 @@
     <div class="column is-4">
 
       <BoxDespacho></BoxDespacho>
-      <BoxTotales :boton="false"></BoxTotales>
+      <BoxTotales :boton="false" v-if="!storeCarroCompra.compraRapida.carro.errores"></BoxTotales>
     </div>
   </div>
 </template>
@@ -98,7 +103,7 @@ export default {
           await this.validarCompraRapida('pago');
 
           if(this.storeCarroCompra.compraRapida.carro.metodo_pago.result != 'success'){
-            this.mensajes.error = 'Ocurrio un error';
+            // this.mensajes.error =  this.storeCarroCompra.compraRapida.carro.mensajes;
             this.cargando = false;
           }else{
             window.location.href = this.storeCarroCompra.compraRapida.carro.metodo_pago.redirect;

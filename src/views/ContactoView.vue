@@ -19,16 +19,14 @@
                             placeHolder='ej:Pedro'
                             type="text"
                             v-model="dataFormulario.nombre"
-                            :error="errores.nombre"
                         />
                     </div>
                     <div class="column is-6">
                         <InputBase
-                            label="apellido"
+                            label="Apellido"
                             placeHolder='ej:Perez'
                             type="text"
                             v-model="dataFormulario.apellido"
-                            :error="errores.apellido"
                         />
                     </div>
 
@@ -38,17 +36,24 @@
                             placeHolder='ej:email@ecomas.cl'
                             type="email"
                             v-model="dataFormulario.email"
-                            :error="errores.email"
                         />
                     </div>
                     <div class="column is-6">
-                        <InputBase
-                            label="telefono"
-                            placeHolder='ej:9 1234 1234'
-                            type="text"
-                            v-model="dataFormulario.telefono"
-                            :error="errores.telefono"
-                        />
+                        <div class="field" >
+                            <label for="" class="label" >Teléfono</label>
+                            <div class="control">
+                                <input
+                                    class="input"
+                                    :class="[{'is-danger':dataFormulario.telefono.error}]"
+                                    placeHolder="ej:+56912341234"
+                                    type="text"
+                                    v-model="dataFormulario.telefono.data"
+                                    @focus="moverCursor"
+                                    @keypress="validarInputTelefono"
+                                    maxlength="12"
+                                />
+                            </div>
+                        </div>
                     </div>
                     <div class="column is-12">
                         <InputSelect
@@ -57,7 +62,6 @@
                             inputClass="is-fullwidth"
                             :values=" valoresAsunto "
                             v-model="dataFormulario.asunto"
-                            :error="errores.asunto"
                         />
                     </div>
                     <div class="column is-6">
@@ -67,16 +71,15 @@
                             inputClass="is-fullwidth"
                             :values=" valoresComuna "
                             v-model="dataFormulario.comuna"
-                            :error="errores.comuna"
                         />
                     </div>
                     <div class="column is-6">
                         <InputFile
-                            label="Cargar Archivo (jpg, png, doc, ...)"
+                            label="Cargar Archivo (jpg, png, jpeg, pdf, doc, docx)"
                             placeHolder='Seleccionar Archivo'
                             type="text"
                             v-model="dataFormulario.archivo"
-                            :error="errores.archivo"
+                            permitidos="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*"
                         />
                     </div>
                     <div class="column is-12">
@@ -85,7 +88,6 @@
                             placeHolder='Texto...'
                             inputClass="is-fullwidth"
                             v-model="dataFormulario.comentario"
-                            :error="errores.comentario"
                         />
                     </div>
                     <div class="column is-12">
@@ -156,7 +158,9 @@
 
 
 <script>
-import Noticia from "../components/general/Noticia.vue";
+import helpers from '/src/utils/helpers';
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import InputBase from "../components/formulario/InputBase.vue";
 import InputSelect from "../components/formulario/InputSelect.vue";
@@ -165,7 +169,6 @@ import InputFile from "../components/formulario/InputFile.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 export default {
   components: {
-    Noticia,
     BannerSeccion,
     InputBase,
     InputSelect,
@@ -175,28 +178,23 @@ export default {
 },
   data() {
     return {
+        store_opciones_generales: useOpcionesGeneralesStore(),
         data:{},
         cargando:true,
         cargando_formulario: false,
         dataFormulario: {
-            nombre:'',
-            apellido:'',
-            email:'',
-            telefono:'',
-            asunto:'',
-            comuna:'',
-            archivo:{},
-            comentario:'',
+            nombre:{data:'',error:false},
+            apellido:{data:'',error:false},
+            email:{data:'',error:false},
+            telefono:{data:'+569',error:false},
+            asunto:{data:'',error:false},
+            comuna:{data:'',error:false},
+            archivo:{data:'',error:false},
+            comentario:{data:'',error:false},
         },
+
+        error_general:'',
         errores: {
-            nombre:false,
-            apellido:false,
-            email:false,
-            telefono:false,
-            asunto:false,
-            comuna:false,
-            archivo:false,
-            comentario:false,
             error_general:'',
         },
         mensaje_exito:'',
@@ -222,8 +220,8 @@ export default {
   },
   computed: {
     valoresAsunto(){
-        const campo = this.configuracionFormulario.properties.form.fields.find(field => { return field.name == 'asunto'});
-        return campo.values
+        // const campo = this.store_opciones_generales.asuntos.form.fields.find(field => { return field.name == 'asunto'});
+        return this.store_opciones_generales.asuntos
     },
     valoresComuna(){
         const campo = this.configuracionFormulario.properties.form.fields.find(field => { return field.name == 'comuna'});
@@ -236,10 +234,16 @@ export default {
         this.cargando_formulario = true;
         /** reset errores */
         this.resetErrores();
+        /** validar formulario */
+        if(this.validarFormulario()){
+            this.cargando_formulario = false;
+            return false;
+        }
         /** enviar data de formulario al api rest */
+        const data_formulario = this.obtenerDataFormulario();
         const respuesta_formulario = await this.enviarPost(
             import.meta.env.VITE_ENDPOINT_CONTACTO_FORMULARIO_ENVIAR,
-            this.dataFormulario,
+            data_formulario,
             {baseUrl:import.meta.env.VITE_ENDPOINT_CONTACTO_BASE_URL}
         );
 
@@ -267,31 +271,77 @@ export default {
 
         this.cargando_formulario = false;
     },
+    obtenerDataFormulario(){
+        const data_formulario  = {};
+        Object.keys(this.dataFormulario).map(data => {
+            data_formulario[data] =  this.dataFormulario[data].data;
+        });
+        return data_formulario;
+    },
     resetErrores(){
-        this.errores = {
-            nombre:false,
-            apellido:false,
-            email:false,
-            telefono:false,
-            asunto:false,
-            comuna:false,
-            archivo:false,
-            comentario:false,
-            error_general:''
-        }
+        Object.keys(this.dataFormulario).map(data => {
+            this.dataFormulario[data].error = false;
+        });
     },
     resetFormulario(){
-        this.dataFormulario = {
-            nombre:'',
-            apellido:'',
-            email:'',
-            telefono:'',
-            asunto:'',
-            comuna:'',
-            archivo:{},
-            comentario:'',
-        }
-    }
+        Object.keys(this.dataFormulario).map(data => {
+            this.dataFormulario[data].data = '';
+            this.dataFormulario[data].error = false;
+        });
+    },
+    validarFormulario(){
+        let errorGeneral = false;
+        if( !helpers.validarTelefono(this.dataFormulario.telefono.data.toString())){
+            this.dataFormulario.telefono.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.telefono.error = false;
+
+        if(!this.dataFormulario.email.data || !helpers.validateEmail(this.dataFormulario.email.data)){
+            this.dataFormulario.email.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.email.error = false;
+
+        if(!this.dataFormulario.nombre.data){
+            this.dataFormulario.nombre.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.nombre.error = false;
+
+        if(!this.dataFormulario.apellido.data){
+            this.dataFormulario.apellido.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.apellido.error = false;
+
+        if(!this.dataFormulario.asunto.data){
+            this.dataFormulario.asunto.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.asunto.error = false;
+
+        if(!this.dataFormulario.comuna.data){
+            this.dataFormulario.comuna.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.comuna.error = false;
+
+        if(!this.dataFormulario.comentario.data){
+            this.dataFormulario.comentario.error = true;
+            errorGeneral = true;
+        }else
+            this.dataFormulario.comentario.error = false;
+
+        return errorGeneral;
+    },
+    validarInputTelefono ($event) {
+      helpers.validarInputTelefono($event);
+    },
+    moverCursor($event){
+      const largo = $event.target.value.toString().length;
+
+    },
   },
 };
 </script>

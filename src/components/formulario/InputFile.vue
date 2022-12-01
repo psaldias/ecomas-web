@@ -3,9 +3,9 @@
 <template>
     <label for="" class="label" v-if="label">{{ label }}</label>
     <div class="control">
-        <div class="file has-name is-right is-normal is-fullwidth " :class="[{inputClass},{'is-danger':error}]">
+        <div class="file has-name is-right is-normal is-fullwidth " :class="[{inputClass},{'is-danger':error}]" >
             <label class="file-label">
-                <input class="file-input" type="file" name="resume" @input="actualizarArchivo($event)" >
+                <input class="file-input" type="file" name="resume" @input="actualizarArchivo($event)" :accept="permitidos">
                 <span class="file-cta bg-blanco ">
                     <span class="file-icon mr-0">
                         <i class="fa-solid fa-upload primero"></i>
@@ -26,11 +26,9 @@ export default {
     placeHolder: "",
     inputClass:"",
     type:'',
-    modelValue:{
-      type:Object,
-      default:{}
-    },
+    modelValue:{data:'',error:false},
     error:false,
+    permitidos:false,
   },
   data() {
     return {
@@ -47,10 +45,10 @@ export default {
   methods: {
     actualizarArchivo($event){
       if($event.target.files.length){
-        this.$emit('update:modelValue',$event.target.files[0])
+        this.$emit('update:modelValue',{data:$event.target.files[0],error:this.modelValue.error})
         this.archivo = $event.target.files[0].name;
       }else{
-        this.$emit('update:modelValue',{})
+        this.$emit('update:modelValue',{data:$event.target.value,error:this.modelValue.error})
         this.archivo = '';
       }
     }

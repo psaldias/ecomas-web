@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="column">
+    <!-- <div class="column">
       <div class="card card-compra-rapida card-final height-100">
         <div class="columns is-vcentered is-mobile">
           <div class="column contenido has-text-centered-mobile">
@@ -46,7 +46,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="column">
       <div class="card card-compra-rapida card-final height-100">
         <div class="columns is-vcentered is-mobile">

@@ -279,6 +279,14 @@ export default {
     /** OBTIENE LOS DATOS DEL INPUT DIRECCIÓN CON INFORMACIÓN DE GOOGLE */
     obtenerDireccionDespacho(data) {
       /** BUSCA LA REGIÓN EN BD LOCAL DE REGIONES PARA OBTENER EL CÓDIGO ISO */
+      // const locality = data.locality.normalize('NFD').replace(/\p{Diacritic}/gu, "");
+      // const region = RegionesYComunas.find(region => {
+      //   return region.communes.find(comuna => {
+      //     var comuna2 = comuna.normalize('NFD').replace(/\p{Diacritic}/gu, "");
+      //     console.log(comuna2);
+      //     return comuna2 == locality
+      //   });
+      // });
       const region = RegionesYComunas.find(region => {
         return region.name == data.administrative_area_level_1
       });
@@ -322,6 +330,13 @@ export default {
     },
 
     obtenerDireccionFacturacion(data) {
+
+      // const region = RegionesYComunas.find(region => {
+      //   return region.communes.find(comuna => {
+      //     var comuna2 = comuna.normalize('NFD').replace(/\p{Diacritic}/gu, "");
+      //     return comuna2 == data.locality
+      //   });
+      // });
       const region = RegionesYComunas.find(region => {
         return region.name == data.administrative_area_level_1
       });

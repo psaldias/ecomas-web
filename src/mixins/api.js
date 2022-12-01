@@ -47,6 +47,12 @@ export default {
               "Content-Type": "multipart/form-data",
             }
 
+            /** validar si el endpoint necesita autorización */
+            if(opciones.authorization){
+
+              headers["Authorization"] =  'Bearer '+this.store.token;
+            }
+
             const response = await axios.post(
               url,
               data,{

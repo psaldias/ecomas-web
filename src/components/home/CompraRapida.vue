@@ -1,6 +1,6 @@
 <template>
-  <main class="column">
-    <div class="columns productos-compra-rapida is-mobile" v-if="!cargando">
+  <main class="column productos-compra-rapida">
+    <div class="columns  is-mobile" v-if="!cargando">
       <div
         class="column py-0"
         v-for="producto in productosDisponibles"

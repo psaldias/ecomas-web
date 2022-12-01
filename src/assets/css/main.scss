@@ -584,9 +584,23 @@ footer{
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
+    &::-webkit-scrollbar {
+      width: 10px;
+      height: 5px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background-color: #F0F0F0;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background:color("primero");
+    }
     .card{
       scroll-snap-align: start;
       margin-bottom: .8em;
+      min-width: 200px;
+      width: 100%;
     }
 
     .text-nowrap{

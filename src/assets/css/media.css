@@ -555,6 +555,9 @@ p {
   .pedidos .seguimiento .pasos .column:after {
     content: none;
   }
+  .productos-compra-rapida .card {
+    min-width: 100%;
+  }
 }
 
 @media (max-width: 625px) {

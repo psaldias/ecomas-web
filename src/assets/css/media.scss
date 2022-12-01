@@ -295,6 +295,11 @@
             content:none;
         }
     }
+    .productos-compra-rapida{
+        .card{
+          min-width:100%;
+        }
+    }
 }
 @media  (max-width:625px) {
     .seleccionar-ubicacion{

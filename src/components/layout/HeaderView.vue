@@ -114,7 +114,7 @@
       <div class="principal columns is-mobile is-vcentered is-gapless">
         <div class="column logo is-narrow-mobile mr-2">
           <router-link to="/">
-            <img src="/img/logo-ecomas.png" alt="" width="228" height="71"/>
+            <img src="/img/logo-ecomas.v2.png" alt="" width="228" height="71"/>
           </router-link>
         </div>
         <div class="column menu-movil is-hidden-tablet has-text-right">

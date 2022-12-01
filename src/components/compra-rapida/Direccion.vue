@@ -101,10 +101,10 @@
         },
 
         obtenerDireccion(data) {
+
           const region = RegionesYComunas.find(region => {
             return region.name == data.administrative_area_level_1
           });
-
           if(data.street_number == undefined){
             this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
             return false;
@@ -122,6 +122,7 @@
             numero: data.street_number ?? '',
             direccionCompleta : ''
           };
+
 
           if(direccion.calle)
             direccion.direccionCompleta += direccion.calle;

@@ -954,9 +954,24 @@ footer nav a:hover {
   overscroll-behavior-x: contain;
 }
 
+.compra-rapida .productos-compra-rapida::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+
+.compra-rapida .productos-compra-rapida::-webkit-scrollbar-track {
+  background-color: #F0F0F0;
+}
+
+.compra-rapida .productos-compra-rapida::-webkit-scrollbar-thumb {
+  background: #80BD01;
+}
+
 .compra-rapida .productos-compra-rapida .card {
   scroll-snap-align: start;
   margin-bottom: .8em;
+  min-width: 200px;
+  width: 100%;
 }
 
 .compra-rapida .productos-compra-rapida .text-nowrap {
