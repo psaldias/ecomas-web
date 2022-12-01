@@ -42,7 +42,7 @@
         ></BloqueImagenTexto>
       </section>
 
-      <div class="wrapper">
+      <div class="wrapper" v-if="contenidoInicial.acf.brochure.activo">
         <div class="columns is-vcentered is-centered mt-6">
           <div class="column is-narrow-desktop is-12-mobile has-text-centered">
             <img :src="contenidoInicial.acf.brochure.imagen.sizes.medium" alt="" />

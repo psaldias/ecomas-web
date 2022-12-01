@@ -55,6 +55,9 @@ export default {
     productos(){
       return this.storeCarroCompra.carro.validado.productos;
     },
+    productosCarro(){
+      return this.storeCarroCompra.carro.data.productos;
+    },
     dataCarro(){
       return this.storeCarroCompra.carro.data;
     },
@@ -66,7 +69,7 @@ export default {
     }
   },
   watch:{
-    dataCarro:{
+    'productosCarro':{
       handler(newValue, oldValue) {
         this.validarCarro();
       },

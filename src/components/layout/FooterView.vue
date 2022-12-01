@@ -4,7 +4,7 @@
           <div class="columns is-centered is-mobile is-multiline">
             <div class="column is-narrow-desktop is-12-mobile has-text-centered">
               <router-link to="/">
-                <img src="/img/logo-ecomas-blanco.png" alt="">
+                <img src="/img/logo-ecomas-blanco.v2.png" alt="">
               </router-link>
 
               <div class="has-text-centered  rrss is-narrow mt-4" v-if="!store_opciones_generales.cargando && store_opciones_generales.rrss">

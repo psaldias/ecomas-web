@@ -127,11 +127,11 @@
             <li><router-link to="/productos">PELLET</router-link></li>
           </ul>
         </div>
-        <div class="column links-externos is-narrow is-hidden-mobile">
+        <div class="column links-externos is-narrow is-hidden-mobile" v-if="store_opciones_generales.url_pagina_equipos.activo">
           <ul>
             <li>
-              <a href="#" class="button button-1 is-rounded has-text-weight-medium">
-                CONOCE NUESTROS EQUIPOS
+              <a :href="store_opciones_generales.url_pagina_equipos.url_boton" class="button button-1 is-rounded has-text-weight-medium" target="_blank">
+                {{store_opciones_generales.url_pagina_equipos.texto_boton}}
               </a>
             </li>
           </ul>

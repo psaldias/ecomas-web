@@ -226,7 +226,12 @@ export default {
           let dataCarro = this.storeCarroCompra.carro.data;
           dataCarro.cupon = cupon
           this.storeCarroCompra.actualizarCarro(dataCarro,'data');
-          this.validarCompraNormal('cupon');
+          await this.validarCompraNormal('cupon');
+
+          if(!this.storeCarroCompra.carro.validado.cupon_agregado){
+            dataCarro.cupon = ''
+            this.storeCarroCompra.actualizarCarro(dataCarro,'data');
+          }
         }
       },
 

@@ -2,7 +2,7 @@
     <main v-if="tabs">
         <div class="tabs" >
             <ul>
-                <li v-for="tab, index in tabs" :key="index" :class="{ 'is-active': activo == index }">
+                <li v-for="tab, index in tabsConInformacion" :key="index" :class="{ 'is-active': activo == index }">
                     <a href="#" @click.prevent="cambiarActivo(index)">{{tab.titulo}}</a>
                 </li>
             </ul>
@@ -31,6 +31,12 @@ export default {
         tabActivo(){
             if(this.tabs)
                 return this.tabs.find( (tab,index) => index == this.activo);
+            return false;
+
+        },
+        tabsConInformacion(){
+            if(this.tabs)
+                return this.tabs.filter( (tab,index) => tab.descripcion != '');
             return false;
 
         }
