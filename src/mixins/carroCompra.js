@@ -235,6 +235,32 @@ export default {
         }
       },
 
+
+      /** OBTENER EL DETALLE DE SEGUIMIENTO DE UNA ORDEN */
+
+      async obtenerDetalleSeguimiento(  orden ){
+
+        let headers = {};
+
+        // if(!this.store.token)
+        //   await this.obtenerToken();
+        headers["Authorization"] =  'Bearer '+this.store.token;
+
+
+        const response = await axios.get( import.meta.env.VITE_ENDPOINT_SEGUIMIENTO+'?orden='+orden,{headers}).catch(error => {
+            if(error.code == "ERR_NETWORK")
+              this.$router.replace({ name: 'error' })
+              return false;
+          });
+
+        if(response.status != 200)
+          this.errorData = true;
+
+        return response;
+
+      },
+
+
       /** FUNCIÓN PARA RESTAURAR SESIÓN DEL CARRO NORMAL */
       limpiarCarro(  ){
 

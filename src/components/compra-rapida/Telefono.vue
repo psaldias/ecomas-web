@@ -22,14 +22,14 @@
                   <label class="primero">Ingresa tu nombre</label>
 
                   <div class="control">
-                    <input type="text" class="input input-2 " v-model="nombre"  />
+                    <input type="text" class="input input-2 " v-model="nombre"   @keypress="validarLetras"/>
                   </div>
                 </div>
 
                 <div class="field mb-4 ">
                   <label class="primero">Ingresa tu Email</label>
                   <div class="control">
-                    <input type="email" class="input input-2 " v-model="email" :class="{'disabled':this.usuarioCarroCompra()}"  :readonly="this.usuarioCarroCompra()"/>
+                    <input type="email" class="input input-2 " v-model="email" :class="{'disabled':this.usuarioCarroCompra()}"  :readonly="this.usuarioCarroCompra()" />
                   </div>
                 </div>
 
@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       email:'',
-      nombre:'',
+      nombre:'!!!',
       telefono:{
         type: String,
         default:"+569"
@@ -72,7 +72,7 @@ export default {
   mounted () {
     /** COMPLETAR TELEFONO SI YA LO INGRESÓ ANTES O SI ESTÁ REGISTRADO */
     this.telefono = (this.storeCarroCompra.compraRapida.telefono != '') ? this.storeCarroCompra.compraRapida.telefono : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().billing.phone : '+569') ;
-    this.nombre = (this.storeCarroCompra.compraRapida.nombre != '') ? this.storeCarroCompra.compraRapida.nombre : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_display_name : '') ;
+    // this.nombre = (this.storeCarroCompra.compraRapida.nombre != '') ? this.storeCarroCompra.compraRapida.nombre : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_display_name : '') ;
     this.email = (this.storeCarroCompra.compraRapida.email != '') ? this.storeCarroCompra.compraRapida.email :  ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_email: '') ;
 
 
@@ -85,6 +85,8 @@ export default {
         this.error = "Debes indicar un número de teléfono válido";
       }else if(!this.nombre){
         this.error = "Debes ingresar tu nombre";
+      }else if(!helpers.validarString(this.nombre)){
+        this.error = "Debes ingresar un nombre válido";
       }else if(!this.email || !helpers.validateEmail(this.email)){
         this.error = "Debes ingresar un email válido";
       }else{
@@ -97,6 +99,9 @@ export default {
     },
     validarInputTelefono ($event) {
       helpers.validarInputTelefono($event);
+    },
+    validarLetras ($event) {
+      helpers.validarInputString($event);
     },
     moverCursor($event){
       const largo = $event.target.value.toString().length;

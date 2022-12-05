@@ -3,7 +3,7 @@
     <div class="wrapper" v-if="!cargando">
       <BannerSeccionNoticia
         :titulo="noticia.title.rendered ?? ''"
-        imagen="/img/banner-interior-noticia.jpg"
+        :imagen=" (noticia.acf.imagen_banner) ? noticia.acf.imagen_banner.sizes['2048x2048'] : '/img/banner-interior-noticia.jpg'"
       />
       <div class="columns is-centered is-gapless">
         <div class="column is-8">
@@ -24,6 +24,7 @@
   </main>
 
   <Seo  v-if="noticia.hasOwnProperty('yoast_head_json')" :data="noticia.yoast_head_json"></Seo>
+
 </template>
 
 <script>
@@ -31,12 +32,14 @@ import Noticia from "../components/general/Noticia.vue";
 import BannerSeccionNoticia from "../components/general/BannerSeccionNoticia.vue";
 import NoticiasDestacadas from "../components/general/NoticiasDestacadas.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
+import Seo from "../components/general/Seo.vue";
 export default {
   components: {
     Noticia,
     BannerSeccionNoticia,
     NoticiasDestacadas,
     CargandoSeccion,
+    Seo
 },
   data() {
     return {

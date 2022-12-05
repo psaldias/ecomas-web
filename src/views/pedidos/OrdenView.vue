@@ -3,6 +3,7 @@
     <div class="wrapper">
       <div class="columns is-centered is-gapless"  v-if="!cargando">
         <div class="column is-10-fullhd is-12-desktop">
+          <Mensajes :mensajes="mensajes" class="mb-4"></Mensajes>
           <div class="pedido" v-if="ordenActiva">
             <h2 class="primero"><strong>DETALLE PEDIDO</strong></h2>
 
@@ -20,7 +21,7 @@
                     </div> -->
             </div>
 
-            <Mensajes :mensajes="mensajes" class="mb-4"></Mensajes>
+
             <div class="card p-4">
               <div class="columns">
                 <div class="column is-3-desktop is-12-mobile">
@@ -233,7 +234,7 @@ export default {
       this.$route.query.key
     );
 
-    if (respuesta.data){ this.ordenActiva = respuesta.data}
+    if (respuesta.status == 200 && respuesta.data){ this.ordenActiva = respuesta.data}
     else  this.mensajes.error = "No existe el pedido";
 
     this.cargando = false;

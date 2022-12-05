@@ -11,6 +11,20 @@
             s = JSON.parse(s);
         return s;
     },
+    validarInputString($event){
+        if (!/^[A-Za-zÀ-ÿ\s]*$/.test($event.key)) {
+            this.ignoredValue = $event.key ? $event.key : "";
+            $event.preventDefault();
+            return false;
+        }
+        return true;
+    },
+    validarString(string){
+        if (!/^[A-Za-zÀ-ÿ\s]*$/.test(string)) {
+            return false;
+        }
+        return true;
+    },
     validarInputTelefono ($event) {
         let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
 

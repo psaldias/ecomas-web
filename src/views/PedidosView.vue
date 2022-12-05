@@ -21,6 +21,8 @@
                     </div> -->
                 </div>
 
+                <RastreoPedido :orden="ordenActiva"></RastreoPedido>
+
                 <div class="card p-4">
                     <div class="columns ">
                         <div class="column is-3-desktop is-12-mobile ">
@@ -120,43 +122,8 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- <div class="card seguimiento">
-
-                    <div class="columns is-gapless pasos has-text-centered is-centered">
-                        <div class="column is-3-desktop is-12-mobile ">
-                            <div class="numero active">
-                                <span>1</span>
-                            </div>
-                            <h4>EN PREPARACIÓN</h4>
-                            <p>El vendedor esta preparando tus bolsas de pellets</p>
-                        </div>
-                        <div class="column is-3-desktop  is-12-mobile active">
-                            <div class="numero">
-                                <span>2</span>
-                            </div>
-                            <h4>EN CAMINO</h4>
-                            <p>El vendedor despachó tu paquete.</p>
-                        </div>
-                        <div class="column is-3-desktop  is-12-mobile">
-                            <div class="numero">
-                                <span>3</span>
-                            </div>
-                            <h4>EN VIAJE</h4>
-                            <p>04/07/2022<br>Llega entre el 08 y 09 de Julio</p>
-                        </div>
-                        <div class="column is-3-desktop is-12-mobile">
-                            <div class="numero">
-                                <span>4</span>
-                            </div>
-                            <h4>ENTREGA</h4>
-                            <p>Tu pedido fue entregado con éxito</p>
-                        </div>
-                    </div>
-                </div> -->
             </div>
 
-            <h2 class="primero mt-6 mb-4"><strong>HISTORIAL DE PEDIDOS</strong></h2>
             <div class="table-container" >
                 <table class="table is-fullwidth">
                     <thead>
@@ -178,7 +145,8 @@
                                 <div class="button button-2 "
                                 @click.prevent="cambiarPedidoActivo(pedido)"
                                 :class='[pedido.status,(order == pedido.id) ? "active":"" ]'>
-                                    {{pedido.status_html}}
+                                    <!-- {{pedido.status_html}} -->
+                                    VER ESTADO
                                 </div>
                             </td>
                         </tr>
@@ -195,6 +163,7 @@
 </template>
 
 <script>
+import RastreoPedido from '../components/carro/RastreoPedido.vue';
 import CargandoSeccion from '/src/components/general/CargandoSeccion.vue';
 export default {
     data() {
@@ -206,7 +175,7 @@ export default {
     },
     beforeMount() {
       if(!this.usuarioCarroCompra())
-        this.$router.replace({ path: '/ingresar' })
+        this.$router.replace({ path: '/seguimiento' })
     },
     async mounted() {
         if(this.$route.query){
@@ -236,6 +205,8 @@ export default {
                 this.order = false;
             else
                 this.order = pedido.id
+
+            document.getElementById('body').scrollIntoView({ behavior: 'smooth' });
         },
         obtenerDatoMetaData(key = false){
             if(key && this.ordenActiva){
@@ -292,6 +263,6 @@ export default {
             return false;
         }
     },
-    components: { CargandoSeccion }
+    components: { CargandoSeccion, RastreoPedido }
 };
 </script>

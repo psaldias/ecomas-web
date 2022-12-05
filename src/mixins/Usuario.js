@@ -227,14 +227,16 @@ export default {
         },
 
         /**  OBTENER UN PEDIDO SEGÚN SU ORDER_KEY */
-        async obtenerPedido(id,key) {
+        async obtenerPedido(id,key = false) {
 
           let headers = {};
-          // if(this.storeCarroCompra.usuarioCarroCompra.token){
-            // headers["Authorization"] =  'Bearer '+this.storeCarroCompra.usuarioCarroCompra.token;
+          headers["Authorization"] =  'Bearer '+this.store.token;
+            let url = '?id='+id;
+            if(key)
+              url += '&key='+key;
 
             const response = await axios.get(
-              import.meta.env.VITE_ORDER+'?id='+id+"&key="+key
+              import.meta.env.VITE_ORDER+url,{headers}
             ).catch(error => {
               return error.response;
             });

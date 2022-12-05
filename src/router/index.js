@@ -127,6 +127,10 @@ const router = createRouter({
       name: "Pedidos",
       component: () => import("../views/PedidosView.vue"),
     },{
+      path: "/seguimiento/",
+      name: "Seguimiento",
+      component: () => import("../views/SeguimientoView.vue"),
+    },{
       path:"/orden/",
       name:"Orden",
       component: () => import("../views/pedidos/OrdenView.vue"),
