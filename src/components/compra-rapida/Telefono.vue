@@ -60,7 +60,7 @@ export default {
   data() {
     return {
       email:'',
-      nombre:'!!!',
+      nombre:'',
       telefono:{
         type: String,
         default:"+569"
@@ -72,7 +72,7 @@ export default {
   mounted () {
     /** COMPLETAR TELEFONO SI YA LO INGRESÓ ANTES O SI ESTÁ REGISTRADO */
     this.telefono = (this.storeCarroCompra.compraRapida.telefono != '') ? this.storeCarroCompra.compraRapida.telefono : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().billing.phone : '+569') ;
-    // this.nombre = (this.storeCarroCompra.compraRapida.nombre != '') ? this.storeCarroCompra.compraRapida.nombre : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_display_name : '') ;
+    this.nombre = (this.storeCarroCompra.compraRapida.nombre != '') ? this.storeCarroCompra.compraRapida.nombre : ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_display_name : '') ;
     this.email = (this.storeCarroCompra.compraRapida.email != '') ? this.storeCarroCompra.compraRapida.email :  ((this.usuarioCarroCompra())? this.usuarioCarroCompra().user_email: '') ;
 
 
