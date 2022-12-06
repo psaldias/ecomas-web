@@ -41,7 +41,7 @@
 
                     <div class="columns is-gapless mt-4">
                         <div class="column is-narrow">
-                            <strong class="primero">N° Pedido:</strong> {{ordenActiva.id}}
+                            <strong class="primero">N° Pedido:</strong> {{ordenActiva.number}}
                         </div>
                         <div class="column is-1"></div>
                         <div class="column has-text-right-desktop" v-if="ordenActiva.date_paid">
@@ -96,7 +96,6 @@ export default {
             if (respuesta.status == 200 && respuesta.data){ this.ordenActiva = respuesta.data}
             else  this.mensajes.error = "No existe el pedido";
 
-            console.log(this.ordenActiva);
             this.cargando = false;
 
 

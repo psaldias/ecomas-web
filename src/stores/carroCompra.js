@@ -27,6 +27,7 @@ export const useCarroCompraStore = defineStore('carroCompra', {
               direccion:{
                 direccionCompleta:''
               },
+              comentario_direccion:'',
               telefono:'',
             },
             facturacion:{
@@ -55,6 +56,7 @@ export const useCarroCompraStore = defineStore('carroCompra', {
           nombre:'',
           email:'',
           direccion:false,
+          comentario_direccion:'',
           codigoDescuento:false,
           horarioEntrega:false,
           productoSeleccionado:false,

@@ -1,7 +1,7 @@
 <template>
     <div class="card seguimiento mb-4">
-        <div class="columns is-gapless pasos has-text-centered is-centered" v-if="!cargando">
-            <div class="column is-3-desktop is-12-mobile " :class="{'active':(!seguimiento.data)}">
+        <div class="columns is-gapless pasos has-text-centered is-centered" v-if="(!cargando && (seguimiento && seguimiento.code == 200))">
+            <div class="column is-3-desktop is-12-mobile " :class="{'active':(!seguimiento || !seguimiento.data || parseInt(seguimiento.data.U_SEI_ESTADO) <= 2 )}">
                 <div class="numero">
                     <span>1</span>
                 </div>
@@ -36,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <CargandoSeccion v-else></CargandoSeccion>
+        <CargandoSeccion v-if="cargando"></CargandoSeccion>
     </div>
 
 </template>
@@ -62,32 +62,10 @@ export default {
     methods: {
       async obtenerRastreo(){
         this.cargando = true;
-        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_SEGUIMIENTO+'?orden='+this.orden.id);
+        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_SEGUIMIENTO+'?orden='+this.orden.number);
         this.seguimiento = respuesta.data;
         this.cargando = false;
       },
-      async realizarPedido(){
-          if(!this.metodoSeleccionado){
-            this.mensajes.error = 'Debes seleccionar un método de pago';
-            this.cargando = false;
-            return false;
-          }
-
-          let dataCarro = this.storeCarroCompra.carro.data;
-          dataCarro.metodo_pago = this.metodoSeleccionado;
-          this.storeCarroCompra.actualizarCarro(dataCarro,'data');
-          /** VALIDAR CARRO */
-          this.cargando = true;
-          await this.validarCompraNormal('pago');
-
-          if(this.storeCarroCompra.carro.validado.metodo_pago.result != 'success'){
-            this.mensajes.error = 'Ocurrio un error';
-            this.cargando = false;
-          }else{
-            window.location.href = this.storeCarroCompra.carro.validado.metodo_pago.redirect;
-          }
-
-      }
     },
     async mounted(){
       this.obtenerRastreo();

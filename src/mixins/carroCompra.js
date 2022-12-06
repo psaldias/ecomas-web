@@ -56,6 +56,7 @@ export default {
         data.quantity = 1;
         data.accion = accion;
         data.direccion = this.storeCarroCompra.compraRapida.direccion;
+        data.comentario_direccion = this.storeCarroCompra.compraRapida.comentario_direccion;
         data.email = this.storeCarroCompra.compraRapida.email;
         data.nombre = this.storeCarroCompra.compraRapida.nombre;
         data.telefono = this.storeCarroCompra.compraRapida.telefono;

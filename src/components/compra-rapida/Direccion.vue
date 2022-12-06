@@ -34,6 +34,17 @@
                   Dirección Seleccionada: <b>{{direccionActual}}</b>
                 </div>
 
+                <!-- <div class="field" >
+                  <div class="control">
+                    <input
+                      class="input input-2 w-80"
+                      placeHolder="Casa Departamento o Condominio "
+                      type="text"
+                      v-model="comentario_direccion"
+                    />
+                  </div>
+                </div> -->
+
                 <div class="block has-text-right-tablet mt-5">
                 <a  class="button is-rounded is-small button-icono px-5" @click.prevent="validarDireccion()">
                   Continuar
@@ -63,6 +74,7 @@
             error: "",
             storeCarroCompra: useCarroCompraStore(),
             store_opciones_generales: useOpcionesGeneralesStore(),
+            comentario_direccion: '',
         };
     },
     async mounted () {
@@ -72,6 +84,8 @@
       /** IMPORTAR LIBRERIA GOOGLE MAPS PARA EL AUTOCOMPLETE DE LAS DIRECCIONES */
       await helpers.importarLibereriaGoogleMaps();
       this.libreriaCargada = true;
+
+      this.comentario_direccion = this.storeCarroCompra.compraRapida.comentario_direccion;
 
     },
     computed: {
@@ -95,6 +109,7 @@
                 this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
             }
             else {
+                this.storeCarroCompra.actualizarCompraRapida(this.comentario_direccion, "comentario_direccion");
                 this.$router.push({ path: "/compra-rapida/producto" });
             }
             return false;
