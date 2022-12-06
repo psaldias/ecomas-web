@@ -114,7 +114,6 @@
                     placeholder="Ingresar Dirección"
                     v-on:placechanged="obtenerDireccionFacturacion"
                     key="map2"
-                    :latLongBounds="{latLng:gmapsBounds,radius:parseInt(store_opciones_generales.restricciones_sucursales.radio_permitido)}"
                     >
                   </GoogleMapsAutocompleteVue2>
 
