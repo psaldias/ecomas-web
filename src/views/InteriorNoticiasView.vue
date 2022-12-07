@@ -23,7 +23,7 @@
 
   </main>
 
-  <Seo  v-if="noticia.hasOwnProperty('yoast_head_json')" :data="noticia.yoast_head_json"></Seo>
+  <Seo  v-if="noticia.hasOwnProperty('yoast_head_json')" :data_api="noticia.yoast_head_json"></Seo>
 
 </template>
 

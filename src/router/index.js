@@ -147,7 +147,7 @@ const router = createRouter({
     {
       path: "/bases-promocionales",
       name: "Bases Promocionales",
-      component: () => import("../views/PaginaDefaultView.vue")
+      component: () => import("../views/BasesPromocionalesView.vue")
     },
     //PREGUNTAS FRECUENTES
     {

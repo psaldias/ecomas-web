@@ -85,6 +85,7 @@
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
+  <Seo  v-if="!cargando && data.hasOwnProperty('yoast_head_json')" :data_api="data.yoast_head_json"></Seo>
 </template>
 
 <script>
@@ -97,6 +98,7 @@ export default {
     BannerSeccion,
     SucursalesHome,
     CargandoSeccion,
+    Seo
   },
   data() {
     return {

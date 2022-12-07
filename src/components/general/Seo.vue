@@ -23,9 +23,10 @@
 
 <script>
 import { Head } from '@vueuse/head'
+import contenido_inicial from '../../utils/seo.js'
+
 export default{
-    props:{
-    },
+    props:['data_api'],
     data() {
         return {
             pathActual:false,
@@ -38,7 +39,10 @@ export default{
     },
     computed:{
         data(){
-            return (contenido_inicial[this.pathActual] !== undefined) ? contenido_inicial[this.pathActual] : false ;
+            if(this.data_api){
+                return this.data_api
+            }else
+                return (contenido_inicial[this.pathActual] !== undefined) ? contenido_inicial[this.pathActual] : false ;
         },
         robots(){
             let robot = '';

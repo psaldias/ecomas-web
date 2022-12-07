@@ -7,7 +7,7 @@
           <div class="column is-1 is-hidden-mobile"></div>
           <div class="column contenido has-text-centered-mobile">
             <h2>Bolsas Pellets</h2>
-            <h3 class="mb-4">¿Cuantas necesitas?</h3>
+            <h3 class="mb-4">¿Cuántas necesitas?</h3>
 
             <div class="field mb-5" v-if="!cargando">
               <div class="select select-2">

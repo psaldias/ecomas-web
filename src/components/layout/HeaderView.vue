@@ -50,7 +50,7 @@
               <input
                 type="text"
                 class="input is-small"
-                placeholder="¿Que estás buscando?"
+                placeholder="¿Qué estás buscando?"
                 v-model="buscar"
               />
               <button type="submit" class="bg-blanco">

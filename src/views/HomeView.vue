@@ -70,7 +70,7 @@
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
     <ErrorSeccion v-if="errorData"></ErrorSeccion>
   </main>
-    <!-- <Seo  v-if="contenidoInicial.hasOwnProperty('yoast_head_json')" :data="contenidoInicial.yoast_head_json"></Seo> -->
+    <Seo  v-if="!cargando && contenidoInicial.hasOwnProperty('yoast_head_json')" :data_api="contenidoInicial.yoast_head_json"></Seo>
 
 
 
@@ -83,7 +83,7 @@ import Marcas from "/src/components/general/Marcas.vue";
 import BannerHome from "/src/components/home/BannerHome.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 import ErrorSeccion from "/src/components/general/ErrorSeccion.vue";
-
+import Seo from "/src/components/general/Seo.vue";
 
 export default {
   components: {
@@ -93,6 +93,7 @@ export default {
     BannerHome,
     CargandoSeccion,
     ErrorSeccion,
+    Seo,
   },
   async mounted() {
     const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_HOME);

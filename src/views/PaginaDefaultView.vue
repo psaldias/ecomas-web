@@ -22,7 +22,7 @@
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
 
-
+  <Seo  v-if="!cargando && data.hasOwnProperty('yoast_head_json')" :data_api="data.yoast_head_json"></Seo>
 </template>
 
 
@@ -33,12 +33,15 @@ import BannerSeccion from "../components/general/BannerSeccion.vue";
 import Acordeon from '../components/general/Acordeon.vue';
 import CargandoSeccion from '/src/components/general/CargandoSeccion.vue';
 
+import Seo from "../components/general/Seo.vue";
+
 export default {
     components:{
     BannerSeccion,
     Marcas,
     Acordeon,
     CargandoSeccion,
+    Seo,
 },
     data() {
         return {

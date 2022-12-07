@@ -152,7 +152,7 @@
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
-
+  <Seo  v-if="!cargando && data.hasOwnProperty('yoast_head_json')" :data_api="data.yoast_head_json"></Seo>
 </template>
 
 
@@ -167,6 +167,7 @@ import InputSelect from "../components/formulario/InputSelect.vue";
 import InputTextarea from "../components/formulario/InputTextarea.vue";
 import InputFile from "../components/formulario/InputFile.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
+import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     BannerSeccion,
@@ -175,6 +176,7 @@ export default {
     InputTextarea,
     InputFile,
     CargandoSeccion,
+    Seo
 },
   data() {
     return {

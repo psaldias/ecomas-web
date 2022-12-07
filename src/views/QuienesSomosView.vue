@@ -108,6 +108,7 @@
 
 
   </main>
+  <Seo  v-if="!cargando && contenidoInicial.hasOwnProperty('yoast_head_json')" :data_api="contenidoInicial.yoast_head_json"></Seo>
 </template>
 
 <script>
@@ -126,6 +127,7 @@ export default {
     Cards,
     ErrorSeccion,
     CargandoSeccion,
+    Seo
 },
   data() {
     return {

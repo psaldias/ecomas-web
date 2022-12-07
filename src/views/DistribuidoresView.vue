@@ -90,16 +90,18 @@
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
-
+  <Seo  v-if="!cargando && data.hasOwnProperty('yoast_head_json')" :data_api="data.yoast_head_json"></Seo>
 </template>
 
 <script>
 import BannerSeccion from "../components/general/BannerSeccion.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
+import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     BannerSeccion,
     CargandoSeccion,
+    Seo
 },
   data() {
     return {
