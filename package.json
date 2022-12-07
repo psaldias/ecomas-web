@@ -14,6 +14,7 @@
     "pinia": "^2.0.22",
     "tough-cookie": "^4.1.2",
     "vue": "^3.2.37",
+    "vue-jwt-decode": "^0.1.0",
     "vue-router": "^4.1.2",
     "vue3-datepicker": "^0.3.4"
   },

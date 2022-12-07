@@ -33,7 +33,8 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
 
     actualizarSucuralSeleccionada(id_comuna) {
       this.sucursal_seleccionada = this.sucursales.find(sucursal => {
-        return sucursal.regiones_comunas[0].term_id == id_comuna;
+        const sucursal_encontrada = sucursal.regiones_comunas.find(comuna => comuna.term_id == id_comuna)
+        return sucursal_encontrada;
       });
     },
 

@@ -4,7 +4,7 @@
 
         <div class="columns is-gapless is-centered mt-4" >
             <div class="column is-6-desktop is-8-tablet" v-if="!ordenActiva">
-                <h1 class="primero mb-4 is-size-5">SEGUIMINETO PEDIDO</h1>
+                <h1 class="primero mb-4 is-size-5">SEGUIMIENTO PEDIDO</h1>
                 <div class="card ">
                     <div class="columns is-centered ">
 

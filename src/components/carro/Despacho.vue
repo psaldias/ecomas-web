@@ -27,6 +27,17 @@
               </div>
             </div>
 
+            <div class="field"  v-if="libreriaCargada">
+                  <div class="control">
+                    <input
+                      class="input input-2"
+                      placeHolder="Casa Departamento o Condominio "
+                      type="text"
+                      v-model="dataFormularioDespacho.comentario_direccion.data"
+                    />
+                  </div>
+                </div>
+
             <div class="field" >
               <label for="" class="label" >Teléfono Móvil</label>
               <div class="control">
@@ -192,6 +203,7 @@ export default {
       dataFormularioDespacho: {
         direccion: {data:{direccionCompleta:''},error:false,requerido:false},
         telefono: {data:'+569',error:false,requerido:true},
+        comentario_direccion: {data:'',error:false,requerido:false},
       },
       dataFormularioFacturacion: {
         rut: {data:'',error:false,requerido:true},
@@ -262,6 +274,8 @@ export default {
       this.dataFormularioDespacho.telefono.data = (this.storeCarroCompra.carro.data.despacho.telefono) ? this.storeCarroCompra.carro.data.despacho.telefono : (this.storeCarroCompra.usuario) ? this.storeCarroCompra.usuario.shipping.phone :
                                                   '+569';
 
+      this.dataFormularioDespacho.comentario_direccion.data = (this.storeCarroCompra.carro.data.despacho.comentario_direccion) ? this.storeCarroCompra.carro.data.despacho.comentario_direccion : '';
+
       /** FACTURACION */
       if(this.storeCarroCompra.carro.data.registro.tipoDocumento == 'Factura'){
         this.dataFormularioFacturacion.rut.data = (this.storeCarroCompra.carro.data.facturacion.rut)?this.storeCarroCompra.carro.data.facturacion.rut : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.rut:''
@@ -323,6 +337,7 @@ export default {
       dataCarro.despacho = {
         direccion,
         telefono: this.dataFormularioDespacho.telefono.data,
+        comentario_direccion: this.dataFormularioDespacho.comentario_direccion.data,
       };
 
       this.storeCarroCompra.actualizarCarro(dataCarro,'data');
@@ -452,6 +467,7 @@ export default {
         dataCarro.despacho = {
           direccion: this.dataFormularioDespacho.direccion.data,
           telefono: this.dataFormularioDespacho.telefono.data,
+          comentario_direccion: this.dataFormularioDespacho.comentario_direccion.data,
         };
         dataCarro.facturacion = {
           rut: this.dataFormularioFacturacion.rut.data,

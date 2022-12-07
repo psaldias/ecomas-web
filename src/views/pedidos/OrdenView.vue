@@ -38,8 +38,8 @@
                       {{ ordenActiva.billing.city }}<br />
                       {{ ordenActiva.billing.phone }}<br />
                       {{ ordenActiva.billing.email }}<br />
-                      {{ ordenActiva.billing.company }}<br />
-                      {{ obtenerDatoMetaData("billing_giro") }}<br />
+                      <div v-if="ordenActiva.billing.company" v-html="ordenActiva.billing.company"></div>
+                      <div v-if="obtenerDatoMetaData('billing_giro')" v-html="obtenerDatoMetaData('billing_giro')"></div>
                     </div>
                   </div>
 
@@ -56,6 +56,7 @@
                       }}<br />
                       {{ ordenActiva.shipping.address_1 }}<br />
                       {{ ordenActiva.shipping.address_2 }}<br />
+                      <div v-if="obtenerDatoMetaData('comentario_direccion')" v-html="obtenerDatoMetaData('comentario_direccion')"></div>
                       {{ ordenActiva.shipping.city }}<br />
                       {{ ordenActiva.billing.email }}<br />
                     </div>
@@ -239,7 +240,7 @@ export default {
 
     this.cargando = false;
 
-    document.title = 'Orden #'+this.ordenActiva.id;
+    document.title = 'Orden #'+this.ordenActiva.number;
 
     if(this.ordenActiva.status == 'failed'){
       this.mensajes.error = 'Transacción fallida. Puedes volver a intentar el pago'

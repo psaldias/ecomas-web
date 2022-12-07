@@ -21,7 +21,28 @@
                         <div class="card height-100 p-5">
                             <h4 class="primero mb-5">Iniciar Sesión</h4>
                             <FormularioLogin></FormularioLogin>
+
+                            <!-- <GoogleSignInButton
+                            @success="handleLoginSuccess"
+                            @error="handleLoginError"
+                        ></GoogleSignInButton> -->
+
+                        <!-- <GoogleLogin :callback="handleLoginSuccess"/> -->
+                        <!-- <div id="g_id_onload"
+                            data-client_id="546617116065-4m1ccp46ds69q8u1an510i6ht5tet68o.apps.googleusercontent.com"
+                            data-login_uri="http://localhost:5173/ingresar"
+                            data-auto_prompt="false">aaaaa
                         </div>
+                        <div class="g_id_signin"
+                            data-type="standard"
+                            data-size="large"
+                            data-theme="outline"
+                            data-text="sign_in_with"
+                            data-shape="rectangular"
+                            data-logo_alignment="left">bbbb
+                        </div> -->
+                        <!-- <div id="buttonDiv">xxx</div> -->
+                    </div>
 
                     </div>
                 </div>
@@ -40,6 +61,7 @@ import { useCarroCompraStore } from "/src/stores/carroCompra";
 import Mensajes from '/src/components/general/Mensajes.vue';
 import FormularioLogin from '/src/components/formulario/FormularioLogin.vue';
 import FormularioRegistroEmail from "/src/components/formulario/FormularioRegistroEmail.vue";
+// import VueJwtDecode from 'vue-jwt-decode'
 
 export default {
   data() {
@@ -56,6 +78,22 @@ export default {
   mounted(){
     if(this.storeCarroCompra.usuarioCarroCompra)
         this.$router.push({ path: '/mi-cuenta/' });
+
+    // function handleCredentialResponse(response) {
+    //     console.log("Encoded JWT ID token: " + response.credential, response);
+    //     console.log(VueJwtDecode.decode(response.credential));
+    // }
+    // // window.onload = function () {
+    // // }
+    // google.accounts.id.initialize({
+    //     client_id: "546617116065-4m1ccp46ds69q8u1an510i6ht5tet68o.apps.googleusercontent.com",
+    //     callback: handleCredentialResponse
+    // });
+    // google.accounts.id.renderButton(
+    //     document.getElementById("buttonDiv"),
+    //     { theme: "outline", size: "large" }  // customization attributes
+    // );
+    // google.accounts.id.prompt(); // also display the One Tap dialog
   },
   computed: {
   },
@@ -63,6 +101,16 @@ export default {
     async registrarse(){
         let respuesta = await this.validarEmailRegistro(this.login.email,this.login.password);
         this.$router.push({ name: 'Registro' });
+    },
+    handleLoginSuccess(response){
+        const { credential } = response;
+        console.log(response);
+        console.log("Access Token", credential);
+
+    },
+    handleLoginError(){
+        console.error("Login failed");
+
     },
 
     limpiarMensajes(){

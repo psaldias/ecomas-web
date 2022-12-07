@@ -34,7 +34,7 @@
                   Dirección Seleccionada: <b>{{direccionActual}}</b>
                 </div>
 
-                <!-- <div class="field" >
+                <div class="field" >
                   <div class="control">
                     <input
                       class="input input-2 w-80"
@@ -43,7 +43,7 @@
                       v-model="comentario_direccion"
                     />
                   </div>
-                </div> -->
+                </div>
 
                 <div class="block has-text-right-tablet mt-5">
                 <a  class="button is-rounded is-small button-icono px-5" @click.prevent="validarDireccion()">

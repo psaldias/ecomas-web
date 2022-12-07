@@ -82,8 +82,9 @@ export default {
   },
   mounted() {
     if(this.sucursal_por_defecto){
-      this.regionSeleccionada = this.sucursal_por_defecto.regiones_comunas[0].parent;
-      this.comunaSeleccionada = this.sucursal_por_defecto.regiones_comunas[0].term_id;
+      const region_comuna = this.sucursal_por_defecto.regiones_comunas.find(comuna => comuna.term_id == localStorage.sucursalSeleccionada)
+      this.regionSeleccionada = region_comuna.parent;
+      this.comunaSeleccionada = region_comuna.term_id;
     }else if(this.regiones){
       this.regionSeleccionada = this.regiones[0].term_id;
     }
@@ -102,7 +103,8 @@ export default {
 
       if(localStorage.sucursalSeleccionada){
         return this.store_opciones_generales.sucursales.find(sucursal => {
-          return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
+          return sucursal.regiones_comunas.find(comuna => comuna.term_id == localStorage.sucursalSeleccionada)
+          // return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
         });
       }
       return this.store_opciones_generales.sucursales.find(sucursal => {
