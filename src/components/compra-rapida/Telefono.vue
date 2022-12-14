@@ -35,7 +35,7 @@
 
                 <label class="primero">Ingresa tu teléfono</label>
                 <div class="field">
-                    <input class="input input-2" type="text"  v-model="telefono" @focus="moverCursor"  @keypress="validarInputTelefono" maxlength="12">
+                    <input class="input input-2" type="text"  v-model="telefono" @focus="moverCursor"  @keypress="validarInputTelefono" maxlength="12" pattern="[0-9]">
                 </div>
 
 
@@ -82,7 +82,7 @@ export default {
     validar(){
 
       if( !helpers.validarTelefono(this.telefono.toString())){
-        this.error = "Debes indicar un número de teléfono válido";
+        this.error = "Debes indicar un número de teléfono válido Ej: +56912345678";
       }else if(!this.nombre){
         this.error = "Debes ingresar tu nombre";
       }else if(!helpers.validarString(this.nombre)){

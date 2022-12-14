@@ -48,6 +48,29 @@ export default {
           return mensaje;
         },
 
+        /** LOGIN USUARIO CON GOOGLE*/
+        async loginGoogle($token) {
+          const credenciales = {"token":$token};
+          let mensaje = {tipo:'',mensaje:''};
+
+          const response = await axios.post(
+            import.meta.env.VITE_ENDPOINT_LOGIN_GOOGLE,credenciales
+          ).catch(error => {
+            mensaje = {tipo:'error',mensaje:error.response.data.message};
+            return error.response;
+          });
+
+          if(response.status == 200){
+            mensaje = {tipo:'exito',mensaje:''};
+            this.definirUsuario(response.data);
+            localStorage.removeItem('dataCarro');
+          }else{
+            return mensaje;
+          }
+
+          return mensaje;
+        },
+
         /** ACTUALIZAR DATOS USUARIO */
         async actualizar_usuario(data) {
           let headers = {};

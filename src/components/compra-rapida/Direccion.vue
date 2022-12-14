@@ -118,30 +118,31 @@
         obtenerDireccion(data) {
 
           const region = RegionesYComunas.find(region => {
-            return region.name == data.administrative_area_level_1
+            return (region.name == data.administrative_area_level_1)
           });
-          if(data.street_number == undefined){
-            this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
-            return false;
-          }
+          // if(data.street_number == undefined){
+          //   this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
+          //   return false;
+          // }
+
+
 
           this.error = '';
           const direccion = {
-            region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
+            region: (region && region.region_iso_3166_2) ? region.region_iso_3166_2 : data.administrative_area_level_1 ,
             ciudad:data.administrative_area_level_2,
             comuna:data.locality,
             pais:data.country,
             latitud:data.latitude,
             longitud:data.longitude,
             calle:data.route,
-            numero: data.street_number ?? '',
+            numero: data.street_number ?? '0',
             direccionCompleta : ''
           };
 
-
           if(direccion.calle)
             direccion.direccionCompleta += direccion.calle;
-          if(direccion.numero)
+          if(direccion.numero && direccion.numero != 0)
             direccion.direccionCompleta += " "+direccion.numero;
           if(direccion.ciudad)
             direccion.direccionCompleta += ", "+direccion.ciudad;

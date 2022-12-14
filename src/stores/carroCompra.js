@@ -11,6 +11,7 @@ export const useCarroCompraStore = defineStore('carroCompra', {
             productos:[],
             cupon:[],
             metodo_pago:false,
+            sucursal:false,
             registro:{
               rut: '',
               nombre: '',
@@ -111,6 +112,10 @@ export const useCarroCompraStore = defineStore('carroCompra', {
 
     actualizarDireccionDespacho(data) {
       this.carro.data.despacho.direccion = data;
+    },
+    actualizarSucursalCarro(sucursal) {
+      this.carro.data.sucursal = sucursal;
+      localStorage.dataCarro = helpers.base64_encode(this.carro.data,true);
     },
 
     actualizaCarroMetodoPago(metodo) {

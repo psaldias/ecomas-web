@@ -1404,6 +1404,10 @@ footer nav a:hover {
   line-height: 1.2em;
 }
 
+.producto .caracteristicas P:last-child {
+  margin-bottom: 0;
+}
+
 .producto .acciones .cantidad button {
   width: 30px;
 }

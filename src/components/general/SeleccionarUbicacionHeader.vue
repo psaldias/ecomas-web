@@ -82,7 +82,7 @@ export default {
   },
   mounted() {
     if(this.sucursal_por_defecto){
-      const region_comuna = this.sucursal_por_defecto.regiones_comunas.find(comuna => comuna.term_id == localStorage.sucursalSeleccionada)
+      const region_comuna = this.sucursal_por_defecto.regiones_comunas.find(comuna => (localStorage.sucursalSeleccionada) ? comuna.term_id == localStorage.sucursalSeleccionada: true)
       this.regionSeleccionada = region_comuna.parent;
       this.comunaSeleccionada = region_comuna.term_id;
     }else if(this.regiones){
@@ -129,6 +129,7 @@ export default {
     guardarUbicacion(){
       this.store_opciones_generales.actualizarSucuralSeleccionada(this.comunaSeleccionada);
       this.storeCarroCompra.actualizarDireccionDespacho({direccionCompleta:''});
+      this.storeCarroCompra.actualizarSucursalCarro(this.store_opciones_generales.sucursal_seleccionada.ID);
       this.storeCarroCompra.actualizarCompraRapida(false, "direccion");
       localStorage.sucursalSeleccionada = (this.comunaSeleccionada);
       this.mostrarMenu = false;

@@ -304,10 +304,10 @@ export default {
         return region.name == data.administrative_area_level_1
       });
 
-      if(data.street_number == undefined){
-        this.mensajes.error = "Formato de la dirección de despacho incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
-        return false;
-      }
+      // if(data.street_number == undefined){
+      //   this.mensajes.error = "Formato de la dirección de despacho incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
+      //   return false;
+      // }
 
       this.mensajes.error = "";
 
@@ -319,13 +319,13 @@ export default {
           latitud:data.latitude,
           longitud:data.longitude,
           calle:data.route,
-          numero: data.street_number ?? '',
+          numero: data.street_number ?? '0',
           direccionCompleta : ''
       };
 
       if(direccion.calle)
         direccion.direccionCompleta += direccion.calle;
-      if(direccion.numero)
+        if(direccion.numero && direccion.numero != 0)
         direccion.direccionCompleta += " "+direccion.numero;
       if(direccion.ciudad)
         direccion.direccionCompleta += ", "+direccion.ciudad;
@@ -355,10 +355,10 @@ export default {
         return region.name == data.administrative_area_level_1
       });
 
-      if(data.street_number == undefined){
-        this.mensajes.error = "Formato de la dirección de facturación incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
-        return false;
-      }
+      // if(data.street_number == undefined){
+      //   this.mensajes.error = "Formato de la dirección de facturación incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
+      //   return false;
+      // }
       this.mensajes.error = "";
 
       const direccion = {
@@ -369,13 +369,13 @@ export default {
           latitud:data.latitude,
           longitud:data.longitude,
           calle:data.route,
-          numero: data.street_number ?? '',
+          numero: data.street_number ?? '0',
           direccionCompleta : ''
       };
 
       if(direccion.calle)
         direccion.direccionCompleta += direccion.calle;
-      if(direccion.numero)
+      if(direccion.numero && direccion.numero != 0)
         direccion.direccionCompleta += " "+direccion.numero;
       if(direccion.ciudad)
         direccion.direccionCompleta += ", "+direccion.ciudad;

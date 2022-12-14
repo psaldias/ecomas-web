@@ -52,6 +52,11 @@ export default {
       }
 
       if(localStorage.dataCarro){
+        const dataCarro = helpers.base64_decode(localStorage.dataCarro,true);
+
+        if(dataCarro.sucursal != this.store_opciones_generales.sucursal_seleccionada.ID)
+          dataCarro.despacho.direccion.direccionCompleta = ''
+
         this.storeCarroCompra.actualizarCarro(helpers.base64_decode(localStorage.dataCarro,true),'data');
       }
     }else{

@@ -59,23 +59,18 @@
                     <Precio :precios="precios" class="mb-5"></Precio>
 
                     <div class="columns is-gapless is-mobile mb-5 caracteristicas ">
-                      <div class="column is-6">
+                      <div class="column" v-if="this.producto.campos_adicionales.despacho_domicilio">
                         <div
                           class="columns is-mobile is-gapless envio-despacho is-vcentered"
                         >
                           <div class="column is-narrow mr-2">
                             <i class="fa-solid fa-truck primero"></i>
                           </div>
-                          <div class="column gris3">
-                            <b>
-                              Envío a Domicio
-                              <br />
-                              COSTO ADICIONAL
-                            </b>
+                          <div class="column gris3" v-html="this.producto.campos_adicionales.despacho_domicilio">
                           </div>
                         </div>
                       </div>
-                      <div class="column is-6">
+                      <div class="column" v-if="this.producto.campos_adicionales.retiro_en_tienda">
                         <div
                           class="columns is-mobile is-gapless envio-despacho is-vcentered"
                         >

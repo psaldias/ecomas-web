@@ -36,7 +36,7 @@
             $event.target.value = "+569"
     },
     validarTelefono (telefono) {
-        if (telefono.length != 12 ) {
+        if (telefono.length != 12 ||  !telefono.startsWith("+569") || !/^[0-9+]+$/.test( telefono )) {
             return false;
         }
         return true;
@@ -90,6 +90,30 @@
         //   let recaptchaScript = document.createElement('script')
         //   recaptchaScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places')
         //   document.head.appendChild(recaptchaScript);
+        }
+    },
+    importarLibereriaGoogleGsi(){
+        if ($('head script[src="https://accounts.google.com/gsi/client"]').length == 0){
+
+            return new Promise(function(resolve, reject) {
+            const s = document.createElement('script');
+            let r = false;
+            s.type = 'text/javascript';
+            s.src = 'https://accounts.google.com/gsi/client';
+            s.async = true;
+            s.onerror = function(err) {
+                reject(err, s);
+            };
+            s.onload = s.onreadystatechange = function() {
+                // console.log(this.readyState); // uncomment this line to see which ready states are called.
+                if (!r && (!this.readyState || this.readyState == 'complete')) {
+                r = true;
+                resolve();
+                }
+            };
+            const t = document.getElementsByTagName('script')[0];
+            t.parentElement.insertBefore(s, t);
+            });
         }
     }
 }

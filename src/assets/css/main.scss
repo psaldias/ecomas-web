@@ -1019,6 +1019,14 @@ footer{
     color:color("gris3");
     line-height: 1.2em;
   }
+  .caracteristicas{
+    P{
+      &:last-child{
+        margin-bottom: 0;
+      }
+
+    }
+  }
   .acciones{
 
     .cantidad{

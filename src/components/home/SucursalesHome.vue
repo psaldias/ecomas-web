@@ -18,27 +18,27 @@
       <div class="columns listado-sucursales-mapa">
         <div class="column listado is-2">
           <ul class="is-hidden-mobile">
-            <li class="mb-2" v-for="sucursal in sucursales" :key="sucursal.id">
+            <li class="mb-2" v-for="sucursal in sucursales" :key="sucursal.ID">
               <a
-                @click.prevent="cambiarSucursal(sucursal.id)"
+                @click.prevent="cambiarSucursal(sucursal.ID)"
                 class="button button-2 is-block"
-                :class="{ active: sucursal.id == sucursal_actual }"
+                :class="{ active: sucursal.ID == sucursal_actual }"
               >
-                {{ sucursal.title.rendered }}
+                {{ sucursal.post_title }}
               </a>
             </li>
           </ul>
           <div class="has-text-centered">
               <div class="select  is-hidden-tablet">
                   <select name="" id="" class="select" v-model="sucursal_actual">
-                      <option :value="sucursal.id" v-for="sucursal in sucursales" :key="sucursal.id" >{{ sucursal.title.rendered }}</option>
+                      <option :value="sucursal.ID" v-for="sucursal in sucursales" :key="sucursal.ID" >{{ sucursal.post_title }}</option>
                   </select>
               </div>
           </div>
 
           <div class="block data-sucursal is-size-6 mt-5 is-hidden-mobile">
             <p>
-              <b class="primero is-block"> {{ sucursalActual.title.rendered }}</b>
+              <b class="primero is-block"> {{ sucursalActual.post_title }}</b>
               Dirección: {{ sucursalActual.acf.direccion }}
             </p>
 
@@ -69,7 +69,7 @@
 
           <div class="block data-sucursal is-size-6 mt-5 is-hidden-tablet">
             <p>
-              <b class="primero is-block">{{ sucursalActual.title.rendered }}</b>
+              <b class="primero is-block">{{ sucursalActual.post_title }}</b>
               Dirección: {{ sucursalActual.acf.direccion }}
             </p>
 
@@ -107,31 +107,31 @@ export default {
     async mounted() {
         const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_SUCURSALES_LISTADO);
         this.sucursales = respuesta.data;
-        this.sucursal_actual = this.sucursales[0].id;
+        this.sucursal_actual = this.sucursales[0].ID;
         this.cargando = false;
     },
     computed: {
         sucursalActual() {
-            return this.sucursales.find((sucursal) => sucursal.id == this.sucursal_actual);
+            return this.sucursales.find((sucursal) => sucursal.ID == this.sucursal_actual);
         },
         urlGoogle: function () {
-            return ("https://maps.google.com/maps?q=ecomas " +
-                encodeURIComponent(this.sucursalActual.acf.direccion) +
-                ", " +
-                this.sucursalActual.title.rendered +
-                "&t=&z=14&ie=UTF8&iwloc=");
+
+            return ("https://maps.google.com/maps?q="+this.sucursalActual.acf.coordenadas_sucursal.latitud+","+this.sucursalActual.acf.coordenadas_sucursal.longitud+
+            "&t=&z=14&ie=UTF8&iwloc=");
         },
         urlWaze: function () {
             return ("https://waze.com/ul?q=ecomas " +
                 encodeURIComponent(this.sucursalActual.acf.direccion) +
                 ", " +
-                this.sucursalActual.title.rendered);
+                this.sucursalActual.post_title);
         },
         urlIframe: function () {
+          return ("https://www.google.cl/maps?q="+this.sucursalActual.acf.coordenadas_sucursal.latitud+","+this.sucursalActual.acf.coordenadas_sucursal.longitud+
+            "&hl=es&z=14&output=embed");
             return ("https://maps.google.com/maps?q=ecomas " +
                 encodeURIComponent(this.sucursalActual.acf.direccion) +
                 ", " +
-                this.sucursalActual.title.rendered +
+                this.sucursalActual.post_title +
                 "&output=embed");
         },
     },

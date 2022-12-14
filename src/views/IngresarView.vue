@@ -1,7 +1,7 @@
 
 
 <template>
-  <main class="noticias">
+  <main class="noticias" v-if="!storeCarroCompra.usuarioCarroCompra">
     <div class="wrapper">
         <div class="columns is-centered is-gapless">
             <div class="column is-10-fullhd is-11-desktop is-12-mobbile">
@@ -41,7 +41,9 @@
                             data-shape="rectangular"
                             data-logo_alignment="left">bbbb
                         </div> -->
-                        <!-- <div id="buttonDiv">xxx</div> -->
+
+
+
                     </div>
 
                     </div>
@@ -61,7 +63,6 @@ import { useCarroCompraStore } from "/src/stores/carroCompra";
 import Mensajes from '/src/components/general/Mensajes.vue';
 import FormularioLogin from '/src/components/formulario/FormularioLogin.vue';
 import FormularioRegistroEmail from "/src/components/formulario/FormularioRegistroEmail.vue";
-// import VueJwtDecode from 'vue-jwt-decode'
 
 export default {
   data() {
@@ -75,29 +76,17 @@ export default {
         storeCarroCompra: useCarroCompraStore(),
     };
   },
-  mounted(){
-    if(this.storeCarroCompra.usuarioCarroCompra)
-        this.$router.push({ path: '/mi-cuenta/' });
+  created(){
 
-    // function handleCredentialResponse(response) {
-    //     console.log("Encoded JWT ID token: " + response.credential, response);
-    //     console.log(VueJwtDecode.decode(response.credential));
-    // }
-    // // window.onload = function () {
-    // // }
-    // google.accounts.id.initialize({
-    //     client_id: "546617116065-4m1ccp46ds69q8u1an510i6ht5tet68o.apps.googleusercontent.com",
-    //     callback: handleCredentialResponse
-    // });
-    // google.accounts.id.renderButton(
-    //     document.getElementById("buttonDiv"),
-    //     { theme: "outline", size: "large" }  // customization attributes
-    // );
-    // google.accounts.id.prompt(); // also display the One Tap dialog
+      if(this.storeCarroCompra.usuarioCarroCompra)
+          this.$router.push({ path: '/mi-cuenta/' });
+  },
+  mounted(){
   },
   computed: {
   },
   methods: {
+
     async registrarse(){
         let respuesta = await this.validarEmailRegistro(this.login.email,this.login.password);
         this.$router.push({ name: 'Registro' });

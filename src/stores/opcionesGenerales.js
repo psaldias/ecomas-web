@@ -10,6 +10,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         url_pagina_equipos:false,
         restricciones_compras:false,
         restricciones_sucursales:false,
+        ingreso_con_google:{activo:false},
         menus:{},
         sucursales:false,
         ubicaciones_sucursales:false,
