@@ -117,6 +117,8 @@
 
         obtenerDireccion(data) {
 
+
+
           const region = RegionesYComunas.find(region => {
             return (region.name == data.administrative_area_level_1)
           });
@@ -130,7 +132,7 @@
           this.error = '';
           const direccion = {
             region: (region && region.region_iso_3166_2) ? region.region_iso_3166_2 : data.administrative_area_level_1 ,
-            ciudad:data.administrative_area_level_2,
+            ciudad:data.administrative_area_level_3 ?? data.administrative_area_level_2,
             comuna:data.locality,
             pais:data.country,
             latitud:data.latitude,
@@ -139,6 +141,8 @@
             numero: data.street_number ?? '0',
             direccionCompleta : ''
           };
+
+
 
           if(direccion.calle)
             direccion.direccionCompleta += direccion.calle;

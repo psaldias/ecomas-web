@@ -313,7 +313,7 @@ export default {
 
       const direccion = {
           region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
-          ciudad:data.administrative_area_level_2,
+          ciudad:data.administrative_area_level_3 ?? data.administrative_area_level_2,
           comuna:data.locality,
           pais:data.country,
           latitud:data.latitude,
@@ -363,7 +363,7 @@ export default {
 
       const direccion = {
           region:region.region_iso_3166_2 ?? data.administrative_area_level_1 ,
-          ciudad:data.administrative_area_level_2,
+          ciudad:data.administrative_area_level_3 ?? data.administrative_area_level_2,
           comuna:data.locality,
           pais:data.country,
           latitud:data.latitude,
