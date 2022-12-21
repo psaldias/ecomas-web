@@ -123,6 +123,10 @@ const router = createRouter({
       name: "Actualizar Contraseña",
       component: () => import("../views/ActualizarPasswordView.vue")
     },{
+      path: "/mi-cuenta/direcciones",
+      name: "Mis Direcciones",
+      component: () => import("../views/MisDireccionesView.vue")
+    },{
       path: "/pedidos/",
       name: "Pedidos",
       component: () => import("../views/PedidosView.vue"),

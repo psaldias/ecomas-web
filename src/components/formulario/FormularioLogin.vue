@@ -40,18 +40,9 @@
             </div>
         </div>
 
-        <div class="columns is-variable is-1" v-if="store_opciones_generales.ingreso_con_google.activo && store_opciones_generales.ingreso_con_google.id && !cargando_google " >
-            <div class="column has-text-centered-mobile" >
-                <div id="buttonDiv" class="is-inline-block"></div>
-                <div class="g_id_signin"
-                    data-type="standard"
-                    data-size="large"
-                    data-theme="outline"
-                    data-text="sign_in_with"
-                    data-shape="rectangular"
-                    data-logo_alignment="left">
-                </div>
-            </div>
+        <div class="columns is-variable is-1 is-gapless is-vcentered" >
+            <LoginGoogle v-if="store_opciones_generales.ingreso_con_google.activo && store_opciones_generales.ingreso_con_google.id " ></LoginGoogle>
+            <LoginFacebook></LoginFacebook>
         </div>
     </form>
 </template>
@@ -61,6 +52,8 @@
     import Mensajes from '/src/components/general/Mensajes.vue';
     import CargandoSeccion from "../general/CargandoSeccion.vue";
     import helpers from '../../utils/helpers';
+import LoginGoogle from "./LoginGoogle.vue";
+import LoginFacebook from "./LoginFacebook.vue";
 
     export default {
         data() {
@@ -72,72 +65,45 @@
             store_opciones_generales: useOpcionesGeneralesStore(),
             mensajes:{},
             cargando:false,
-            cargando_google:false,
         };
         },
-        async mounted(){
-            if(this.store_opciones_generales.ingreso_con_google.activo && this.store_opciones_generales.ingreso_con_google.id){
-                this.cargando = true;
-                /** IMPORTAR LIBRERIA GOOGLE MAPS PARA EL AUTOCOMPLETE DE LAS DIRECCIONES */
-                await helpers.importarLibereriaGoogleGsi();
-                this.cargando = false;
+         mounted(){
 
-                google.accounts.id.initialize({
-                    client_id: this.store_opciones_generales.ingreso_con_google.id,
-                    callback: this.handleCredentialResponse
-                });
-                google.accounts.id.renderButton(
-                    document.getElementById("buttonDiv"),
-                    { theme: "outline", size: "large" }  // customization attributes
-                );
-                google.accounts.id.prompt(); // also display the One Tap dialog
-            }
 
 
         },
         methods: {
-            async handleCredentialResponse(response) {
+
+            async loginFormulario(){
+                this.limpiarMensajes();
+
+                if(!this.login.email || !this.login.password){
+                    this.mensajes.error="Debes indicar un Usuario y Contraseña";
+                    return;
+                }
+                if(!this.validateEmail(this.login.email)){
+                    this.mensajes.error="Debes indicar un Email Válido";
+                    return;
+                }
+
                 this.cargando = true;
                 this.cargando_google = true;
-                let respuesta = await this.loginGoogle(response.credential);
+                let respuesta = await this.loginUsuario(this.login.email,this.login.password);
                 if(respuesta.tipo == 'exito')
-                    this.$router.replace({ path: '/mi-cuenta/' });
+                this.$router.replace({ path: '/mi-cuenta/' });
 
-                this.cargando_google = false;
+                this.mensajes[respuesta.tipo] = respuesta.mensaje;
                 this.cargando = false;
-                // console.log("Encoded JWT ID token: " + response.credential, response);
-                // console.log(respuesta);
+                this.cargando_google = false;
             },
-        async loginFormulario(){
-            this.limpiarMensajes();
 
-            if(!this.login.email || !this.login.password){
-                this.mensajes.error="Debes indicar un Usuario y Contraseña";
-                return;
+            limpiarMensajes(){
+                this.mensajes = {
+                    exito:'',
+                    error:'',
+                }
             }
-            if(!this.validateEmail(this.login.email)){
-                this.mensajes.error="Debes indicar un Email Válido";
-                return;
-            }
-
-            this.cargando = true;
-            this.cargando_google = true;
-            let respuesta = await this.loginUsuario(this.login.email,this.login.password);
-            if(respuesta.tipo == 'exito')
-            this.$router.replace({ path: '/mi-cuenta/' });
-
-            this.mensajes[respuesta.tipo] = respuesta.mensaje;
-            this.cargando = false;
-            this.cargando_google = false;
         },
-
-        limpiarMensajes(){
-            this.mensajes = {
-                exito:'',
-                error:'',
-            }
-        }
-        },
-        components: { Mensajes, CargandoSeccion },
+        components: { Mensajes, CargandoSeccion, LoginGoogle, LoginFacebook },
     };
 </script>

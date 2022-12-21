@@ -9,12 +9,12 @@
 
         <div class="columns is-variable is-4-tablet mt-4">
             <div class="column menu is-narrow">
-                <a href="#" class="button button-3 active is-block mb-2">
-                   <i class=" mr-2 fa-solid fa-circle-user"></i> Mi información Personal
-                </a>
-                <!-- <a href="#" class="button button-3 is-block mb-2">
-                   <i class=" mr-2 fa-solid fa-location-dot"></i> Mis Direcciones
-                </a> -->
+                <RouterLink to="/mi-cuenta/"  class="button button-3 is-block mb-2 active">
+                    <i class=" mr-2 fa-solid fa-circle-user"></i> Mi información Personal
+                </RouterLink>
+                <!-- <RouterLink to="/mi-cuenta/direcciones"  class="button button-3 is-block mb-2">
+                    <i class=" mr-2 fa-solid fa-location-dot"></i> Mis Direcciones
+                </RouterLink> -->
                 <RouterLink to="/pedidos/"  class="button button-3 is-block mb-2">
                    <i class=" mr-2 fa-solid fa-list-check"></i> Mis pedidos
                 </RouterLink>

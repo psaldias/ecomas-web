@@ -62,6 +62,7 @@ export default {
     }else{
       this.store_opciones_generales.guardarDatos({cargando:false});
     }
+
   },
   computed:{
     sucursalSeleccionada(){

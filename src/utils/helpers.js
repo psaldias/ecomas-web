@@ -92,7 +92,7 @@
         //   document.head.appendChild(recaptchaScript);
         }
     },
-    importarLibereriaGoogleGsi(){
+    async importarLibereriaGoogleGsi(){
         if ($('head script[src="https://accounts.google.com/gsi/client"]').length == 0){
 
             return new Promise(function(resolve, reject) {
@@ -100,6 +100,30 @@
             let r = false;
             s.type = 'text/javascript';
             s.src = 'https://accounts.google.com/gsi/client';
+            s.async = true;
+            s.onerror = function(err) {
+                reject(err, s);
+            };
+            s.onload = s.onreadystatechange = function() {
+                // console.log(this.readyState); // uncomment this line to see which ready states are called.
+                if (!r && (!this.readyState || this.readyState == 'complete')) {
+                r = true;
+                resolve();
+                }
+            };
+            const t = document.getElementsByTagName('script')[0];
+            t.parentElement.insertBefore(s, t);
+            });
+        }
+    },
+    async importarLibereria(libreria){
+        if ($('head script[src="'+libreria+'"]').length == 0){
+
+            return new Promise(function(resolve, reject) {
+            const s = document.createElement('script');
+            let r = false;
+            s.type = 'text/javascript';
+            s.src = libreria;
             s.async = true;
             s.onerror = function(err) {
                 reject(err, s);

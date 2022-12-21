@@ -86,7 +86,11 @@ export default {
       this.regionSeleccionada = region_comuna.parent;
       this.comunaSeleccionada = region_comuna.term_id;
     }else if(this.regiones){
+
       this.regionSeleccionada = this.regiones[0].term_id;
+    }
+    if(!localStorage.sucursalSeleccionada){
+      this.mostrarMenu = true;
     }
 
     if(this.ubicaciones){
