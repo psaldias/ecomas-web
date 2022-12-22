@@ -12,9 +12,9 @@
                 <RouterLink to="/mi-cuenta/"  class="button button-3 is-block mb-2 active">
                     <i class=" mr-2 fa-solid fa-circle-user"></i> Mi información Personal
                 </RouterLink>
-                <!-- <RouterLink to="/mi-cuenta/direcciones"  class="button button-3 is-block mb-2">
+                <RouterLink to="/mi-cuenta/direcciones"  class="button button-3 is-block mb-2">
                     <i class=" mr-2 fa-solid fa-location-dot"></i> Mis Direcciones
-                </RouterLink> -->
+                </RouterLink>
                 <RouterLink to="/pedidos/"  class="button button-3 is-block mb-2">
                    <i class=" mr-2 fa-solid fa-list-check"></i> Mis pedidos
                 </RouterLink>

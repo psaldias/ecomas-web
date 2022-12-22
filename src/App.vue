@@ -6,9 +6,12 @@
       v-if="!store_opciones_generales.cargando"
     ></router-view>
     <CargandoSeccion v-if="store_opciones_generales.cargando"></CargandoSeccion>
+
+    <div v-if="customHtml" v-html="customHtml"></div>
     <FooterView></FooterView>
     <Toplayer></Toplayer>
   </main>
+
   <Seo></Seo>
 </template>
 
@@ -31,12 +34,14 @@ export default {
     CargandoSeccion,
     Toplayer,
     Seo,
+
   },
   data() {
     return {
       store_opciones_generales: useOpcionesGeneralesStore(),
       storeCarroCompra: useCarroCompraStore(),
       store:useLlamadasApiStore(),
+      customHtml:false,
     };
   },
   async mounted() {
@@ -61,6 +66,21 @@ export default {
       }
     }else{
       this.store_opciones_generales.guardarDatos({cargando:false});
+    }
+
+
+    /** CARGAR SCRIPT PERSONALIZADOS DEL ADMINISTRADOR OPCIONES ECOMAS - GENERALES */
+    if(this.store_opciones_generales.scripts_personalizados){
+      this.customHtml = '';
+      this.store_opciones_generales.scripts_personalizados.forEach(script => {
+        if(script.estado){
+          if(script.html)
+            this.customHtml += script.html;
+          if(script.url_script)
+            helpers.importarLibereria(script.url_script);
+        }
+
+      });
     }
 
   },

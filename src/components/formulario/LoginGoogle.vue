@@ -1,6 +1,6 @@
 <template>
-    <div class="column has-text-centered-mobile " v-if="store_opciones_generales.ingreso_con_google.activo && store_opciones_generales.ingreso_con_google.id ">
-        <div v-if="!cargando_google">
+    <div class="column has-text-centered " v-if="store_opciones_generales.ingreso_con_google.activo && store_opciones_generales.ingreso_con_google.id ">
+        <div v-if="!cargando_google" class="is-inline-block">
             <div id="buttonDiv" class="is-inline-block">
                 <img src="/img/btn-facebook.jpg" alt="" class="is-block" />
             </div>

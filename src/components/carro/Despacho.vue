@@ -285,9 +285,12 @@ export default {
         this.dataFormularioFacturacion.apellidos.data = (this.storeCarroCompra.carro.data.facturacion.apellidos)?this.storeCarroCompra.carro.data.facturacion.apellidos : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos:''
         this.dataFormularioFacturacion.telefono.data = (this.storeCarroCompra.carro.data.facturacion.telefono)?this.storeCarroCompra.carro.data.facturacion.telefono : (this.storeCarroCompra.usuario.billing_direccion_completa) ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono:'+569'
 
-        if(this.storeCarroCompra.carro.data.facturacion.direccion)
-          this.dataFormularioFacturacion.direccion.data = this.storeCarroCompra.carro.data.facturacion.direccion
+        if(this.storeCarroCompra.carro.data.facturacion.direccion.direccionCompleta){
+          this.dataFormularioFacturacion.direccion.data =  this.storeCarroCompra.carro.data.facturacion.direccion;
+        }else if( this.storeCarroCompra.usuario.billing_direccion_completa )
+          this.dataFormularioFacturacion.direccion.data =  this.storeCarroCompra.usuario.billing_direccion_completa;
       }
+
     },
     /** OBTIENE LOS DATOS DEL INPUT DIRECCIÓN CON INFORMACIÓN DE GOOGLE */
     obtenerDireccionDespacho(data) {
@@ -423,25 +426,25 @@ export default {
         if(this.dataFormularioFacturacion.rut.error)
           errorGeneral = true;
 
-        if(this.dataFormularioFacturacion.razon_social.data == ''){
+        if(!this.dataFormularioFacturacion.razon_social.data || this.dataFormularioFacturacion.razon_social.data == ''){
           this.dataFormularioFacturacion.razon_social.error = true;
           errorGeneral = true;
         }else
           this.dataFormularioFacturacion.razon_social.error = false;
 
-        if(this.dataFormularioFacturacion.giro.data == ''){
+        if(!this.dataFormularioFacturacion.giro.data || this.dataFormularioFacturacion.giro.data == ''){
           this.dataFormularioFacturacion.giro.error = true;
           errorGeneral = true;
         }else
           this.dataFormularioFacturacion.giro.error = false;
 
-        if(this.dataFormularioFacturacion.nombre.data == ''){
+        if(!this.dataFormularioFacturacion.nombre.data || this.dataFormularioFacturacion.nombre.data == ''){
           this.dataFormularioFacturacion.nombre.error = true;
           errorGeneral = true;
         }else
           this.dataFormularioFacturacion.nombre.error = false;
 
-        if(this.dataFormularioFacturacion.apellidos.data == ''){
+        if(!this.dataFormularioFacturacion.apellidos.data || this.dataFormularioFacturacion.apellidos.data == ''){
           this.dataFormularioFacturacion.apellidos.error = true;
           errorGeneral = true;
         }else

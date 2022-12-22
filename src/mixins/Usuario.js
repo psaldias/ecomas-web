@@ -145,9 +145,44 @@ export default {
 
           if(response.status == 200){
             let dataUsuario = this.usuarioCarroCompra();
-            if(data?.billing_phone)
+            if(data.billing_phone)
               dataUsuario.billing.phone = data.billing_phone
+            if(data.direccion){
+              dataUsuario.billing.address_1 = response.data.data.address_1;
+              dataUsuario.billing.address_2 = response.data.data.address_2;
+              dataUsuario.billing.city = response.data.data.city ;
+              dataUsuario.billing_direccion_completa = data.direccion;
+            }
 
+            this.definirUsuario(dataUsuario);
+          }
+
+          return mensaje;
+        },
+
+        /** ACTUALIZAR SHIPPING USUARIO */
+        async actualizar_shipping_usuario(data) {
+          let headers = {};
+
+          if(this.storeCarroCompra.usuarioCarroCompra.token)
+            headers["Authorization"] =  'Bearer '+this.storeCarroCompra.usuarioCarroCompra.token;
+
+          let mensaje = {tipo:'exito',mensaje:'Datos actualizados correctamente.'};
+
+          const response = await axios.post(
+            import.meta.env.VITE_ACTUALIZAR_SHIPPING_USUARIO,data,{headers}
+          ).catch(error => {
+            mensaje = {tipo:'error',mensaje:error.response.data.message};
+            return error.response;
+          });
+
+          if(response.status == 200){
+            let dataUsuario = this.usuarioCarroCompra();
+            dataUsuario.shipping.address_1 = response.data.data.address_1;
+            dataUsuario.shipping.address_2 = response.data.data.address_2;
+            dataUsuario.shipping.city = response.data.data.city ;
+            dataUsuario.shipping_direccion_completa = data.direccion;
+            dataUsuario.shipping.comentario_direccion = data.comentario_direccion;
             this.definirUsuario(dataUsuario);
           }
 

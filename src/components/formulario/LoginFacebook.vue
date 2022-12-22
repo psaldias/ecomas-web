@@ -1,5 +1,5 @@
 <template>
-    <div class="column has-text-centered" >
+    <div class="column has-text-centered" v-if="store_opciones_generales.ingreso_con_facebook.activo && store_opciones_generales.ingreso_con_facebook.app_id ">
         <!-- <div id="fb-root"></div> -->
         <a @click.prevent="logInWithFacebook" v-if="!cargando_facebook"><img src="/img/btn-facebook.jpg" alt="" ></a>
         <CargandoSeccion v-if="cargando_facebook"></CargandoSeccion>
@@ -40,9 +40,10 @@
         async mounted(){
             /** IMPORTAR LIBRERIA FACEBOOK */
             // await helpers.importarLibereria("https://connect.facebook.net/en_US/sdk.js");
+            const app_id = this.store_opciones_generales.ingreso_con_facebook.app_id;
             window.fbAsyncInit = function() {
                 FB.init({
-                    appId      : '1799030820480679',
+                    appId      : app_id,
                     cookie      : false,
                     version    : 'v15.0'
                 });

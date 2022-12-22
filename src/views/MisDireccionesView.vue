@@ -30,14 +30,18 @@
                         <div class="message  mt-4 is-ecomas">
                             <div class="message-header">
                                 Dirección Despacho
+                                <a href="#" @click.prevent="direccion_despacho.editar = !direccion_despacho.editar" class="has-text-weight-normal is-size-7"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
                             </div>
                             <div class="message-body">
                                 <div class="block">
                                     <strong class="primero">Dirección Actual: </strong> <strong>{{ usuarioCarroCompra().shipping.address_1 }}</strong>
                                 </div>
-                                <hr>
-                                <form action="#" @submit.prevent="actualizarInformacionPersonal(1)" >
-                                    <Mensajes :mensajes="direccion_despacho.mensajes"></Mensajes>
+                                <div class="block">
+                                    <strong class="primero">Comentario Dirección: </strong> <strong>{{ usuarioCarroCompra().shipping.comentario_direccion }}</strong>
+                                </div>
+                                <form action="#" @submit.prevent="actualizarDireccionDespacho()" v-if="direccion_despacho.editar">
+                                    <hr>
+                                    <Mensajes :mensajes="direccion_despacho.mensajes" ></Mensajes>
                                     <div class="field">
                                         <label for="" class="label" >Dirección</label>
                                         <GoogleMapsAutocompleteVue
@@ -79,14 +83,15 @@
                         <div class="message  mt-4 is-ecomas ">
                             <div class="message-header">
                                 Dirección Facturación
+                                <a href="#" @click.prevent="direccion_facturacion.editar = !direccion_facturacion.editar" class="has-text-weight-normal is-size-7"><i class="fa-regular fa-pen-to-square"></i> Editar</a>
                             </div>
                             <div class="message-body">
                                 <div class="block">
                                     <strong class="primero">Dirección Actual: </strong> <strong>{{ usuarioCarroCompra().billing.address_1 }}</strong>
                                 </div>
-                                <hr>
-                                <form action="#" @submit.prevent="actualizarInformacionPersonal(2)" >
-                                    <Mensajes :mensajes="direccion_facturacion.mensajes"></Mensajes>
+                                <form action="#" @submit.prevent="actualizarDireccionFacturacion()" v-if="direccion_facturacion.editar">
+                                    <hr>
+                                    <Mensajes :mensajes="direccion_facturacion.mensajes" class="mb-4"></Mensajes>
                                     <div class="field">
                                         <label for="" class="label" >Dirección</label>
                                         <GoogleMapsAutocompleteVue2
@@ -105,20 +110,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="field"  v-if="libreriaCargada">
-                                        <div class="control">
-                                            <input
-                                            class="input input-2"
-                                            placeHolder="Casa Departamento o Condominio "
-                                            type="text"
-                                            v-model="direccion_facturacion.comentario_direccion.data"
-                                            />
-                                        </div>
-                                    </div>
-
                                     <div class="field has-text-right">
-                                        <button type="submit" class="button button-2 bg-primero" v-if="!direccion_despacho.cargando">Actualizar</button>
-                                        <CargandoSeccion v-if="direccion_despacho.cargando" class="small"></CargandoSeccion>
+                                        <button type="submit" class="button button-2 bg-primero" v-if="!direccion_facturacion.cargando">Actualizar</button>
+                                        <CargandoSeccion v-if="direccion_facturacion.cargando" class="small"></CargandoSeccion>
                                     </div>
                                 </form>
                                 </div>
@@ -165,14 +159,15 @@ export default {
             telefono: {data:'+569',error:false,requerido:true},
             comentario_direccion: {data:'',error:false,requerido:false},
             mensajes:{},
-            cargando:false
+            editar:false,
+            cargando:false,
         },
         direccion_facturacion: {
             direccion: {data:{direccionCompleta:''},error:false,requerido:false},
             telefono: {data:'+569',error:false,requerido:true},
-            comentario_direccion: {data:'',error:false,requerido:false},
             mensajes:{},
-            cargando:false
+            editar:false,
+            cargando:false,
         },
         libreriaCargada:false,
     };
@@ -185,6 +180,7 @@ export default {
     /** IMPORTAR LIBRERIA GOOGLE MAPS PARA EL AUTOCOMPLETE DE LAS DIRECCIONES */
     await helpers.importarLibereriaGoogleMaps();
     this.libreriaCargada = true;
+
 
   },
   methods:{
@@ -211,7 +207,7 @@ export default {
 
       if(direccion.calle)
         direccion.direccionCompleta += direccion.calle;
-        if(direccion.numero && direccion.numero != 0)
+    if(direccion.numero && direccion.numero != 0)
         direccion.direccionCompleta += " "+direccion.numero;
       if(direccion.ciudad)
         direccion.direccionCompleta += ", "+direccion.ciudad;
@@ -243,66 +239,49 @@ export default {
         };
 
         if(direccion.calle)
-        direccion.direccionCompleta += direccion.calle;
+            direccion.direccionCompleta += direccion.calle;
         if(direccion.numero && direccion.numero != 0)
-        direccion.direccionCompleta += " "+direccion.numero;
+            direccion.direccionCompleta += " "+direccion.numero;
         if(direccion.ciudad)
-        direccion.direccionCompleta += ", "+direccion.ciudad;
+            direccion.direccionCompleta += ", "+direccion.ciudad;
         if(direccion.pais)
-        direccion.direccionCompleta += ", "+direccion.pais;
+            direccion.direccionCompleta += ", "+direccion.pais;
 
         this.direccion_facturacion.direccion.data = direccion;
     },
 
-    async actualizarInformacionPersonal(){
-        this.informacion_personal.cargando = true;
-        const respuesta = await this.actualizar_usuario({
-            first_name:this.informacion_personal.first_name,
-            last_name:this.informacion_personal.apellido_paterno+" "+this.informacion_personal.apellido_materno,
-            meta:{billing_phone:"1111111",usuario_rut:'123123123'},
-        })
-        this.informacion_personal.cargando = false;
-        this.informacion_personal.mensajes[respuesta.tipo] = respuesta.mensaje;
-
-
-    },
-    async actualizarBilling(){
-        this.billing.cargando = true;
-        this.billing.mensajes = {};
-        if( !helpers.validarTelefono(this.billing.phone.toString())){
-            this.billing.mensajes.error = "Formato Teléfono Incorrecto";
-            this.billing.cargando = false;
+    async actualizarDireccionFacturacion(){
+        this.direccion_facturacion.mensajes = {};
+        if(!this.direccion_facturacion.direccion.data.direccionCompleta){
+            this.direccion_facturacion.mensajes.error = 'Debes indicar una dirección válida';
             return false;
         }
+        this.direccion_facturacion.cargando = true;
         const respuesta = await this.actualizar_billing_usuario({
-            billing_phone: this.billing.phone,
+            direccion:this.direccion_facturacion.direccion.data,
             id: this.usuarioCarroCompra().id,
         })
-        this.billing.cargando = false;
-        this.billing.mensajes[respuesta.tipo] = respuesta.mensaje;
+        this.direccion_facturacion.cargando = false;
+        this.direccion_facturacion.mensajes[respuesta.tipo] = respuesta.mensaje;
+
     },
-    async actualizarPassword(){
-        this.password.mensajes = {};
-        if(this.password.password.length < 6){
-            this.password.mensajes.error='La contraseña debe tener un largo mínimo de 6 caracteres'
+
+    async actualizarDireccionDespacho(){
+        this.direccion_despacho.mensajes = {};
+        if(!this.direccion_despacho.direccion.data.direccionCompleta){
+            this.direccion_despacho.mensajes.error = 'Debes indicar una dirección válida';
+            return false;
         }
-        if(this.password.password != this.password.re_password){
-            this.password.mensajes.error='Las contraseñas no coinciden.'
-        }
-        this.password.cargando = true;
-        const respuesta = await this.actualizar_usuario({
-            password: this.password.password,
+        this.direccion_despacho.cargando = true;
+        const respuesta = await this.actualizar_shipping_usuario({
+            direccion:this.direccion_despacho.direccion.data,
+            id: this.usuarioCarroCompra().id,
+            comentario_direccion: this.direccion_despacho.comentario_direccion.data,
         })
-        this.password.cargando = false;
-        this.password.mensajes[respuesta.tipo] = respuesta.mensaje;
+        this.direccion_despacho.cargando = false;
+        this.direccion_despacho.mensajes[respuesta.tipo] = respuesta.mensaje;
+
     },
-    validarInputTelefono ($event) {
-      helpers.validarInputTelefono($event);
-    },
-    moverCursor($event){
-      const largo = $event.target.value.toString().length;
-      $event.target.setSelectionRange (largo,largo)
-    }
   }
 };
 </script>
