@@ -33,7 +33,7 @@ export default {
         headers["Authorization"] =  'Bearer '+this.store.token;
 
 
-        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_RAPIDA_PRODUCTOS+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
+        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_RAPIDA_PRODUCTOS+'&category=33'+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })
               return false;
@@ -97,14 +97,18 @@ export default {
       async obtenerProductosTienda(  data = { } ){
 
         let headers = {};
-
+        const {category} = data;
+        let parametros_adicionales = [];
         // if(!this.store.token)
         //   await this.obtenerToken();
 
         headers["Authorization"] =  'Bearer '+this.store.token;
 
+        if(category){
+          parametros_adicionales = '&category='+category;
+        }
 
-        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
+        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS+parametros_adicionales+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })
               return false;

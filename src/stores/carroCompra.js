@@ -43,6 +43,7 @@ export const useCarroCompraStore = defineStore('carroCompra', {
               telefono:'',
             }
           },
+          categorias:[],
           productos:[],
           datos_toplayer: {
             cantidad: 1,

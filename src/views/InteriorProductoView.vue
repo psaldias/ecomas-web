@@ -5,7 +5,7 @@
         <nav class="breadcrumb is-small" aria-label="breadcrumbs">
           <ul>
             <li><router-link to="/productos/">PRODUCTOS</router-link></li>
-            <li><a href="#">PELLETS</a></li>
+            <li><router-link class="is-uppercase" :to="'/productos/'+categoria.slug">{{ categoria.name }}</router-link></li>
             <li class="is-active"><a href="#">{{producto.name}}</a></li>
           </ul>
         </nav>
@@ -25,7 +25,7 @@
                   <div class="column">
                     <a class="link-categoria">
                       <div class="categoria">
-                        {{ categoria }}
+                        {{ categoria.name }}
                       </div>
                     </a>
                   </div>
@@ -194,7 +194,7 @@ export default {
       return '/producto/'+this.producto.slug;
     },
     categoria(){
-      return this.producto.categories[0].name;
+      return this.producto.categories[0];
     },
     imagen(){
       return this.producto.images[0].src;

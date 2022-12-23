@@ -68,7 +68,7 @@
               <li>
                 <router-link to="/productos" class="is-hidden-tablet">PELLET</router-link>
               </li>
-              <li v-for="menu in menuPrincipal" :key="menu.ID">
+              <li v-for="menu in menuPrincipal" :key="menu.ID" :class="menu.classes">
                 <router-link :to="obtenerSlug(menu.url)">{{ menu.title }}</router-link>
               </li>
               <!-- <li><router-link to="/quienes-somos">SOMOS</router-link></li>
@@ -130,12 +130,19 @@
         <div class="column links-externos is-narrow is-hidden-mobile" v-if="store_opciones_generales.url_pagina_equipos.activo">
           <ul>
             <li>
+              <router-link :to="store_opciones_generales.url_pagina_equipos.url_boton" class="button button-1 is-rounded has-text-weight-medium">{{store_opciones_generales.url_pagina_equipos.texto_boton}}</router-link>
+            </li>
+          </ul>
+        </div>
+        <!-- <div class="column links-externos is-narrow is-hidden-mobile" v-if="store_opciones_generales.url_pagina_equipos.activo">
+          <ul>
+            <li>
               <a :href="store_opciones_generales.url_pagina_equipos.url_boton" class="button button-1 is-rounded has-text-weight-medium" target="_blank">
                 {{store_opciones_generales.url_pagina_equipos.texto_boton}}
               </a>
             </li>
           </ul>
-        </div>
+        </div> -->
       </div>
     </header>
   </div>

@@ -23,11 +23,11 @@ import { useCarroCompraStore } from '/src/stores/carroCompra'
 export default {
     components: {
     Producto,
-    // ProductoHorizontal,
     CargandoSeccion
 },
     props: {
         grilla:'',
+        categoria:'',
     },
     data() {
         return {
@@ -42,7 +42,6 @@ export default {
     },
     mounted(){
         this.obtenerProductos();
-
     },
     computed: {
         productos(){
@@ -58,12 +57,12 @@ export default {
         },
         sucursalCarro(){
             return this.store_opciones_generales.sucursal_seleccionada.ID
-        }
+        },
     },
     methods: {
         async obtenerProductos(){
             this.cargando = true;
-            await this.obtenerProductosTienda();
+            await this.obtenerProductosTienda({category: this.categoria.term_id});
             this.cargando = false;
         },
     },

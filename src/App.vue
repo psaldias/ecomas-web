@@ -48,14 +48,20 @@ export default {
     const respuesta = await this.enviarGet(import.meta.env.VITE_INIT,{cache:true,authorization:false});
     if (respuesta) {
       const token = respuesta.data.token;
+      const categorias = respuesta.data.categorias;
       delete respuesta.data.token;
+      delete respuesta.data.categorias;
+
+
       this.store_opciones_generales.guardarDatos(respuesta.data);
       this.store.guardarToken(token);
 
+      /** SI YA SE TIENE UNA SUCURSAL ALMACENADA EN LOCALSTORAGE ENTONCES QUEDA POR DEFECTO */
       if(localStorage.sucursalSeleccionada){
         this.store_opciones_generales.actualizarSucuralSeleccionada(localStorage.sucursalSeleccionada);
       }
 
+      /** SI YA EXISTE INFORMACIÓN DE CARRO EN LOCALSTORAGE SE PASA AL STORE DE CARRO COMPRA */
       if(localStorage.dataCarro){
         const dataCarro = helpers.base64_decode(localStorage.dataCarro,true);
 
@@ -64,6 +70,9 @@ export default {
 
         this.storeCarroCompra.actualizarCarro(helpers.base64_decode(localStorage.dataCarro,true),'data');
       }
+      /** GUARDAR LAS CATEGORIAS EN EL STORE */
+      this.storeCarroCompra.actualizarCarro(categorias,'categorias');
+
     }else{
       this.store_opciones_generales.guardarDatos({cargando:false});
     }
