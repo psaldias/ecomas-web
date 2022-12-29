@@ -38,7 +38,7 @@
             </div>
             <div class="column">
               <div class="field">
-                <label for="" class="label">Comuna</label>
+                <label for="" class="label">Ciudad/Comuna</label>
                 <div class="control">
                   <div class="select is-fullwidth">
                     <select  id=""  v-model="comunaSeleccionada">
