@@ -3,6 +3,9 @@
         <!-- <div id="fb-root"></div> -->
         <a @click.prevent="logInWithFacebook" v-if="!cargando_facebook"><img src="/img/btn-facebook.jpg" alt="" ></a>
         <CargandoSeccion v-if="cargando_facebook"></CargandoSeccion>
+        <small>
+            <Mensajes :mensajes="mensajes" clases="is-small"></Mensajes>
+        </small>
     </div>
     <!-- <div class="columns is-variable is-1" v-if="store_opciones_generales.ingreso_con_google.activo && store_opciones_generales.ingreso_con_google.id " >
         <div class="column has-text-centered-mobile" >
@@ -61,6 +64,7 @@
         },
         methods: {
             async logInWithFacebook() {
+                this.mensajes = {};
                 this.cargando_facebook = true;
                 FB.login(this.procesarRespuesta,{scope:'email'});
                 return false;
@@ -70,7 +74,8 @@
                 if (response.authResponse) {
                     this.procesarAcceso(response.authResponse.accessToken);
                 } else {
-                    alert("User cancelled login or did not fully authorize.");
+                    this.mensajes.error = "No se pudo conectar con facebook.";
+                    // alert("User cancelled login or did not fully authorize.");
                     this.cargando_facebook = false;
                 }
 
@@ -82,28 +87,6 @@
                 else
                     this.cargando_facebook = false;
             },
-            async initFacebook() {
-                window.fbAsyncInit = function() {
-                    FB.init({
-                        appId      : '1090251184984007',
-                        xfbml      : true,
-                        cookie      : true,
-                        version    : 'v15.0'
-                    });
-                    FB.AppEvents.logPageView();
-                };
-            },
-            async loadFacebookSDK(d, s, id) {
-                var js,
-                    fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) {
-                    return;
-                }
-                js = d.createElement(s);
-                js.id = id;
-                js.src = "https://connect.facebook.net/en_US/sdk.js";
-                fjs.parentNode.insertBefore(js, fjs);
-            }
         },
         components: { Mensajes, CargandoSeccion },
     };

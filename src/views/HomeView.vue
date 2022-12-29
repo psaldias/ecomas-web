@@ -48,7 +48,7 @@
                   <div class="block">
                     <router-link
                       :to="contenidoInicial.acf.quienes_somos.boton.url"
-                      class="button button-2 bg-verde is-rounded"
+                      class="button button-2 bg-primero is-rounded"
                       v-if="contenidoInicial.acf.quienes_somos.boton.url"
                     >
                       {{ contenidoInicial.acf.quienes_somos.boton.texto }}
@@ -57,8 +57,8 @@
                   </div>
                 </div>
               </div>
-              <div class="column p-0 is-6 is-align-self-flex-end imagen">
-                <img src="/img/bg-home-quienes-somos-planta.jpg" class="mt-6 is-block" />
+              <div class="column p-0 is-6 is-align-self-flex-end imagen" v-if="this.contenidoInicial.acf.quienes_somos.imagen_fondo.url">
+                <img :src="this.contenidoInicial.acf.quienes_somos.imagen_fondo.url" class="mt-6 is-block" />
               </div>
             </div>
           </div>
@@ -101,6 +101,7 @@ export default {
 
     if (respuesta) {
       this.contenidoInicial = respuesta.data;
+      console.log(this.contenidoInicial);
       this.cargando = false;
     }
   },

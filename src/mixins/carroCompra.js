@@ -65,6 +65,7 @@ export default {
         data.sucursal = this.store_opciones_generales.sucursal_seleccionada.ID;
         data.usuario = this.storeCarroCompra.usuarioCarroCompra.id;
         data.metodo_pago = this.storeCarroCompra.compraRapida.metodo_pago;
+        data.origen = localStorage.origen;
 
         let headers = {};
         if(this.storeCarroCompra.usuarioCarroCompra.token){
@@ -167,6 +168,7 @@ export default {
         data.metodo_pago = this.storeCarroCompra.carro.data.metodo_pago;
         data.accion = accion;
         data.usuario = this.storeCarroCompra.usuarioCarroCompra.id;
+        data.origen = localStorage.origen;
         if(data.productos.length > 0){
 
           // data.direccion = this.storeCarroCompra.compraRapida.direccion;

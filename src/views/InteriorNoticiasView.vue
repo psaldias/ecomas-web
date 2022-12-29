@@ -1,19 +1,21 @@
 <template>
   <main class="noticias" >
     <div class="wrapper" v-if="!cargando">
-      <BannerSeccionNoticia
-        :titulo="noticia.title.rendered ?? ''"
-        :imagen=" (noticia.acf.imagen_banner) ? noticia.acf.imagen_banner.sizes['2048x2048'] : '/img/banner-interior-noticia.jpg'"
+      <BannerSeccionNoticia v-if="noticia.acf.imagen_banner"
+        :imagen="noticia.acf.imagen_banner.sizes['2048x2048']"
       />
       <div class="columns is-centered is-gapless">
         <div class="column is-8">
-          <div  class="imagen mt-4 has-text-centered" v-if=" (typeof noticia._embedded['wp:featuredmedia'] !== 'undefined')">
+          <!-- <div  class="imagen mt-4 has-text-centered" v-if=" (typeof noticia._embedded['wp:featuredmedia'] !== 'undefined')">
             <img
               :src="noticia._embedded['wp:featuredmedia']['0'].source_url"
               :alt="noticia.title.rendered"
             />
+          </div> -->
+          <div class="content mt-4">
+            <h3>{{ noticia.title.rendered }}</h3>
+            <div  v-html="noticia.content.rendered"></div>
           </div>
-          <div class="content mt-4" v-html="noticia.content.rendered"></div>
         </div>
       </div>
       <NoticiasDestacadas titulo="Noticias Relacionadas" />

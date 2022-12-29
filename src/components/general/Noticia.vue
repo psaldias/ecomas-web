@@ -8,8 +8,10 @@
                     :alt="noticia.nombre"
                 />
                 <img v-else
-                    src="/img/noticia-3.jpg"
-                    alt="No existe imagen"
+                    :src="store_opciones_generales.imagen_por_defecto_noticias.sizes.medium"
+                    :width="store_opciones_generales.imagen_por_defecto_noticias.sizes['medium-width']"
+                    :height="store_opciones_generales.imagen_por_defecto_noticias.sizes['medium-height']"
+                    alt="Ecomas Imagen por defecto"
                 />
             </div>
             <h5
@@ -23,12 +25,14 @@
 </template>
 
 <script>
+import { useOpcionesGeneralesStore } from "../../stores/opcionesGenerales";
 export default {
   props: {
     noticia:{},
   },
   data() {
     return {
+        store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
   computed: {},

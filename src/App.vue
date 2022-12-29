@@ -45,7 +45,9 @@ export default {
     };
   },
   async mounted() {
+    /** OBTENER INFORMACIÓN INICIAL DESDE BACKEND INCLUIDO TOKEN PARA FUTURAS CONSULTAS */
     const respuesta = await this.enviarGet(import.meta.env.VITE_INIT,{cache:true,authorization:false});
+
     if (respuesta) {
       const token = respuesta.data.token;
       const categorias = respuesta.data.categorias;
@@ -91,6 +93,9 @@ export default {
 
       });
     }
+
+    /** OBTENER ORIGEN DE VISITA Y GUARDAR */
+    this.definirOrigenUsuario(); // mixin usuarios.js
 
   },
   computed:{

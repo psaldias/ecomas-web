@@ -25,6 +25,24 @@ export default {
           return  this.storeCarroCompra.usuarioCarroCompra ?? false;
         },
 
+        /* OBTENER URL REFERENCIA */
+        definirOrigenUsuario(){
+          let origen = localStorage.origen ?? 'Directo';
+
+          if(this.$route.query.origen){
+            origen = this.$route.query.origen
+          }else if(this.$route.query.utm_source){
+            origen = this.$route.query.utm_source
+          }else if(this.$route.query.fbclid){
+            origen = 'Facebook'
+          }
+
+          localStorage.origen = origen;
+        },
+        obtenerOrigenUsuario(){
+          return localStorage.origen ?? 'Directo';
+        },
+
         /** LOGIN USUARIO PAR AOBTENER TOKEN*/
         async loginUsuario($usuario,$password) {
           const credenciales = {"username":$usuario,"password":$password};

@@ -196,6 +196,7 @@ export default {
         this.$router.replace({ path: '/ingresar' })
   },
   mounted() {
+    console.log(this.usuarioCarroCompra());
     this.informacion_personal.usuario_rut = this.usuarioCarroCompra().usuario_rut;
     this.informacion_personal.first_name = this.usuarioCarroCompra().user_first_name;
     this.informacion_personal.apellido_paterno = (this.usuarioCarroCompra())? this.usuarioCarroCompra().user_last_name.split(' ')[0] : '';

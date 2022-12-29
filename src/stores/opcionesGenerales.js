@@ -16,6 +16,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         ubicaciones_sucursales:false,
         sucursal_seleccionada:false,
         asuntos:{},
+        imagen_por_defecto_noticias:false,
      }
   },
   actions: {

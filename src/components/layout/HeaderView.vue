@@ -32,7 +32,7 @@
               <i class="has-text-white fa-brands is-size-5 fa-square-youtube"></i>
             </a>
             <span class="ml-4 has-text-white whatsapp">
-              <a href="#">
+              <a :href="store_opciones_generales.rrss.whatsapp" v-if="store_opciones_generales.rrss.whatsapp" target="_blank">
                 <b>WHATSAPP</b>
                 <i
                   class="has-text-white fa-brands fa-whatsapp is-size-4 ml-1 is-vcentered"
@@ -122,9 +122,9 @@
             <i class="fa-solid fa-bars primero is-block"></i>
           </a>
         </div>
-        <div class="column is-narrow is-hidden-mobile mr-6">
+        <div class="column is-narrow is-hidden-mobile mr-4">
           <ul>
-            <li><router-link to="/productos">PELLET</router-link></li>
+            <li><router-link to="/productos" class="button button-1 is-rounded has-text-weight-medium">PELLET</router-link></li>
           </ul>
         </div>
         <div class="column links-externos is-narrow is-hidden-mobile" v-if="store_opciones_generales.url_pagina_equipos.activo">
