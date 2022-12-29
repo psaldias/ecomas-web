@@ -32,7 +32,11 @@
               <i class="has-text-white fa-brands is-size-5 fa-square-youtube"></i>
             </a>
             <span class="ml-4 has-text-white whatsapp">
-              <a :href="store_opciones_generales.rrss.whatsapp" v-if="store_opciones_generales.rrss.whatsapp" target="_blank">
+              <a
+                :href="store_opciones_generales.rrss.whatsapp"
+                v-if="store_opciones_generales.rrss.whatsapp"
+                target="_blank"
+              >
                 <b>WHATSAPP</b>
                 <i
                   class="has-text-white fa-brands fa-whatsapp is-size-4 ml-1 is-vcentered"
@@ -66,7 +70,9 @@
           >
             <ul>
               <li>
-                <router-link to="/productos" class="is-hidden-tablet">PELLET</router-link>
+                <router-link to="/productos" class="is-hidden-tablet"
+                  >COMPRAR PELLET</router-link
+                >
               </li>
               <li v-for="menu in menuPrincipal" :key="menu.ID" :class="menu.classes">
                 <router-link :to="obtenerSlug(menu.url)">{{ menu.title }}</router-link>
@@ -81,7 +87,9 @@
             class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow"
           >
             <div class="column is-narrow comuna">
-              <SeleccionarUbicacionHeader v-if="!store_opciones_generales.cargando"></SeleccionarUbicacionHeader>
+              <SeleccionarUbicacionHeader
+                v-if="!store_opciones_generales.cargando"
+              ></SeleccionarUbicacionHeader>
             </div>
             <div class="column is-narrow is-hidden-mobile">
               <router-link to="/pedidos/" class="has-text-white">
@@ -104,7 +112,9 @@
             <div class="column is-narrow icono-carro active">
               <router-link to="/carro" class="has-text-white">
                 <i class="has-text-white fa-solid fa-cart-shopping is-size-5"></i>
-                <span class="contador-carro" v-if="cantidadProductos">{{cantidadProductos}}</span>
+                <span class="contador-carro" v-if="cantidadProductos">{{
+                  cantidadProductos
+                }}</span>
               </router-link>
             </div>
           </div>
@@ -114,7 +124,7 @@
       <div class="principal columns is-mobile is-vcentered is-gapless">
         <div class="column logo is-narrow-mobile mr-2">
           <router-link to="/">
-            <img src="/img/logo-ecomas.v2.png" alt="" width="228" height="71"/>
+            <img src="/img/logo-ecomas.v2.png" alt="" width="228" height="71" />
           </router-link>
         </div>
         <div class="column menu-movil is-hidden-tablet has-text-right">
@@ -124,13 +134,28 @@
         </div>
         <div class="column is-narrow is-hidden-mobile mr-4">
           <ul>
-            <li><router-link to="/productos" class="button button-1 is-rounded has-text-weight-medium">PELLET</router-link></li>
+            <li>
+              <router-link
+                to="/productos"
+                class="button button-1 is-rounded has-text-weight-medium"
+                >COMPRAR PELLET</router-link
+              >
+            </li>
           </ul>
         </div>
-        <div class="column links-externos is-narrow is-hidden-mobile" v-if="store_opciones_generales.url_pagina_equipos.activo">
+        <div
+          class="column links-externos is-narrow is-hidden-mobile"
+          v-if="store_opciones_generales.url_pagina_equipos.activo"
+        >
           <ul>
             <li>
-              <router-link :to="store_opciones_generales.url_pagina_equipos.url_boton" class="button button-1 is-rounded has-text-weight-medium">{{store_opciones_generales.url_pagina_equipos.texto_boton}}</router-link>
+              <router-link
+                :to="store_opciones_generales.url_pagina_equipos.url_boton"
+                class="button button-1 is-rounded has-text-weight-medium"
+                >{{
+                  store_opciones_generales.url_pagina_equipos.texto_boton
+                }}</router-link
+              >
             </li>
           </ul>
         </div>
@@ -152,7 +177,7 @@
 import SeleccionarUbicacionHeader from "../general/SeleccionarUbicacionHeader.vue";
 import CargandoSeccion from "../general/CargandoSeccion.vue";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
-import { useCarroCompraStore } from '/src/stores/carroCompra'
+import { useCarroCompraStore } from "/src/stores/carroCompra";
 
 export default {
   data() {
@@ -162,7 +187,7 @@ export default {
       data: {},
       cargando: true,
       mostrarMenu: false,
-      buscar:''
+      buscar: "",
     };
   },
   mounted() {
@@ -187,16 +212,16 @@ export default {
 
   //     });
   // },
-  computed:{
+  computed: {
     menuPrincipal() {
       return this.store_opciones_generales.menus["menu-principal"];
     },
-    cantidadProductos(){
+    cantidadProductos() {
       return this.storeCarroCompra.carro.data.productos.length;
     },
-    nombreUsuario(){
+    nombreUsuario() {
       return this.usuarioCarroCompra().user_first_name;
-    }
+    },
   },
   methods: {
     obtenerSlug(url) {
@@ -209,9 +234,9 @@ export default {
     ocultarMenu() {
       this.mostrarMenu = false;
     },
-    enviarBuscador(){
-      this.$router.push('/buscador/'+this.buscar);
-    }
+    enviarBuscador() {
+      this.$router.push("/buscador/" + this.buscar);
+    },
   },
   components: { SeleccionarUbicacionHeader, CargandoSeccion },
 };
