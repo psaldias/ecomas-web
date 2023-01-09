@@ -41,7 +41,10 @@ export default {
       return false;
     },
     tabsConInformacion() {
-      if (this.tabs) return this.tabs.filter((tab, index) => tab.descripcion != "");
+      if (this.tabs)
+        return this.tabs.filter(
+          (tab, index) => tab.descripcion != "" || tab.descripcion != undefined
+        );
       return false;
     },
   },
