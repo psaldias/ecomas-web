@@ -123,7 +123,6 @@ export default {
       this.contenidoInicial = respuesta.data;
       this.cargando = false;
     }
-    console.log(this.contenidoInicial.acf.productos_home);
   },
   data() {
     return {
