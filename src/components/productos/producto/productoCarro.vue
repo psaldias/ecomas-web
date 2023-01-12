@@ -10,7 +10,7 @@
         <div class="columns is-vcentered">
           <div class="column is-narrow py-0">
             <div class="imagen mx-auto">
-              <Imagen :imagen="producto.image" :alt="producto.name" :url="url"></Imagen>
+              <Imagen :imagen="producto.imagen" :alt="producto.name" :url="url"></Imagen>
             </div>
           </div>
           <div class="column py-0">
@@ -30,7 +30,6 @@
                   :cantidadCarro="producto.quantity"
                   formato="horizontal"
                 ></Acciones>
-
               </div>
             </div>
 
@@ -46,7 +45,7 @@
 import Imagen from "./Imagen.vue";
 import Precio from "./Precio.vue";
 import Acciones from "./Acciones.vue";
-import Mensajes from '/src/components/general/Mensajes.vue';
+import Mensajes from "/src/components/general/Mensajes.vue";
 
 export default {
   props: {
@@ -60,13 +59,12 @@ export default {
     Imagen,
     Precio,
     Acciones,
-    Mensajes
+    Mensajes,
   },
   data() {
     return {};
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {},
   computed: {
     mensajes() {

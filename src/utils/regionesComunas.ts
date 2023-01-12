@@ -14,7 +14,7 @@ interface RegionType {
       romanNumber: "XV",
       number: "15",
       abbreviation: "AP",
-      communes: ["Arica", "Camarones", "General Lagos", "Putre"],
+      communes: ["Arica", "Camarones", "General Lagos", "Putre","Parinacota"],
     },
     {
       name: "Tarapacá",
@@ -30,6 +30,7 @@ interface RegionType {
         "Iquique",
         "Pica",
         "Pozo Almonte",
+        "Tamarugal",
       ],
     },
     {
@@ -48,6 +49,7 @@ interface RegionType {
         "Sierra Gorda",
         "Taltal",
         "Tocopilla",
+        "El Loa",
       ],
     },
     {
@@ -90,6 +92,9 @@ interface RegionType {
         "Río Hurtado",
         "Salamanca",
         "Vicuña",
+        "Elqui",
+        "Choapa",
+        "Limarí",
       ],
     },
     {
@@ -137,6 +142,7 @@ interface RegionType {
         "Villa Alemana",
         "Viña del Mar",
         "Zapallar",
+        "Marga Marga",
       ],
     },
     {
@@ -198,6 +204,9 @@ interface RegionType {
         "Talagante",
         "Tiltil",
         "Vitacura",
+        "Cordillera",
+        "Chacabuco",
+        "Maipo",
       ],
     },
     {
@@ -240,6 +249,9 @@ interface RegionType {
         "San Francisco de Mostazal",
         "San Vicente de Tagua Tagua",
         "Santa Cruz",
+        "Cachapoal",
+        "Cardenal Caro",
+        "Colchagua",
       ],
     },
     {
@@ -309,6 +321,9 @@ interface RegionType {
         "San Nicolás",
         "Treguaco",
         "Yungay",
+        "Diguillín",
+        "Itata",
+        "Punilla",
       ],
     },
     {
@@ -351,6 +366,7 @@ interface RegionType {
         "Tomé",
         "Tucapel",
         "Yumbel",
+        "Biobío",
       ],
     },
     {
@@ -361,6 +377,7 @@ interface RegionType {
       abbreviation: "AR",
       communes: [
         "Angol",
+        "Cautín",
         "Carahue",
         "Cholchol",
         "Collipulli",
@@ -392,6 +409,7 @@ interface RegionType {
         "Victoria",
         "Vilcún",
         "Villarrica",
+        "Malleco",
       ],
     },
     {
@@ -452,6 +470,7 @@ interface RegionType {
         "Río Negro",
         "San Juan de la Costa",
         "San Pablo",
+        "Chiloé",
       ],
     },
     {
@@ -465,12 +484,15 @@ interface RegionType {
         "Chile Chico",
         "Cisnes",
         "Cochrane",
+        "Coihaique",
         "Coyhaique",
         "Guaitecas",
         "Lago Verde",
         "O’Higgins",
         "Río Ibáñez",
         "Tortel",
+        "Capitán Pratt",
+        "General Carrera",
       ],
     },
     {
@@ -491,6 +513,8 @@ interface RegionType {
         "San Gregorio",
         "Timaukel",
         "Torres del Paine",
+        "Magallanes",
+        "Tierra del Fuego",
       ],
     },
   ];

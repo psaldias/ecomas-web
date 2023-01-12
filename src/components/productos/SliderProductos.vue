@@ -1,5 +1,5 @@
 <template>
-  <section class="mt-6">
+  <section class="mt-6" v-if="productos && productos.length > 0">
     <div class="titulo bg-tercero mb-4">
       <h3 class="primero has-text-weight-bold px-4">{{ titulo }}</h3>
     </div>
@@ -25,6 +25,7 @@ import { useCarroCompraStore } from "/src/stores/carroCompra";
 export default {
   props: {
     titulo: String,
+    productos: false,
   },
   data() {
     return {
@@ -63,11 +64,11 @@ export default {
     });
   },
   computed: {
-    productos() {
-      return this.storeCarroCompra.carro.productos.filter((producto) => {
-        return producto.stock_quantity == null || producto.stock_quantity > 0;
-      });
-    },
+    // productos() {
+    //   return this.storeCarroCompra.carro.productos.listado.filter((producto) => {
+    //     return producto.stock_quantity == null || producto.stock_quantity > 0;
+    //   });
+    // },
   },
   methods: {},
   components: { Producto },

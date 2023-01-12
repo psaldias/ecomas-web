@@ -47,7 +47,11 @@
 
                 <div class="columns">
                   <div class="column is-5">
-                    <Imagen :imagen="imagen" :alt="producto.name" :url="url"></Imagen>
+                    <Imagen
+                      :imagen="producto.imagen"
+                      :alt="producto.name"
+                      :url="url"
+                    ></Imagen>
                   </div>
                   <div class="column">
                     <div class="nombre">{{ producto.name }}</div>
@@ -112,6 +116,7 @@
           <SliderProductos
             titulo="Productos Relacionados"
             :categoria="categoria.id"
+            :productos="productosRelacionados"
           ></SliderProductos>
         </div>
       </div>
@@ -152,19 +157,22 @@ export default {
         cantidad: 1,
         mostrar: false,
       },
+      producto: {},
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
   async mounted() {
-    if (this.storeCarroCompra.carro.productos.length == 0) {
-      await this.obtenerProductos();
-    } else {
-      if (!this.producto) {
-        this.$router.replace({ name: "404" });
-      }
-      this.cargando = false;
-    }
+    await this.obtenerProducto();
+
+    // if (this.storeCarroCompra.carro.productos.length == 0) {
+    //   await this.obtenerProductos();
+    // } else {
+    //   if (!this.producto) {
+    //     this.$router.replace({ name: "404" });
+    //   }
+    //   this.cargando = false;
+    // }
 
     document.title = this.producto.name || VUE_APP_DEFAULT_TITLE;
   },
@@ -174,6 +182,11 @@ export default {
     },
   },
   computed: {
+    productosRelacionados() {
+      return this.storeCarroCompra.carro.productos.listado.filter((producto) => {
+        return producto.stock_quantity == null || producto.stock_quantity > 0;
+      });
+    },
     conStock() {
       if (
         (this.producto.stock_quantity == null) &
@@ -187,11 +200,11 @@ export default {
     sucursalCarro() {
       return this.store_opciones_generales.sucursal_seleccionada.ID;
     },
-    producto() {
-      return this.storeCarroCompra.carro.productos.find((producto) => {
-        return producto.slug == this.$route.params.slug;
-      });
-    },
+    // producto() {
+    //   return this.storeCarroCompra.carro.productos.find((producto) => {
+    //     return producto.slug == this.$route.params.slug;
+    //   });
+    // },
     precios() {
       return {
         normal: this.producto.price,
@@ -249,6 +262,20 @@ export default {
     },
   },
   methods: {
+    async obtenerProducto() {
+      this.cargando = true;
+      const respuesta_producto = await this.enviarGet(
+        import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
+          "&slug=" +
+          this.$route.params.slug,
+        { authorization: true, cache: true }
+      );
+      if (respuesta_producto.data.length == 1) {
+        this.producto = respuesta_producto.data[0];
+      }
+      // console.log(respuesta_producto);
+      this.cargando = false;
+    },
     async obtenerProductos() {
       this.cargando = true;
       await this.obtenerProductosTienda();

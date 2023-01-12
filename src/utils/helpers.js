@@ -139,6 +139,47 @@
             t.parentElement.insertBefore(s, t);
             });
         }
+    },
+    LinksARouterLink(element,parent){
+        const anchors = element.getElementsByTagName('a');
+
+        const dominios_routerlink = [
+            'www.ecomas.cl',
+            'backend.ecomas.cl',
+            'ecomaswp.localhost',
+            'qa-backend.ecomas.cl',
+            'qa.ecomas.cl',
+            'localhost:5173',
+        ];
+        Array.from(anchors).forEach(anchor => {
+            /** OBTENER VALOR HREF */
+            const url = anchor.getAttribute('href');
+            let encontrado = false;
+            let domain = false;
+            try{
+                /** TRANSFORMAR EL STRING A UNA URL PARA OBTENER PARAMETROS */
+                domain = (new URL(url));
+                /** BUSCAR SI EL DOMINIO DE LA URL ESTÁ DENTRO DE LOS QUE SE DEBEN MODIFICAR */
+                encontrado = dominios_routerlink.find(dominio => dominio == domain.hostname );
+            }catch(e){
+                encontrado = true;
+                domain = {pathname:url};
+            }
+            /** SI NO COINCIDE SE PASA AL SIGUIENTE LINK */
+            if(!encontrado)
+                return
+
+            /** AGREGA EL EVENTO DEL CLICK PARA REDIRECCIONAR CON EL ROUTER */
+            anchor.addEventListener("click", function(e){
+                /** PREVENIR ACCION DEL BOTÓN */
+                e.preventDefault();
+                /** IR A LA PÁGINA CON ROUTERLINK */
+                parent.$router.push(domain.pathname);
+            });
+            return
+
+
+        })
     }
 }
   export default helpers;

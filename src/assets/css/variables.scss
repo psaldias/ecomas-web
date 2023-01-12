@@ -39,6 +39,9 @@ $widths :(
   .bg-#{$color} {
     background-color: $value !important;
   }
+  .links-#{$color} a{
+    color: $value !important;
+  }
 }
 @each $width, $porcentaje in $widths {
   .w-#{$width} {

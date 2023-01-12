@@ -19,6 +19,14 @@
         <BannerHome :imagenes="contenidoInicial.acf.banner"></BannerHome>
       </div>
 
+      <div class="wrapper" v-if="this.contenidoInicial.acf.productos_home.visible">
+        <SliderProductos
+          :titulo="this.contenidoInicial.acf.productos_home.titulo"
+          :categoria="'equipos'"
+          :productos="this.contenidoInicial.acf.productos_home.productos"
+        ></SliderProductos>
+      </div>
+
       <div class="wrapper">
         <marcas></marcas>
       </div>
@@ -57,8 +65,14 @@
                   </div>
                 </div>
               </div>
-              <div class="column p-0 is-6 is-align-self-flex-end imagen" v-if="this.contenidoInicial.acf.quienes_somos.imagen_fondo.url">
-                <img :src="this.contenidoInicial.acf.quienes_somos.imagen_fondo.url" class="mt-6 is-block" />
+              <div
+                class="column p-0 is-6 is-align-self-flex-end imagen"
+                v-if="this.contenidoInicial.acf.quienes_somos.imagen_fondo.url"
+              >
+                <img
+                  :src="this.contenidoInicial.acf.quienes_somos.imagen_fondo.url"
+                  class="mt-6 is-block"
+                />
               </div>
             </div>
           </div>
@@ -70,10 +84,10 @@
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
     <ErrorSeccion v-if="errorData"></ErrorSeccion>
   </main>
-    <Seo  v-if="!cargando && contenidoInicial.hasOwnProperty('yoast_head_json')" :data_api="contenidoInicial.yoast_head_json"></Seo>
-
-
-
+  <Seo
+    v-if="!cargando && contenidoInicial.hasOwnProperty('yoast_head_json')"
+    :data_api="contenidoInicial.yoast_head_json"
+  ></Seo>
 </template>
 
 <script>
@@ -84,7 +98,9 @@ import BannerHome from "/src/components/home/BannerHome.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 import ErrorSeccion from "/src/components/general/ErrorSeccion.vue";
 import Seo from "/src/components/general/Seo.vue";
+import SliderProductos from "../components/productos/SliderProductos.vue";
 
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 export default {
   components: {
     CompraRapida,
@@ -94,27 +110,32 @@ export default {
     CargandoSeccion,
     ErrorSeccion,
     Seo,
+    SliderProductos,
   },
   async mounted() {
-    const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_HOME);
-
+    const respuesta = await this.enviarGet(
+      import.meta.env.VITE_ENDPOINT_PAGINA_HOME +
+        "?sucursal=" +
+        this.store_opciones_generales.sucursal_seleccionada.ID
+    );
 
     if (respuesta) {
       this.contenidoInicial = respuesta.data;
-      console.log(this.contenidoInicial);
       this.cargando = false;
     }
+    console.log(this.contenidoInicial.acf.productos_home);
   },
   data() {
     return {
       cargando: true,
       contenidoInicial: {},
+      store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
   computed: {
-    titulo(){
-      return import.meta.env.VITE_DEFAULT_TITLE
-    }
+    titulo() {
+      return import.meta.env.VITE_DEFAULT_TITLE;
+    },
   },
   methods: {},
 };

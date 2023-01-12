@@ -6,11 +6,8 @@
           {{ categoria }}
         </div>
       </a>
-      <Imagen
-        :imagen="imagen"
-        :alt="producto.name"
-        :url="url"
-      ></Imagen>
+      <!-- <router-link :to="url" class="imagen" v-html="producto.imagen"> </router-link> -->
+      <Imagen :imagen="producto.imagen" :alt="producto.name" :url="url"></Imagen>
 
       <div class="nombre">{{ producto.name }}</div>
 
@@ -36,11 +33,8 @@
                   {{ categoria }}
                 </div>
               </a>
-              <Imagen
-                :imagen="imagen"
-                :alt="producto.name"
-                :url="url"
-              ></Imagen>
+              <div class="imagen" v-html="producto.imagen"></div>
+              <Imagen :imagen="imagen" :alt="producto.name" :url="url"></Imagen>
             </div>
           </div>
           <div class="column py-0">
@@ -51,10 +45,7 @@
               </div>
               <div class="column is-hidden-mobile is-1"></div>
               <div class="column">
-                <div
-                  class="descripcion mb-0"
-                  v-html="producto.short_description"
-                ></div>
+                <div class="descripcion mb-0" v-html="producto.short_description"></div>
               </div>
             </div>
 
@@ -77,14 +68,14 @@
 </template>
 
 <script>
-import Imagen from './Imagen.vue'
-import Precio from './Precio.vue'
-import Acciones from './Acciones.vue'
+import Imagen from "./Imagen.vue";
+import Precio from "./Precio.vue";
+import Acciones from "./Acciones.vue";
 
 export default {
   props: {
     formato: {
-      default: 'vertical',
+      default: "vertical",
     },
     producto: {},
   },
@@ -94,25 +85,26 @@ export default {
     Acciones,
   },
   data() {
-    return {
-    }
+    return {};
   },
   computed: {
-    precios(){
-      return {normal:this.producto.price,oferta:this.producto.regular_price,on_sale:this.producto.on_sale};
+    precios() {
+      return {
+        normal: this.producto.price,
+        oferta: this.producto.regular_price,
+        on_sale: this.producto.on_sale,
+      };
     },
-    url(){
-      return '/producto/'+this.producto.slug;
+    url() {
+      return "/producto/" + this.producto.slug;
     },
-    categoria(){
+    categoria() {
       return this.producto.categories[0].name;
     },
-    imagen(){
+    imagen() {
       return this.producto.images[0].src;
-    }
+    },
   },
-  methods: {
-
-  },
-}
+  methods: {},
+};
 </script>

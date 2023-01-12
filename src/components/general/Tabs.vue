@@ -43,7 +43,7 @@ export default {
     tabsConInformacion() {
       if (this.tabs)
         return this.tabs.filter(
-          (tab, index) => tab.descripcion != "" || tab.descripcion != undefined
+          (tab, index) => tab.descripcion != "" && tab.descripcion != undefined
         );
       return false;
     },

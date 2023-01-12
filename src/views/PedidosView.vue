@@ -240,7 +240,12 @@ export default {
     },
     pedidosFiltrados() {
       return this.pedidos
-        ? this.pedidos.filter((pedido) => pedido.status != "cancelled")
+        ? this.pedidos.filter(
+            (pedido) =>
+              pedido.status == "completed" ||
+              pedido.status == "processing" ||
+              pedido.status == "facturado"
+          )
         : [];
     },
   },
@@ -263,46 +268,52 @@ export default {
     tipoPago() {
       if (this.ordenActiva) {
         let webpay_response = this.obtenerDatoMetaData("webpay_rest_response");
-        webpay_response = JSON.parse(webpay_response);
-        switch (webpay_response.paymentTypeCode) {
-          case "VD":
-            return "Débito";
-            break;
+        if (webpay_response) {
+          webpay_response = JSON.parse(webpay_response);
+          switch (webpay_response.paymentTypeCode) {
+            case "VD":
+              return "Débito";
+              break;
 
-          default:
-            return "Crédito";
-            break;
+            default:
+              return "Crédito";
+              break;
+          }
         }
+        return false;
       }
       return false;
     },
     tipoCuota() {
       if (this.ordenActiva) {
         let webpay_response = this.obtenerDatoMetaData("webpay_rest_response");
-        webpay_response = JSON.parse(webpay_response);
-        switch (webpay_response.paymentTypeCode) {
-          case "VD":
-            return "Venta Débito";
-            break;
-          case "VN":
-            return "Venta Normal";
-            break;
-          case "VC":
-            return "Venta en cuotas";
-            break;
-          case "SI":
-            return "3 cuotas sin interés";
-            break;
-          case "S2":
-            return "2 cuotas sin interés";
-            break;
-          case "NC":
-            return "N cuotas sin interés";
-            break;
-          default:
-            return "Sin cuotas";
-            break;
+        if (webpay_response) {
+          webpay_response = JSON.parse(webpay_response);
+          switch (webpay_response.paymentTypeCode) {
+            case "VD":
+              return "Venta Débito";
+              break;
+            case "VN":
+              return "Venta Normal";
+              break;
+            case "VC":
+              return "Venta en cuotas";
+              break;
+            case "SI":
+              return "3 cuotas sin interés";
+              break;
+            case "S2":
+              return "2 cuotas sin interés";
+              break;
+            case "NC":
+              return "N cuotas sin interés";
+              break;
+            default:
+              return "Sin cuotas";
+              break;
+          }
         }
+        return false;
       }
       return false;
     },

@@ -37,6 +37,9 @@
     }
 }
 @media  (max-width:768px) {
+    .pagination.ml-5{
+        margin-left: 0 !important;
+    }
     .columns.is-centered-mobile {
         justify-content: center;
     }

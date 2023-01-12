@@ -4,11 +4,19 @@ import helpers from '/src/utils/helpers.js'
 export const useCarroCompraStore = defineStore('carroCompra', {
   state: () => {
     return {
+        direccionManual:{
+          mostrar:false,
+        },
         carro:{
           cargando:false,
           validado:false,
           data:{
             productos:[],
+            filtros:{
+              filters:false,
+              precio:false,
+              pagina:1,
+            },
             cupon:[],
             metodo_pago:false,
             sucursal:false,
@@ -44,7 +52,11 @@ export const useCarroCompraStore = defineStore('carroCompra', {
             }
           },
           categorias:[],
-          productos:[],
+          productos:{
+            total:0,
+            paginas:1,
+            listado:[]
+          },
           datos_toplayer: {
             cantidad: 1,
             mostrar: false,
@@ -121,6 +133,15 @@ export const useCarroCompraStore = defineStore('carroCompra', {
 
     actualizaCarroMetodoPago(metodo) {
       this.carro.data.metodo_pago = metodo;
+    },
+    actualizarFiltros(data) {
+      this.carro.data.filtros = data;
+    },
+    carroCargando(data) {
+      this.carro.cargando = data;
+    },
+    direccion_manual(mostrar) {
+      this.direccionManual.mostrar = mostrar;
     },
 
   },

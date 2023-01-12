@@ -1,6 +1,6 @@
 <template>
   <main class="column productos-compra-rapida">
-    <div class="columns  is-mobile" v-if="!cargando">
+    <div class="columns is-mobile" v-if="!cargando">
       <div
         class="column py-0"
         v-for="producto in productosDisponibles"
@@ -9,14 +9,14 @@
         <div class="card py-4 px-3">
           <div class="columns is-gapless is-vcentered mb-4 is-mobile">
             <div class="column is-narrow mr-2">
-              <img src="/img/icono-bolsa-ecomas.png" alt="" width="19" height="25"/>
+              <img src="/img/icono-bolsa-ecomas.png" alt="" width="19" height="25" />
             </div>
             <div class="column text-nowrap has-text-right">
               <b>{{ producto.name }}</b>
             </div>
           </div>
           <div class="valor primero has-text-centered">
-            <b>${{ precioFormateado(producto.price) }}</b>
+            <b>{{ monedaChilena(producto.price) }}</b>
           </div>
 
           <div class="block mt-4">
@@ -67,9 +67,6 @@ export default {
     },
   },
   methods: {
-    precioFormateado(valor) {
-      return new Intl.NumberFormat("cl-CL").format(valor);
-    },
     irACompraRapida(id) {
       this.storeCarroCompra.actualizarCompraRapida(id, "productoSeleccionado");
       this.$router.push({ path: "/compra-rapida/" });

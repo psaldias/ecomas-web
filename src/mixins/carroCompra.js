@@ -99,17 +99,37 @@ export default {
 
         let headers = {};
         const {category} = data;
-        let parametros_adicionales = [];
+        let parametros_adicionales = false;
         // if(!this.store.token)
         //   await this.obtenerToken();
 
         headers["Authorization"] =  'Bearer '+this.store.token;
-
+        /** COMPROBAR SI VIENE LA CATEGORÍA */
         if(category){
+          /** ASIGNAR LA CATEGORÍA A LA URL PARA CONSULTA */
           parametros_adicionales = '&category='+category;
+          /** SI LA CATEGORÍA ES DIFERENTE A PELLET SE AGREGAN ADEMÁS LOS OTROS FILTROS (ATRIBUTOS DE WORDPRESS) */
+          if(category != 'pellet'){
+            Object.keys(this.storeCarroCompra.carro.data.filtros.filters).forEach(filtro => {
+              if(this.storeCarroCompra.carro.data.filtros.filters[filtro])
+                parametros_adicionales += '&filter['+filtro+']='+this.storeCarroCompra.carro.data.filtros.filters[filtro];
+            });
+
+            /** SI ESTÁ INDICADO EL FILTRO DEL PRECIO SE AGREGA A LA URL */
+            if(this.storeCarroCompra.carro.data.filtros.precio){
+              let precio = this.storeCarroCompra.carro.data.filtros.precio.split('-');
+
+              if(precio[0])
+                parametros_adicionales += '&filter[min_price]='+precio[0]
+              if(precio[1])
+                parametros_adicionales += '&filter[max_price]='+precio[1]
+            }
+
+            parametros_adicionales += '&offset='+this.storeCarroCompra.carro.data.filtros.pagina;
+          }
         }
 
-        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS+parametros_adicionales+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
+        const response = await axios.get(import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_V2+parametros_adicionales+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })
               return false;
