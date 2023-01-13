@@ -29,11 +29,17 @@
             </li>
           </ul>
           <div class="has-text-centered">
-              <div class="select  is-hidden-tablet">
-                  <select name="" id="" class="select" v-model="sucursal_actual">
-                      <option :value="sucursal.ID" v-for="sucursal in sucursales" :key="sucursal.ID" >{{ sucursal.post_title }}</option>
-                  </select>
-              </div>
+            <div class="select is-hidden-tablet">
+              <select name="" id="" class="select" v-model="sucursal_actual">
+                <option
+                  :value="sucursal.ID"
+                  v-for="sucursal in sucursales"
+                  :key="sucursal.ID"
+                >
+                  {{ sucursal.post_title }}
+                </option>
+              </select>
+            </div>
           </div>
 
           <div class="block data-sucursal is-size-6 mt-5 is-hidden-mobile">
@@ -43,12 +49,16 @@
             </p>
 
             <p>
-              <b class="is-block cuarto">Teléfono Celular:</b>
+              <b class="is-block cuarto" v-if="sucursalActual.acf.telefono_celular"
+                >Teléfono Celular:</b
+              >
               {{ sucursalActual.acf.telefono_celular }}
             </p>
 
             <p>
-              <b class="is-block cuarto">Teléfono Fijo:</b>
+              <b class="is-block cuarto" v-if="sucursalActual.acf.telefono_fijo"
+                >Teléfono Fijo:</b
+              >
               {{ sucursalActual.acf.telefono_fijo }}
             </p>
           </div>
@@ -60,7 +70,7 @@
               width="640"
               height="360"
               :src="urlIframe"
-              style="border: 0;"
+              style="border: 0"
               allowfullscreen=""
               loading="lazy"
               referrerpolicy="no-referrer-when-downgrade"
@@ -91,55 +101,70 @@
 </template>
 
 <script>
-import CargandoSeccion from '../general/CargandoSeccion.vue';
+import CargandoSeccion from "../general/CargandoSeccion.vue";
 export default {
-    props: {
-        titulo: String,
+  props: {
+    titulo: String,
+  },
+  data() {
+    return {
+      data: {},
+      cargando: true,
+      sucursal_actual: 1,
+      sucursales: {},
+    };
+  },
+  async mounted() {
+    const respuesta = await this.enviarGet(
+      import.meta.env.VITE_ENDPOINT_SUCURSALES_LISTADO
+    );
+    this.sucursales = respuesta.data;
+    this.sucursal_actual = this.sucursales[0].ID;
+    this.cargando = false;
+  },
+  computed: {
+    sucursalActual() {
+      return this.sucursales.find((sucursal) => sucursal.ID == this.sucursal_actual);
     },
-    data() {
-        return {
-            data: {},
-            cargando: true,
-            sucursal_actual: 1,
-            sucursales:{},
-        };
+    urlGoogle: function () {
+      return (
+        "https://maps.google.com/maps?q=" +
+        this.sucursalActual.acf.coordenadas_sucursal.latitud +
+        "," +
+        this.sucursalActual.acf.coordenadas_sucursal.longitud +
+        "&t=&z=14&ie=UTF8&iwloc="
+      );
     },
-    async mounted() {
-        const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_SUCURSALES_LISTADO);
-        this.sucursales = respuesta.data;
-        this.sucursal_actual = this.sucursales[0].ID;
-        this.cargando = false;
+    urlWaze: function () {
+      return (
+        "https://waze.com/ul?q=ecomas " +
+        encodeURIComponent(this.sucursalActual.acf.direccion) +
+        ", " +
+        this.sucursalActual.post_title
+      );
     },
-    computed: {
-        sucursalActual() {
-            return this.sucursales.find((sucursal) => sucursal.ID == this.sucursal_actual);
-        },
-        urlGoogle: function () {
-
-            return ("https://maps.google.com/maps?q="+this.sucursalActual.acf.coordenadas_sucursal.latitud+","+this.sucursalActual.acf.coordenadas_sucursal.longitud+
-            "&t=&z=14&ie=UTF8&iwloc=");
-        },
-        urlWaze: function () {
-            return ("https://waze.com/ul?q=ecomas " +
-                encodeURIComponent(this.sucursalActual.acf.direccion) +
-                ", " +
-                this.sucursalActual.post_title);
-        },
-        urlIframe: function () {
-          return ("https://www.google.cl/maps?q="+this.sucursalActual.acf.coordenadas_sucursal.latitud+","+this.sucursalActual.acf.coordenadas_sucursal.longitud+
-            "&hl=es&z=14&output=embed");
-            return ("https://maps.google.com/maps?q=ecomas " +
-                encodeURIComponent(this.sucursalActual.acf.direccion) +
-                ", " +
-                this.sucursalActual.post_title +
-                "&output=embed");
-        },
+    urlIframe: function () {
+      return (
+        "https://www.google.cl/maps?q=" +
+        this.sucursalActual.acf.coordenadas_sucursal.latitud +
+        "," +
+        this.sucursalActual.acf.coordenadas_sucursal.longitud +
+        "&hl=es&z=14&output=embed"
+      );
+      return (
+        "https://maps.google.com/maps?q=ecomas " +
+        encodeURIComponent(this.sucursalActual.acf.direccion) +
+        ", " +
+        this.sucursalActual.post_title +
+        "&output=embed"
+      );
     },
-    methods: {
-        cambiarSucursal: function (id) {
-            this.sucursal_actual = id;
-        },
+  },
+  methods: {
+    cambiarSucursal: function (id) {
+      this.sucursal_actual = id;
     },
-    components: { CargandoSeccion }
-}
+  },
+  components: { CargandoSeccion },
+};
 </script>
