@@ -118,6 +118,11 @@ export default {
     },
   },
   async mounted() {
+    if (!this.storeCarroCompra.carro.data.productos.length) {
+      this.$router.push({ path: "/productos" });
+      return false;
+    }
+
     /** VALIDAR CARRO */
     this.cargando = true;
     await this.validarCompraNormal();

@@ -29,4 +29,3 @@ createApp(App)
 .use(router)
 .use(createHead())
 .mount("#app");
-

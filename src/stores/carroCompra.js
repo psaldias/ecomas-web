@@ -147,7 +147,7 @@ export const useCarroCompraStore = defineStore('carroCompra', {
   },
   getters: {
     ComraRapidaproductosConStock: (state) => {
-      if(state.compraRapida.productos.length == 0)
+      if(!state.compraRapida.productos || state.compraRapida.productos.length == 0)
         return [];
 
       return state.compraRapida.productos.filter(producto => producto.stock_status == 'instock');

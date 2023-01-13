@@ -44,6 +44,9 @@ export default {
     };
   },
   async mounted() {
+    /** VERIFICAR VERSIÓN DE LA APP Y COMPARAR LA VERSIÓN DEL USUARIO */
+    await this.verificarVersionApp();
+
     /** OBTENER INFORMACIÓN INICIAL DESDE BACKEND INCLUIDO TOKEN PARA FUTURAS CONSULTAS */
     const respuesta = await this.enviarGet(import.meta.env.VITE_INIT, {
       cache: true,
@@ -104,6 +107,14 @@ export default {
     },
   },
   methods: {
+    async verificarVersionApp() {
+      const version_usuario = localStorage.version_app;
+      if (version_usuario != import.meta.env.VITE_APP_VERSION) {
+        localStorage.removeItem("dataCarro");
+        localStorage.removeItem("usuario");
+        localStorage.version_app = import.meta.env.VITE_APP_VERSION;
+      }
+    },
     haversineDistance(latlngA, latlngB, isMiles) {
       const squared = (x) => x * x;
       const toRad = (x) => (x * Math.PI) / 180;

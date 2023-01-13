@@ -4,6 +4,19 @@
       <form action="#" @submit.prevent="submitFormulario()">
         <Mensajes :mensajes="mensajes"></Mensajes>
         <div v-html="this.storeCarroCompra.carro.validado.mensajes"></div>
+        <article
+          class="message is-danger my-2 is-small"
+          v-if="dataFormularioDespacho.direccion.error"
+        >
+          <div class="message-body">
+            Formato de la dirección de despacho incorrecto, debes ingresar calle y número
+            calle, Ciudad Ej. Paicaví 983, concepción, Chile o ingresa tu dirección de
+            forma manual <br />
+            <a @click.prevent="this.storeCarroCompra.direccion_manual(true)"
+              >Ingresar Dirección Manual</a
+            >
+          </div>
+        </article>
         <div class="columns">
           <div class="column">
             <h4 class="primero mb-4">DIRECCIÓN DE ENVÍO</h4>
@@ -44,14 +57,6 @@
                   v-model="dataFormularioDespacho.comentario_direccion.data"
                 />
               </div>
-            </div>
-
-            <div class="field">
-              <a
-                @click.prevent="this.storeCarroCompra.direccion_manual(true)"
-                class="primero is-size-6"
-                >Ingresar Dirección de forma manual</a
-              >
             </div>
 
             <div class="field">
@@ -244,6 +249,11 @@ export default {
     };
   },
   async mounted() {
+    if (!this.storeCarroCompra.carro.data.productos.length) {
+      this.$router.push({ path: "/productos" });
+      return false;
+    }
+
     /** VALIDAR CARRO */
     this.cargando = true;
     await this.validarCompraNormal();
@@ -292,6 +302,7 @@ export default {
     direccionManual(data) {
       this.dataFormularioDespacho.comentario_direccion.data = data.comentario_direccion;
       this.dataFormularioDespacho.direccion.data = data.direccion;
+      this.dataFormularioDespacho.direccion.error = false;
 
       let dataCarro = this.dataCarro;
       dataCarro.despacho = {
