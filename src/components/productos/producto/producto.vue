@@ -90,8 +90,8 @@ export default {
   computed: {
     precios() {
       return {
-        normal: this.producto.price,
-        oferta: this.producto.regular_price,
+        normal: this.producto.regular_price,
+        oferta: this.producto.price,
         on_sale: this.producto.on_sale,
       };
     },
