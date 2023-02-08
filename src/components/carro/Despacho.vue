@@ -30,7 +30,7 @@
                 :country="['cl']"
                 id="direccion_google"
                 classname="input input-2  "
-                placeholder="Ingresar Dirección"
+                placeholder="Ingresar Dirección (Calle, número, ciudad)"
                 key="map1"
                 :latLongBounds="{
                   latLng: gmapsBounds,
@@ -52,7 +52,7 @@
               <div class="control">
                 <input
                   class="input input-2"
-                  placeHolder="Casa Departamento o Condominio "
+                  placeHolder="Casa, departamento o condominio ( información adicional)"
                   type="text"
                   v-model="dataFormularioDespacho.comentario_direccion.data"
                 />
@@ -83,7 +83,7 @@
               <div class="column py-0">
                 <InputBase
                   label="Rut Empresa"
-                  placeHolder="ej:76.666.666-0"
+                  placeHolder="ej:76666666-0"
                   type="text"
                   :error="false"
                   v-model="dataFormularioFacturacion.rut"
@@ -389,10 +389,12 @@ export default {
         return region.name == data.administrative_area_level_1;
       });
 
-      // if(data.street_number == undefined){
-      //   this.mensajes.error = "Formato de la dirección de despacho incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
-      //   return false;
-      // }
+      if (data.street_number == undefined) {
+        this.dataFormularioDespacho.direccion.error = true;
+        // this.mensajes.error =
+        //   "Formato de la dirección de despacho incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
+        return false;
+      }
 
       this.mensajes.error = "";
 

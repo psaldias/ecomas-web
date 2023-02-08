@@ -25,7 +25,7 @@
                 :country="['cl']"
                 id="direccion_google"
                 classname="input input-2 w-80"
-                placeholder="Ejemplo: calle número, ciudad"
+                placeholder="Ingresar Dirección (Calle, número, ciudad)"
                 :latLongBounds="{
                   latLng: gmapsBounds,
                   radius: parseInt(
@@ -43,7 +43,7 @@
               <div class="control">
                 <input
                   class="input input-2 w-80"
-                  placeHolder="Casa Departamento o Condominio "
+                  placeHolder="Casa, departamento o condominio ( información adicional)"
                   type="text"
                   v-model="comentario_direccion"
                 />
@@ -137,10 +137,11 @@ export default {
       const region = RegionesYComunas.find((region) => {
         return region.name == data.administrative_area_level_1;
       });
-      // if(data.street_number == undefined){
-      //   this.error = "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
-      //   return false;
-      // }
+      if (data.street_number == undefined) {
+        this.error =
+          "Formato de la dirección incorrecto, debes ingresar calle y número calle, Ciudad Ej. Paicaví 983, concepción, Chile";
+        return false;
+      }
 
       this.error = "";
       const direccion = {
