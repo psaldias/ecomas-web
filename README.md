@@ -36,3 +36,11 @@ npm run lint
 
 #despliegue de dist
 aws s3 sync . s3://frontend.ecomas.cl
+
+
+### Changelog
+
+v1.0.9
+Corrección valor productos con descuento.
+Cambio texto placeholder en input dirección (compra rapida y compra normal)
+Se vuelve activar validación por número en dirección de despacho (compra rapida y compra normal)
