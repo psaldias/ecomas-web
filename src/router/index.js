@@ -10,7 +10,11 @@ const router = createRouter({
       name: "",
       component: HomeView
     },
-
+    {
+      path: "/descargar-app",
+      name: "Descargar App",
+      component: () => import("../views/DescargarAppView.vue")
+    },
     {
       path: "/somos-ecomas",
       name: "Quienes Somos",

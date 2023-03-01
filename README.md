@@ -40,10 +40,15 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 ### Changelog
 
+### v1.0.11
+Nueva sección "Descargar App" con redirección automática para dispositivos móviles.
+
+### v1.0.10
+Corrección banner home, ahora toma como externas las url que comiencen por http
+
 ### v1.0.9
 Corrección valor productos con descuento.<br>
 Cambio texto placeholder en input dirección (compra rapida y compra normal)<br>
 Se vuelve activar validación por número en dirección de despacho (compra rapida y compra normal)<br>
 
-### v1.0.10
-Corrección banner home, ahora toma como externas las url que comiencen por http
+
