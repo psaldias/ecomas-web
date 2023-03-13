@@ -75,7 +75,10 @@
             </div>
           </div>
           <div class="field">
-            <button class="button button-icono is-fullwidth" @click="guardarUbicacion()">
+            <button
+              class="button button-icono is-fullwidth"
+              @click="guardarUbicacion(true)"
+            >
               Guardar Ubicación
             </button>
           </div>
@@ -115,6 +118,11 @@ export default {
       this.regionSeleccionada = this.regiones[0].term_id;
     }
     if (!localStorage.sucursalSeleccionada) {
+      this.mostrarMenu = true;
+      this.guardarUbicacion();
+    }
+
+    if (!localStorage.seleccionaSucursal) {
       this.mostrarMenu = true;
     }
 
@@ -160,7 +168,7 @@ export default {
         this.comunaSeleccionada = this.comunas[0].term_id;
       }
     },
-    guardarUbicacion() {
+    guardarUbicacion(seleccionaSucursal = false) {
       this.store_opciones_generales.actualizarSucuralSeleccionada(
         this.comunaSeleccionada
       );
@@ -171,6 +179,8 @@ export default {
       this.storeCarroCompra.actualizarCompraRapida(false, "direccion");
       localStorage.sucursalSeleccionada = this.comunaSeleccionada;
       this.mostrarMenu = false;
+
+      if (seleccionaSucursal) localStorage.seleccionaSucursal = true;
     },
   },
 };

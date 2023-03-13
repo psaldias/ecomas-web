@@ -39,6 +39,8 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog
+### v1.0.12
+Fix en ventana seleccionar ubicación, se detectó un error cuando se ingresaba por primera vez al sitio y no seleccionaba la ubicación , al momento de ingresar la dirección de despacho de forma manual generaba un error.
 
 ### v1.0.11
 Nueva sección "Descargar App" con redirección automática para dispositivos móviles.
