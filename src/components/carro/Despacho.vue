@@ -203,6 +203,7 @@
     </div>
     <DireccionManual @direccion-manual="direccionManual"></DireccionManual>
   </div>
+  <ToplayerRadioDespacho></ToplayerRadioDespacho>
 </template>
 
 <script>
@@ -221,6 +222,7 @@ import RegionesYComunas from "/src/utils/regionesComunas";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 import CargandoSeccion from "../general/CargandoSeccion.vue";
+import ToplayerRadioDespacho from "../general/ToplayerRadioDespacho.vue";
 export default {
   data() {
     return {
@@ -607,6 +609,7 @@ export default {
     Mensajes,
     CargandoSeccion,
     DireccionManual,
+    ToplayerRadioDespacho,
   },
 };
 </script>

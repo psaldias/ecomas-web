@@ -18,6 +18,10 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         asuntos:{},
         imagen_por_defecto_noticias:false,
         terminos_y_condiciones_box_pago:false,
+        radio_activo:false,
+        radio_caja_destacada:'',
+        radio_pie:'',
+        radio_texto_principal:'',
      }
   },
   actions: {

@@ -1591,4 +1591,36 @@ footer{
     }
   }
 }
+
+.toplayer-radio-despacho{
+  .toplayer_content{
+    padding:1em 1em 0 1em;
+    letter-spacing: -1px;
+  }
+  .acciones-cabecera{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index:5 ;
+  }
+  h3{
+    color:#8A8A8A;
+    font-size: 1.8em;
+    line-height: 1.3em;
+    font-weight: 400;
+    b,strong{
+      color:color('primero')
+    }
+  }
+
+  .destacado{
+    background:color("primero");
+    color:color("blanco");
+    border-radius: 10px;
+  }
+
+  .content p:last-child{
+    margin-bottom: 0;
+  }
+}
 // @import 'media.scss';

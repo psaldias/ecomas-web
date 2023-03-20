@@ -64,6 +64,7 @@
       <DireccionManual @direccion-manual="direccionManual"></DireccionManual>
     </div>
   </div>
+  <ToplayerRadioDespacho></ToplayerRadioDespacho>
 </template>
 
 <script>
@@ -73,6 +74,7 @@ import GoogleMapsAutocompleteVue from "../general/GoogleMapsAutocomplete.vue";
 import RegionesYComunas from "/src/utils/regionesComunas";
 import helpers from "../../utils/helpers";
 import DireccionManual from "../productos/producto/DireccionManual.vue";
+import ToplayerRadioDespacho from "../general/ToplayerRadioDespacho.vue";
 
 export default {
   data() {
@@ -168,6 +170,6 @@ export default {
       this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
     },
   },
-  components: { GoogleMapsAutocompleteVue, DireccionManual },
+  components: { GoogleMapsAutocompleteVue, DireccionManual, ToplayerRadioDespacho },
 };
 </script>
