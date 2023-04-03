@@ -137,19 +137,29 @@ export default {
       return this.store_opciones_generales.ubicaciones_sucursales ?? false;
     },
     sucursal_por_defecto() {
+      /** VALIDA QUE EXISTAN SUCURSALES */
       if (!this.store_opciones_generales.sucursales) return false;
-
+      /** VALIDA SI HAY ALGUNA SUCURSAL SELECCIONADA EN LOCALSTORAGE */
       if (localStorage.sucursalSeleccionada) {
-        return this.store_opciones_generales.sucursales.find((sucursal) => {
+        const sucursal = this.store_opciones_generales.sucursales.find((sucursal) => {
           return sucursal.regiones_comunas.find(
             (comuna) => comuna.term_id == localStorage.sucursalSeleccionada
           );
           // return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
         });
+        /** SI ENCUENTRA LA SUCURSAL LA DEVUELVE */
+        if (sucursal) return sucursal;
+        /** SI NO LA CUENTRA ELIMINA LA SUCURSAL DEL LOCAL STORGA (POSIBLEMENTE FUE ELIMINADA DEL ADMIN) */
+        localStorage.removeItem("sucursalSeleccionada");
+        localStorage.removeItem("seleccionaSucursal");
       }
-      return this.store_opciones_generales.sucursales.find((sucursal) => {
-        return sucursal.fields.sucursal_por_defecto;
-      });
+      /** DEVUELVE LA SUCURSAL POR DEFECTO */
+      const sucursal_por_defecto = this.store_opciones_generales.sucursales.find(
+        (sucursal) => {
+          return sucursal.fields.sucursal_por_defecto;
+        }
+      );
+      return sucursal_por_defecto;
     },
     regiones() {
       let regiones = false;

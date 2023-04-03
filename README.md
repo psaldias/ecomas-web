@@ -39,6 +39,11 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+
+### v1.0.14
+- Fix de sucursal seleccionada
+  - Cuando se elimiaba una sucursal desde el admin y el usuario la tenía seleccionada como "por defecto" en localstorage, el sitio se caia y no permitía hacer nada. Ahora en este caso se vuelve a dejar por defecto la sucursal marcada como tal desde el admin.
+
 ### v1.0.13
 - Toplayer en las secciones /carro/despacho y compra-rapida/direccion con información de radio de despacho, su contenido se puede modificar desde el administrador Opciones Generales Ecomas > Toplayer Radio Despacho
 
