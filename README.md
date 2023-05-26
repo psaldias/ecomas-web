@@ -39,6 +39,8 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.16
+  - Fix en carro de compras cuando un producto estaba agregado al carro pero en backend era eliminado lo que generaba un error crítico del sitio.
 
 ### v1.0.15
   - Cambio en selector de años al registrarse, ahora el minimo es desde 1920

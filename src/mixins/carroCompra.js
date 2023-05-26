@@ -211,7 +211,17 @@ export default {
             this.errorData = true;
 
           /** GUARDAR DATOS CARRO EN STORE */
-          this.storeCarroCompra.actualizarCarro(response.data, "validado");
+          if(response.data){
+            this.storeCarroCompra.actualizarCarro(response.data, "validado");
+            const nuevos_productos = data.productos.filter(producto => {
+              const encontrado = response.data.productos.find(producto_carro_validado => producto.id == producto_carro_validado.id )
+              if(!encontrado){
+                this.storeCarroCompra.eliminarProductoCarro(producto.id);
+              }
+            })
+          }
+
+
         }
         this.storeCarroCompra.actualizarCarro(false, "cargando");
 
