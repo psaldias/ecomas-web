@@ -27,7 +27,7 @@
 
     anios(){
         let a = [];
-        for(let i=new Date().getFullYear();i>=1960;i--){
+        for(let i=new Date().getFullYear();i>=1920;i--){
             a.push(i);
         }
         return a;

@@ -79,6 +79,8 @@
         </section>
         <NoticiasDestacada titulo="Noticias" />
       </div>
+
+      <ToplayerHome :toplayer="toplayer"></ToplayerHome>
     </div>
 
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
@@ -101,6 +103,7 @@ import Seo from "/src/components/general/Seo.vue";
 import SliderProductos from "../components/productos/SliderProductos.vue";
 
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+import ToplayerHome from "../components/general/ToplayerHome.vue";
 export default {
   components: {
     CompraRapida,
@@ -111,6 +114,7 @@ export default {
     ErrorSeccion,
     Seo,
     SliderProductos,
+    ToplayerHome,
   },
   async mounted() {
     const respuesta = await this.enviarGet(
@@ -121,6 +125,7 @@ export default {
 
     if (respuesta) {
       this.contenidoInicial = respuesta.data;
+      this.toplayer = this.contenidoInicial.acf.toplayer;
       this.cargando = false;
     }
   },
@@ -129,6 +134,7 @@ export default {
       cargando: true,
       contenidoInicial: {},
       store_opciones_generales: useOpcionesGeneralesStore(),
+      toplayer: false,
     };
   },
   computed: {

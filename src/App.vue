@@ -52,7 +52,6 @@ export default {
       cache: true,
       authorization: false,
     });
-
     if (respuesta) {
       const token = respuesta.data.token;
       const categorias = respuesta.data.categorias;
@@ -85,6 +84,8 @@ export default {
       this.storeCarroCompra.actualizarCarro(categorias, "categorias");
     } else {
       this.store_opciones_generales.guardarDatos({ cargando: false });
+      this.$router.push({ name: "error" });
+      return false;
     }
 
     /** CARGAR SCRIPT PERSONALIZADOS DEL ADMINISTRADOR OPCIONES ECOMAS - GENERALES */

@@ -169,7 +169,6 @@
     opacity: 0;
   }
 }
-
 @keyframes animacionnavegar {
   0% {
     transform: translate(0, 0px);
@@ -181,10 +180,8 @@
     transform: translate(0, 0px);
   }
 }
-
 @keyframes swipe {
-  0%,
-  100% {
+  0%, 100% {
     transform: translateX(0);
   }
   40% {
@@ -197,7 +194,6 @@
     transform: translateX(0);
   }
 }
-
 .text-nowrap {
   white-space: nowrap;
 }
@@ -209,7 +205,6 @@ a {
 .columns {
   margin: 0;
 }
-
 .columns:last-child {
   margin-bottom: 0;
 }
@@ -236,27 +231,23 @@ p {
 }
 
 .slick-disabled {
-  opacity: .6;
+  opacity: 0.6;
 }
 
 .slick-dots {
   text-align: center;
 }
-
 .slick-dots li {
   display: inline-block;
   margin-right: 7px;
 }
-
 .slick-dots li:last-child {
   margin-right: 0;
 }
-
 .slick-dots li.slick-active button {
   background: #000;
   position: relative;
 }
-
 .slick-dots li.slick-active button:after {
   content: "";
   width: 5px;
@@ -269,7 +260,6 @@ p {
   transform: translate(-50%, -50%);
   z-index: 5;
 }
-
 .slick-dots li button {
   cursor: pointer;
   background: #000;
@@ -284,63 +274,54 @@ p {
 .slider-flechas {
   padding: 0 50px;
 }
-
 .slider-flechas .slick-arrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;
 }
-
 .slider-flechas .slick-arrow i {
   font-size: 2em;
 }
-
 .slider-flechas .slick-prev {
   left: 0;
 }
-
 .slider-flechas .slick-next {
   right: 0;
 }
 
 @font-face {
-  font-family: 'Myriad Pro';
+  font-family: "Myriad Pro";
   font-style: normal;
   font-weight: normal;
   src: local("Myriad Pro"), url("../fonts/MYRIADPRO-REGULAR.woff") format("woff");
 }
-
 @font-face {
-  font-family: 'Myriad Pro';
+  font-family: "Myriad Pro";
   font-style: normal;
   font-weight: 300;
   src: local("Myriad Pro"), url("../fonts/MyriadPro-Light.woff") format("woff");
 }
-
 @font-face {
-  font-family: 'Myriad Pro';
+  font-family: "Myriad Pro";
   font-style: normal;
   font-weight: 500;
   src: local("Myriad Pro"), url("../fonts/MYRIADPRO-SEMIBOLD.woff") format("woff");
 }
-
 @font-face {
-  font-family: 'Myriad Pro';
+  font-family: "Myriad Pro";
   font-style: italic;
   font-weight: 500;
   src: local("Myriad Pro"), url("../fonts/MYRIADPRO-SEMIBOLDIT.woff") format("woff");
 }
-
 @font-face {
-  font-family: 'Myriad Pro';
+  font-family: "Myriad Pro";
   font-style: normal;
   font-weight: 600;
   src: local("Myriad Pro"), url("../fonts/MYRIADPRO-BOLD.woff") format("woff");
 }
-
 @font-face {
-  font-family: 'Myriad Pro';
+  font-family: "Myriad Pro";
   font-style: italic;
   font-weight: 600;
   src: local("Myriad Pro"), url("../fonts/MYRIADPRO-BOLDIT.woff") format("woff");

@@ -40,6 +40,12 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 ### Changelog<br>
 
+### v1.0.15
+  - Cambio en selector de años al registrarse, ahora el minimo es desde 1920
+  - Fix menores cuando el servidor backend no responde, en algunos casos el sitio se quedaba "pegado" y no redijiría a la página de error
+  - Se agregó un toplayer en el home, su contenido es administrable desde el backen.
+  - Se agregó la opción desde el backend de poder modificar el tiempo visible de cada slide en el carrusel del home, además de fijarlo
+
 ### v1.0.14
 - Fix de sucursal seleccionada
   - Cuando se elimiaba una sucursal desde el admin y el usuario la tenía seleccionada como "por defecto" en localstorage, el sitio se caia y no permitía hacer nada. Ahora en este caso se vuelve a dejar por defecto la sucursal marcada como tal desde el admin.

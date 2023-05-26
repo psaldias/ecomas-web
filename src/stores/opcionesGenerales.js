@@ -22,6 +22,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         radio_caja_destacada:'',
         radio_pie:'',
         radio_texto_principal:'',
+        mostrar_toplayer_home:true,
      }
   },
   actions: {
@@ -39,13 +40,19 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
     },
 
     actualizarSucuralSeleccionada(id_comuna) {
-      const sucursal_seleccionada = this.sucursales.find(sucursal => {
-        const sucursal_encontrada = sucursal.regiones_comunas.find(comuna => comuna.term_id == id_comuna)
-        return sucursal_encontrada;
-      });
+      let sucursal_seleccionada = false;
+      if(this.sucursales){
+        sucursal_seleccionada = this.sucursales.find(sucursal => {
+          const sucursal_encontrada = sucursal.regiones_comunas.find(comuna => comuna.term_id == id_comuna)
+          return sucursal_encontrada;
+        });
+      }
 
       this.sucursal_seleccionada = (sucursal_seleccionada) ? sucursal_seleccionada: false;
     },
+    actualizarToplayerHome(valor){
+      this.mostrar_toplayer_home = valor;
+    }
 
   },
   getters: {

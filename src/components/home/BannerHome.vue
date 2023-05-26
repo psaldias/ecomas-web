@@ -64,27 +64,62 @@ import "/src/assets/libs/slick/slick-theme.min.css";
 export default {
   props: ["imagenes"],
   data() {
-    return {};
+    return {
+      slider: false,
+      timeout: false,
+    };
   },
   mounted() {
-    $(".banner-principal .slider").slick({
+    const vue = this;
+    /** CREAR INSTANCIA DE CARRUSEL */
+    this.slider = $(".banner-principal .slider").slick({
       slidesToShow: 1,
       dots: true,
       arrows: false,
-      infinite: false,
-      autoplay: true,
-      autoplaySpeed: 4000,
+      infinite: true,
+      pauseOnHover: false,
+      pauseOnFocus: false,
+      autoplay: false,
+      autoplaySpeed: 5000,
       prevArrow:
         '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
       nextArrow:
         '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
     });
+    /** VALIDAR EN CADA CAMBIO EL TIEMPO DE TRANSISIÓN O SI SE DEBE QUEADAR FIJO */
+    $(".banner-principal .slider").on(
+      "afterChange",
+      function (event, slick, currentSlide, nextSlide) {
+        /** DESPUES DE CADA CAMBIO DE SLIDE SE VALIDA EL AUTOPLAY */
+        vue.autoplaySlider(currentSlide);
+      }
+    );
+    /** VALIDA PRIMER SLIDE */
+    this.autoplaySlider(0);
   },
   computed: {},
   methods: {
     verificarUrlExterna(url) {
       var pattern = /^((http|https|ftp):\/\/)/;
       return pattern.test(url);
+    },
+    /** ELIMINAR EL TIMEOUT */
+    clearTimeout() {
+      if (this.timeout) clearTimeout(this.timeout);
+    },
+    /** FUNCIÓN PERSONALIZADA PARA AUTOPLAY DE SLIDER SEGÚN PARAMETROS INDICADOS EN ADMIN */
+    autoplaySlider(currentSlide) {
+      /** ELIMINAR TIMEOUT SI EXISTE */
+      this.clearTimeout();
+      const vue = this;
+      /** IDENTIFICAR IMAGEN PARA OBTENER PARAMETROS, SI ES FIJO Y EL TIEMPO VISIBLE */
+      const imagen = this.imagenes[currentSlide];
+      /** SI NO ES FIJO SE CREA TIMEOUT PARA CAMBIAR A SIGUIENTE SLIDE */
+      if (!this.imagenes[currentSlide].fijo) {
+        this.timeout = setTimeout(() => {
+          vue.slider.slick("slickNext");
+        }, imagen.tiempo * 1000);
+      }
     },
   },
 };

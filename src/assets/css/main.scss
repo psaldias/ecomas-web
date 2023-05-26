@@ -1623,4 +1623,20 @@ footer{
     margin-bottom: 0;
   }
 }
+
+.toplayer-home .toplayer_content {
+  max-width: none !important;
+  width: auto !important;
+  padding:0 !important;
+  img{
+    display: block;
+    max-height: 100vh;
+  }
+  .delete{
+    position: absolute !important;
+    right: 0 !important;
+    top: 0 !important;
+    background:#FFF !important;
+  }
+}
 // @import 'media.scss';
