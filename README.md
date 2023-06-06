@@ -39,6 +39,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.17
+  - Actualización limite de productos en compra rapida de 10 por defecto al maximo permitido por wordpress de 100
+
 ### v1.0.16
   - Fix en carro de compras cuando un producto estaba agregado al carro pero en backend era eliminado lo que generaba un error crítico del sitio.
 
