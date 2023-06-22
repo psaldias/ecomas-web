@@ -47,11 +47,21 @@
 
                 <div class="columns">
                   <div class="column is-5">
-                    <Imagen
-                      :imagen="producto.imagen"
-                      :alt="producto.name"
-                      :url="url"
-                    ></Imagen>
+                    <a
+                      class="imagen"
+                      data-fancybox="galeria"
+                      :href="producto.images[0].src"
+                      v-html="producto.imagen"
+                    ></a>
+                    <div class="galeria-producto" v-if="producto.images.length > 1">
+                      <div class="" v-for="imagen in producto.images">
+                        <a data-fancybox="galeria" :href="imagen.src">
+                          <figure class="image is-1by1">
+                            <img :src="imagen.src" alt="" />
+                          </figure>
+                        </a>
+                      </div>
+                    </div>
                   </div>
                   <div class="column">
                     <div class="nombre">{{ producto.name }}</div>
@@ -130,6 +140,13 @@
 </template>
 
 <script>
+import "/src/assets/libs/fancybox/jquery.fancybox.min.js";
+import "/src/assets/libs/fancybox/jquery.fancybox.min.css";
+
+import "/src/assets/libs/slick/slick.min.js";
+import "/src/assets/libs/slick/slick.min.css";
+import "/src/assets/libs/slick/slick-theme.min.css";
+
 import Imagen from "../components/productos/producto/Imagen.vue";
 import Precio from "../components/productos/producto/Precio.vue";
 import Acciones from "../components/productos/producto/Acciones.vue";
@@ -162,8 +179,26 @@ export default {
       store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
+  updated() {},
   async mounted() {
     await this.obtenerProducto();
+    $.fancybox.defaults.backFocus = false;
+
+    /** CREAR INSTANCIA DE CARRUSEL */
+    this.slider = $(".galeria-producto").slick({
+      slidesToShow: 4,
+      dots: false,
+      arrows: true,
+      infinite: true,
+      pauseOnHover: false,
+      pauseOnFocus: false,
+      autoplay: false,
+      autoplaySpeed: 5000,
+      prevArrow:
+        '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
+      nextArrow:
+        '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
+    });
 
     // if (this.storeCarroCompra.carro.productos.length == 0) {
     //   await this.obtenerProductos();

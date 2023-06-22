@@ -39,6 +39,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.18
+  - Se habilito en el interior de un producto una galería de imagenes.
+
 ### v1.0.17
   - Actualización limite de productos en compra rapida de 10 por defecto al maximo permitido por wordpress de 100
 

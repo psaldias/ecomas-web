@@ -1845,4 +1845,36 @@ footer nav a:hover {
   right: 0 !important;
   top: 0 !important;
   background: #FFF !important;
+  z-index: 20;
+}
+
+.galeria-producto {
+  padding: 0 10px;
+  position: relative;
+}
+.galeria-producto .image.is-1by1 img {
+  object-fit: contain;
+}
+.galeria-producto .slick-arrow {
+  position: absolute;
+  background: #FFF;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  text-align: center;
+}
+.galeria-producto .slick-arrow.slick-prev-ecomas {
+  left: 0;
+}
+.galeria-producto .slick-arrow.slick-next-ecomas {
+  right: 0;
+}
+.galeria-producto .slick-track {
+  height: 100%;
+  padding: 1em 0;
+  display: flex;
+}
+.galeria-producto .slick-track .slick-slide {
+  height: auto !important;
+  padding: 0 0.5em;
 }
