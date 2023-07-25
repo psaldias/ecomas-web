@@ -39,6 +39,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.19
+  - cambios logos header y footer
+
 ### v1.0.18
   - Se habilito en el interior de un producto una galería de imagenes.
 
