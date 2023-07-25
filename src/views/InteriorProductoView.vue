@@ -108,6 +108,7 @@
                       :idProducto="producto.id"
                       :producto="producto"
                     ></Acciones>
+                    <pre>{{ variaciones }}</pre>
                   </div>
                 </div>
               </div>
@@ -175,6 +176,7 @@ export default {
         mostrar: false,
       },
       producto: {},
+      variaciones: {},
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
     };
@@ -308,8 +310,24 @@ export default {
       if (respuesta_producto.data.length == 1) {
         this.producto = respuesta_producto.data[0];
       }
-      // console.log(respuesta_producto);
+
+      /** SI EL PRODUCTO ES VARIABLE, OBTENER INFORMACIÓN DE CADA VARIACIÓN */
+      if (this.producto.type == "variable") await this.obtenerVariaciones();
+
       this.cargando = false;
+    },
+    async obtenerVariaciones() {
+      const respuesta = await this.enviarGet(
+        import.meta.env.VITE_ENDPOINT_URL_API +
+          "/wc/v3/products/" +
+          this.producto.id +
+          "/variations",
+        { authorization: true, cache: true }
+      );
+
+      this.variaciones = respuesta.data;
+      console.log(this.variaciones);
+      // this.producto = respuesta.data[0];
     },
     async obtenerProductos() {
       this.cargando = true;

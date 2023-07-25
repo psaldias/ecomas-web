@@ -47,7 +47,12 @@
           <div class="column">
             <div class="field">
               <label for="">Dirección</label>
-              <input type="text" class="input" v-model="direccion.calle" />
+              <input
+                type="text"
+                class="input"
+                v-model="direccion.calle"
+                maxlength="100"
+              />
             </div>
           </div>
           <div class="column">
@@ -64,6 +69,10 @@
               <input type="text" class="input" v-model="comentario_direccion" />
             </div>
           </div>
+        </div>
+
+        <div class="block">
+          <div id="mapPicker" ref="mapPicker" style="height: 200px"></div>
         </div>
 
         <div class="block has-text-right-tablet mt-5 px-2">
@@ -87,6 +96,7 @@
 <script>
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import Mensajes from "../../general/Mensajes.vue";
+import helpers from "../../../utils/helpers.js";
 export default {
   components: {
     Mensajes,
@@ -106,6 +116,18 @@ export default {
         numero: "",
         pais: "Chile",
         region: "CL-BI",
+      },
+      ADDRESS_COMPONENTS: {
+        plus_code: "long_name",
+        subpremise: "short_name",
+        street_number: "short_name",
+        route: "long_name",
+        locality: "long_name",
+        administrative_area_level_1: "short_name",
+        administrative_area_level_2: "long_name",
+        administrative_area_level_3: "long_name",
+        country: "long_name",
+        postal_code: "short_name",
       },
     };
   },
@@ -143,18 +165,119 @@ export default {
       });
     },
   },
-  mounted() {
+  async mounted() {
+    /** IMPORTAR LIBRERIA GOOGLE MAPS PARA EL AUTOCOMPLETE DE LAS DIRECCIONES */
+    await helpers.importarLibereriaGoogleMaps();
+
     /** setear comuna y regino dependiendo de la sucursal seleccionada */
     this.direccion.comuna = this.comuna.name;
     this.direccion.region = this.region.description;
+
+    var location = new google.maps.LatLng(
+      this.sucursal.fields.coordenadas_sucursal.latitud,
+      this.sucursal.fields.coordenadas_sucursal.longitud
+    );
+
+    var latLng = new google.maps.LatLng({
+      lat: parseFloat(this.sucursal.fields.coordenadas_sucursal.latitud),
+      lng: parseFloat(this.sucursal.fields.coordenadas_sucursal.longitud),
+    });
+
+    var defaultBounds = new google.maps.LatLngBounds(
+      new google.maps.Circle({
+        center: latLng,
+        radius: parseInt(
+          this.store_opciones_generales.restricciones_sucursales.radio_permitido
+        ),
+      }).getBounds()
+    );
+
+    var mapProperty = {
+      center: latLng,
+      zoom: 12,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      restriction: {
+        latLngBounds: defaultBounds,
+      },
+    };
+
+    var map = new google.maps.Map(this.$refs.mapPicker, mapProperty);
+
+    var marker = new google.maps.Marker({
+      map: map,
+      draggable: true,
+      animation: google.maps.Animation.DROP,
+      position: location,
+    });
+
+    this.geocodePosition(marker.getPosition());
+
+    const context = this;
+    google.maps.event.addListener(marker, "dragend", function () {
+      map.setCenter(marker.getPosition());
+      context.geocodePosition(marker.getPosition());
+    });
   },
   methods: {
+    /** OBTENER LA POSICIÓN DEL MARCADOR Y HACER ALGO CON ELLA */
+    geocodePosition(pos) {
+      const context = this;
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode(
+        {
+          latLng: pos,
+        },
+        function (results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            const data = context.formatResult(results[0]);
+            // console.log(data);
+
+            context.direccion = {
+              region: data.administrative_area_level_1,
+              ciudad:
+                data.administrative_area_level_3 ?? data.administrative_area_level_2,
+              comuna: data.locality,
+              pais: data.country,
+              latitud: data.latitude,
+              longitud: data.longitude,
+              calle: data.route ?? data.plus_code,
+              numero: data.street_number ?? "",
+              direccionCompleta: "",
+            };
+
+            if (context.direccion.calle)
+              context.direccion.direccionCompleta += context.direccion.calle;
+            if (context.direccion.numero && context.direccion.numero != 0)
+              context.direccion.direccionCompleta += " " + context.direccion.numero;
+          }
+        }
+      );
+    },
+    /**
+     * FORMATEAR RESULTADO DE google APIs
+     * @param place
+     * @returns {{formatted output}}
+     */
+    formatResult(place) {
+      // console.log(place);
+      let returnData = {};
+      for (let i = 0; i < place.address_components.length; i++) {
+        let addressType = place.address_components[i].types[0];
+
+        if (this.ADDRESS_COMPONENTS[addressType]) {
+          let val = place.address_components[i][this.ADDRESS_COMPONENTS[addressType]];
+          returnData[addressType] = val;
+        }
+      }
+
+      returnData["latitude"] = place.geometry.location.lat();
+      returnData["longitude"] = place.geometry.location.lng();
+      return returnData;
+    },
     /** crea string con el formato de dirección completa */
     direccionCompleta() {
       let direccion = this.direccion.calle;
       if (this.direccion.numero) direccion += " " + this.direccion.numero;
-
-      direccion += ", " + this.direccion.ciudad + ", " + this.region.name;
 
       return direccion;
     },
@@ -174,8 +297,8 @@ export default {
       /** seteamos valores en objeto final de dirección */
       this.direccion.comuna = this.direccion.ciudad = this.comuna.name;
       this.direccion.direccionCompleta = this.direccionCompleta();
-      this.direccion.latitud = this.sucursal.fields.coordenadas_sucursal.latitud;
-      this.direccion.longitud = this.sucursal.fields.coordenadas_sucursal.longitud;
+      this.direccion.latitud = this.direccion.latitud;
+      this.direccion.longitud = this.direccion.longitud;
       /** emite dirección y comentario a componente padre */
       this.$emit("direccionManual", {
         direccion: this.direccion,

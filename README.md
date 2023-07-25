@@ -39,6 +39,14 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.20
+  - Se modifica la dirección en compra rapida, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
+  - Se modifica la dirección de despacho en compra normal, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
+  - Se modifica la dirección de facturacion en compra normal, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
+  - Campo Giro en compra rápida, se se limita a un máximo de 40 caracteres
+  - Se agrega mapa en dirección manual para que se pueda seleccionar con un pin la ubicación.
+
+
 ### v1.0.18
   - Se habilito en el interior de un producto una galería de imagenes.
 

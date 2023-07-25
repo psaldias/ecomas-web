@@ -44,7 +44,7 @@
                 class="is-size-7 mt-2"
               >
                 Dirección Seleccionada:
-                <b>{{ dataFormularioDespacho.direccion.data.direccionCompleta }}</b>
+                <b>{{ direccionCompletaDespacho }}</b>
               </div>
             </div>
 
@@ -106,6 +106,7 @@
               placeHolder="ej: Transporte y Carga"
               type="text"
               :error="false"
+              max="40"
               v-model="dataFormularioFacturacion.giro"
             />
 
@@ -153,9 +154,7 @@
                     class="is-size-7 mt-2"
                   >
                     Dirección Seleccionada:
-                    <b>{{
-                      dataFormularioFacturacion.direccion.data.direccionCompleta
-                    }}</b>
+                    <b>{{ direccionCompletaFacturacion }}</b>
                   </div>
                 </div>
               </div>
@@ -201,7 +200,10 @@
       <BoxDespacho></BoxDespacho>
       <BoxTotales></BoxTotales>
     </div>
-    <DireccionManual @direccion-manual="direccionManual"></DireccionManual>
+    <DireccionManual
+      @direccion-manual="direccionManual"
+      v-if="this.storeCarroCompra.direccionManual.mostrar"
+    ></DireccionManual>
   </div>
   <ToplayerRadioDespacho></ToplayerRadioDespacho>
 </template>
@@ -297,6 +299,26 @@ export default {
     },
     sucursalSeleccionada() {
       return this.store_opciones_generales.sucursal_seleccionada;
+    },
+    /** DEVUELVE DIRECCIÓN COMPLETA PARA AGREGAR AGREGANDO CIUDAD Y PAIS SI EXISTEN */
+    direccionCompletaDespacho() {
+      let direccion = this.dataFormularioDespacho.direccion.data.direccionCompleta;
+
+      if (this.dataFormularioDespacho.direccion.data.ciudad)
+        direccion += ", " + this.dataFormularioDespacho.direccion.data.ciudad;
+      if (this.dataFormularioDespacho.direccion.data.pais)
+        direccion += ", " + this.dataFormularioDespacho.direccion.data.pais;
+      return direccion;
+    },
+    /** DEVUELVE DIRECCIÓN COMPLETA PARA AGREGAR AGREGANDO CIUDAD Y PAIS SI EXISTEN */
+    direccionCompletaFacturacion() {
+      let direccion = this.dataFormularioFacturacion.direccion.data.direccionCompleta;
+
+      if (this.dataFormularioFacturacion.direccion.data.ciudad)
+        direccion += ", " + this.dataFormularioFacturacion.direccion.data.ciudad;
+      if (this.dataFormularioFacturacion.direccion.data.pais)
+        direccion += ", " + this.dataFormularioFacturacion.direccion.data.pais;
+      return direccion;
     },
   },
   methods: {
@@ -415,8 +437,8 @@ export default {
       if (direccion.calle) direccion.direccionCompleta += direccion.calle;
       if (direccion.numero && direccion.numero != 0)
         direccion.direccionCompleta += " " + direccion.numero;
-      if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
-      if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
+      // if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
+      // if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
 
       this.dataFormularioDespacho.direccion.data = direccion;
       let dataCarro = this.dataCarro;
@@ -461,8 +483,8 @@ export default {
       if (direccion.calle) direccion.direccionCompleta += direccion.calle;
       if (direccion.numero && direccion.numero != 0)
         direccion.direccionCompleta += " " + direccion.numero;
-      if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
-      if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
+      // if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
+      // if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
 
       this.dataFormularioFacturacion.direccion.data = direccion;
       let dataCarro = this.dataCarro;
