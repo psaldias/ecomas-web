@@ -1878,3 +1878,21 @@ footer nav a:hover {
   height: auto !important;
   padding: 0 0.5em;
 }
+
+a.dropdown-item.is-active, button.dropdown-item.is-active {
+  background-color: #80BD01;
+  color: #fff;
+}
+
+.dropdown.is-fullwidth .dropdown-trigger {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-trigger .button {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-trigger .button .button-text {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-menu {
+  width: 100%;
+}

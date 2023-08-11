@@ -1672,4 +1672,26 @@ footer{
     }
   }
 }
+
+a.dropdown-item.is-active, button.dropdown-item.is-active {
+  background-color: color("primero");
+  color: #fff;
+}
+.dropdown{
+  &.is-fullwidth{
+    .dropdown-trigger{
+      width: 100%;
+      .button{
+        width:100%;
+        .button-text{
+          width:100%
+        }
+      }
+    }
+    .dropdown-menu{
+      width: 100%;
+    }
+
+  }
+}
 // @import 'media.scss';

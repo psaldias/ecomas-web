@@ -1,6 +1,5 @@
 <template>
   <main class="main-producto">
-
     <div class="card producto horizontal">
       <div class="producto horizontal">
         <div class="columns is-vcentered">
@@ -26,10 +25,7 @@
               </div>
               <div class="column is-hidden-mobile is-1"></div>
               <div class="column">
-                <div
-                  class="descripcion mb-0"
-                  v-html="producto.descripcion"
-                ></div>
+                <div class="descripcion mb-0" v-html="producto.descripcion"></div>
               </div>
             </div>
 
@@ -52,9 +48,9 @@
 </template>
 
 <script>
-import Imagen from './Imagen.vue'
-import Precio from './Precio.vue'
-import Acciones from './Acciones.vue'
+import Imagen from "./Imagen.vue";
+import Precio from "./Precio.vue";
+import Acciones from "./Acciones.vue";
 
 export default {
   props: {
@@ -71,14 +67,14 @@ export default {
         cantidad: 1,
         mostrar: false,
       },
-    }
+    };
   },
   computed: {},
   methods: {
     TopLayer(cantidad) {
-      this.datos_toplayer.cantidad = cantidad
-      this.datos_toplayer.mostrar = true
+      this.datos_toplayer.cantidad = cantidad;
+      this.datos_toplayer.mostrar = true;
     },
   },
-}
+};
 </script>

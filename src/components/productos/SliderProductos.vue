@@ -33,35 +33,10 @@ export default {
     };
   },
   mounted() {
-    $(".slider-productos").slick({
-      slidesToShow: 4,
-      dots: false,
-      arrows: true,
-      prevArrow:
-        '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
-      nextArrow:
-        '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
-      responsive: [
-        {
-          breakpoint: 1240,
-          settings: {
-            slidesToShow: 3,
-          },
-        },
-        {
-          breakpoint: 1000,
-          settings: {
-            slidesToShow: 2,
-          },
-        },
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 1,
-          },
-        },
-      ],
-    });
+    this.cargarSlider();
+  },
+  updated() {
+    this.cargarSlider();
   },
   computed: {
     // productos() {
@@ -70,7 +45,40 @@ export default {
     //   });
     // },
   },
-  methods: {},
+  methods: {
+    cargarSlider() {
+      $(".slider-productos").slick({
+        slidesToShow: 4,
+        dots: false,
+        arrows: true,
+        infinite: false,
+        prevArrow:
+          '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
+        nextArrow:
+          '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
+        responsive: [
+          {
+            breakpoint: 1240,
+            settings: {
+              slidesToShow: 3,
+            },
+          },
+          {
+            breakpoint: 1000,
+            settings: {
+              slidesToShow: 2,
+            },
+          },
+          {
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 1,
+            },
+          },
+        ],
+      });
+    },
+  },
   components: { Producto },
 };
 </script>

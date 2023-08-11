@@ -25,7 +25,6 @@ export default {
 
                 headers["Authorization"] =  'Bearer '+this.store.token;
               }
-
               const response = await axios.get(url,{headers}).catch(error => {
                 if(error.code == "ERR_NETWORK")
                   this.$router.push({ name: 'error' })

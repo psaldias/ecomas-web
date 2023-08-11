@@ -103,13 +103,13 @@ export const useCarroCompraStore = defineStore('carroCompra', {
 
       localStorage.dataCarro = helpers.base64_encode(this.carro.data,true);
     },
-    agregarProductoCarro(idProducto, cantidad = 1) {
+    agregarProductoCarro(idProducto, cantidad = 1, variacion = false) {
       const index = this.carro.data.productos.findIndex(producto => producto.id === idProducto );
 
       if(index >= 0)
-        this.carro.data.productos[index] = {id:idProducto,cantidad}
+        this.carro.data.productos[index] = {id:idProducto,cantidad,variacion}
       else
-        this.carro.data.productos.push({id:idProducto,cantidad});
+        this.carro.data.productos.push({id:idProducto,cantidad,variacion});
 
         localStorage.dataCarro = helpers.base64_encode(this.carro.data,true);
     },

@@ -7,23 +7,75 @@
         </div>
       </a>
       <!-- <router-link :to="url" class="imagen" v-html="producto.imagen"> </router-link> -->
-      <Imagen :imagen="producto.imagen" :alt="producto.name" :url="url"></Imagen>
+      <Imagen
+        :imagen="producto_activo.imagen"
+        :alt="producto_activo.name"
+        :url="url"
+      ></Imagen>
 
-      <div class="nombre">{{ producto.name }}</div>
-
+      <div class="nombre">{{ producto_activo.name }}</div>
+      <!--
+      <PrecioVariable
+        v-if="producto.variable"
+        :precios="{ desde: producto.min_price, hasta: producto.max_price }"
+      ></PrecioVariable> -->
       <Precio :precios="precios"></Precio>
 
-      <div class="descripcion" v-html="producto.short_description"></div>
+      <div
+        v-if="producto_activo.short_description"
+        class="descripcion"
+        v-html="producto_activo.short_description"
+      ></div>
+
+      <div class="block" v-if="producto.variable && variaciones.length > 0">
+        <label for="" class="primero is-size-7"><b>Opciones</b></label>
+        <div class="control is-fullwidth">
+          <div class="dropdown is-small is-fullwidth" :class="{ 'is-active': dropdown }">
+            <div class="dropdown-trigger">
+              <button
+                class="button button-1 is-small has-text-left"
+                aria-haspopup="true"
+                aria-controls="dropdown-menu"
+                @click="dropdown = !dropdown"
+              >
+                <span class="button-text" v-html="nombreVariacion(variacion)"></span>
+                <span class="icon is-small">
+                  <i class="fas fa-angle-down" aria-hidden="true"></i>
+                </span>
+              </button>
+            </div>
+            <div class="dropdown-menu" id="dropdown-menu" role="menu">
+              <div class="dropdown-content">
+                <a
+                  v-for="variacion_producto in variaciones"
+                  v-html="nombreVariacion(variacion_producto)"
+                  @click.prevent="
+                    dropdown = false;
+                    cambiarVariacion(variacion_producto);
+                  "
+                  href="#"
+                  class="dropdown-item is-size-7"
+                  :class="{
+                    'is-active': variacion_producto.id == variacion.id,
+                  }"
+                >
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <Acciones
-        :stock="producto.stock_quantity"
-        :stockStatus="producto.stock_status"
-        :idProducto="producto.id"
-        :producto="producto"
+        class="mt-2"
+        :stock="producto_activo.stock_quantity"
+        :stockStatus="producto_activo.stock_status"
+        :idProducto="producto_activo.id"
+        :producto="producto_activo"
       ></Acciones>
     </div>
 
-    <div class="card producto" :class="formato" v-if="formato == 'horizontal'">
+    <!-- <div class="card producto" :class="formato" v-if="formato == 'horizontal'">
       <div class="producto horizontal">
         <div class="columns is-vcentered">
           <div class="column is-narrow py-0">
@@ -41,6 +93,7 @@
             <div class="columns is-vcentered">
               <div class="column is-narrow">
                 <div class="nombre">{{ producto.name }}</div>
+
                 <Precio :precios="precios"></Precio>
               </div>
               <div class="column is-hidden-mobile is-1"></div>
@@ -63,13 +116,14 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </main>
 </template>
 
 <script>
 import Imagen from "./Imagen.vue";
 import Precio from "./Precio.vue";
+import PrecioVariable from "./PrecioVariable.vue";
 import Acciones from "./Acciones.vue";
 
 export default {
@@ -82,17 +136,29 @@ export default {
   components: {
     Imagen,
     Precio,
+    PrecioVariable,
     Acciones,
   },
+  mounted() {
+    this.producto_activo = JSON.parse(JSON.stringify(this.producto));
+    if (this.producto.variable) this.cambiarVariacion(this.producto.variaciones[0]);
+  },
   data() {
-    return {};
+    return {
+      producto_activo: {},
+      variacion: {},
+      dropdown: false,
+    };
   },
   computed: {
+    variaciones() {
+      return this.producto.variaciones;
+    },
     precios() {
       return {
-        normal: this.producto.regular_price,
-        oferta: this.producto.price,
-        on_sale: this.producto.on_sale,
+        normal: this.producto_activo.regular_price,
+        oferta: this.producto_activo.price,
+        on_sale: this.producto_activo.on_sale,
       };
     },
     url() {
@@ -105,6 +171,33 @@ export default {
       return this.producto.images[0].src;
     },
   },
-  methods: {},
+  methods: {
+    cambiarVariacion(variacion) {
+      this.variacion = variacion;
+      // this.producto.name = variacion.name;
+      this.producto_activo.stock_quantity = variacion.stock_quantity;
+      this.producto_activo.stock_status = variacion.stock_status;
+      this.producto_activo.id = variacion.id;
+      this.producto_activo.regular_price = variacion.regular_price;
+      this.producto_activo.price = variacion.price;
+      this.producto_activo.on_sale = variacion.on_sale;
+      this.producto_activo.imagen = variacion.imagen;
+      this.producto_activo.images = [variacion.image];
+      this.producto_activo.description = variacion.description
+        ? variacion.description
+        : this.producto_activo.description;
+    },
+    nombreVariacion(variacion) {
+      let nombre = "";
+      if (variacion.attributes) {
+        variacion.attributes.forEach((atributo, index) => {
+          nombre += "<b>" + atributo.name + "</b> : " + atributo.option;
+          if (index + 1 < variacion.attributes.length) nombre += " - ";
+        });
+      }
+
+      return nombre;
+    },
+  },
 };
 </script>

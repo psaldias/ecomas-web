@@ -68,7 +68,13 @@
 
                     <Precio :precios="precios" class="mb-5"></Precio>
 
-                    <div class="columns is-gapless is-mobile mb-5 caracteristicas">
+                    <div
+                      v-if="
+                        this.producto.campos_adicionales.despacho_domicilio ||
+                        this.producto.campos_adicionales.retiro_en_tienda
+                      "
+                      class="columns is-gapless is-mobile mb-5 caracteristicas"
+                    >
                       <div
                         class="column"
                         v-if="this.producto.campos_adicionales.despacho_domicilio"
@@ -102,13 +108,52 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="block" v-if="variaciones.length > 0">
+                      <label for="" class="primero"><b>Opciones</b></label>
+                      <div class="control">
+                        <div class="dropdown" :class="{ 'is-active': dropdown }">
+                          <div class="dropdown-trigger">
+                            <button
+                              class="button button-1"
+                              aria-haspopup="true"
+                              aria-controls="dropdown-menu"
+                              @click="dropdown = !dropdown"
+                            >
+                              <span v-html="nombreVariacion(variacion)"></span>
+                              <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                              </span>
+                            </button>
+                          </div>
+                          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                              <a
+                                v-for="variacion_producto in variaciones"
+                                v-html="nombreVariacion(variacion_producto)"
+                                @click.prevent="
+                                  dropdown = false;
+                                  cambiarVariacion(variacion_producto);
+                                "
+                                href="#"
+                                class="dropdown-item"
+                                :class="{
+                                  'is-active': variacion_producto.id == variacion.id,
+                                }"
+                              >
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <Acciones
                       :stock="producto.stock_quantity"
                       :stockStatus="producto.stock_status"
                       :idProducto="producto.id"
                       :producto="producto"
+                      :variacion="false"
                     ></Acciones>
-                    <pre>{{ variaciones }}</pre>
                   </div>
                 </div>
               </div>
@@ -124,10 +169,12 @@
           <div class="detalle-producto">
             <Tabs :tabs="tabs"></Tabs>
           </div>
+          <CargandoSeccion v-if="cargando_productos_relacionados"></CargandoSeccion>
           <SliderProductos
+            v-else
             titulo="Productos Relacionados"
             :categoria="categoria.id"
-            :productos="productosRelacionados"
+            :productos="productos_relacionados"
           ></SliderProductos>
         </div>
       </div>
@@ -158,6 +205,7 @@ import SliderProductos from "../components/productos/SliderProductos.vue";
 import CargandoSeccion from "../components/general/CargandoSeccion.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+
 export default {
   components: {
     Imagen,
@@ -175,17 +223,32 @@ export default {
         cantidad: 1,
         mostrar: false,
       },
+      producto_original: {},
       producto: {},
       variaciones: {},
+      variacion: false,
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
+      dropdown: false,
+      cargando_productos_relacionados: true,
+      productos_relacionados: {},
     };
   },
   updated() {},
   async mounted() {
+    this.cargando = true;
     await this.obtenerProducto();
+    /** SI EL PRODUCTO ES VARIABLE, OBTENER INFORMACIÓN DE CADA VARIACIÓN */
+    if (this.producto.type == "variable") await this.obtenerVariaciones();
+    this.cargando = false;
+
+    this.obtenerProductosRelacionados();
+
     $.fancybox.defaults.backFocus = false;
 
+    document.title = this.producto.name || "";
+  },
+  updated() {
     /** CREAR INSTANCIA DE CARRUSEL */
     this.slider = $(".galeria-producto").slick({
       slidesToShow: 4,
@@ -201,17 +264,6 @@ export default {
       nextArrow:
         '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
     });
-
-    // if (this.storeCarroCompra.carro.productos.length == 0) {
-    //   await this.obtenerProductos();
-    // } else {
-    //   if (!this.producto) {
-    //     this.$router.replace({ name: "404" });
-    //   }
-    //   this.cargando = false;
-    // }
-
-    document.title = this.producto.name || VUE_APP_DEFAULT_TITLE;
   },
   watch: {
     async sucursalCarro() {
@@ -219,11 +271,6 @@ export default {
     },
   },
   computed: {
-    productosRelacionados() {
-      return this.storeCarroCompra.carro.productos.listado.filter((producto) => {
-        return producto.stock_quantity == null || producto.stock_quantity > 0;
-      });
-    },
     conStock() {
       if (
         (this.producto.stock_quantity == null) &
@@ -300,35 +347,79 @@ export default {
   },
   methods: {
     async obtenerProducto() {
-      this.cargando = true;
       const respuesta_producto = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
           "&slug=" +
           this.$route.params.slug,
         { authorization: true, cache: true }
       );
+
       if (respuesta_producto.data.length == 1) {
-        this.producto = respuesta_producto.data[0];
+        this.producto = JSON.parse(JSON.stringify(respuesta_producto.data[0]));
+        this.producto_original = respuesta_producto.data[0];
       }
-
-      /** SI EL PRODUCTO ES VARIABLE, OBTENER INFORMACIÓN DE CADA VARIACIÓN */
-      if (this.producto.type == "variable") await this.obtenerVariaciones();
-
-      this.cargando = false;
     },
     async obtenerVariaciones() {
       const respuesta = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_URL_API +
           "/wc/v3/products/" +
-          this.producto.id +
+          this.producto_original.id +
           "/variations",
         { authorization: true, cache: true }
       );
 
       this.variaciones = respuesta.data;
-      console.log(this.variaciones);
+      if (this.variaciones.length > 0) {
+        this.cambiarVariacion(this.variaciones[0]);
+      }
+
       // this.producto = respuesta.data[0];
     },
+    cambiarVariacion(variacion) {
+      this.variacion = variacion;
+      // this.producto.name = variacion.name;
+      this.producto.stock_quantity = variacion.stock_quantity;
+      this.producto.stock_status = variacion.stock_status;
+      this.producto.id = variacion.id;
+      this.producto.regular_price = variacion.regular_price;
+      this.producto.price = variacion.price;
+      this.producto.on_sale = variacion.on_sale;
+      this.producto.imagen = variacion.imagen;
+      this.producto.images = [variacion.image];
+      this.producto.description = variacion.description
+        ? variacion.description
+        : this.producto_original.description;
+    },
+
+    /** OBTENER PRODUCTOS RELACIONADOS DEL PRODUCTO ACTUAL, SI NO VIENEN SE OBTIENEN ALGUNOS POR DEFECTO */
+    async obtenerProductosRelacionados() {
+      const relacionados = this.producto_original.campos_adicionales
+        .productos_relacionados
+        ? this.producto_original.campos_adicionales.productos_relacionados.join(",")
+        : false;
+      let campo_relacionados = "";
+      let per_page = "&per_page=5";
+      if (relacionados) {
+        campo_relacionados = "&include=" + relacionados;
+        per_page = "";
+      }
+
+      const respuesta = await this.enviarGet(
+        import.meta.env.VITE_ENDPOINT_URL_API +
+          "/wc/v3/products/?" +
+          "exclude=" +
+          this.producto_original.id +
+          campo_relacionados +
+          "&sucursal=" +
+          this.store_opciones_generales.sucursal_seleccionada.ID +
+          per_page,
+        { authorization: true, cache: true }
+      );
+      this.productos_relacionados = respuesta.data;
+
+      this.cargando_productos_relacionados = false;
+    },
+
     async obtenerProductos() {
       this.cargando = true;
       await this.obtenerProductosTienda();
@@ -349,6 +440,17 @@ export default {
         if (dato) return dato.value;
       }
       return "";
+    },
+
+    nombreVariacion(variacion) {
+      let nombre = "";
+
+      variacion.attributes.forEach((atributo, index) => {
+        nombre += "<b>" + atributo.name + "</b> : " + atributo.option;
+        if (index + 1 < variacion.attributes.length) nombre += " - ";
+      });
+
+      return nombre;
     },
   },
 };
