@@ -53,15 +53,9 @@
                       :href="producto.images[0].src"
                       v-html="producto.imagen"
                     ></a>
-                    <div class="galeria-producto" v-if="producto.images.length > 1">
-                      <div class="" v-for="imagen in producto.images">
-                        <a data-fancybox="galeria" :href="imagen.src">
-                          <figure class="image is-1by1">
-                            <img :src="imagen.src" alt="" />
-                          </figure>
-                        </a>
-                      </div>
-                    </div>
+                    <SliderImagenesProducto
+                      :imagenes="producto.images"
+                    ></SliderImagenesProducto>
                   </div>
                   <div class="column">
                     <div class="nombre">{{ producto.name }}</div>
@@ -202,6 +196,7 @@ import Seo from "../components/general/Seo.vue";
 
 import Tabs from "../components/general/Tabs.vue";
 import SliderProductos from "../components/productos/SliderProductos.vue";
+import SliderImagenesProducto from "../components/productos/producto/SliderImagenes.vue";
 import CargandoSeccion from "../components/general/CargandoSeccion.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
@@ -213,6 +208,7 @@ export default {
     Acciones,
     Tabs,
     SliderProductos,
+    SliderImagenesProducto,
     CargandoSeccion,
     Seo,
   },
@@ -231,10 +227,9 @@ export default {
       store_opciones_generales: useOpcionesGeneralesStore(),
       dropdown: false,
       cargando_productos_relacionados: true,
-      productos_relacionados: {},
+      productos_relacionados: false,
     };
   },
-  updated() {},
   async mounted() {
     this.cargando = true;
     await this.obtenerProducto();
@@ -247,23 +242,6 @@ export default {
     $.fancybox.defaults.backFocus = false;
 
     document.title = this.producto.name || "";
-  },
-  updated() {
-    /** CREAR INSTANCIA DE CARRUSEL */
-    this.slider = $(".galeria-producto").slick({
-      slidesToShow: 4,
-      dots: false,
-      arrows: true,
-      infinite: true,
-      pauseOnHover: false,
-      pauseOnFocus: false,
-      autoplay: false,
-      autoplaySpeed: 5000,
-      prevArrow:
-        '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
-      nextArrow:
-        '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
-    });
   },
   watch: {
     async sucursalCarro() {
@@ -291,9 +269,9 @@ export default {
     // },
     precios() {
       return {
-        normal: this.producto.regular_price,
-        oferta: this.producto.price,
-        on_sale: this.producto.on_sale,
+        normal: this.producto_original.regular_price,
+        oferta: this.producto_original.price,
+        on_sale: this.producto_original.on_sale,
       };
     },
     url() {
@@ -350,7 +328,9 @@ export default {
       const respuesta_producto = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
           "&slug=" +
-          this.$route.params.slug,
+          this.$route.params.slug +
+          "&sucursal=" +
+          this.store_opciones_generales.sucursal_seleccionada.ID,
         { authorization: true, cache: true }
       );
 
@@ -364,7 +344,9 @@ export default {
         import.meta.env.VITE_ENDPOINT_URL_API +
           "/wc/v3/products/" +
           this.producto_original.id +
-          "/variations",
+          "/variations" +
+          "?sucursal=" +
+          this.store_opciones_generales.sucursal_seleccionada.ID,
         { authorization: true, cache: true }
       );
 

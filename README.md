@@ -39,6 +39,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.21
+  - Se agrega la funcionalidad de precios con descuento por sucursal en cada producto (menos los variables)
+
 ### v1.0.20
   - Se modifica la dirección en compra rapida, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
   - Se modifica la dirección de despacho en compra normal, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.

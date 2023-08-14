@@ -1678,6 +1678,7 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
   color: #fff;
 }
 .dropdown{
+  width: 100%;
   &.is-fullwidth{
     .dropdown-trigger{
       width: 100%;
