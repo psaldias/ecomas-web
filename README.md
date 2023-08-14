@@ -46,6 +46,7 @@ aws s3 sync . s3://frontend.ecomas.cl
   - Campo Giro en compra rápida, se se limita a un máximo de 40 caracteres
   - Se agrega mapa en dirección manual para que se pueda seleccionar con un pin la ubicación.
   - Ahora los productos en compra normal tienen la opción de agregar variaciones al carro de compras.
+  - Se modifica ingreso por google para corregir error en producción
 
 ### v1.0.19
   - cambios logos header y footer
