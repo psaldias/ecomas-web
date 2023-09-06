@@ -39,6 +39,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.23
+  - Se agrega valor unitario a productos, tanto en compra rapida como compra normal.
+
 ### v1.0.22
   - Se agrega tab "ficha técnica" en el interior de productos
   - Se agrega funcionalidad de cupón de descuento para primera compra de usuarios registrados.

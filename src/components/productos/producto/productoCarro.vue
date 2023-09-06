@@ -75,6 +75,7 @@ export default {
         normal: this.producto.regular_price,
         oferta: this.producto.price,
         on_sale: this.producto.on_sale,
+        bolsas_producto: this.producto.bolsas_producto,
       };
     },
     url() {

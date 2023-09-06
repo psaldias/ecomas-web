@@ -18,6 +18,10 @@
           <div class="valor primero has-text-centered">
             <b>{{ monedaChilena(producto.price) }}</b>
           </div>
+          <div class="valor-unitario has-text-centered" v-if="producto.bolsas_producto">
+            {{ monedaChilena(producto.price / parseInt(producto.bolsas_producto)) }}
+            c/u
+          </div>
 
           <div class="block mt-4">
             <a

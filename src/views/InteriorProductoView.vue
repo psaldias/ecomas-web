@@ -317,6 +317,7 @@ export default {
         normal: this.producto_original.regular_price,
         oferta: this.producto_original.price,
         on_sale: this.producto_original.on_sale,
+        bolsas_producto: this.producto_original.bolsas_producto,
       };
     },
     url() {

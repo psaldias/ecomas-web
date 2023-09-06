@@ -576,6 +576,10 @@ footer{
     .valor{
       font-size:1.3em;
     }
+    .valor-unitario{
+      font-size: .9em;
+      color:color("gris3")
+    }
     .button{
       font-size: .9em;
 
@@ -994,6 +998,11 @@ footer{
     font-weight: bold;
     margin-bottom: .3em;
     flex: 1;
+    .valor-unitario{
+      font-size: .7em;
+      color:color("gris3");
+      font-weight: normal;
+    }
     .oferta{
       color:color("primero");
       font-size: 1.2em;
@@ -1076,6 +1085,9 @@ footer{
     }
     .precio{
       font-size: 1.5em;
+      .valor-unitario{
+        font-size: .5em;
+      }
     }
     .descripcion{
       font-size: 1em;

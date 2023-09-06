@@ -34,9 +34,6 @@ export default {
       activo: 0,
     };
   },
-  mounted() {
-    console.log(this.tabs);
-  },
   computed: {
     tabActivo() {
       if (this.tabsConInformacion)
