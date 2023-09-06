@@ -39,6 +39,10 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.22
+  - Se agrega tab "ficha técnica" en el interior de productos
+  - Se agrega funcionalidad de cupón de descuento para primera compra de usuarios registrados.
+
 ### v1.0.21
   - Se agrega la funcionalidad de precios con descuento por sucursal en cada producto (menos los variables)
 

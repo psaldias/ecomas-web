@@ -17,7 +17,7 @@
         <div
           class="column"
           v-if="tabActivo?.descripcion2"
-          v-html="tabActivo.descripcion2"
+          v-html="tabActivo?.descripcion2"
         ></div>
       </div>
     </div>
@@ -33,6 +33,9 @@ export default {
     return {
       activo: 0,
     };
+  },
+  mounted() {
+    console.log(this.tabs);
   },
   computed: {
     tabActivo() {
