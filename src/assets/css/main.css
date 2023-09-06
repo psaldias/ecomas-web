@@ -1878,3 +1878,17 @@ footer nav a:hover {
   height: auto !important;
   padding: 0 0.5em;
 }
+
+.tabs-producto {
+  position: relative;
+  z-index: 10;
+  font-size: 0.9em;
+}
+.tabs-producto li.is-active a {
+  font-weight: bold;
+}
+
+.height-100-tab-producto {
+  font-size: 0.9em;
+  height: calc(100% - 37.98px);
+}

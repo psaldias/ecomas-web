@@ -113,16 +113,60 @@
               </div>
             </div>
             <div class="column descripcion is-size-6">
-              <div class="card height-100 p-6">
-                <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
-                <div class="content gris3" v-html="producto.description"></div>
+              <div
+                class="tabs is-boxed mb-0 is-fullwidth bg-blanco tabs-producto"
+                v-if="producto.campos_adicionales.tabla_ficha_tecnica"
+              >
+                <ul>
+                  <li :class="{ 'is-active': tab_activa == 1 }">
+                    <a @click.prevent="tab_activa = 1">
+                      <span>CARACTERÍSTICAS</span>
+                    </a>
+                  </li>
+                  <li :class="{ 'is-active': tab_activa == 2 }">
+                    <a @click.prevent="tab_activa = 2">
+                      <span>FICHA TÉCNICA</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="card p-5"
+                :class="{
+                  'height-100-tab-producto':
+                    producto.campos_adicionales.tabla_ficha_tecnica,
+                  'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
+                }"
+              >
+                <div v-if="tab_activa == 1">
+                  <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
+                  <div class="content gris3" v-html="producto.description"></div>
+                </div>
+                <div
+                  v-if="
+                    tab_activa == 2 && producto.campos_adicionales.tabla_ficha_tecnica
+                  "
+                >
+                  <h2 class="primero mb-2"><b>FICHA TÉCNICA</b></h2>
+                  <div class="content gris3 tab-ficha-tecnica">
+                    <table class="table table-sm is-narrow gris3 is-bordered">
+                      <tr v-for="fila in producto.campos_adicionales.tabla_ficha_tecnica">
+                        <td>
+                          <strong>{{ fila.nombre }}</strong>
+                        </td>
+                        <td>{{ fila.valor }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="detalle-producto">
+          <div class="detalle-producto" v-if="tabs">
             <Tabs :tabs="tabs"></Tabs>
           </div>
+
           <SliderProductos
             titulo="Productos Relacionados"
             :categoria="categoria.id"
@@ -177,6 +221,7 @@ export default {
       producto: {},
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
+      tab_activa: 1,
     };
   },
   updated() {},
