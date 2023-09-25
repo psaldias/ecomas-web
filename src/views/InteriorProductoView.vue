@@ -103,9 +103,31 @@
                       </div>
                     </div>
 
-                    <div class="block" v-if="variaciones.length > 0">
-                      <label for="" class="primero"><b>Opciones</b></label>
-                      <div class="control">
+                    <div class="block" v-if="variacionesColores.length > 0">
+                      <label for="" class="primero"><b>Color</b></label>
+                      <div class="control color-producto">
+                        <div class="columns is-variable is-1 is-mobile is-multiline">
+                          <a
+                            v-for="variacion_producto in variacionesColores"
+                            @click.prevent="
+                              dropdown = false;
+                              cambiarVariacion(variacion_producto);
+                            "
+                            href="#"
+                            class="column is-narrow btn-color"
+                            :class="{
+                              'is-active': variacion_producto.id == variacion.id,
+                            }"
+                          >
+                            <div
+                              :style="
+                                'background-color:' + variacion_producto.attributes[0].hex
+                              "
+                            ></div>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="control" v-if="false">
                         <div class="dropdown" :class="{ 'is-active': dropdown }">
                           <div class="dropdown-trigger">
                             <button
@@ -123,7 +145,7 @@
                           <div class="dropdown-menu" id="dropdown-menu" role="menu">
                             <div class="dropdown-content">
                               <a
-                                v-for="variacion_producto in variaciones"
+                                v-for="variacion_producto in variacionesColores"
                                 v-html="nombreVariacion(variacion_producto)"
                                 @click.prevent="
                                   dropdown = false;
@@ -367,6 +389,17 @@ export default {
         ];
       }
       return contenido_tabs;
+    },
+
+    variacionesColores() {
+      let variacionesColor = [];
+      if (this.variaciones.length) {
+        this.variaciones.forEach((variacion) => {
+          if (variacion.attributes.length == 1 && variacion.attributes[0].name == "Color")
+            variacionesColor.push(variacion);
+        });
+      }
+      return variacionesColor;
     },
   },
   methods: {

@@ -1719,4 +1719,28 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
   font-size: .9em;
   height: calc(100% - 37.98px);
 }
+
+.color-producto{
+  .btn-color {
+    > div{
+      width:20px;
+      height:20px;
+      border:1px solid #cdcdcd7c;
+      border-radius:50%;
+      display: block;
+      position: relative;
+    }
+    &.is-active > div:after{
+      content:"";
+      width:28px;
+      height: 28px;
+      border:3px solid #cdcdcd85;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}
 // @import 'media.scss';

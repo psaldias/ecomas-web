@@ -27,9 +27,29 @@
         v-html="producto_activo.short_description"
       ></div>
 
-      <div class="block" v-if="producto.variable && variaciones.length > 0">
-        <label for="" class="primero is-size-7"><b>Opciones</b></label>
-        <div class="control is-fullwidth">
+      <div class="block mb-2" v-if="producto.variable && variacionesColores.length > 0">
+        <label for="" class="primero is-size-7"><b>Color</b></label>
+        <div class="control color-producto">
+          <div class="columns is-variable is-1 is-mobile is-multiline">
+            <a
+              v-for="variacion_producto in variacionesColores"
+              @click.prevent="
+                dropdown = false;
+                cambiarVariacion(variacion_producto);
+              "
+              href="#"
+              class="column is-narrow btn-color"
+              :class="{
+                'is-active': variacion_producto.id == variacion.id,
+              }"
+            >
+              <div
+                :style="'background-color:' + variacion_producto.attributes[0].hex"
+              ></div>
+            </a>
+          </div>
+        </div>
+        <div class="control is-fullwidth" v-if="false">
           <div class="dropdown is-small is-fullwidth" :class="{ 'is-active': dropdown }">
             <div class="dropdown-trigger">
               <button
@@ -125,6 +145,7 @@ import Imagen from "./Imagen.vue";
 import Precio from "./Precio.vue";
 import PrecioVariable from "./PrecioVariable.vue";
 import Acciones from "./Acciones.vue";
+import { R } from "../../../../dist/assets/regionesComunas.66196813";
 
 export default {
   props: {
@@ -153,6 +174,16 @@ export default {
   computed: {
     variaciones() {
       return this.producto.variaciones;
+    },
+    variacionesColores() {
+      let variacionesColor = [];
+      if (this.variaciones.length) {
+        this.variaciones.forEach((variacion) => {
+          if (variacion.attributes.length == 1 && variacion.attributes[0].name == "Color")
+            variacionesColor.push(variacion);
+        });
+      }
+      return variacionesColor;
     },
     precios() {
       return {
@@ -198,6 +229,13 @@ export default {
       }
 
       return nombre;
+    },
+    coloresVariacion(variacion) {
+      console.log(variacion.attributes);
+      if (variacion.attributes) {
+        return variacion.attributes;
+        console.log(variacion.attributes.filter((atributo) => atributo.name == "Color"));
+      }
     },
   },
 };

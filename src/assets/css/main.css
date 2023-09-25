@@ -1925,3 +1925,23 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
   font-size: 0.9em;
   height: calc(100% - 37.98px);
 }
+
+.color-producto .btn-color > div {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(205, 205, 205, 0.4862745098);
+  border-radius: 50%;
+  display: block;
+  position: relative;
+}
+.color-producto .btn-color.is-active > div:after {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(205, 205, 205, 0.5215686275);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

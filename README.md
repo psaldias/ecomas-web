@@ -39,6 +39,10 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.24
+  - Cambios en la forma de seleccionar un color de un producto
+  - Cambios en la forma de mostrar el valor unitario de un producto
+
 ### v1.0.23
   - Se agrega valor unitario a productos, tanto en compra rapida como compra normal.
 
