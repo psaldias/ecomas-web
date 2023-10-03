@@ -1,17 +1,16 @@
 <template>
   <div class="precio" :class="{ 'en-oferta': precios.on_sale > 0 }">
-    <div class="oferta" v-if="precios.on_sale">
-      <div class="columns is-gapless is-vcentered is-multiline">
-        <div class="column is-narrow">
-          {{ monedaChilena(precios.oferta) }}
-        </div>
-      </div>
-    </div>
-
     <div class="normal">
       <div class="columns is-gapless is-vcentered is-multiline">
         <div class="column is-12">
           {{ monedaChilena(precios.normal) }}
+        </div>
+      </div>
+    </div>
+    <div class="oferta" v-if="precios.on_sale">
+      <div class="columns is-gapless is-vcentered is-multiline">
+        <div class="column is-narrow">
+          {{ monedaChilena(precios.oferta) }}
         </div>
       </div>
     </div>

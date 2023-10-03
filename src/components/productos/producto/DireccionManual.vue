@@ -49,16 +49,22 @@
               <label for="">Dirección</label>
               <input
                 type="text"
-                class="input"
+                class="input disabled"
                 v-model="direccion.calle"
                 maxlength="100"
+                readonly
               />
             </div>
           </div>
           <div class="column">
             <div class="field">
               <label>Número</label>
-              <input type="text" class="input" v-model="direccion.numero" />
+              <input
+                type="text"
+                class="input disabled"
+                v-model="direccion.numero"
+                readonly
+              />
             </div>
           </div>
         </div>
@@ -292,6 +298,12 @@ export default {
       /*** si no se indica la calle no puede continuar */
       if (!this.direccion.calle || this.direccion.calle == "") {
         this.error = "Debes Ingresar una dirección.";
+        return false;
+      }
+
+      /*** si no se indica la calle no puede continuar */
+      if (!this.direccion.numero || this.direccion.numero == "") {
+        this.error = "Debes Ingresar una dirección con número.";
         return false;
       }
       /** seteamos valores en objeto final de dirección */
