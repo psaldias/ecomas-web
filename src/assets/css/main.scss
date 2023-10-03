@@ -576,6 +576,10 @@ footer{
     .valor{
       font-size:1.3em;
     }
+    .valor-unitario{
+      font-size: .9em;
+      color:color("gris3")
+    }
     .button{
       font-size: .9em;
 
@@ -1017,6 +1021,11 @@ footer{
     font-weight: bold;
     margin-bottom: .3em;
     flex: 1;
+    .valor-unitario{
+      font-size: .7em;
+      color:color("gris3");
+      font-weight: normal;
+    }
     .oferta{
       color:color("primero");
       font-size: 1.2em;
@@ -1099,6 +1108,9 @@ footer{
     }
     .precio{
       font-size: 1.5em;
+      .valor-unitario{
+        font-size: .5em;
+      }
     }
     .descripcion{
       font-size: 1em;
@@ -1692,6 +1704,65 @@ footer{
     .slick-slide{
       height: auto !important;
       padding:0 .5em;
+    }
+  }
+}
+
+a.dropdown-item.is-active, button.dropdown-item.is-active {
+  background-color: color("primero");
+  color: #fff;
+}
+.dropdown{
+  width: 100%;
+  &.is-fullwidth{
+    .dropdown-trigger{
+      width: 100%;
+      .button{
+        width:100%;
+        .button-text{
+          width:100%
+        }
+      }
+    }
+    .dropdown-menu{
+      width: 100%;
+    }
+
+  }
+}
+.tabs-producto{
+  position: relative;
+  z-index: 10;
+  font-size: .9em;
+  li.is-active a{
+    font-weight: bold;
+  }
+}
+.height-100-tab-producto{
+  font-size: .9em;
+  height: calc(100% - 37.98px);
+}
+
+.color-producto{
+  .btn-color {
+    > div{
+      width:20px;
+      height:20px;
+      border:1px solid #cdcdcd7c;
+      border-radius:50%;
+      display: block;
+      position: relative;
+    }
+    &.is-active > div:after{
+      content:"";
+      width:28px;
+      height: 28px;
+      border:3px solid #cdcdcd85;
+      border-radius: 50%;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
     }
   }
 }

@@ -39,6 +39,29 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 
 ### Changelog<br>
+### v1.0.24
+  - Cambios en la forma de seleccionar un color de un producto
+  - Cambios en la forma de mostrar el valor unitario de un producto
+
+### v1.0.23
+  - Se agrega valor unitario a productos, tanto en compra rapida como compra normal.
+
+### v1.0.22
+  - Se agrega tab "ficha técnica" en el interior de productos
+  - Se agrega funcionalidad de cupón de descuento para primera compra de usuarios registrados.
+
+### v1.0.21
+  - Se agrega la funcionalidad de precios con descuento por sucursal en cada producto (menos los variables)
+
+### v1.0.20
+  - Se modifica la dirección en compra rapida, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
+  - Se modifica la dirección de despacho en compra normal, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
+  - Se modifica la dirección de facturacion en compra normal, ahora en el campo direccion Linea 1 se guarda solo la calle y el número, se elimina ciudad y pais.
+  - Campo Giro en compra rápida, se se limita a un máximo de 40 caracteres
+  - Se agrega mapa en dirección manual para que se pueda seleccionar con un pin la ubicación.
+  - Ahora los productos en compra normal tienen la opción de agregar variaciones al carro de compras.
+  - Se modifica ingreso por google para corregir error en producción
+
 ### v1.0.19
   - cambios logos header y footer
 

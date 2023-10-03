@@ -886,6 +886,10 @@ footer nav a:hover {
 .compra-rapida .card .valor {
   font-size: 1.3em;
 }
+.compra-rapida .card .valor-unitario {
+  font-size: 0.9em;
+  color: #8E8E8E;
+}
 .compra-rapida .card .button {
   font-size: 0.9em;
 }
@@ -1280,6 +1284,11 @@ footer nav a:hover {
   margin-bottom: 0.3em;
   flex: 1;
 }
+.producto .precio .valor-unitario {
+  font-size: 0.7em;
+  color: #8E8E8E;
+  font-weight: normal;
+}
 .producto .precio .oferta {
   color: #80BD01;
   font-size: 1.2em;
@@ -1348,6 +1357,9 @@ footer nav a:hover {
 }
 .producto.interior .precio {
   font-size: 1.5em;
+}
+.producto.interior .precio .valor-unitario {
+  font-size: 0.5em;
 }
 .producto.interior .descripcion {
   font-size: 1em;
@@ -1900,4 +1912,59 @@ footer nav a:hover {
 .galeria-producto .slick-track .slick-slide {
   height: auto !important;
   padding: 0 0.5em;
+}
+
+a.dropdown-item.is-active, button.dropdown-item.is-active {
+  background-color: #80BD01;
+  color: #fff;
+}
+
+.dropdown {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-trigger {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-trigger .button {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-trigger .button .button-text {
+  width: 100%;
+}
+.dropdown.is-fullwidth .dropdown-menu {
+  width: 100%;
+}
+
+.tabs-producto {
+  position: relative;
+  z-index: 10;
+  font-size: 0.9em;
+}
+.tabs-producto li.is-active a {
+  font-weight: bold;
+}
+
+.height-100-tab-producto {
+  font-size: 0.9em;
+  height: calc(100% - 37.98px);
+}
+
+.color-producto .btn-color > div {
+  width: 20px;
+  height: 20px;
+  border: 1px solid rgba(205, 205, 205, 0.4862745098);
+  border-radius: 50%;
+  display: block;
+  position: relative;
+}
+.color-producto .btn-color.is-active > div:after {
+  content: "";
+  width: 28px;
+  height: 28px;
+  border: 3px solid rgba(205, 205, 205, 0.5215686275);
+  border-radius: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }

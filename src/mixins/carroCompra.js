@@ -144,16 +144,18 @@ export default {
       },
 
       /** FUNCIÓN PARA VALIDAR SI EL PRODUCTO SE PUEDE AGREGAR AL CARRO */
-      async validarProductoCompraNormal( idProducto, cantidad=1 ){
+      async validarProductoCompraNormal( idProducto, cantidad=1, variacion = false ){
         let data = {
           idProducto,
           cantidad,
-          sucursal:this.store_opciones_generales.sucursal_seleccionada.ID
+          sucursal:this.store_opciones_generales.sucursal_seleccionada.ID,
+          variacion
         };
 
         let headers = {};
         // if(!this.store.token)
         //   await this.obtenerToken();
+
 
         headers["Authorization"] =  'Bearer '+this.store.token;
 
@@ -228,11 +230,11 @@ export default {
       },
 
       /** FUNCIÓN PARA AGREGAR UN PRODUCTO EN CARRO NORMAL */
-      async agregarProductoCarro( idProducto, cantidad = 1, producto , toplayer = true ){
+      async agregarProductoCarro( idProducto, cantidad = 1, producto , toplayer = true, variacion = false ){
         cantidad = parseInt(cantidad);
-        const respuesta = await this.validarProductoCompraNormal(idProducto, cantidad);
+        const respuesta = await this.validarProductoCompraNormal(idProducto, cantidad, variacion);
         if(respuesta.tipo == "exito"){
-          this.storeCarroCompra.agregarProductoCarro(idProducto, cantidad);
+          this.storeCarroCompra.agregarProductoCarro(idProducto, cantidad,variacion);
         }else{
           /** SI ES ERROR AGREGAMOS EL ERROR EN EL PRODUCTO DEL CARRO PARA VISUALIZAR */
           let carroValidado = this.storeCarroCompra.carro.validado;

@@ -61,7 +61,10 @@
           </div>
         </div>
       </div>
-      <DireccionManual @direccion-manual="direccionManual"></DireccionManual>
+      <DireccionManual
+        @direccion-manual="direccionManual"
+        v-if="this.storeCarroCompra.direccionManual.mostrar"
+      ></DireccionManual>
     </div>
   </div>
   <ToplayerRadioDespacho></ToplayerRadioDespacho>
@@ -109,13 +112,23 @@ export default {
     direccionActual() {
       return !this.storeCarroCompra.compraRapida.direccion
         ? ""
-        : this.storeCarroCompra.compraRapida.direccion.direccionCompleta;
+        : this.direccionCompleta();
     },
     sucursalSeleccionada() {
       return this.store_opciones_generales.sucursal_seleccionada;
     },
   },
   methods: {
+    /** DEVUELVE DIRECCIÓN COMPLETA PARA AGREGAR AGREGANDO CIUDAD Y PAIS SI EXISTEN */
+    direccionCompleta() {
+      let direccion = this.storeCarroCompra.compraRapida.direccion.direccionCompleta;
+
+      if (this.storeCarroCompra.compraRapida.direccion.ciudad)
+        direccion += ", " + this.storeCarroCompra.compraRapida.direccion.ciudad;
+      if (this.storeCarroCompra.compraRapida.direccion.pais)
+        direccion += ", " + this.storeCarroCompra.compraRapida.direccion.pais;
+      return direccion;
+    },
     direccionManual(data) {
       this.comentario_direccion = data.comentario_direccion;
       this.storeCarroCompra.actualizarCompraRapida(data.direccion, "direccion");
@@ -164,8 +177,8 @@ export default {
       if (direccion.calle) direccion.direccionCompleta += direccion.calle;
       if (direccion.numero && direccion.numero != 0)
         direccion.direccionCompleta += " " + direccion.numero;
-      if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
-      if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
+      // if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
+      // if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
 
       this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
     },

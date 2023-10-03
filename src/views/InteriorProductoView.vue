@@ -53,22 +53,22 @@
                       :href="producto.images[0].src"
                       v-html="producto.imagen"
                     ></a>
-                    <div class="galeria-producto" v-if="producto.images.length > 1">
-                      <div class="" v-for="imagen in producto.images">
-                        <a data-fancybox="galeria" :href="imagen.src">
-                          <figure class="image is-1by1">
-                            <img :src="imagen.src" alt="" />
-                          </figure>
-                        </a>
-                      </div>
-                    </div>
+                    <SliderImagenesProducto
+                      :imagenes="producto.images"
+                    ></SliderImagenesProducto>
                   </div>
                   <div class="column">
                     <div class="nombre">{{ producto.name }}</div>
 
                     <Precio :precios="precios" class="mb-5"></Precio>
 
-                    <div class="columns is-gapless is-mobile mb-5 caracteristicas">
+                    <div
+                      v-if="
+                        this.producto.campos_adicionales.despacho_domicilio ||
+                        this.producto.campos_adicionales.retiro_en_tienda
+                      "
+                      class="columns is-gapless is-mobile mb-5 caracteristicas"
+                    >
                       <div
                         class="column"
                         v-if="this.producto.campos_adicionales.despacho_domicilio"
@@ -102,31 +102,139 @@
                         </div>
                       </div>
                     </div>
+
+                    <div class="block" v-if="variacionesColores.length > 0">
+                      <label for="" class="primero"><b>Color</b></label>
+                      <div class="control color-producto">
+                        <div class="columns is-variable is-1 is-mobile is-multiline">
+                          <a
+                            v-for="variacion_producto in variacionesColores"
+                            @click.prevent="
+                              dropdown = false;
+                              cambiarVariacion(variacion_producto);
+                            "
+                            href="#"
+                            class="column is-narrow btn-color"
+                            :class="{
+                              'is-active': variacion_producto.id == variacion.id,
+                            }"
+                          >
+                            <div
+                              :style="
+                                'background-color:' + variacion_producto.attributes[0].hex
+                              "
+                            ></div>
+                          </a>
+                        </div>
+                      </div>
+                      <div class="control" v-if="false">
+                        <div class="dropdown" :class="{ 'is-active': dropdown }">
+                          <div class="dropdown-trigger">
+                            <button
+                              class="button button-1"
+                              aria-haspopup="true"
+                              aria-controls="dropdown-menu"
+                              @click="dropdown = !dropdown"
+                            >
+                              <span v-html="nombreVariacion(variacion)"></span>
+                              <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                              </span>
+                            </button>
+                          </div>
+                          <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                            <div class="dropdown-content">
+                              <a
+                                v-for="variacion_producto in variacionesColores"
+                                v-html="nombreVariacion(variacion_producto)"
+                                @click.prevent="
+                                  dropdown = false;
+                                  cambiarVariacion(variacion_producto);
+                                "
+                                href="#"
+                                class="dropdown-item"
+                                :class="{
+                                  'is-active': variacion_producto.id == variacion.id,
+                                }"
+                              >
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <Acciones
                       :stock="producto.stock_quantity"
                       :stockStatus="producto.stock_status"
                       :idProducto="producto.id"
                       :producto="producto"
+                      :variacion="false"
                     ></Acciones>
                   </div>
                 </div>
               </div>
             </div>
             <div class="column descripcion is-size-6">
-              <div class="card height-100 p-6">
-                <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
-                <div class="content gris3" v-html="producto.description"></div>
+              <div
+                class="tabs is-boxed mb-0 is-fullwidth bg-blanco tabs-producto"
+                v-if="producto.campos_adicionales.tabla_ficha_tecnica"
+              >
+                <ul>
+                  <li :class="{ 'is-active': tab_activa == 1 }">
+                    <a @click.prevent="tab_activa = 1">
+                      <span>CARACTERÍSTICAS</span>
+                    </a>
+                  </li>
+                  <li :class="{ 'is-active': tab_activa == 2 }">
+                    <a @click.prevent="tab_activa = 2">
+                      <span>FICHA TÉCNICA</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div
+                class="card p-5"
+                :class="{
+                  'height-100-tab-producto':
+                    producto.campos_adicionales.tabla_ficha_tecnica,
+                  'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
+                }"
+              >
+                <div v-if="tab_activa == 1">
+                  <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
+                  <div class="content gris3" v-html="producto.description"></div>
+                </div>
+                <div
+                  v-if="
+                    tab_activa == 2 && producto.campos_adicionales.tabla_ficha_tecnica
+                  "
+                >
+                  <h2 class="primero mb-2"><b>FICHA TÉCNICA</b></h2>
+                  <div class="content gris3 tab-ficha-tecnica">
+                    <table class="table table-sm is-narrow gris3 is-bordered">
+                      <tr v-for="fila in producto.campos_adicionales.tabla_ficha_tecnica">
+                        <td>
+                          <strong>{{ fila.nombre }}</strong>
+                        </td>
+                        <td>{{ fila.valor }}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <div class="detalle-producto">
+          <div class="detalle-producto" v-if="tabs">
             <Tabs :tabs="tabs"></Tabs>
           </div>
+          <CargandoSeccion v-if="cargando_productos_relacionados"></CargandoSeccion>
+
           <SliderProductos
+            v-else
             titulo="Productos Relacionados"
             :categoria="categoria.id"
-            :productos="productosRelacionados"
+            :productos="productos_relacionados"
           ></SliderProductos>
         </div>
       </div>
@@ -154,9 +262,11 @@ import Seo from "../components/general/Seo.vue";
 
 import Tabs from "../components/general/Tabs.vue";
 import SliderProductos from "../components/productos/SliderProductos.vue";
+import SliderImagenesProducto from "../components/productos/producto/SliderImagenes.vue";
 import CargandoSeccion from "../components/general/CargandoSeccion.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+
 export default {
   components: {
     Imagen,
@@ -164,6 +274,7 @@ export default {
     Acciones,
     Tabs,
     SliderProductos,
+    SliderImagenesProducto,
     CargandoSeccion,
     Seo,
   },
@@ -174,42 +285,30 @@ export default {
         cantidad: 1,
         mostrar: false,
       },
+      producto_original: {},
       producto: {},
+      variaciones: {},
+      variacion: false,
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
+      dropdown: false,
+      cargando_productos_relacionados: true,
+      productos_relacionados: false,
+      tab_activa: 1,
     };
   },
-  updated() {},
   async mounted() {
+    this.cargando = true;
     await this.obtenerProducto();
+    /** SI EL PRODUCTO ES VARIABLE, OBTENER INFORMACIÓN DE CADA VARIACIÓN */
+    if (this.producto.type == "variable") await this.obtenerVariaciones();
+    this.cargando = false;
+
+    this.obtenerProductosRelacionados();
+
     $.fancybox.defaults.backFocus = false;
 
-    /** CREAR INSTANCIA DE CARRUSEL */
-    this.slider = $(".galeria-producto").slick({
-      slidesToShow: 4,
-      dots: false,
-      arrows: true,
-      infinite: true,
-      pauseOnHover: false,
-      pauseOnFocus: false,
-      autoplay: false,
-      autoplaySpeed: 5000,
-      prevArrow:
-        '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
-      nextArrow:
-        '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
-    });
-
-    // if (this.storeCarroCompra.carro.productos.length == 0) {
-    //   await this.obtenerProductos();
-    // } else {
-    //   if (!this.producto) {
-    //     this.$router.replace({ name: "404" });
-    //   }
-    //   this.cargando = false;
-    // }
-
-    document.title = this.producto.name || VUE_APP_DEFAULT_TITLE;
+    document.title = this.producto.name || "";
   },
   watch: {
     async sucursalCarro() {
@@ -217,11 +316,6 @@ export default {
     },
   },
   computed: {
-    productosRelacionados() {
-      return this.storeCarroCompra.carro.productos.listado.filter((producto) => {
-        return producto.stock_quantity == null || producto.stock_quantity > 0;
-      });
-    },
     conStock() {
       if (
         (this.producto.stock_quantity == null) &
@@ -242,9 +336,10 @@ export default {
     // },
     precios() {
       return {
-        normal: this.producto.regular_price,
-        oferta: this.producto.price,
-        on_sale: this.producto.on_sale,
+        normal: this.producto_original.regular_price,
+        oferta: this.producto_original.price,
+        on_sale: this.producto_original.on_sale,
+        bolsas_producto: this.producto_original.bolsas_producto,
       };
     },
     url() {
@@ -295,22 +390,97 @@ export default {
       }
       return contenido_tabs;
     },
+
+    variacionesColores() {
+      let variacionesColor = [];
+      if (this.variaciones.length) {
+        this.variaciones.forEach((variacion) => {
+          if (variacion.attributes.length == 1 && variacion.attributes[0].name == "Color")
+            variacionesColor.push(variacion);
+        });
+      }
+      return variacionesColor;
+    },
   },
   methods: {
     async obtenerProducto() {
-      this.cargando = true;
       const respuesta_producto = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
           "&slug=" +
-          this.$route.params.slug,
+          this.$route.params.slug +
+          "&sucursal=" +
+          this.store_opciones_generales.sucursal_seleccionada.ID,
         { authorization: true, cache: true }
       );
+
       if (respuesta_producto.data.length == 1) {
-        this.producto = respuesta_producto.data[0];
+        this.producto = JSON.parse(JSON.stringify(respuesta_producto.data[0]));
+        this.producto_original = respuesta_producto.data[0];
       }
-      // console.log(respuesta_producto);
-      this.cargando = false;
     },
+    async obtenerVariaciones() {
+      const respuesta = await this.enviarGet(
+        import.meta.env.VITE_ENDPOINT_URL_API +
+          "/wc/v3/products/" +
+          this.producto_original.id +
+          "/variations" +
+          "?sucursal=" +
+          this.store_opciones_generales.sucursal_seleccionada.ID,
+        { authorization: true, cache: true }
+      );
+
+      this.variaciones = respuesta.data;
+      if (this.variaciones.length > 0) {
+        this.cambiarVariacion(this.variaciones[0]);
+      }
+
+      // this.producto = respuesta.data[0];
+    },
+    cambiarVariacion(variacion) {
+      this.variacion = variacion;
+      // this.producto.name = variacion.name;
+      this.producto.stock_quantity = variacion.stock_quantity;
+      this.producto.stock_status = variacion.stock_status;
+      this.producto.id = variacion.id;
+      this.producto.regular_price = variacion.regular_price;
+      this.producto.price = variacion.price;
+      this.producto.on_sale = variacion.on_sale;
+      this.producto.imagen = variacion.imagen;
+      this.producto.images = [variacion.image];
+      this.producto.description = variacion.description
+        ? variacion.description
+        : this.producto_original.description;
+    },
+
+    /** OBTENER PRODUCTOS RELACIONADOS DEL PRODUCTO ACTUAL, SI NO VIENEN SE OBTIENEN ALGUNOS POR DEFECTO */
+    async obtenerProductosRelacionados() {
+      const relacionados = this.producto_original.campos_adicionales
+        .productos_relacionados
+        ? this.producto_original.campos_adicionales.productos_relacionados.join(",")
+        : false;
+      let campo_relacionados = "";
+      let per_page = "&per_page=5";
+      if (relacionados) {
+        campo_relacionados = "&include=" + relacionados;
+        per_page = "";
+      }
+
+      const respuesta = await this.enviarGet(
+        import.meta.env.VITE_ENDPOINT_URL_API +
+          "/wc/v3/products/?" +
+          "exclude=" +
+          this.producto_original.id +
+          campo_relacionados +
+          "&sucursal=" +
+          this.store_opciones_generales.sucursal_seleccionada.ID +
+          per_page,
+        { authorization: true, cache: true }
+      );
+      this.productos_relacionados = respuesta.data;
+
+      this.cargando_productos_relacionados = false;
+    },
+
     async obtenerProductos() {
       this.cargando = true;
       await this.obtenerProductosTienda();
@@ -331,6 +501,17 @@ export default {
         if (dato) return dato.value;
       }
       return "";
+    },
+
+    nombreVariacion(variacion) {
+      let nombre = "";
+
+      variacion.attributes.forEach((atributo, index) => {
+        nombre += "<b>" + atributo.name + "</b> : " + atributo.option;
+        if (index + 1 < variacion.attributes.length) nombre += " - ";
+      });
+
+      return nombre;
     },
   },
 };
