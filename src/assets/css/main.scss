@@ -657,6 +657,10 @@ footer{
     height: 100%;
     border-radius: 10px;
     overflow: hidden;
+    &.h-auto{
+      min-height: auto;
+      height: auto;
+    }
     h1{
       position: absolute;
       top:50%;
@@ -666,6 +670,25 @@ footer{
       font-size: 4em;
       line-height: .9em;
       letter-spacing: -.07em;
+    }
+  }
+  &.v2{
+    padding:0 1em;
+    .imagen{
+      min-height: 209px;
+    }
+    h1{
+      left:4%;
+      font-size: 3em;
+      padding-left: 90px;
+      padding-right: 10px;
+      img{
+        max-width: 70px;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-70%);
+        left: 0;
+      }
     }
   }
 }

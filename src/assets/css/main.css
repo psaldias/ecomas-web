@@ -957,6 +957,10 @@ footer nav a:hover {
   border-radius: 10px;
   overflow: hidden;
 }
+.banner-seccion .imagen.h-auto {
+  min-height: auto;
+  height: auto;
+}
 .banner-seccion .imagen h1 {
   position: absolute;
   top: 50%;
@@ -966,6 +970,25 @@ footer nav a:hover {
   font-size: 4em;
   line-height: 0.9em;
   letter-spacing: -0.07em;
+}
+.banner-seccion.v2 {
+  padding: 0 1em;
+}
+.banner-seccion.v2 .imagen {
+  min-height: 209px;
+}
+.banner-seccion.v2 h1 {
+  left: 4%;
+  font-size: 3em;
+  padding-left: 90px;
+  padding-right: 10px;
+}
+.banner-seccion.v2 h1 img {
+  max-width: 70px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-70%);
+  left: 0;
 }
 
 .quienes-somos-home .wrapper {

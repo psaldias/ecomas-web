@@ -471,6 +471,9 @@ p {
   .banner-seccion .imagen h1 {
     font-size: 3em;
   }
+  .banner-seccion.v2 h1 {
+    font-size: 2em;
+  }
   .banner-seccion.noticia h1 {
     font-size: 1.8em !important;
     padding: 0.5em !important;
