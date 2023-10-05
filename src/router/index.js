@@ -29,6 +29,10 @@ const router = createRouter({
       name: "Sucursales",
       component: () => import("../views/SucursalesView.vue")
     },{
+      path: "/calculadora",
+      name: "Encuentra tu estufa a pellet ideal",
+      component: () => import("../views/CalculadoraView.vue")
+    },{
       path: "/noticias/:slug",
       name: "Interior Noticias",
       component: () => import("../views/InteriorNoticiasView.vue")

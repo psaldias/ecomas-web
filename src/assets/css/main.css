@@ -978,6 +978,9 @@ footer nav a:hover {
 .banner-seccion.v2 {
   padding: 0 1em;
 }
+.banner-seccion.v2.no-icon h1 {
+  padding-left: 10px;
+}
 .banner-seccion.v2 .imagen {
   min-height: 209px;
 }
@@ -993,6 +996,9 @@ footer nav a:hover {
   top: 50%;
   transform: translateY(-70%);
   left: 0;
+}
+.banner-seccion.calculadora .imagen {
+  background-position: 60% center;
 }
 
 .quienes-somos-home .wrapper {
@@ -1967,4 +1973,32 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.sucursal .item-sucursal:not(:last-child) {
+  border-right: 1px solid rgba(128, 189, 1, 0.3215686275);
+  margin-right: 1em;
+}
+
+.calculadora.pregunta-1 {
+  background: url("/img/llama.jpg");
+  background-repeat: no-repeat;
+  background-position: -20px center;
+  background-size: contain;
+}
+.calculadora.pregunta-2 {
+  background: url("/img/pisos.jpg");
+  background-repeat: no-repeat;
+  background-position: -40px center;
+  background-size: contain;
+}
+.calculadora.pregunta-3 {
+  background: url("/img/ubicacion-calculadora.jpg");
+  background-repeat: no-repeat;
+  background-position: -40px center;
+  background-size: contain;
+}
+.calculadora.pregunta .column:not(.no-border) {
+  border-right: 1px solid #EEE;
+  border-left: 1px solid #EEE;
 }

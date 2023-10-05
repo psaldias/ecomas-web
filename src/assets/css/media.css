@@ -474,6 +474,9 @@ p {
   .banner-seccion.v2 h1 {
     font-size: 2em;
   }
+  .banner-seccion.calculadora .imagen {
+    background-position: 40% center;
+  }
   .banner-seccion.noticia h1 {
     font-size: 1.8em !important;
     padding: 0.5em !important;
@@ -583,7 +586,31 @@ p {
   .productos-compra-rapida .card {
     min-width: 100%;
   }
+  .calculadora.pregunta-1 {
+    background-position: -23% center;
+    background-size: 40%;
+  }
+  .calculadora.pregunta-2 {
+    background-position: -23% 20%;
+    background-size: 40%;
+  }
+  .calculadora.pregunta-3 {
+    background-position: -23% 10%;
+    background-size: 30%;
+  }
+  .calculadora.pregunta .column:not(.no-border) {
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid #EEE;
+  }
+  .calculadora.pregunta .column:not(.no-border):last-child {
+    border-bottom: none;
+  }
 }
+.h-auto {
+  height: auto;
+}
+
 @media (max-width: 625px) {
   .seleccionar-ubicacion:after {
     left: 70% !important;

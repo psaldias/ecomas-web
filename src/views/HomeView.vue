@@ -6,10 +6,32 @@
         v-if="contenidoInicial.acf.compra_rapida.visible"
       >
         <section class="columns compra-rapida is-vcentered is-gapless is-mobile">
-          <div class="column is-narrow titulo">
-            <h2 class="pr-4" v-html="contenidoInicial.acf.compra_rapida.titulo_home"></h2>
+          <div class="column is-narrow-desktop is-3-tablet is-5-mobile titulo">
+            <div class="imagen" v-if="contenidoInicial.acf.calculadora?.estado">
+              <router-link to="/calculadora">
+                <img
+                  :src="contenidoInicial.acf.calculadora.imagen_banner_home.sizes.large"
+                  :height="
+                    contenidoInicial.acf.calculadora.imagen_banner_home.sizes[
+                      'large-height'
+                    ]
+                  "
+                  :width="
+                    contenidoInicial.acf.calculadora.imagen_banner_home.sizes[
+                      'large-width'
+                    ]
+                  "
+                />
+              </router-link>
+            </div>
+
+            <h2
+              class="pr-4"
+              v-else
+              v-html="contenidoInicial.acf.compra_rapida.titulo_home"
+            ></h2>
           </div>
-          <div class="column is-1 is-hidden-mobile"></div>
+          <div class="column is-narrow is-hidden-mobile" style="width: 20px"></div>
 
           <CompraRapida />
         </section>
