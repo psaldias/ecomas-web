@@ -402,7 +402,7 @@ export default {
       );
 
       const respuesta_producto = await this.enviarGet(
-        import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
+        import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_V2 +
           "&include=" +
           productos +
           "&sucursal=" +
@@ -410,7 +410,7 @@ export default {
         { authorization: true, cache: true }
       );
 
-      this.productos = respuesta_producto.data;
+      this.productos = respuesta_producto.data.listado;
       this.cargando_productos = false;
 
       // if (respuesta_producto.data.length == 1) {

@@ -42,6 +42,8 @@ aws s3 sync . s3://frontend.ecomas.cl
 ### v1.0.25
   - Sección sucursales actualizada
   - Nueva sección Calculadora. /calculadora
+  #### Fix v0.1
+    - Cambios en resultado de calculadora, se quitó slider en movil y se agregó botón "Ver modelo"
 
 ### v1.0.24
   - Cambios en la forma de seleccionar un color de un producto

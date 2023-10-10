@@ -1,42 +1,19 @@
 <template>
   <section class="mt-6" v-if="productos && productos.length > 0">
-    <div class="slider-productos">
-      <div class="item" v-for="(producto, index) in productos">
+    <div class="slider-productos columns is-centered">
+      <div class="item column is-4 is-relative" v-for="(producto, index) in productos">
         <Producto
           class="h-auto"
           :key="'slider_productos_' + producto.id"
           :producto="producto"
           formato="vertical"
         ></Producto>
-        <div class="card mt-3 is-size-6">
-          <div class="columns is-mobile">
-            <div class="column">
-              <strong>Gasto de acuerdo a un uso de 8hrs dias</strong>
-            </div>
-            <div class="column is-narrow">
-              {{
-                dataProductoCalculadora(producto.id)
-                  .gasto_de_acuerdo_a_un_uso_de_8hrs_dias
-              }}
-            </div>
-          </div>
-          <div class="columns is-mobile">
-            <div class="column">
-              <strong>Cantidad de días</strong>
-            </div>
-            <div class="column is-narrow">
-              {{ dataProductoCalculadora(producto.id).cantidad_de_dias }}
-            </div>
-          </div>
-          <div class="columns is-mobile">
-            <div class="column">
-              <strong>Consumo mensual</strong>
-            </div>
-            <div class="column is-narrow">
-              {{ dataProductoCalculadora(producto.id).consumo_mensual }}
-            </div>
-          </div>
-        </div>
+        <router-link
+          :to="'/producto/' + producto.slug"
+          class="button button-icono is-small is-rounded comprar"
+          style="position: absolute; top: 6%; right: 5%"
+          >Ver modelo</router-link
+        >
       </div>
     </div>
   </section>
@@ -59,8 +36,9 @@ export default {
     };
   },
   mounted() {
-    this.cargarSlider();
+    // this.cargarSlider();
     window.addEventListener("resize", this.altoProducos);
+    this.altoProducos();
   },
   destroyed() {
     window.removeEventListener("resize", this.altoProducos);
