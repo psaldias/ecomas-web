@@ -97,6 +97,7 @@ export default {
     await helpers.importarLibereriaGoogleMaps();
     this.libreriaCargada = true;
 
+    this.direccionDefectoUsuario();
     this.comentario_direccion = this.storeCarroCompra.compraRapida.comentario_direccion;
   },
   computed: {
@@ -148,6 +149,20 @@ export default {
       return false;
     },
 
+    direccionDefectoUsuario() {
+      /** SI NO ESTÁ LOGUEADO NO HACER NADA */
+      if (!this.storeCarroCompra.usuario) return;
+
+      if (Object.keys(this.storeCarroCompra.compraRapida.direccion).length === 0) {
+        this.storeCarroCompra.actualizarCompraRapida(
+          this.storeCarroCompra.usuario.shipping_direccion_completa.direccion,
+          "direccion"
+        );
+      }
+      if (this.comentario_direccion == "") {
+        this.comentario_direccion = this.storeCarroCompra.usuario.shipping_direccion_completa.comentario_direccion;
+      }
+    },
     obtenerDireccion(data) {
       const region = RegionesYComunas.find((region) => {
         return region.name == data.administrative_area_level_1;

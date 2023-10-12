@@ -44,6 +44,10 @@ aws s3 sync . s3://frontend.ecomas.cl
   - Nueva sección Calculadora. /calculadora
   #### Fix v0.1
     - Cambios en resultado de calculadora, se quitó slider en movil y se agregó botón "Ver modelo"
+  #### Fix v0.2
+    - Cambios en resultado calculadora, se quitó la opción de comprar y se cambio a "Ver más"
+    - Se ajusto en la dirección compra rápida que si el usuario está conectado con su cuenta, toma automáticamente la dirección guardada.
+    - Cambios en interior de rastreo de pedidos, en el paso de facturar se agrega mensaje "Tu pedido llegará en 2 días hábiles"
 
 ### v1.0.24
   - Cambios en la forma de seleccionar un color de un producto

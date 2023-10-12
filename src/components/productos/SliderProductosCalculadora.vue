@@ -3,17 +3,11 @@
     <div class="slider-productos columns is-centered">
       <div class="item column is-4 is-relative" v-for="(producto, index) in productos">
         <Producto
-          class="h-auto"
+          class="h-auto no-compra"
           :key="'slider_productos_' + producto.id"
           :producto="producto"
           formato="vertical"
         ></Producto>
-        <router-link
-          :to="'/producto/' + producto.slug"
-          class="button button-icono is-small is-rounded comprar"
-          style="position: absolute; top: 6%; right: 5%"
-          >Ver modelo</router-link
-        >
       </div>
     </div>
   </section>
@@ -24,7 +18,7 @@ import "/src/assets/libs/jquery.min.js";
 import "/src/assets/libs/slick/slick.min.js";
 import "/src/assets/libs/slick/slick.min.css";
 import "/src/assets/libs/slick/slick-theme.min.css";
-import Producto from "./producto/producto.vue";
+import Producto from "./producto/productoCalculadora.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 export default {
   props: ["productos", "productos_calculadora"],
