@@ -13,9 +13,14 @@
       </section>
 
       <div class="wrapper wrapper-fullm">
-        <h2 class="has-text-centered primero mb-5" v-if="paso != 4">
-          {{ data.acf.mensaje_ayuda }}
-        </h2>
+        <div class="columns is-centered">
+          <div class="column is-6-fullhd is-8-desktop" v-if="paso != 4">
+            <h2
+              class="has-text-centered primero mb-5"
+              v-html="data.acf.mensaje_ayuda"
+            ></h2>
+          </div>
+        </div>
 
         <div class="px-2">
           <article class="message is-danger my-2 is-small" v-if="error">

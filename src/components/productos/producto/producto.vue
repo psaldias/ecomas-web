@@ -102,7 +102,6 @@ import Imagen from "./Imagen.vue";
 import Precio from "./Precio.vue";
 import PrecioVariable from "./PrecioVariable.vue";
 import Acciones from "./Acciones.vue";
-import { R } from "../../../../dist/assets/regionesComunas.66196813";
 
 export default {
   props: {
