@@ -22,7 +22,7 @@
           <div class="column is-10">
             <div class="block">
               <div class="columns is-mobile is-centered">
-                <div class="column is-6">
+                <div class="column is-6-tablet is-12-mobile">
                   <div class="field">
                     <div class="control">
                       <div class="select is-fullwidth">
@@ -68,7 +68,10 @@
             </div>
 
             <div class="columns is-centered">
-              <div class="column is-6" v-if="comunasTienda.length > 0">
+              <div
+                class="column is-6 border-right-sucursales"
+                v-if="comunasTienda.length > 0"
+              >
                 <div class="columns is-centered is-gapless">
                   <div class="column">
                     <div class="titulo-seccion">
@@ -80,12 +83,12 @@
                         </div>
                         <div class="column is-narrow-desktop">
                           <h3 class="primero has-text-weight-bold has-text-centered">
-                            Tienda Venta Directa
+                            Tienda Venta Directa y Online
                           </h3>
                           <h4
                             class="primero has-text-weight-normal has-text-centered is-size-6"
                           >
-                            Pellet • Estufas • Calderas • Pedidos Online
+                            Pellet • Estufas • Calderas
                           </h4>
                         </div>
                       </div>
@@ -163,14 +166,34 @@
 
           <div class="sucursal" v-for="sucursal in sucursalesRegion" :key="sucursal.ID">
             <div class="columns">
-              <div class="column item-sucursal is-3" v-if="esVentaDirecta(sucursal)">
-                <div class="columns is-mobile is-gapless" v-if="sucursal.acf.direccion">
+              <div class="column item-sucursal is-3">
+                <div
+                  class="columns is-mobile is-gapless"
+                  v-if="sucursal.acf.direccion && esVentaDirecta(sucursal)"
+                >
                   <div class="column is-narrow mr-2">
                     <img src="/img/direccion.png" alt="Dirección" class="mt-1" />
                   </div>
                   <div class="column">
                     <strong>Dirección</strong>
                     <div class="gris3 content">{{ sucursal.acf.direccion }}</div>
+                  </div>
+                </div>
+
+                <div
+                  class="columns is-mobile is-gapless"
+                  v-if="!esVentaDirecta(sucursal)"
+                >
+                  <div class="column is-narrow mr-2">
+                    <img src="/img/direccion.png" alt="Dirección" class="mt-1" />
+                  </div>
+                  <div class="column">
+                    <strong>
+                      <span v-for="(comuna, index) in sucursal.regiones_comunas" class="">
+                        {{ obtenerComuna(comuna).name
+                        }}{{ index + 1 < sucursal.regiones_comunas.length ? ", " : "" }}
+                      </span>
+                    </strong>
                   </div>
                 </div>
                 <div class="columns is-mobile is-gapless">
@@ -441,6 +464,9 @@ export default {
       this.regionSeleccionada = this.regiones[0].term_id;
 
       this.cargando = false;
+    },
+    obtenerComuna(id) {
+      return this.regiones_comunas.find((comuna) => comuna.term_id == id);
     },
     /** ACCIÓN BOTON BUSCAR DEL FILTRO POR REGIÓN */
     async filtrarPorRegion() {},

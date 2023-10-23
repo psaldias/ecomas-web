@@ -606,6 +606,10 @@ p {
   .calculadora.pregunta .column:not(.no-border):last-child {
     border-bottom: none;
   }
+  .border-right-sucursales {
+    border-right: none;
+    border-bottom: 1px solid rgba(128, 189, 1, 0.3215686275);
+  }
 }
 .h-auto {
   height: auto;

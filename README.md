@@ -48,6 +48,10 @@ aws s3 sync . s3://frontend.ecomas.cl
   - Cambio en url de google maps en sucursales ya que no siempre mostraba la sucursal ecomas en google, sino solo las coordenadas
   - Mostrar en la compra rápida el precio unitario normal y con descuento, considerando que tenemos precios unitarios diferenciados en algunas ciudades y que la opción pueda estar activa o no, ya que no siempre tendremos descuento.
 
+  #### Fix v0.1
+    - cambios en sucursales, ahora en dirección se muestra las comunas asociadas a la sucursal de pedidos online
+    - Se agrega linea de separación entre los tipos de tienda
+
 ### v1.0.25
   - Sección sucursales actualizada
   - Nueva sección Calculadora. /calculadora

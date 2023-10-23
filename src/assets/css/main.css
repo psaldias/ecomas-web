@@ -2029,3 +2029,7 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
   border-right: 1px solid #EEE;
   border-left: 1px solid #EEE;
 }
+
+.border-right-sucursales {
+  border-right: 1px solid rgba(128, 189, 1, 0.3215686275);
+}

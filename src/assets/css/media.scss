@@ -337,7 +337,11 @@
               }
             }
         }
-      }
+    }
+    .border-right-sucursales{
+        border-right:none;
+        border-bottom: 1px solid #80BD0152;
+    }
 }
 
 .h-auto{
