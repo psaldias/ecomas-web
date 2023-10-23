@@ -913,6 +913,15 @@ footer nav a:hover {
   margin-bottom: 0.8em;
   min-width: 200px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 185px;
+}
+.compra-rapida .productos-compra-rapida .card .valores {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 .compra-rapida .productos-compra-rapida .text-nowrap {
   text-overflow: ellipsis;
@@ -1882,6 +1891,24 @@ footer nav a:hover {
   max-height: 100vh;
 }
 .toplayer-home .toplayer_content .delete {
+  position: absolute !important;
+  right: 0 !important;
+  top: 0 !important;
+  background: #FFF !important;
+  z-index: 20;
+}
+
+.toplayer-general .toplayer_content {
+  max-height: 100vh;
+}
+.toplayer-general .toplayer_content:not(:has(iframe)) {
+  width: auto !important;
+}
+.toplayer-general .toplayer_content img {
+  display: block;
+  max-height: 100vh;
+}
+.toplayer-general .toplayer_content .delete {
   position: absolute !important;
   right: 0 !important;
   top: 0 !important;

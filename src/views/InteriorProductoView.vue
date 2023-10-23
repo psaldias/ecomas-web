@@ -336,10 +336,10 @@ export default {
     // },
     precios() {
       return {
-        normal: this.producto_original.regular_price,
-        oferta: this.producto_original.price,
-        on_sale: this.producto_original.on_sale,
-        bolsas_producto: this.producto_original.bolsas_producto,
+        normal: this.producto.regular_price,
+        oferta: this.producto.price,
+        on_sale: this.producto.on_sale,
+        bolsas_producto: this.producto.bolsas_producto,
       };
     },
     url() {
@@ -438,11 +438,13 @@ export default {
     },
     cambiarVariacion(variacion) {
       this.variacion = variacion;
+      console.log(variacion);
       // this.producto.name = variacion.name;
       this.producto.stock_quantity = variacion.stock_quantity;
       this.producto.stock_status = variacion.stock_status;
       this.producto.id = variacion.id;
       this.producto.regular_price = variacion.regular_price;
+      this.producto.sale_price = variacion.sale_price;
       this.producto.price = variacion.price;
       this.producto.on_sale = variacion.on_sale;
       this.producto.imagen = variacion.imagen;

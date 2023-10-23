@@ -1,5 +1,4 @@
 <template>
-
   <div class="columns">
     <div class="column">
       <div v-html="storeCarroCompra.compraRapida.carro.mensajes" class="mb-2"></div>
@@ -17,7 +16,6 @@
             <div class="field mb-5">
               <input type="text" class="input input-2 w-100" v-model="codigoDescuento" />
             </div>
-
 
             <div class="block has-text-right-tablet has-text-centered-mobile">
               <a
@@ -53,7 +51,10 @@
           <div class="column contenido">
             <h2 class="has-text-centered-mobile">Resumen Compra</h2>
 
-            <div class="resumen-compra is-size-6 my-5"  v-if="storeCarroCompra.compraRapida.carro.total > 0">
+            <div
+              class="resumen-compra is-size-6 my-5"
+              v-if="storeCarroCompra.compraRapida.carro.total > 0"
+            >
               <div class="columns is-multiline is-gapless is-mobile">
                 <div class="column is-8 border">
                   <span class="pr-2 is-block">
@@ -70,20 +71,35 @@
                 <div class="column is-4 has-text-right has-text-weight-bold primero">
                   {{ monedaChilena(storeCarroCompra.compraRapida.carro.subtotal) }}
                 </div>
-                <div class="column is-8 primero has-text-weight-bold" v-if="storeCarroCompra.compraRapida.carro.get_shipping_total">
+                <div
+                  class="column is-8 primero has-text-weight-bold"
+                  v-if="storeCarroCompra.compraRapida.carro.get_shipping_total"
+                >
                   <span class="pr-2 is-block"> Envío: </span>
                 </div>
-                <div class="column is-4 has-text-right has-text-weight-bold primero" v-if="storeCarroCompra.compraRapida.carro.get_shipping_total">
-                  {{ monedaChilena(storeCarroCompra.compraRapida.carro.get_shipping_total) }}
+                <div
+                  class="column is-4 has-text-right has-text-weight-bold primero"
+                  v-if="storeCarroCompra.compraRapida.carro.get_shipping_total"
+                >
+                  {{
+                    monedaChilena(storeCarroCompra.compraRapida.carro.get_shipping_total)
+                  }}
                 </div>
 
-                <div class="column is-8 primero has-text-weight-bold" v-if="storeCarroCompra.compraRapida.carro.get_discount_total">
+                <div
+                  class="column is-8 primero has-text-weight-bold"
+                  v-if="storeCarroCompra.compraRapida.carro.get_discount_total"
+                >
                   <span class="pr-2 is-block"> Descuento Cupones: </span>
                 </div>
-                <div class="column is-4 has-text-right has-text-weight-bold primero" v-if="storeCarroCompra.compraRapida.carro.get_discount_total">
-                  {{ monedaChilena(storeCarroCompra.compraRapida.carro.get_discount_total) }}
+                <div
+                  class="column is-4 has-text-right has-text-weight-bold primero"
+                  v-if="storeCarroCompra.compraRapida.carro.get_discount_total"
+                >
+                  {{
+                    monedaChilena(storeCarroCompra.compraRapida.carro.get_discount_total)
+                  }}
                 </div>
-
 
                 <div class="column is-8 primero has-text-weight-bold">
                   <span class="pr-2 is-block"> Total a Pagar: </span>
@@ -94,19 +110,17 @@
               </div>
             </div>
 
-
-
-
-
-              <div class="block has-text-right-tablet has-text-centered-mobile">
-                <router-link to="/compra-rapida/pago" class="button is-rounded is-small button-icono px-5" v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores">
-                  Continuar
-                </router-link>
-              </div>
+            <div class="block has-text-right-tablet has-text-centered-mobile">
+              <router-link
+                to="/compra-rapida/pago"
+                class="button is-rounded is-small button-icono px-5"
+                v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores"
+              >
+                Continuar
+              </router-link>
+            </div>
 
             <cargando-seccion v-if="cargando"></cargando-seccion>
-
-
           </div>
         </div>
       </div>
@@ -117,65 +131,73 @@
 <script>
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import locale_es from "date-fns/locale/es";
-import { useOpcionesGeneralesStore } from '/src/stores/opcionesGenerales'
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 import CargandoSeccion from "../general/CargandoSeccion.vue";
 import Mensajes from "../general/Mensajes.vue";
 
 export default {
   data() {
     return {
-      cargando_cupon:false,
-      mensajes:{
-      },
-      cargando:true,
+      cargando_cupon: false,
+      mensajes: {},
+      cargando: true,
       locale_es,
       codigoDescuento: "",
-      fecha: '',
+      fecha: "",
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
   async mounted() {
     /** VALIDAMOS QUE EXISTA EL TELÉFONO */
-    if (!this.storeCarroCompra.compraRapida.telefono || !this.storeCarroCompra.compraRapida.nombre || !this.storeCarroCompra.compraRapida.email){
+    if (
+      !this.storeCarroCompra.compraRapida.telefono ||
+      !this.storeCarroCompra.compraRapida.nombre ||
+      !this.storeCarroCompra.compraRapida.email
+    ) {
       this.$router.push({ path: "/compra-rapida/" });
-    /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
-    }else if (!this.storeCarroCompra.compraRapida.direccion){
+      /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
+    } else if (!this.storeCarroCompra.compraRapida.direccion) {
       this.$router.push({ path: "/compra-rapida/direccion" });
-    /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
-    }else if (!this.storeCarroCompra.compraRapida.productoSeleccionado){
+      /** VALIDAMOS QUE EXISTA LA DIRECCIÓN */
+    } else if (!this.storeCarroCompra.compraRapida.productoSeleccionado) {
       this.$router.push({ path: "/compra-rapida/producto" });
-    }else{
+    } else {
       /** DEFINIR FECHA DE ENTREGA SEGÚN LO CONFIGURADO PARA LA SUCURSAL SELECCIONADA */
       var date = new Date();
-      date.setDate(date.getDate() + parseInt(this.sucursalCarro.fields.tiempo_de_despacho))
-      const fecha_formateada = date.toLocaleDateString('es-ES').split('/').join('-');
+      date.setDate(
+        date.getDate() + parseInt(this.sucursalCarro.fields.tiempo_de_despacho)
+      );
+      const fecha_formateada = date.toLocaleDateString("es-ES").split("/").join("-");
       this.fecha = fecha_formateada;
       this.storeCarroCompra.actualizarCompraRapida(this.fecha, "horarioEntrega");
 
       /** VALIDAR Y OBTENER VALORES DE LA COMPRA RAPIDA */
-      const respuesta = await this.validarCompraRapida('agregar-producto');
+      const respuesta = await this.validarCompraRapida("agregar-producto");
       this.cargando = false;
     }
-
   },
   watch: {
-    async 'sucursalCarro.ID'(nuevoValor){
+    async "sucursalCarro.ID"(nuevoValor) {
       this.$router.push({ path: "/compra-rapida/direccion" });
-    }
+    },
   },
   computed: {
-    urBackEnd(){
+    urBackEnd() {
       return import.meta.env.VITE_ENDPOINT_BACKEND;
     },
-    sucursalCarro(){
-      return this.store_opciones_generales.sucursal_seleccionada
+    sucursalCarro() {
+      return this.store_opciones_generales.sucursal_seleccionada;
     },
     dataProducto() {
-      if (!this.storeCarroCompra.compraRapida.carro.is_empty || this.storeCarroCompra.compraRapida.carro.is_empty > 0) {
-        let producto_carro = Object.values(this.storeCarroCompra.compraRapida.carro.productos)[0];
-        if(!producto_carro)
-          return false;
+      if (
+        !this.storeCarroCompra.compraRapida.carro.is_empty ||
+        this.storeCarroCompra.compraRapida.carro.is_empty > 0
+      ) {
+        let producto_carro = Object.values(
+          this.storeCarroCompra.compraRapida.carro.productos
+        )[0];
+        if (!producto_carro) return false;
 
         let producto = this.storeCarroCompra.ComraRapidaproductosConStock.find(
           (producto) => producto.id === producto_carro.product_id
@@ -188,19 +210,21 @@ export default {
   },
   methods: {
     async aplicar_cupon() {
-      if(this.codigoDescuento){
-        this.cargando=true;
-        this.storeCarroCompra.actualizarCompraRapida(this.codigoDescuento, "codigoDescuento");
-        await this.validarCompraRapida('agregar-cupon');
-        if(!this.storeCarroCompra.compraRapida.carro.cupon_agregado){
-          this.storeCarroCompra.actualizarCompraRapida('', "codigoDescuento");
+      if (this.codigoDescuento) {
+        this.cargando = true;
+        this.storeCarroCompra.actualizarCompraRapida(
+          this.codigoDescuento,
+          "codigoDescuento"
+        );
+        await this.validarCompraRapida("agregar-cupon");
+        if (!this.storeCarroCompra.compraRapida.carro.cupon_agregado) {
+          this.storeCarroCompra.actualizarCompraRapida("", "codigoDescuento");
         }
-        this.cargando=false;
-
-      }else{
+        this.cargando = false;
+      } else {
         let mensajes = {
-              tipo:"error",
-              mensaje:"Debes indicar un cupón",
+          tipo: "error",
+          mensaje: "Debes indicar un cupón",
         };
         this.storeCarroCompra.actualizarMensaesCompraRapida(mensajes, "cupones");
       }

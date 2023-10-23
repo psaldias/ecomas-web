@@ -36,9 +36,18 @@ npm run lint
 
 #despliegue de dist
 aws s3 sync . s3://frontend.ecomas.cl
-
-
 ### Changelog<br>
+### v1.0.26
+  - Sucursales: en las virtuales, no debe aparecer dirección ni mapa ( en el admin está como campo obligatorio)
+  - Dirección manual: cuando seleccionas la ubicación con el pin, no siempre toma la dirección con número, pasó con un cliente de parcela en Puerto Varas y no lo dejaba avanzar, porque solicitaba numeración de la dirección y no se puede ingresar manual en el campo número.
+  - Cuando estoy logeado, completa los datos automáticamente al realizar la compra, pero el campo nombre lo está tomando con correo
+  - No está tomando la dirección de despacho automática, considerar que solo se agrega la dirección si esta está dentro del rango permitido a la sucursal seleccionada
+  - Habilitar Cupón de primera compra para compra rapida
+  - Corrección en precio con descuento en el interior de productos con variantes
+  - Agregar un toplayer en cualquier lugar del sitio con un contenido, que puede ser imagen o video
+  - Cambio en url de google maps en sucursales ya que no siempre mostraba la sucursal ecomas en google, sino solo las coordenadas
+  - Mostrar en la compra rápida el precio unitario normal y con descuento, considerando que tenemos precios unitarios diferenciados en algunas ciudades y que la opción pueda estar activa o no, ya que no siempre tendremos descuento.
+
 ### v1.0.25
   - Sección sucursales actualizada
   - Nueva sección Calculadora. /calculadora

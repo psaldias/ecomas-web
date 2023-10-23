@@ -7,7 +7,7 @@
         :key="producto.id"
       >
         <div class="card py-4 px-3">
-          <div class="columns is-gapless is-vcentered mb-4 is-mobile">
+          <div class="columns is-gapless is-vcentered mb-0 is-mobile">
             <div class="column is-narrow mr-2">
               <img src="/img/icono-bolsa-ecomas.png" alt="" width="19" height="25" />
             </div>
@@ -15,12 +15,27 @@
               <b>{{ producto.name }}</b>
             </div>
           </div>
-          <div class="valor primero has-text-centered">
-            <b>{{ monedaChilena(producto.price) }}</b>
-          </div>
-          <div class="valor-unitario has-text-centered" v-if="producto.bolsas_producto">
-            {{ monedaChilena(producto.price / parseInt(producto.bolsas_producto)) }}
-            c/u
+          <div class="valores">
+            <div class="valor primero has-text-centered">
+              <b>{{ monedaChilena(producto.price) }}</b>
+            </div>
+            <div
+              class="valor-unitario has-text-centered is-size-7"
+              v-if="producto.on_sale"
+            >
+              <del
+                >{{
+                  monedaChilena(
+                    producto.regular_price / parseInt(producto.bolsas_producto)
+                  )
+                }}
+                c/u</del
+              >
+            </div>
+            <div class="valor-unitario has-text-centered" v-if="producto.bolsas_producto">
+              {{ monedaChilena(producto.price / parseInt(producto.bolsas_producto)) }}
+              c/u
+            </div>
           </div>
 
           <div class="block mt-4">

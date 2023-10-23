@@ -180,6 +180,31 @@
 
 
         })
+    },
+    /** RECIBE 2 COORDENADAS Y DEVUELVE LA DISTANCIA EN KILOMETROS ENTRE ELLAS */
+    calcularDistanciaCoordenadas(direccion1,direccion2){
+        const lat1 = gradosARadianes(direccion1.latitud);
+        const lon1 = gradosARadianes(direccion1.longitud);
+        const lat2 = gradosARadianes(direccion2.latitud);
+        const lon2 = gradosARadianes(direccion2.longitud);
+        // Aplicar fórmula
+        const RADIO_TIERRA_EN_KILOMETROS = 6371;
+        let diferenciaEntreLongitudes = (lon2 - lon1);
+        let diferenciaEntreLatitudes = (lat2 - lat1);
+        let a = Math.pow(Math.sin(diferenciaEntreLatitudes / 2.0), 2) + Math.cos(lat1) * Math.cos(lat2) * Math.pow(Math.sin(diferenciaEntreLongitudes / 2.0), 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        console.log(RADIO_TIERRA_EN_KILOMETROS);
+        return RADIO_TIERRA_EN_KILOMETROS * c;
+    },
+    /** DETERMINA SI LA DISTANCIA (KILOMETROS)  ES MENOR O IGUAL AL RADIO PERMITIDO (METROS) */
+    distanciaPermitida(distancia, radio_permitido){
+        /** PASAR METROS A KILOMETROS */
+        const kilometros_permitidos = parseInt(radio_permitido) / 1000;
+        return (distancia <= kilometros_permitidos)
     }
+
 }
-  export default helpers;
+const gradosARadianes = (grados) => {
+    return grados * Math.PI / 180;
+};
+export default helpers;

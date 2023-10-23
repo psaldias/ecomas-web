@@ -10,6 +10,7 @@
     <div v-if="customHtml" v-html="customHtml"></div>
     <FooterView></FooterView>
     <Toplayer></Toplayer>
+    <ToplayerGeneral></ToplayerGeneral>
   </main>
 
   <Seo></Seo>
@@ -19,6 +20,7 @@
 import HeaderView from "./components/layout/HeaderView.vue";
 import FooterView from "./components/layout/FooterView.vue";
 import Toplayer from "/src/components/productos/producto/Toplayer.vue";
+import ToplayerGeneral from "/src/components/general/ToplayerGeneral.vue";
 
 import { useOpcionesGeneralesStore } from "./stores/opcionesGenerales";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
@@ -34,6 +36,7 @@ export default {
     CargandoSeccion,
     Toplayer,
     Seo,
+    ToplayerGeneral,
   },
   data() {
     return {

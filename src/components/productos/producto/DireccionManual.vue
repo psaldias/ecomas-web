@@ -59,12 +59,7 @@
           <div class="column">
             <div class="field">
               <label>Número</label>
-              <input
-                type="text"
-                class="input disabled"
-                v-model="direccion.numero"
-                readonly
-              />
+              <input type="text" class="input" v-model="direccion.numero" />
             </div>
           </div>
         </div>
@@ -78,6 +73,10 @@
         </div>
 
         <div class="block">
+          <p class="is-size-7">
+            Mueve el pin <i class="fa-solid fa-location-dot has-text-danger"></i> en el
+            mapa para señalar la dirección correcta
+          </p>
           <div id="mapPicker" ref="mapPicker" style="height: 200px"></div>
         </div>
 

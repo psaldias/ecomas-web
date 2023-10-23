@@ -23,6 +23,13 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         radio_pie:'',
         radio_texto_principal:'',
         mostrar_toplayer_home:true,
+
+        toplayer_general_contenido:'',
+        toplayer_general_estado:false,
+        toplayer_general_todo_el_sitio:false,
+        toplayer_general_color_fondo:false,
+        toplayer_general_padding:false,
+        toplayer_general_urls:[],
      }
   },
   actions: {

@@ -152,10 +152,30 @@ export default {
     direccionDefectoUsuario() {
       /** SI NO ESTÁ LOGUEADO NO HACER NADA */
       if (!this.storeCarroCompra.usuario) return;
+      if (!this.storeCarroCompra.compraRapida.direccion) {
+        const distancia = helpers.calcularDistanciaCoordenadas(
+          {
+            latitud: this.storeCarroCompra.usuario.shipping_direccion_completa.latitud,
+            longitud: this.storeCarroCompra.usuario.shipping_direccion_completa.longitud,
+          },
+          {
+            latitud: this.sucursalSeleccionada.fields.coordenadas_sucursal.latitud,
+            longitud: this.sucursalSeleccionada.fields.coordenadas_sucursal.longitud,
+          }
+        );
 
-      if (Object.keys(this.storeCarroCompra.compraRapida.direccion).length === 0) {
+        if (
+          !helpers.distanciaPermitida(
+            distancia,
+            this.store_opciones_generales.restricciones_sucursales.radio_permitido
+          )
+        )
+          return;
+
+        // console.log(distancia);
+        // console.log(this.storeCarroCompra.usuario.shipping_direccion_completa);
         this.storeCarroCompra.actualizarCompraRapida(
-          this.storeCarroCompra.usuario.shipping_direccion_completa.direccion,
+          this.storeCarroCompra.usuario.shipping_direccion_completa,
           "direccion"
         );
       }

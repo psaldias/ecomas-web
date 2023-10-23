@@ -163,8 +163,8 @@
 
           <div class="sucursal" v-for="sucursal in sucursalesRegion" :key="sucursal.ID">
             <div class="columns">
-              <div class="column item-sucursal is-3">
-                <div class="columns is-mobile is-gapless">
+              <div class="column item-sucursal is-3" v-if="esVentaDirecta(sucursal)">
+                <div class="columns is-mobile is-gapless" v-if="sucursal.acf.direccion">
                   <div class="column is-narrow mr-2">
                     <img src="/img/direccion.png" alt="Dirección" class="mt-1" />
                   </div>
@@ -398,6 +398,10 @@ export default {
     },
   },
   methods: {
+    // VALIDA SI LA SUCURSAL ES VENTA DIRECTA O VENTA ONLINE PARA DETERMINAR SI SE MUESTRA O NO LA DIRECCIÓN Y MAPA
+    esVentaDirecta(sucursal) {
+      return sucursal.tipo_sucursales.find((tipo) => tipo.slug == "tienda-venta-directa");
+    },
     /** CREAR ARRAY CON LOS IDS DE COMUNAS DONDE PODRIAN ESTAR LAS SUCURSALES */
     idsComunas() {
       let idsComunas = [];
@@ -443,11 +447,13 @@ export default {
     /** GENERAR URL DE GOOGLE MAPS */
     urlGoogle: function (sucursal) {
       return (
-        "https://maps.google.com/maps?q=" +
-        sucursal.acf.coordenadas_sucursal.latitud +
-        "," +
-        sucursal.acf.coordenadas_sucursal.longitud +
-        "&t=&z=14&ie=UTF8&iwloc="
+        "https://maps.google.com/maps/search/ecomas " + sucursal.acf.direccion
+        // "/@" +
+        // sucursal.acf.coordenadas_sucursal.latitud +
+        // "," +
+        // sucursal.acf.coordenadas_sucursal.longitud
+
+        // "&t=&z=14&ie=UTF8&iwloc="
       );
     },
     /** GENERAR URL DE WAZE */

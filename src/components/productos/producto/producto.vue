@@ -161,6 +161,7 @@ export default {
   },
   methods: {
     cambiarVariacion(variacion) {
+      if (!variacion) return;
       this.variacion = variacion;
       // this.producto.name = variacion.name;
       this.producto_activo.stock_quantity = variacion.stock_quantity;
@@ -187,7 +188,6 @@ export default {
       return nombre;
     },
     coloresVariacion(variacion) {
-      console.log(variacion.attributes);
       if (variacion.attributes) {
         return variacion.attributes;
         console.log(variacion.attributes.filter((atributo) => atributo.name == "Color"));
