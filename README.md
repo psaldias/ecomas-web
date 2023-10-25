@@ -52,6 +52,11 @@ aws s3 sync . s3://frontend.ecomas.cl
     - cambios en sucursales, ahora en dirección se muestra las comunas asociadas a la sucursal de pedidos online
     - Se agrega linea de separación entre los tipos de tienda
 
+  #### Fix v0.2
+    - Corrección en sucursales, seguia apareciendo WAZE en sucursales virtuales
+    - El campo de Dirección queda con la dirección ingresada
+    - Corrección en sección sucursales, ahora las sucursales virtuales muestra el nombre de la sucursal (del admin) en el cuadro de dirección y no todas las comunas asociadas.
+
 ### v1.0.25
   - Sección sucursales actualizada
   - Nueva sección Calculadora. /calculadora

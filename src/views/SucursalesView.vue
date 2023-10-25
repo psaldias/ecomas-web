@@ -189,14 +189,11 @@
                   </div>
                   <div class="column">
                     <strong>
-                      <span v-for="(comuna, index) in sucursal.regiones_comunas" class="">
-                        {{ obtenerComuna(comuna).name
-                        }}{{ index + 1 < sucursal.regiones_comunas.length ? ", " : "" }}
-                      </span>
+                      {{ sucursal.post_title }}
                     </strong>
                   </div>
                 </div>
-                <div class="columns is-mobile is-gapless">
+                <div class="columns is-mobile is-gapless" v-if="esVentaDirecta(sucursal)">
                   <div class="column is-narrow mr-2">
                     <img src="/img/mapa.png" alt="Ver mapa" class="mt-1" />
                   </div>

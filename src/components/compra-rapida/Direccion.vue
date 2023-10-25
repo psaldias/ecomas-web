@@ -23,6 +23,7 @@
               <GoogleMapsAutocompleteVue
                 v-on:placechanged="obtenerDireccion"
                 :country="['cl']"
+                :default="direccionPorDefecto"
                 id="direccion_google"
                 classname="input input-2 w-80"
                 placeholder="Ingresar Dirección (Calle, número, ciudad)"
@@ -87,6 +88,7 @@ export default {
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
       comentario_direccion: "",
+      direccionPorDefecto: "",
     };
   },
   async mounted() {
@@ -123,7 +125,6 @@ export default {
     /** DEVUELVE DIRECCIÓN COMPLETA PARA AGREGAR AGREGANDO CIUDAD Y PAIS SI EXISTEN */
     direccionCompleta() {
       let direccion = this.storeCarroCompra.compraRapida.direccion.direccionCompleta;
-
       if (this.storeCarroCompra.compraRapida.direccion.ciudad)
         direccion += ", " + this.storeCarroCompra.compraRapida.direccion.ciudad;
       if (this.storeCarroCompra.compraRapida.direccion.pais)
@@ -172,17 +173,15 @@ export default {
         )
           return;
 
-        // console.log(distancia);
-        // console.log(this.storeCarroCompra.usuario.shipping_direccion_completa);
-        this.storeCarroCompra.actualizarCompraRapida(
-          this.storeCarroCompra.usuario.shipping_direccion_completa,
-          "direccion"
-        );
+        this.setDireccion(this.storeCarroCompra.usuario.shipping_direccion_completa);
       }
       if (this.comentario_direccion == "") {
         this.comentario_direccion = this.storeCarroCompra.usuario.shipping_direccion_completa.comentario_direccion;
       }
+
+      this.direccionPorDefecto = this.direccionCompleta();
     },
+
     obtenerDireccion(data) {
       const region = RegionesYComunas.find((region) => {
         return region.name == data.administrative_area_level_1;
@@ -215,6 +214,10 @@ export default {
       // if (direccion.ciudad) direccion.direccionCompleta += ", " + direccion.ciudad;
       // if (direccion.pais) direccion.direccionCompleta += ", " + direccion.pais;
 
+      this.setDireccion(direccion);
+    },
+
+    setDireccion(direccion) {
       this.storeCarroCompra.actualizarCompraRapida(direccion, "direccion");
     },
   },
