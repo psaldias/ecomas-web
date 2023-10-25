@@ -11,7 +11,11 @@
             { 'is-3': categoria.slug != 'pellet' },
           ]"
         >
-          <h2 class="primero is-size-4"><b>PELLETS</b></h2>
+          <h2 class="primero is-size-4">
+            <b class="is-uppercase">
+              {{ categoria.name }}
+            </b>
+          </h2>
         </div>
         <div class="column py-0" v-if="categoria.slug != 'pellet'">
           <div class="opciones columns is-vcentered is-gapless mb-0 px-3">

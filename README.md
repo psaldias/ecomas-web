@@ -57,6 +57,9 @@ aws s3 sync . s3://frontend.ecomas.cl
     - El campo de Dirección queda con la dirección ingresada
     - Corrección en sección sucursales, ahora las sucursales virtuales muestra el nombre de la sucursal (del admin) en el cuadro de dirección y no todas las comunas asociadas.
 
+  #### Fix v0.3
+    - Corrección nombre categoría en productos, antes decia PELLETS en la sección de equipos.
+
 ### v1.0.25
   - Sección sucursales actualizada
   - Nueva sección Calculadora. /calculadora
