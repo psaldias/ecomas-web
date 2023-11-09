@@ -37,6 +37,13 @@ npm run lint
 #despliegue de dist
 aws s3 sync . s3://frontend.ecomas.cl
 ### Changelog<br>
+### v1.0.27
+ - Evento agregado al momento de registrarse un usuario
+    - Nombre Evento: registro_usuario
+    - event_category: "Registro",
+    - event_label: "Usuario registrado",
+
+
 ### v1.0.26
   - Sucursales: en las virtuales, no debe aparecer dirección ni mapa ( en el admin está como campo obligatorio)
   - Dirección manual: cuando seleccionas la ubicación con el pin, no siempre toma la dirección con número, pasó con un cliente de parcela en Puerto Varas y no lo dejaba avanzar, porque solicitaba numeración de la dirección y no se puede ingresar manual en el campo número.
