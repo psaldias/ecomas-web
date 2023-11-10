@@ -340,16 +340,14 @@ export default {
         const respuesta = await this.registrar_usuario(dataFormularioPost);
         this.mensajes[respuesta.tipo] = respuesta.mensaje;
         if (respuesta.tipo == "exito") {
-          // Después de que el usuario se registra con éxito, agrega el siguiente código:
           gtag("event", "registro_usuario", {
             event_category: "Registro",
             event_label: "Usuario registrado",
-            user_id: respuesta?.user_id, // ID del usuario
           });
 
-          setTimeout(() => {
-            this.$router.replace({ path: "/mi-cuenta/" });
-          }, 2000);
+          this.$router.push({
+            path: "/registro-exito/",
+          });
         }
         this.cargando = false;
       }

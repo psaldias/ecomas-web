@@ -49,6 +49,10 @@ const router = createRouter({
       name: "Registro",
       component: () => import("../views/RegistroView.vue")
     },{
+      path: "/registro-exito",
+      name: "Registro Exitoso" ,
+      component: () => import("../views/RegistroExitoView.vue")
+    },{
       path: "/contacto",
       name: "Contacto",
       component: () => import("../views/ContactoView.vue")

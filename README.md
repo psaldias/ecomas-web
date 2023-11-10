@@ -41,7 +41,8 @@ aws s3 sync . s3://frontend.ecomas.cl
  - Evento agregado al momento de registrarse un usuario
     - Nombre Evento: registro_usuario
     - event_category: "Registro",
-    - event_label: "Usuario registrado",
+    - event_label: "Usuario registrado"
+  - Se creó una página de exito para el registro de usuarios /registro-exito/
 
 
 ### v1.0.26
