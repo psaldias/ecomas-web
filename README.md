@@ -37,6 +37,10 @@ npm run lint
 #despliegue de dist
 aws s3 sync . s3://frontend.ecomas.cl
 ### Changelog<br>
+### v1.0.28
+ - Ubicación de tag de analytics movida dentro de las etiquetas head
+ - Agregado meta para validación de google
+
 ### v1.0.27
  - Evento agregado al momento de registrarse un usuario
     - Nombre Evento: registro_usuario
