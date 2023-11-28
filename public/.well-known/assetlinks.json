@@ -1,0 +1,14 @@
+[
+    {
+      "relation": [
+        "delegate_permission/common.handle_all_urls"
+      ],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "cl.ecomas.app",
+        "sha256_cert_fingerprints": [
+          "6E:53:6F:43:83:5F:C0:2C:27:70:3F:C2:15:8F:B4:9D:D5:5E:9F:35:65:FD:F3:D8:48:36:34:81:3B:2A:96:E7"
+        ]
+      }
+    }
+  ]

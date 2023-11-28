@@ -37,6 +37,11 @@ npm run lint
 #despliegue de dist
 aws s3 sync . s3://frontend.ecomas.cl
 ### Changelog<br>
+
+### v1.0.29
+ - Se agrega el archivo .well-known/assetlinks.json por petición de Carlos Zagal
+
+
 ### v1.0.28
  - Ubicación de tag de analytics movida dentro de las etiquetas head
  - Agregado meta para validación de google
