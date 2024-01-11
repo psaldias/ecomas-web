@@ -7,11 +7,7 @@
         </div>
       </a>
       <!-- <router-link :to="url" class="imagen" v-html="producto.imagen"> </router-link> -->
-      <Imagen
-        :imagen="producto_activo.imagen"
-        :alt="producto_activo.name"
-        :url="url"
-      ></Imagen>
+      <Imagen :imagen="producto_activo.imagen" :alt="producto_activo.name" :url="url"></Imagen>
 
       <div class="nombre">{{ producto_activo.name }}</div>
       <!--
@@ -21,43 +17,27 @@
       ></PrecioVariable> -->
       <Precio :precios="precios"></Precio>
 
-      <div
-        v-if="producto_activo.short_description"
-        class="descripcion"
-        v-html="producto_activo.short_description"
-      ></div>
+      <div v-if="producto_activo.short_description" class="descripcion" v-html="producto_activo.short_description"></div>
 
       <div class="block mb-2" v-if="producto.variable && variacionesColores.length > 0">
         <label for="" class="primero is-size-7"><b>Color</b></label>
         <div class="control color-producto">
           <div class="columns is-variable is-1 is-mobile is-multiline">
-            <a
-              v-for="variacion_producto in variacionesColores"
-              @click.prevent="
-                dropdown = false;
-                cambiarVariacion(variacion_producto);
-              "
-              href="#"
-              class="column is-narrow btn-color"
-              :class="{
-                'is-active': variacion_producto.id == variacion.id,
-              }"
-            >
-              <div
-                :style="'background-color:' + variacion_producto.attributes[0].hex"
-              ></div>
+            <a v-for="variacion_producto in variacionesColores" @click.prevent="
+              dropdown = false;
+            cambiarVariacion(variacion_producto);
+            " href="#" class="column is-narrow btn-color" :class="{
+  'is-active': variacion_producto.id == variacion.id,
+}">
+              <div :style="'background-color:' + variacion_producto.attributes[0].hex"></div>
             </a>
           </div>
         </div>
         <div class="control is-fullwidth" v-if="false">
           <div class="dropdown is-small is-fullwidth" :class="{ 'is-active': dropdown }">
             <div class="dropdown-trigger">
-              <button
-                class="button button-1 is-small has-text-left"
-                aria-haspopup="true"
-                aria-controls="dropdown-menu"
-                @click="dropdown = !dropdown"
-              >
+              <button class="button button-1 is-small has-text-left" aria-haspopup="true" aria-controls="dropdown-menu"
+                @click="dropdown = !dropdown">
                 <span class="button-text" v-html="nombreVariacion(variacion)"></span>
                 <span class="icon is-small">
                   <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -66,19 +46,12 @@
             </div>
             <div class="dropdown-menu" id="dropdown-menu" role="menu">
               <div class="dropdown-content">
-                <a
-                  v-for="variacion_producto in variaciones"
-                  v-html="nombreVariacion(variacion_producto)"
-                  @click.prevent="
-                    dropdown = false;
-                    cambiarVariacion(variacion_producto);
-                  "
-                  href="#"
-                  class="dropdown-item is-size-7"
-                  :class="{
-                    'is-active': variacion_producto.id == variacion.id,
-                  }"
-                >
+                <a v-for="variacion_producto in variaciones" v-html="nombreVariacion(variacion_producto)" @click.prevent="
+                  dropdown = false;
+                cambiarVariacion(variacion_producto);
+                " href="#" class="dropdown-item is-size-7" :class="{
+  'is-active': variacion_producto.id == variacion.id,
+}">
                 </a>
               </div>
             </div>
@@ -86,13 +59,8 @@
         </div>
       </div>
 
-      <Acciones
-        class="mt-2"
-        :stock="producto_activo.stock_quantity"
-        :stockStatus="producto_activo.stock_status"
-        :idProducto="producto_activo.id"
-        :producto="producto_activo"
-      ></Acciones>
+      <Acciones class="mt-2" :stock="producto_activo.stock_quantity" :stockStatus="producto_activo.stock_status"
+        :idProducto="producto_activo.id" :producto="producto_activo"></Acciones>
     </div>
   </main>
 </template>
@@ -119,6 +87,12 @@ export default {
   mounted() {
     this.producto_activo = JSON.parse(JSON.stringify(this.producto));
     if (this.producto.variable) this.cambiarVariacion(this.producto.variaciones[0]);
+  },
+  watch: {
+    producto() {
+      this.producto_activo = JSON.parse(JSON.stringify(this.producto));
+      if (this.producto.variable) this.cambiarVariacion(this.producto.variaciones[0]);
+    }
   },
   data() {
     return {

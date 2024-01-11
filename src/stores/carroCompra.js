@@ -76,6 +76,18 @@ export const useCarroCompraStore = defineStore('carroCompra', {
           productoSeleccionado:false,
           productos:[],
           metodo_pago:false,
+          con_facturacion:false,
+          facturacion:{
+            rut:'',
+            razon_social:'',
+            giro:'',
+            nombre:'',
+            apellidos:'',
+            direccion:{
+              direccionCompleta:''
+            },
+            telefono:'',
+          },
           carro:{
             is_empty:true,
             productos:[],
@@ -91,6 +103,12 @@ export const useCarroCompraStore = defineStore('carroCompra', {
         this.compraRapida[key] = data;
       else
         this.compraRapida = data;
+    },
+    actualizarCompraRapidaCarro(data, key = false) {
+      if(key)
+        this.compraRapida.carro[key] = data;
+      else
+        this.compraRapida.carro = data;
     },
     actualizarMensaesCompraRapida(data, key) {
         this.compraRapida.carro.mensajes[key] = data;

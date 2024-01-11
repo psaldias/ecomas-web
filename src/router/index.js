@@ -163,22 +163,26 @@ const router = createRouter({
       component: () => import("../views/PaginaDefaultView.vue"),
 
     },
-    //PREGUNTAS FRECUENTES
     {
       path: "/bases-promocionales",
       name: "Bases Promocionales",
       component: () => import("../views/BasesPromocionalesView.vue")
     },
-    //PREGUNTAS FRECUENTES
     {
       path: "/terminos-y-condiciones",
       name: "Términos y Condiciones",
       component: () => import("../views/PaginaDefaultView.vue")
-    },//PREGUNTAS FRECUENTES
+    },
     {
       path: "/politicas-y-devoluciones",
       name: "Políticas y Devoluciones",
       component: () => import("../views/PaginaDefaultView.vue")
+    },
+
+    {
+      path: "/comparador",
+      name: "Comparador",
+      component: () => import("../views/ComparadorView.vue")
     },
 
 

@@ -66,6 +66,8 @@ export default {
         data.usuario = this.storeCarroCompra.usuarioCarroCompra.id;
         data.metodo_pago = this.storeCarroCompra.compraRapida.metodo_pago;
         data.origen = localStorage.origen;
+        data.con_facturacion = this.storeCarroCompra.compraRapida.con_facturacion;
+        data.facturacion = this.storeCarroCompra.compraRapida.facturacion;
 
         let headers = {};
         if(this.storeCarroCompra.usuarioCarroCompra.token){

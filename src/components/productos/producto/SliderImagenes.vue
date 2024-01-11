@@ -31,7 +31,6 @@ export default {
   computed: {},
   methods: {
     cargarSlider() {
-      console.log();
       /** CREAR INSTANCIA DE CARRUSEL */
       $(".galeria-producto").slick({
         slidesToShow: 4,

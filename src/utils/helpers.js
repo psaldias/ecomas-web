@@ -49,6 +49,7 @@
             return false;
 
 
+        rutCompleto = rutCompleto.split(".").join("");
         rutCompleto = rutCompleto.replace("‐","-");
         if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto )){
             return false;

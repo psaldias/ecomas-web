@@ -1,6 +1,133 @@
 
 @import "variables.scss";
-@media  (max-width:1000px) {
+@media  (max-width:1500px) {
+    header{
+        font-size: .9em;
+        .top{
+            .logo{
+                max-width: 180px;
+                width: 100%;
+            }
+
+        }
+        .menu{
+            font-size: 1em;
+        }
+    }
+
+}
+@media  (max-width:1300px) {
+    header .top .datos-carro .ingresar span{
+        display: none;
+    }
+    header .menu{
+        padding:0;
+    }
+}
+@media  (max-width:1024px) {
+    header{
+        font-size: .9em;
+        .top{
+            .ingresar{
+                span{
+                    display: none;
+                }
+            }
+        }
+    }
+    header{
+        margin-top: 0;
+        margin-bottom: 1.5em;
+        .rrss{
+            display: none;
+        }
+        .top{
+            border-radius: 0;
+            margin-bottom: .5em;
+        }
+        .comuna,
+        .ingresar,
+        .icono-carro{
+            padding:0;
+        }
+        .comuna,
+        .ingresar{
+            padding:0;
+            margin-right: .7em;
+            i{
+                margin-right: .1em !important;
+                font-size: 1rem;
+            }
+        }
+        .comuna{
+            i{
+                margin-right: .3em !important;
+            }
+        }
+        .principal{
+            padding:0 20px;
+        }
+        .logo{
+            img{
+                max-width: 150px;
+                width: 100%;
+                display: block;
+            }
+        }
+        .btn-menu{
+            display: block;
+        }
+        .top{
+
+            .menu{
+                position: absolute;
+                top: 100%;
+                right: 0;
+                left: 0;
+                z-index: 999;
+                background-color: color("segundo");
+                min-width: 300px;
+                padding:1em 0;
+                display: none;
+
+                &.active{
+                    display: block;
+                }
+                ul{
+                    display: block !important;
+                    width: 100%;
+                    text-align: right;
+                    li{
+                        margin:0  0 1em 0!important;
+                        text-align: right;
+                        a{
+                            color:#FFF ;
+                            display: block;
+                            padding:.5em 1em;
+                        }
+                    }
+                }
+                .dropdown {
+                    display: block;
+                    .dropdown-menu{
+                        display: block;
+                        position: relative;
+                        .dropdown-content{
+                            background: lighten(color("segundo"), 5%);
+                            .dropdown-item{
+                                padding:.5em 1em;
+                                text-align: right;
+                                &:hover{
+                                    background:none;
+                                }
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
+    }
     .bloque-texto-imagen
     {
         padding:0;
@@ -35,8 +162,26 @@
             }
         }
     }
-}
-@media  (max-width:768px) {
+    .wrapper{
+        width: 100%;
+        padding:0 20px;
+    }
+    .wrapper-fullm{
+        max-width: 100%;
+        width: 100%;
+        padding:0;
+    }
+
+    .items-comparador{
+
+        overflow-x: auto;
+        .column-comparador{
+            min-width: 220px;
+
+        }
+    }
+} // 1024PX
+@media  (max-width:1024px) {
     .pagination.ml-5{
         margin-left: 0 !important;
     }
@@ -47,70 +192,8 @@
         margin-left:auto;
         margin-right:auto;
     }
-    .wrapper{
-        width: 100%;
-        padding:0 20px;
-    }
-    .wrapper-fullm{
-        max-width: 100%;
-        width: 100%;
-        padding:0;
-    }
-    header{
-        margin-top: 0;
-        margin-bottom: 1.5em;
-        .top{
-            border-radius: 0;
-            margin-bottom: .5em;
-        }
-        .comuna,
-        .ingresar,
-        .icono-carro{
-            padding:0;
-        }
-        .comuna,
-        .ingresar{
-            padding:0;
-            margin-right: .7em;
-            i{
-                margin-right: .1em !important;
-            }
-        }
-        .principal{
-            padding:0 20px;
-        }
-        .logo{
-            img{
-                max-width: 150px;
-                display: block;
-            }
-        }
-        .btn-menu{
-            display: block;
-        }
-        .menu{
-            position: absolute;
-            top: 120px;
-            right: 0;
-            left: 0;
-            z-index: 999;
-            background-color: color("segundo");
-            min-width: 300px;
-            padding:1em 20px;
-            display: none;
-            &.active{
-                display: block;
-            }
-            ul{
-                display: block !important;
-                width: 100%;
-                text-align: right;
-                li{
-                    margin:0  0 1em 0!important;
-                }
-            }
-        }
-    }
+
+
     .producto.interior  {
        font-size: .9em;
        .caracteristicas{
@@ -138,6 +221,15 @@
        }
     }
 
+    .slider-galeria-gral{
+        padding:0 1.5em;
+        .slick-arrow{
+            width: 30px;
+            line-height: 30px;
+            height: 30px;
+            font-size: .9em;
+        }
+    }
     .slider-productos{
         padding:0 1em;
     }
@@ -366,11 +458,14 @@
 
 }
 
-@media  (max-width:360px) {
+@media  (max-width:380px) {
     .seleccionar-ubicacion{
         &:after {
           left: 50% !important;
         }
 
+    }
+    header{
+        font-size:.8em;
     }
 }

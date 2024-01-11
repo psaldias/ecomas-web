@@ -45,60 +45,35 @@
                   </div>
                 </div>
 
-                <div class="columns">
+                <div class="columns is-vcentered">
                   <div class="column is-5">
-                    <a
-                      class="imagen"
-                      data-fancybox="galeria"
-                      :href="producto.images[0].src"
-                      v-html="producto.imagen"
-                    ></a>
-                    <SliderImagenesProducto
-                      :imagenes="producto.images"
-                    ></SliderImagenesProducto>
+                    <a class="imagen" data-fancybox="galeria" :href="producto.images[0].src" v-html="producto.imagen"></a>
+                    <div class="is-hidden-tablet">
+                      <SliderImagenesProducto v-if="mobile" :imagenes="producto.images"></SliderImagenesProducto>
+                    </div>
                   </div>
                   <div class="column">
                     <div class="nombre">{{ producto.name }}</div>
 
                     <Precio :precios="precios" class="mb-5"></Precio>
 
-                    <div
-                      v-if="
-                        this.producto.campos_adicionales.despacho_domicilio ||
-                        this.producto.campos_adicionales.retiro_en_tienda
-                      "
-                      class="columns is-gapless is-mobile mb-5 caracteristicas"
-                    >
-                      <div
-                        class="column"
-                        v-if="this.producto.campos_adicionales.despacho_domicilio"
-                      >
-                        <div
-                          class="columns is-mobile is-gapless envio-despacho is-vcentered"
-                        >
+                    <div v-if="this.producto.campos_adicionales.despacho_domicilio ||
+                      this.producto.campos_adicionales.retiro_en_tienda
+                      " class="columns is-gapless is-mobile mb-5 caracteristicas">
+                      <div class="column" v-if="this.producto.campos_adicionales.despacho_domicilio">
+                        <div class="columns is-mobile is-gapless envio-despacho is-vcentered">
                           <div class="column is-narrow mr-2">
                             <i class="fa-solid fa-truck primero"></i>
                           </div>
-                          <div
-                            class="column gris3"
-                            v-html="this.producto.campos_adicionales.despacho_domicilio"
-                          ></div>
+                          <div class="column gris3" v-html="this.producto.campos_adicionales.despacho_domicilio"></div>
                         </div>
                       </div>
-                      <div
-                        class="column"
-                        v-if="this.producto.campos_adicionales.retiro_en_tienda"
-                      >
-                        <div
-                          class="columns is-mobile is-gapless envio-despacho is-vcentered"
-                        >
+                      <div class="column" v-if="this.producto.campos_adicionales.retiro_en_tienda">
+                        <div class="columns is-mobile is-gapless envio-despacho is-vcentered">
                           <div class="column is-narrow mr-2">
                             <i class="fa-solid fa-shop primero"></i>
                           </div>
-                          <div
-                            class="column gris3"
-                            v-html="this.producto.campos_adicionales.retiro_en_tienda"
-                          ></div>
+                          <div class="column gris3" v-html="this.producto.campos_adicionales.retiro_en_tienda"></div>
                         </div>
                       </div>
                     </div>
@@ -107,35 +82,22 @@
                       <label for="" class="primero"><b>Color</b></label>
                       <div class="control color-producto">
                         <div class="columns is-variable is-1 is-mobile is-multiline">
-                          <a
-                            v-for="variacion_producto in variacionesColores"
-                            @click.prevent="
-                              dropdown = false;
-                              cambiarVariacion(variacion_producto);
-                            "
-                            href="#"
-                            class="column is-narrow btn-color"
-                            :class="{
-                              'is-active': variacion_producto.id == variacion.id,
-                            }"
-                          >
-                            <div
-                              :style="
-                                'background-color:' + variacion_producto.attributes[0].hex
-                              "
-                            ></div>
+                          <a v-for="variacion_producto in variacionesColores" @click.prevent="
+                            dropdown = false;
+                          cambiarVariacion(variacion_producto);
+                          " href="#" class="column is-narrow btn-color" :class="{
+  'is-active': variacion_producto.id == variacion.id,
+}">
+                            <div :style="'background-color:' + variacion_producto.attributes[0].hex
+                              "></div>
                           </a>
                         </div>
                       </div>
                       <div class="control" v-if="false">
                         <div class="dropdown" :class="{ 'is-active': dropdown }">
                           <div class="dropdown-trigger">
-                            <button
-                              class="button button-1"
-                              aria-haspopup="true"
-                              aria-controls="dropdown-menu"
-                              @click="dropdown = !dropdown"
-                            >
+                            <button class="button button-1" aria-haspopup="true" aria-controls="dropdown-menu"
+                              @click="dropdown = !dropdown">
                               <span v-html="nombreVariacion(variacion)"></span>
                               <span class="icon is-small">
                                 <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -144,71 +106,63 @@
                           </div>
                           <div class="dropdown-menu" id="dropdown-menu" role="menu">
                             <div class="dropdown-content">
-                              <a
-                                v-for="variacion_producto in variacionesColores"
-                                v-html="nombreVariacion(variacion_producto)"
-                                @click.prevent="
+                              <a v-for="variacion_producto in variacionesColores"
+                                v-html="nombreVariacion(variacion_producto)" @click.prevent="
                                   dropdown = false;
-                                  cambiarVariacion(variacion_producto);
-                                "
-                                href="#"
-                                class="dropdown-item"
-                                :class="{
-                                  'is-active': variacion_producto.id == variacion.id,
-                                }"
-                              >
+                                cambiarVariacion(variacion_producto);
+                                " href="#" class="dropdown-item" :class="{
+  'is-active': variacion_producto.id == variacion.id,
+}">
                               </a>
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                    <Acciones
-                      :stock="producto.stock_quantity"
-                      :stockStatus="producto.stock_status"
-                      :idProducto="producto.id"
-                      :producto="producto"
-                      :variacion="false"
-                    ></Acciones>
+                    <Acciones :stock="producto.stock_quantity" :stockStatus="producto.stock_status"
+                      :idProducto="producto.id" :producto="producto" :variacion="false"></Acciones>
+                  </div>
+                </div>
+                <div class="columns is-gapless is-hidden-mobile">
+                  <div class="column is-5">
+                    <SliderImagenesProducto v-if="!mobile" :imagenes="producto.images"></SliderImagenesProducto>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="column descripcion is-size-6">
-              <div
-                class="tabs is-boxed mb-0 is-fullwidth bg-blanco tabs-producto"
-                v-if="producto.campos_adicionales.tabla_ficha_tecnica"
-              >
+            <div class="column descripcion is-size-6 is-5-fullhd is-4-desktop is-12-tablet">
+              <div class="tabs is-boxed mb-0 is-fullwidth bg-blanco tabs-producto" v-if="producto.campos_adicionales.tabla_ficha_tecnica ||
+                producto.campos_adicionales.instalacion
+                ">
                 <ul>
                   <li :class="{ 'is-active': tab_activa == 1 }">
                     <a @click.prevent="tab_activa = 1">
                       <span>CARACTERÍSTICAS</span>
                     </a>
                   </li>
-                  <li :class="{ 'is-active': tab_activa == 2 }">
+                  <li :class="{ 'is-active': tab_activa == 2 }" v-if="producto.campos_adicionales.tabla_ficha_tecnica">
                     <a @click.prevent="tab_activa = 2">
                       <span>FICHA TÉCNICA</span>
                     </a>
                   </li>
+                  <li :class="{ 'is-active': tab_activa == 3 }" v-if="producto.campos_adicionales.instalacion">
+                    <a @click.prevent="tab_activa = 3">
+                      <span>INSTALACION</span>
+                    </a>
+                  </li>
                 </ul>
               </div>
-              <div
-                class="card p-5"
-                :class="{
-                  'height-100-tab-producto':
-                    producto.campos_adicionales.tabla_ficha_tecnica,
-                  'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
-                }"
-              >
+              <div class="card p-5" :class="{
+                'height-100-tab-producto':
+                  producto.campos_adicionales.tabla_ficha_tecnica,
+                'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
+              }">
                 <div v-if="tab_activa == 1">
                   <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
                   <div class="content gris3" v-html="producto.description"></div>
                 </div>
-                <div
-                  v-if="
-                    tab_activa == 2 && producto.campos_adicionales.tabla_ficha_tecnica
-                  "
-                >
+                <div v-if="tab_activa == 2 && producto.campos_adicionales.tabla_ficha_tecnica
+                  ">
                   <h2 class="primero mb-2"><b>FICHA TÉCNICA</b></h2>
                   <div class="content gris3 tab-ficha-tecnica">
                     <table class="table table-sm is-narrow gris3 is-bordered">
@@ -221,6 +175,20 @@
                     </table>
                   </div>
                 </div>
+                <div v-if="tab_activa == 3 && producto.campos_adicionales.instalacion">
+                  <h2 class="primero mb-2"><b>INSTALACIÓN</b></h2>
+                  <div class="content gris3 tab-ficha-tecnica">
+                    <div class="content gris3" v-html="producto.campos_adicionales.instalacion"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="block" v-if="producto.campos_adicionales.galeria">
+            <div class="slider-galeria-gral">
+              <div class="item" v-for="imagen in producto.campos_adicionales.galeria">
+                <img :src="imagen" alt="" />
               </div>
             </div>
           </div>
@@ -230,27 +198,21 @@
           </div>
           <CargandoSeccion v-if="cargando_productos_relacionados"></CargandoSeccion>
 
-          <SliderProductos
-            v-else
-            titulo="Productos Relacionados"
-            :categoria="categoria.id"
-            :productos="productos_relacionados"
-          ></SliderProductos>
+          <SliderProductos v-else titulo="Productos Relacionados" :categoria="categoria.id"
+            :productos="productos_relacionados"></SliderProductos>
         </div>
       </div>
       <CargandoSeccion v-if="cargando"></CargandoSeccion>
     </div>
   </main>
-  <Seo
-    v-if="!cargando && producto.hasOwnProperty('yoast_head_json')"
-    :data_api="producto.yoast_head_json"
-  ></Seo>
+  <Seo v-if="!cargando && producto.hasOwnProperty('yoast_head_json')" :data_api="producto.yoast_head_json"></Seo>
 </template>
 
 <script>
 import "/src/assets/libs/fancybox/jquery.fancybox.min.js";
 import "/src/assets/libs/fancybox/jquery.fancybox.min.css";
 
+import "/src/assets/libs/jquery.min.js";
 import "/src/assets/libs/slick/slick.min.js";
 import "/src/assets/libs/slick/slick.min.css";
 import "/src/assets/libs/slick/slick-theme.min.css";
@@ -289,6 +251,7 @@ export default {
       producto: {},
       variaciones: {},
       variacion: false,
+      mobile: false,
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
       dropdown: false,
@@ -309,6 +272,15 @@ export default {
     $.fancybox.defaults.backFocus = false;
 
     document.title = this.producto.name || "";
+
+    this.mediaQuery();
+    window.addEventListener("resize", (event) => {
+      this.mediaQuery();
+    });
+
+    if (this.producto.campos_adicionales.galeria) {
+      this.cargarSliderGaleria();
+    }
   },
   watch: {
     async sucursalCarro() {
@@ -319,7 +291,7 @@ export default {
     conStock() {
       if (
         (this.producto.stock_quantity == null) &
-          (this.producto.stock_status == "instock") ||
+        (this.producto.stock_status == "instock") ||
         parseInt(this.producto.stock_quantity) > 0
       ) {
         return true;
@@ -406,14 +378,15 @@ export default {
     async obtenerProducto() {
       const respuesta_producto = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
-          "&slug=" +
-          this.$route.params.slug +
-          "&sucursal=" +
-          this.store_opciones_generales.sucursal_seleccionada.ID,
+        "&slug=" +
+        this.$route.params.slug +
+        "&sucursal=" +
+        this.store_opciones_generales.sucursal_seleccionada.ID,
         { authorization: true, cache: true }
       );
 
       if (respuesta_producto.data.length == 1) {
+        console.log(respuesta_producto.data);
         this.producto = JSON.parse(JSON.stringify(respuesta_producto.data[0]));
         this.producto_original = respuesta_producto.data[0];
       }
@@ -421,15 +394,16 @@ export default {
     async obtenerVariaciones() {
       const respuesta = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_URL_API +
-          "/wc/v3/products/" +
-          this.producto_original.id +
-          "/variations" +
-          "?sucursal=" +
-          this.store_opciones_generales.sucursal_seleccionada.ID,
+        "/wc/v3/products/" +
+        this.producto_original.id +
+        "/variations" +
+        "?sucursal=" +
+        this.store_opciones_generales.sucursal_seleccionada.ID,
         { authorization: true, cache: true }
       );
 
       this.variaciones = respuesta.data;
+
       if (this.variaciones.length > 0) {
         this.cambiarVariacion(this.variaciones[0]);
       }
@@ -438,7 +412,7 @@ export default {
     },
     cambiarVariacion(variacion) {
       this.variacion = variacion;
-      console.log(variacion);
+      // console.log(variacion);
       // this.producto.name = variacion.name;
       this.producto.stock_quantity = variacion.stock_quantity;
       this.producto.stock_status = variacion.stock_status;
@@ -469,13 +443,13 @@ export default {
 
       const respuesta = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_URL_API +
-          "/wc/v3/products/?" +
-          "exclude=" +
-          this.producto_original.id +
-          campo_relacionados +
-          "&sucursal=" +
-          this.store_opciones_generales.sucursal_seleccionada.ID +
-          per_page,
+        "/wc/v3/products/?" +
+        "exclude=" +
+        this.producto_original.id +
+        campo_relacionados +
+        "&sucursal=" +
+        this.store_opciones_generales.sucursal_seleccionada.ID +
+        per_page,
         { authorization: true, cache: true }
       );
       this.productos_relacionados = respuesta.data;
@@ -514,6 +488,29 @@ export default {
       });
 
       return nombre;
+    },
+    mediaQuery() {
+      this.mobile = window.matchMedia("(max-width: 768px)").matches;
+    },
+    cargarSliderGaleria() {
+      console.log("aca");
+      /** CREAR INSTANCIA DE CARRUSEL */
+      setTimeout(() => {
+        $(".slider-galeria-gral").slick({
+          slidesToShow: 1,
+          dots: false,
+          arrows: true,
+          infinite: false,
+          pauseOnHover: false,
+          pauseOnFocus: false,
+          autoplay: false,
+          autoplaySpeed: 5000,
+          prevArrow:
+            '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
+          nextArrow:
+            '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
+        });
+      }, 300);
     },
   },
 };

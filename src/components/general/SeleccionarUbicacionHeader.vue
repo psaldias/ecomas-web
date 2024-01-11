@@ -9,7 +9,7 @@
       "
     >
       <i class="primero mr-1 fa-solid fa-location-dot"></i>
-      {{ this.store_opciones_generales.sucursal_seleccionada.post_title }}
+      <span>{{ this.store_opciones_generales.sucursal_seleccionada.post_title }}</span>
     </a>
 
     <section class="seleccionar-ubicacion" ref="seleccionarUbicacion" v-if="mostrarMenu">

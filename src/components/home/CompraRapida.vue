@@ -41,7 +41,7 @@
           <div class="block mt-4">
             <a
               href="#"
-              @click.prevent="irACompraRapida(producto.id)"
+              @click.prevent="verToplayer(producto)"
               class="button is-rounded has-background-black is-toggle-rounded is-block has-text-centered has-text-white"
             >
               <i class="has-text-white fa-solid fa-cart-shopping mr-1"></i>
@@ -52,12 +52,18 @@
       </div>
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
+    <ToplayerCompraRapida
+      :data_producto="producto_toplayer"
+      :ver_toplayer="toplayer"
+      @cerrarTopLayer="toplayer = false"
+    ></ToplayerCompraRapida>
   </main>
 </template>
 
 <script>
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import CargandoSeccion from "../general/CargandoSeccion.vue";
+import ToplayerCompraRapida from "../productos/producto/ToplayerCompraRapida.vue";
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 export default {
   data() {
@@ -65,6 +71,8 @@ export default {
       cargando: false,
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
+      toplayer: false,
+      producto_toplayer: false,
     };
   },
   mounted() {
@@ -86,16 +94,23 @@ export default {
     },
   },
   methods: {
+    verToplayer(producto) {
+      this.storeCarroCompra.actualizarCompraRapida(producto.id, "productoSeleccionado");
+      this.toplayer = true;
+      this.producto_toplayer = producto;
+    },
     irACompraRapida(id) {
-      this.storeCarroCompra.actualizarCompraRapida(id, "productoSeleccionado");
-      this.$router.push({ path: "/compra-rapida/" });
+      this.verToplayer(id);
     },
     async obtenerProductosCarro() {
       this.cargando = true;
       await this.obtenerProductosCompraRapida();
       this.cargando = false;
     },
+    cerrar_toplayer() {
+      this.toplayer = false;
+    },
   },
-  components: { CargandoSeccion },
+  components: { CargandoSeccion, ToplayerCompraRapida },
 };
 </script>

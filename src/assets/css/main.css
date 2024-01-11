@@ -698,7 +698,7 @@ body {
 
 .seleccionar-ubicacion {
   position: absolute;
-  top: 50px;
+  top: 100%;
   z-index: 9999;
   transform: translateX(-60%);
   max-width: 400px;
@@ -739,15 +739,30 @@ body {
 header {
   position: relative;
   margin-top: 0.8em;
+  margin-bottom: 0.5em;
 }
 header .top {
-  overflow: hidden;
   border-radius: 10px;
   font-size: 0.8em;
+}
+header .top .logo {
+  max-width: 200px;
+}
+header .top .logo a {
+  display: block;
+}
+header .top .logo img {
+  transform: translateY(-10%);
 }
 header .top .rrss a {
   display: inline-block;
   vertical-align: middle;
+}
+header .top .rrss a:not(:first-child) {
+  margin-left: 1em;
+}
+header .top .rrss a i {
+  display: block;
 }
 header .top .whatsapp {
   font-size: 1.1em;
@@ -773,9 +788,13 @@ header .top .buscador form .input {
   border-bottom-left-radius: 15px;
   padding-left: 1em;
   font-weight: bold;
+  border-left: 1px solid #a6a6a6;
+  border-top: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
 }
 header .top .buscador form .input::placeholder {
   color: #a28c9e;
+  font-weight: normal;
 }
 header .top .buscador form button {
   display: block;
@@ -786,6 +805,9 @@ header .top .buscador form button {
   border-bottom-right-radius: 15px;
   padding: 0 0.75em;
   display: inline-block;
+  border-right: 1px solid #a6a6a6;
+  border-top: 1px solid #a6a6a6;
+  border-bottom: 1px solid #a6a6a6;
 }
 header .top .buscador form .input, header .top .buscador form button {
   height: 30px;
@@ -794,18 +816,32 @@ header .top .buscador form .input, header .top .buscador form button {
 header .top .menu ul {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 header .top .menu ul li {
   font-size: 0.9em;
   margin: 0 0.75em;
+  text-align: center;
 }
 header .top .menu ul li:last-child {
   margin-right: 0;
 }
 header .top .menu ul li a {
-  color: #FFF;
+  color: #1a1519;
+  font-size: 1.1em;
   font-weight: bold;
+}
+header .top .menu ul li a span {
+  color: inherit;
+}
+header .top .menu ul li a:hover {
+  color: #80BD01;
+}
+header .top .menu ul li .dropdown-menu {
+  text-align: left;
+}
+header .top .menu ul li .dropdown-menu a {
+  font-weight: normal;
 }
 header .top .datos-carro > .column {
   padding-top: 0;
@@ -813,6 +849,16 @@ header .top .datos-carro > .column {
 }
 header .top .datos-carro .ubicacion {
   font-weight: bold;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+header .top .datos-carro .ingresar {
+  max-width: 150px;
+}
+header .top .datos-carro .ingresar span {
+  color: #000;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 header .top .datos-carro .icono-carro {
   position: relative;
@@ -856,7 +902,6 @@ header .menu-movil {
   width: 100%;
 }
 header .menu-movil #btn-menu {
-  margin-top: 0.3em;
   font-size: 2.4em;
   line-height: 0.4em;
   display: inline-block;
@@ -1498,10 +1543,12 @@ footer nav a:hover {
   opacity: 0;
 }
 
+.slider-galeria-gral,
 .slider-productos {
   padding: 0 3em;
   position: relative;
 }
+.slider-galeria-gral .slick-arrow,
 .slider-productos .slick-arrow {
   position: absolute;
   background: #FFF;
@@ -1516,17 +1563,21 @@ footer nav a:hover {
   border-radius: 50%;
   text-align: center;
 }
+.slider-galeria-gral .slick-arrow.slick-prev-ecomas,
 .slider-productos .slick-arrow.slick-prev-ecomas {
   left: 0;
 }
+.slider-galeria-gral .slick-arrow.slick-next-ecomas,
 .slider-productos .slick-arrow.slick-next-ecomas {
   right: 0;
 }
+.slider-galeria-gral .slick-track,
 .slider-productos .slick-track {
   height: 100%;
   padding: 1em 0;
   display: flex;
 }
+.slider-galeria-gral .slick-track .slick-slide,
 .slider-productos .slick-track .slick-slide {
   height: auto !important;
   padding: 0 0.5em;
@@ -1583,7 +1634,7 @@ footer nav a:hover {
   background: url("/img/telefono-compra-rapida.jpg") no-repeat left center;
 }
 .interior-compra-rapida .card-compra-rapida.card-datos {
-  background: url("/img/datos-compra-rapida.jpg") no-repeat left center;
+  background: url("/img/datos-compra-rapida.jpg") no-repeat left 100px;
 }
 .interior-compra-rapida .card-compra-rapida.card-datos .input {
   height: 1.5em;
@@ -1631,7 +1682,7 @@ footer nav a:hover {
 .interior-compra-rapida .card-compra-rapida .input-2 {
   border: none;
   border-radius: 0;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #c5c5c5;
   width: auto;
   box-shadow: none;
   font-weight: bold;
@@ -1640,6 +1691,9 @@ footer nav a:hover {
 }
 .interior-compra-rapida .card-compra-rapida .input-2.is-danger {
   border-color: #f14668;
+}
+.interior-compra-rapida .card-compra-rapida .input-2::placeholder {
+  font-weight: normal;
 }
 .interior-compra-rapida .card-compra-rapida .select-2 {
   min-width: 200px;
@@ -2032,4 +2086,67 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
 
 .border-right-sucursales {
   border-right: 1px solid rgba(128, 189, 1, 0.3215686275);
+}
+
+.interior-producto .producto .imagen img {
+  height: 250px;
+  display: block;
+  margin: 0 auto;
+}
+
+.producto-comparador {
+  height: 400px;
+}
+.producto-comparador .producto {
+  font-size: 0.7em;
+}
+.producto-comparador .producto .imagen {
+  height: 150px;
+}
+.producto-comparador .producto .imagen img {
+  height: 150px;
+}
+.producto-comparador .producto .color-producto .columns {
+  margin-top: 0.3em;
+}
+.producto-comparador .producto .color-producto .column {
+  padding: 0 0.25rem;
+}
+.producto-comparador .producto .acciones > .columns {
+  flex-wrap: wrap;
+}
+.producto-comparador .producto .acciones > .columns .column {
+  flex: 1;
+}
+.producto-comparador .producto .acciones > .columns .cantidad {
+  margin: 0 0 0.5em 0;
+  justify-content: center;
+}
+.producto-comparador .producto .acciones > .columns .comprar {
+  width: 100%;
+}
+
+.items-comparador {
+  min-height: 300px;
+}
+.items-comparador::-webkit-scrollbar {
+  width: 10px;
+  height: 5px;
+}
+.items-comparador::-webkit-scrollbar-track {
+  background-color: #F0F0F0;
+}
+.items-comparador::-webkit-scrollbar-thumb {
+  background: #80BD01;
+}
+
+.detalle-comparador .imagen {
+  width: 50px;
+  height: 50px;
+  margin: 0 auto 0.3em auto;
+}
+.detalle-comparador .imagen img {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
 }
