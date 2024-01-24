@@ -1,7 +1,11 @@
 <template>
   <div class="columns">
     <div class="column">
-      <div v-html="storeCarroCompra.compraRapida.carro.mensajes" class="mb-2"></div>
+      <article class="message is-danger mb-2" v-if="storeCarroCompra.compraRapida.carro.mensajes">
+        <div class="message-body" v-html="storeCarroCompra.compraRapida.carro.mensajes">
+
+        </div>
+      </article>
     </div>
   </div>
 

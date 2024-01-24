@@ -122,10 +122,10 @@ export default {
     limiteStock() {
       if (this.producto.sold_individually) return 1;
 
-      if ((this.stock == null) & (this.stockStatus == "instock")) {
+      if ((this.producto.stock_quantity == null) & (this.stockStatus == "instock")) {
         return false;
       }
-      return parseInt(this.stock);
+      return parseInt(this.producto.stock_quantity);
     },
   },
   methods: {
