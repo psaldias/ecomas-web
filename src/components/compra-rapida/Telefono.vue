@@ -18,39 +18,22 @@
               <label class="primero">Ingresa tu nombre</label>
 
               <div class="control">
-                <input
-                  type="text"
-                  class="input input-2"
-                  v-model="nombre"
-                  @keypress="validarLetras"
-                />
+                <input type="text" class="input input-2" v-model="nombre" @keypress="validarLetras" />
               </div>
             </div>
 
             <div class="field mb-4">
               <label class="primero">Ingresa tu Email</label>
               <div class="control">
-                <input
-                  type="email"
-                  class="input input-2"
-                  v-model="email"
-                  :class="{ disabled: this.usuarioCarroCompra() }"
-                  :readonly="this.usuarioCarroCompra()"
-                />
+                <input type="email" class="input input-2" v-model="email" :class="{ disabled: this.usuarioCarroCompra() }"
+                  :readonly="this.usuarioCarroCompra()" />
               </div>
             </div>
 
             <label class="primero">Ingresa tu teléfono</label>
             <div class="field">
-              <input
-                class="input input-2"
-                type="text"
-                v-model="telefono"
-                @focus="moverCursor"
-                @keypress="validarInputTelefono"
-                maxlength="12"
-                pattern="[0-9]"
-              />
+              <input class="input input-2" type="text" v-model="telefono" @focus="moverCursor"
+                @keypress="validarInputTelefono" maxlength="12" pattern="[0-9]" />
             </div>
             <div class="block">
               <label class="checkbox primero">
@@ -59,17 +42,10 @@
               </label>
             </div>
 
-            <facturacion
-              :dataFormularioFacturacion="dataFormularioFacturacion"
-              v-if="mostrar_facturacion"
-            ></facturacion>
+            <facturacion :dataFormularioFacturacion="dataFormularioFacturacion" v-if="mostrar_facturacion"></facturacion>
 
             <div class="block has-text-right-tablet">
-              <a
-                href="#"
-                class="button is-rounded is-small button-icono px-5"
-                @click.prevent="validar()"
-              >
+              <a href="#" class="button is-rounded is-small button-icono px-5" @click.prevent="validar()">
                 Continuar
               </a>
             </div>
@@ -109,13 +85,17 @@ export default {
     };
   },
   mounted() {
+    /** VALIDAR SI SELECCIONÓ UN PRODUCTO, YA QUE SE QUITÓ ESTE PASO EN EL FLUJO NORMAL DE LA COMPRA RAPIDA */
+    if (!this.storeCarroCompra.compraRapida.productoSeleccionado)
+      this.$router.push({ path: "/" });
     /** COMPLETAR TELEFONO SI YA LO INGRESÓ ANTES O SI ESTÁ REGISTRADO */
+
     this.telefono =
       this.storeCarroCompra.compraRapida.telefono != ""
         ? this.storeCarroCompra.compraRapida.telefono
         : this.usuarioCarroCompra()
-        ? this.usuarioCarroCompra().billing.phone
-        : "+569";
+          ? this.usuarioCarroCompra().billing.phone
+          : "+569";
     this.nombre =
       this.storeCarroCompra.compraRapida.nombre != ""
         ? this.storeCarroCompra.compraRapida.nombre
@@ -124,8 +104,8 @@ export default {
       this.storeCarroCompra.compraRapida.email != ""
         ? this.storeCarroCompra.compraRapida.email
         : this.usuarioCarroCompra()
-        ? this.usuarioCarroCompra().user_email
-        : "";
+          ? this.usuarioCarroCompra().user_email
+          : "";
   },
   computed: {
     /** RETORNA EL NOMBRE DEL USUARIO SI ESTÁ LOGUEADO */

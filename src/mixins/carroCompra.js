@@ -53,7 +53,7 @@ export default {
       async validarCompraRapida( accion =' agregar_producto', data = { } ){
 
         data.id = this.storeCarroCompra.compraRapida.productoSeleccionado;
-        data.quantity = 1;
+        data.quantity = this.storeCarroCompra.compraRapida.cantidad;
         data.accion = accion;
         data.direccion = this.storeCarroCompra.compraRapida.direccion;
         data.comentario_direccion = this.storeCarroCompra.compraRapida.comentario_direccion;

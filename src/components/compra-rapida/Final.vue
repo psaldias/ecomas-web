@@ -18,11 +18,8 @@
             </div>
 
             <div class="block has-text-right-tablet has-text-centered-mobile">
-              <a
-                @click.prevent="aplicar_cupon()"
-                class="button is-rounded is-small button-icono px-5"
-                v-if="!cargando_cupon"
-              >
+              <a @click.prevent="aplicar_cupon()" class="button is-rounded is-small button-icono px-5"
+                v-if="!cargando_cupon">
                 Aplicar Cupón
               </a>
               <cargando-seccion v-if="cargando_cupon"></cargando-seccion>
@@ -51,14 +48,11 @@
           <div class="column contenido">
             <h2 class="has-text-centered-mobile">Resumen Compra</h2>
 
-            <div
-              class="resumen-compra is-size-6 my-5"
-              v-if="storeCarroCompra.compraRapida.carro.total > 0"
-            >
+            <div class="resumen-compra is-size-6 my-5" v-if="storeCarroCompra.compraRapida.carro.total > 0">
               <div class="columns is-multiline is-gapless is-mobile">
                 <div class="column is-8 border">
                   <span class="pr-2 is-block">
-                    {{ dataProducto.name }}
+                    {{ dataProducto.quantity }} x {{ dataProducto.name }}
                   </span>
                 </div>
 
@@ -71,31 +65,23 @@
                 <div class="column is-4 has-text-right has-text-weight-bold primero">
                   {{ monedaChilena(storeCarroCompra.compraRapida.carro.subtotal) }}
                 </div>
-                <div
-                  class="column is-8 primero has-text-weight-bold"
-                  v-if="storeCarroCompra.compraRapida.carro.get_shipping_total"
-                >
+                <div class="column is-8 primero has-text-weight-bold"
+                  v-if="storeCarroCompra.compraRapida.carro.get_shipping_total">
                   <span class="pr-2 is-block"> Envío: </span>
                 </div>
-                <div
-                  class="column is-4 has-text-right has-text-weight-bold primero"
-                  v-if="storeCarroCompra.compraRapida.carro.get_shipping_total"
-                >
+                <div class="column is-4 has-text-right has-text-weight-bold primero"
+                  v-if="storeCarroCompra.compraRapida.carro.get_shipping_total">
                   {{
                     monedaChilena(storeCarroCompra.compraRapida.carro.get_shipping_total)
                   }}
                 </div>
 
-                <div
-                  class="column is-8 primero has-text-weight-bold"
-                  v-if="storeCarroCompra.compraRapida.carro.get_discount_total"
-                >
+                <div class="column is-8 primero has-text-weight-bold"
+                  v-if="storeCarroCompra.compraRapida.carro.get_discount_total">
                   <span class="pr-2 is-block"> Descuento Cupones: </span>
                 </div>
-                <div
-                  class="column is-4 has-text-right has-text-weight-bold primero"
-                  v-if="storeCarroCompra.compraRapida.carro.get_discount_total"
-                >
+                <div class="column is-4 has-text-right has-text-weight-bold primero"
+                  v-if="storeCarroCompra.compraRapida.carro.get_discount_total">
                   {{
                     monedaChilena(storeCarroCompra.compraRapida.carro.get_discount_total)
                   }}
@@ -111,11 +97,8 @@
             </div>
 
             <div class="block has-text-right-tablet has-text-centered-mobile">
-              <router-link
-                to="/compra-rapida/pago"
-                class="button is-rounded is-small button-icono px-5"
-                v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores"
-              >
+              <router-link to="/compra-rapida/pago" class="button is-rounded is-small button-icono px-5"
+                v-if="!cargando && !storeCarroCompra.compraRapida.carro.errores">
                 Continuar
               </router-link>
             </div>

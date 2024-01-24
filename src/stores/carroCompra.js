@@ -73,6 +73,7 @@ export const useCarroCompraStore = defineStore('carroCompra', {
           comentario_direccion:'',
           codigoDescuento:false,
           horarioEntrega:false,
+          cantidad:1,
           productoSeleccionado:false,
           productos:[],
           metodo_pago:false,

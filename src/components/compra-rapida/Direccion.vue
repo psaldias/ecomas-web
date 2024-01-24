@@ -13,28 +13,19 @@
               <div class="message-body">
                 {{ error }}
                 o ingresa tu dirección de forma manual <br />
-                <a @click.prevent="this.storeCarroCompra.direccion_manual(true)"
-                  >Ingresar Dirección Manual</a
-                >
+                <a @click.prevent="this.storeCarroCompra.direccion_manual(true)">Ingresar Dirección Manual</a>
               </div>
             </article>
 
             <div class="field columns">
-              <GoogleMapsAutocompleteVue
-                v-on:placechanged="obtenerDireccion"
-                :country="['cl']"
-                :default="direccionPorDefecto"
-                id="direccion_google"
-                classname="input input-2 w-80"
-                placeholder="Ingresar Dirección (Calle, número, ciudad)"
-                :latLongBounds="{
+              <GoogleMapsAutocompleteVue v-on:placechanged="obtenerDireccion" :country="['cl']"
+                :default="direccionPorDefecto" id="direccion_google" classname="input input-2 w-80"
+                placeholder="Ingresar Dirección (Calle, número, ciudad)" :latLongBounds="{
                   latLng: gmapsBounds,
                   radius: parseInt(
                     store_opciones_generales.restricciones_sucursales.radio_permitido
                   ),
-                }"
-                v-if="libreriaCargada"
-              ></GoogleMapsAutocompleteVue>
+                }" v-if="libreriaCargada"></GoogleMapsAutocompleteVue>
             </div>
             <div v-if="direccionActual" class="is-size-7">
               Dirección Seleccionada: <b>{{ direccionActual }}</b>
@@ -42,30 +33,21 @@
 
             <div class="field">
               <div class="control">
-                <input
-                  class="input input-2 w-80"
-                  placeHolder="Casa, departamento o condominio ( información adicional)"
-                  type="text"
-                  v-model="comentario_direccion"
-                />
+                <input class="input input-2 w-80" placeHolder="Casa, departamento o condominio ( información adicional)"
+                  type="text" v-model="comentario_direccion" />
               </div>
             </div>
 
             <div class="block has-text-right-tablet mt-5">
-              <a
-                class="button is-rounded is-small button-icono px-5"
-                @click.prevent="validarDireccion()"
-              >
+              <a class="button is-rounded is-small button-icono px-5" @click.prevent="validarDireccion()">
                 Continuar
               </a>
             </div>
           </div>
         </div>
       </div>
-      <DireccionManual
-        @direccion-manual="direccionManual"
-        v-if="this.storeCarroCompra.direccionManual.mostrar"
-      ></DireccionManual>
+      <DireccionManual @direccion-manual="direccionManual" v-if="this.storeCarroCompra.direccionManual.mostrar">
+      </DireccionManual>
     </div>
   </div>
   <ToplayerRadioDespacho></ToplayerRadioDespacho>
@@ -145,7 +127,7 @@ export default {
           this.comentario_direccion,
           "comentario_direccion"
         );
-        this.$router.push({ path: "/compra-rapida/producto" });
+        this.$router.push({ path: "/compra-rapida/final" });
       }
       return false;
     },

@@ -39,6 +39,13 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 ### Changelog<br>
 
+### v1.1.1
+
+Cambios y correcciones v1.1.0
+
+- En toplayer de compra rapida se agregaron las acciones de aumentar y disminuir cantidad
+- En los pasos de la compra rápida se quito en donde se seleccionaba el producto.
+
 ### v1.1.0
 
 Cambios solicitados por Valentina Ponce
