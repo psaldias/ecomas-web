@@ -158,12 +158,14 @@
                 'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
               }">
                 <div v-if="tab_activa == 1">
-                  <h2 class="primero mb-2"><b>CARACTERÍSTICAS</b></h2>
+                  <h2 class="primero mb-2"
+                    v-if="!producto.campos_adicionales.tabla_ficha_tecnica && !producto.campos_adicionales.instalacion">
+                    <b>CARACTERÍSTICAS</b>
+                  </h2>
                   <div class="content gris3" v-html="producto.description"></div>
                 </div>
                 <div v-if="tab_activa == 2 && producto.campos_adicionales.tabla_ficha_tecnica
                   ">
-                  <h2 class="primero mb-2"><b>FICHA TÉCNICA</b></h2>
                   <div class="content gris3 tab-ficha-tecnica">
                     <table class="table table-sm is-narrow gris3 is-bordered">
                       <tr v-for="fila in producto.campos_adicionales.tabla_ficha_tecnica">
@@ -176,9 +178,38 @@
                   </div>
                 </div>
                 <div v-if="tab_activa == 3 && producto.campos_adicionales.instalacion">
-                  <h2 class="primero mb-2"><b>INSTALACIÓN</b></h2>
-                  <div class="content gris3 tab-ficha-tecnica">
-                    <div class="content gris3" v-html="producto.campos_adicionales.instalacion"></div>
+                  <div class=" gris3 tab-ficha-tecnica">
+                    <div class="content gris3" v-html="producto.campos_adicionales.instalacion.descripcion"></div>
+
+                    <a v-if="producto.campos_adicionales.instalacion?.manuel_de_usuario"
+                      :href="producto.campos_adicionales.instalacion.manuel_de_usuario" target="_blank"
+                      class="button is-fullwidth has-text-left columns is-mobile is-vcentered is-variable is-2">
+                      <div class="column is-narrow ">
+                        <i class="fa-solid fa-book primero"></i>
+                      </div>
+                      <div class="column ">
+                        Manual de Usuario
+                      </div>
+                      <div class="column is-narrow">
+                        <i class="fa-solid fa-download primero fa-xl"></i>
+                      </div>
+                    </a>
+
+                    <a v-if="producto.campos_adicionales.instalacion?.manual_de_instalacion"
+                      :href="producto.campos_adicionales.instalacion.manual_de_instalacion" target="_blank"
+                      class="button is-fullwidth has-text-left columns is-mobile is-vcentered is-variable is-2">
+                      <div class="column is-narrow ">
+                        <i class="fa-solid fa-book primero"></i>
+                      </div>
+                      <div class="column ">
+                        Manual de Instalación
+                      </div>
+                      <div class="column is-narrow">
+                        <i class="fa-solid fa-download primero fa-xl"></i>
+                      </div>
+                    </a>
+
+
                   </div>
                 </div>
               </div>
@@ -344,20 +375,6 @@ export default {
             descripcion: this.producto.campos_adicionales.informacion,
             descripcion2: "",
           },
-          {
-            id: 3,
-            titulo: "MANUAL DE EQUIPO",
-            columnas: 1,
-            descripcion: this.producto.campos_adicionales.manual_de_equipo,
-            descripcion2: "",
-          },
-          {
-            id: 4,
-            titulo: "FICHA TÉCNICA",
-            columnas: 1,
-            descripcion: this.producto.campos_adicionales.ficha_tecnica,
-            descripcion2: "",
-          },
         ];
       }
       return contenido_tabs;
@@ -386,7 +403,7 @@ export default {
       );
 
       if (respuesta_producto.data.length == 1) {
-        console.log(respuesta_producto.data);
+
         this.producto = JSON.parse(JSON.stringify(respuesta_producto.data[0]));
         this.producto_original = respuesta_producto.data[0];
       }
@@ -493,7 +510,6 @@ export default {
       this.mobile = window.matchMedia("(max-width: 768px)").matches;
     },
     cargarSliderGaleria() {
-      console.log("aca");
       /** CREAR INSTANCIA DE CARRUSEL */
       setTimeout(() => {
         $(".slider-galeria-gral").slick({
