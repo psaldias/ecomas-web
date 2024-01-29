@@ -43,8 +43,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 Cambios y correcciones en interior de productos
 
-- En la pestaa Instalación, se agregaron botones Manual de usuaroi y Manual de instalación
-- En las pestañas "características", "Ficha técnica" e "Instalación" se quitaron los titulos dentro de la caja de texto.
+- En la pestaña Instalación, se agregaron botones Manual de usuario y Manual de instalación
+- En las pestañas "características", "Ficha técnica" e "Instalación" se quitaron los títulos dentro de la caja de texto.
+- Se eliminó el subrayado de la ubicación en la cabecera.
 
 ### v1.1.1
 

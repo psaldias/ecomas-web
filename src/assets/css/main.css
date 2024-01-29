@@ -850,7 +850,7 @@ header .top .datos-carro > .column {
 header .top .datos-carro .ubicacion {
   font-weight: bold;
   text-transform: uppercase;
-  text-decoration: underline;
+  text-decoration: none;
 }
 header .top .datos-carro .ingresar {
   max-width: 150px;
