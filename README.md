@@ -39,6 +39,12 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 ### Changelog<br>
 
+### v1.1.3
+
+Se agregó una característica que faltaba
+
+- Al aumentar la cantidad de un producto en el toplayer no se actualizaba el valor total
+
 ### v1.1.2
 
 Cambios y correcciones en interior de productos

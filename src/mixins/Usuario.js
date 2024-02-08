@@ -343,6 +343,21 @@ export default {
         },
 
 
+        /** VALIDAR TOKEN DE USUARIO SI ESTÁ CONECTADO */
+        async validaRToken() {
+
+          let headers = {};
+          if(this.storeCarroCompra.usuarioCarroCompra.token){
+
+            const expiry = (JSON.parse(atob(this.storeCarroCompra.usuarioCarroCompra.token.split('.')[1]))).exp;
+            if((Math.floor((new Date()).getTime() / 1000)) >= expiry){
+                this.cerrarSesion();
+            }
+
+          }
+        },
+
+
 
 
         /** HELPERS */

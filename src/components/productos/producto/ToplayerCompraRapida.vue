@@ -61,7 +61,7 @@
 </template>
 <script>
 import Imagen from "./Imagen.vue";
-import Precio from "./Precio.vue";
+import Precio from "./PrecioCompraRapida.vue";
 import Acciones from "./Acciones.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import Mensajes from "../../general/Mensajes.vue";
@@ -79,6 +79,12 @@ export default {
       idProducto: false,
       storeCarroCompra: useCarroCompraStore(),
     };
+  },
+  watch: {
+    producto() {
+      this.storeCarroCompra.actualizarCompraRapida(1, 'cantidad');
+
+    }
   },
   computed: {
     mensajes() {
@@ -106,6 +112,7 @@ export default {
         oferta: this.producto.price,
         on_sale: this.producto.on_sale,
         bolsas_producto: this.producto.bolsas_producto,
+        cantidad: this.cantidad,
       };
     },
     url() {

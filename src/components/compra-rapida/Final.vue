@@ -52,7 +52,7 @@
           <div class="column contenido">
             <h2 class="has-text-centered-mobile">Resumen Compra</h2>
 
-            <div class="resumen-compra is-size-6 my-5" v-if="storeCarroCompra.compraRapida.carro.total > 0">
+            <div class="resumen-compra is-size-6 my-5" v-if="storeCarroCompra.compraRapida.carro.total > 0 && !cargando">
               <div class="columns is-multiline is-gapless is-mobile">
                 <div class="column is-8 border">
                   <span class="pr-2 is-block">

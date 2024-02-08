@@ -1,10 +1,7 @@
 <template>
   <main>
     <HeaderView />
-    <router-view
-      :key="$route.path"
-      v-if="!store_opciones_generales.cargando"
-    ></router-view>
+    <router-view :key="$route.path" v-if="!store_opciones_generales.cargando"></router-view>
     <CargandoSeccion v-if="store_opciones_generales.cargando"></CargandoSeccion>
 
     <div v-if="customHtml" v-html="customHtml"></div>
@@ -49,6 +46,8 @@ export default {
   async mounted() {
     /** VERIFICAR VERSIÓN DE LA APP Y COMPARAR LA VERSIÓN DEL USUARIO */
     await this.verificarVersionApp();
+
+    await this.verificarTokenUsuario();
 
     /** OBTENER INFORMACIÓN INICIAL DESDE BACKEND INCLUIDO TOKEN PARA FUTURAS CONSULTAS */
     const respuesta = await this.enviarGet(import.meta.env.VITE_INIT, {
@@ -104,6 +103,8 @@ export default {
 
     /** OBTENER ORIGEN DE VISITA Y GUARDAR */
     this.definirOrigenUsuario(); // mixin usuarios.js
+
+
   },
   computed: {
     sucursalSeleccionada() {
@@ -118,6 +119,10 @@ export default {
         localStorage.removeItem("usuario");
         localStorage.version_app = import.meta.env.VITE_APP_VERSION;
       }
+    },
+    async verificarTokenUsuario() {
+      const respuesta = await this.validaRToken();
+      console.log(respuesta);
     },
     haversineDistance(latlngA, latlngB, isMiles) {
       const squared = (x) => x * x;
