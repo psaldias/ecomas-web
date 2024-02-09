@@ -39,6 +39,10 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 ### Changelog<br>
 
+### v1.1.4
+
+Se actualiza header según requeriminetos de vale.
+
 ### v1.1.3
 
 Se agregó una característica que faltaba

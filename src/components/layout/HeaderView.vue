@@ -8,7 +8,7 @@
               <img src="/img/Ecomas-Logo-r_2.png" alt="" width="228" height="67" />
             </router-link>
           </div>
-          <div
+          <!-- <div
             class="column rrss is-1-fullhd is-narrow-desktop is-hidden-mobile has-text-centered"
             v-if="!store_opciones_generales.cargando"
           >
@@ -34,37 +34,21 @@
             >
               <i class="fa-brands is-size-5 fa-whatsapp"></i>
             </a>
-          </div>
-          <CargandoSeccion
-            v-if="store_opciones_generales.cargando"
-            class="small column is-narrow is-hidden-mobile"
-          ></CargandoSeccion>
+          </div> -->
+          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-narrow is-hidden-mobile">
+          </CargandoSeccion>
 
-          <div class="column buscador is-2-desktop is-narrow-tablet is-hidden-mobile">
+          <div class="column buscador is-3-desktop is-narrow-tablet is-hidden-mobile">
             <form action="#" @submit.prevent="enviarBuscador()">
-              <input
-                type="text"
-                class="input is-small"
-                placeholder="¿Qué estás buscando?"
-                v-model="buscar"
-              />
+              <input type="text" class="input is-small" placeholder="¿Qué estás buscando?" v-model="buscar" />
               <button type="submit" class="bg-blanco">
                 <i class="fa-solid fa-magnifying-glass primero"></i>
               </button>
             </form>
           </div>
-          <div
-            class="column menu"
-            :class="{ active: mostrarMenu }"
-            ref="menuMovil"
-            v-if="menuPrincipal"
-          >
+          <div class="column menu" :class="{ active: mostrarMenu }" ref="menuMovil" v-if="menuPrincipal">
             <ul>
-              <li
-                v-for="menu in buscarMenusPricipales()"
-                :key="menu.ID"
-                :class="menu.classes"
-              >
+              <li v-for="menu in buscarMenusPricipales()" :key="menu.ID" :class="menu.classes">
                 <div class="dropdown is-hoverable" v-if="buscarSubmenus(menu).length > 0">
                   <div class="dropdown-trigger">
                     <a>
@@ -76,12 +60,8 @@
                   </div>
                   <div class="dropdown-menu" role="menu">
                     <div class="dropdown-content">
-                      <router-link
-                        v-for="submenu in buscarSubmenus(menu)"
-                        class="dropdown-item"
-                        :to="obtenerSlug(submenu.url)"
-                        >{{ submenu.title }}</router-link
-                      >
+                      <router-link v-for="submenu in buscarSubmenus(menu)" class="dropdown-item"
+                        :to="obtenerSlug(submenu.url)">{{ submenu.title }}</router-link>
                     </div>
                   </div>
                 </div>
@@ -96,12 +76,9 @@
             </ul>
           </div>
           <div
-            class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow-desktop mb-0"
-          >
+            class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow-desktop mb-0">
             <div class="column is-narrow comuna">
-              <SeleccionarUbicacionHeader
-                v-if="!store_opciones_generales.cargando"
-              ></SeleccionarUbicacionHeader>
+              <SeleccionarUbicacionHeader v-if="!store_opciones_generales.cargando"></SeleccionarUbicacionHeader>
             </div>
             <!-- <div class="column is-narrow is-hidden-mobile" v-if="false">
               <router-link to="/pedidos/" class="has-text-white">
