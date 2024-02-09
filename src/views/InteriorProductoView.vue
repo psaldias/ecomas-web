@@ -47,7 +47,8 @@
 
                 <div class="columns is-vcentered">
                   <div class="column is-5">
-                    <a class="imagen" data-fancybox="galeria" :href="producto.images[0].src" v-html="producto.imagen"></a>
+                    <a class="imagen imagen-destacada" data-fancybox="galeria" :href="producto.images[0].src"
+                      v-html="producto.imagen"></a>
                     <div class="is-hidden-tablet">
                       <SliderImagenesProducto v-if="mobile" :imagenes="producto.images"></SliderImagenesProducto>
                     </div>

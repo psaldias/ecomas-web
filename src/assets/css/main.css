@@ -447,7 +447,12 @@ input[type=radio]:checked {
   box-shadow: none;
 }
 
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
   color: #80BD01;
 }
 .content a {
@@ -768,7 +773,8 @@ header .top .whatsapp {
   font-size: 1.1em;
   vertical-align: middle;
 }
-header .top .whatsapp a, header .top .whatsapp i {
+header .top .whatsapp a,
+header .top .whatsapp i {
   color: #FFF;
   vertical-align: middle;
   display: inline-block;
@@ -809,7 +815,8 @@ header .top .buscador form button {
   border-top: 1px solid #a6a6a6;
   border-bottom: 1px solid #a6a6a6;
 }
-header .top .buscador form .input, header .top .buscador form button {
+header .top .buscador form .input,
+header .top .buscador form button {
   height: 30px;
   line-height: 30px;
 }
@@ -1444,7 +1451,8 @@ footer nav a:hover {
   width: unset;
   margin-right: 2em;
 }
-.producto.interior .acciones .cantidad input, .producto.interior .acciones .cantidad button {
+.producto.interior .acciones .cantidad input,
+.producto.interior .acciones .cantidad button {
   font-size: 1em;
   line-height: 41px;
   width: 41px;
@@ -1640,7 +1648,8 @@ footer nav a:hover {
   height: 1.5em;
   width: 100%;
 }
-.interior-compra-rapida .card-compra-rapida.card-datos .control.has-icons-left .icon, .interior-compra-rapida .card-compra-rapida.card-datos .control.has-icons-right .icon {
+.interior-compra-rapida .card-compra-rapida.card-datos .control.has-icons-left .icon,
+.interior-compra-rapida .card-compra-rapida.card-datos .control.has-icons-right .icon {
   height: 1.5em;
   font-weight: bold;
   color: #000;
@@ -1923,7 +1932,8 @@ footer nav a:hover {
   line-height: 1.3em;
   font-weight: 400;
 }
-.toplayer-radio-despacho h3 b, .toplayer-radio-despacho h3 strong {
+.toplayer-radio-despacho h3 b,
+.toplayer-radio-despacho h3 strong {
   color: #80BD01;
 }
 .toplayer-radio-despacho .destacado {
@@ -2001,7 +2011,8 @@ footer nav a:hover {
   padding: 0 0.5em;
 }
 
-a.dropdown-item.is-active, button.dropdown-item.is-active {
+a.dropdown-item.is-active,
+button.dropdown-item.is-active {
   background-color: #80BD01;
   color: #fff;
 }
@@ -2088,7 +2099,7 @@ a.dropdown-item.is-active, button.dropdown-item.is-active {
   border-right: 1px solid rgba(128, 189, 1, 0.3215686275);
 }
 
-.interior-producto .producto .imagen img {
+.interior-producto .producto .imagen-destacada img {
   height: 250px;
   display: block;
   margin: 0 auto;
