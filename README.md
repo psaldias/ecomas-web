@@ -39,6 +39,9 @@ aws s3 sync . s3://frontend.ecomas.cl
 
 ### Changelog<br>
 
+### v1.1.5
+Actualización API KEY google, solicitud de carlos zagal
+
 ### v1.1.4
 
 Se actualiza header según requeriminetos de vale.

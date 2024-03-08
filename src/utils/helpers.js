@@ -67,13 +67,13 @@
         return S?S-1:'k';
     },
     importarLibereriaGoogleMaps(){
-        if ($('head script[src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places"]').length == 0){
+        if ($('head script[src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBnb8VlPnX3eITu2nRY1jy8d1FMjFGQDXM&libraries=places"]').length == 0){
 
             return new Promise(function(resolve, reject) {
             const s = document.createElement('script');
             let r = false;
             s.type = 'text/javascript';
-            s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places';
+            s.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBnb8VlPnX3eITu2nRY1jy8d1FMjFGQDXM&libraries=places';
             s.async = true;
             s.onerror = function(err) {
                 reject(err, s);
@@ -89,7 +89,7 @@
             t.parentElement.insertBefore(s, t);
             });
         //   let recaptchaScript = document.createElement('script')
-        //   recaptchaScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyD8PcTZNYk8IEiE1Cze-CLTF874bT75v7w&libraries=places')
+        //   recaptchaScript.setAttribute('src', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyBnb8VlPnX3eITu2nRY1jy8d1FMjFGQDXM&libraries=places')
         //   document.head.appendChild(recaptchaScript);
         }
     },
