@@ -11,11 +11,27 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta name="google-site-verification" content="A93QpF0gc6nvobopfW4lJWwpwBRNekcYJBdWmb0VaoE"/>
+    <!-- Preload the LCP image with a high fetchpriority so it starts loading with the stylesheet. -->
 
-    <script type="module" src="/src/main.js"></script>
+    <script type="module" defer src="/src/main.js"></script>
+
+    <link rel="preload" href="/css/bulma/css/bulma.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/main.min.css?v=001" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/css/media.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/libs/fontawesome/css/fontawesome.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/libs/fontawesome/css/brands.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/libs/fontawesome/css/solid.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="/libs/slick/slick.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preconnect" href="http://ecomaswp.localhost/">
+    <link rel="preconnect" href="https://backend.ecomas.cl/">
+    <link rel="preload" fetchpriority="high" as="image" href="/img/Ecomas-Logo-r_2.webp" type="image/webp">
+    <link rel="preload" fetchpriority="high" as="image" href="/img/Ecomas-Logo-footer.webp" type="image/webp">
+    <!-- <link rel="preload" fetchpriority="high" as="image" href="http://ecomaswp.localhost/wp-content/uploads/2024/03/Banner-desktop.webp" type="image/webp"> -->
     <title>Ecomas Calor Sustentable</title>
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-341FT8D8CC"></script>
+
+
+    <script  src="https://www.googletagmanager.com/gtag/js?id=G-341FT8D8CC" defer></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}

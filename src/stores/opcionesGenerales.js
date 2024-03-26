@@ -43,6 +43,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         this.sucursal_seleccionada = datos.sucursales.find(sucursal => {
           return sucursal.fields.sucursal_por_defecto;
         });
+
       }
     },
 

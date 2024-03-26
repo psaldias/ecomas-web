@@ -1,15 +1,11 @@
 <template>
-  <section class="mt-6" v-if="productos && productos.length > 0">
+  <section class="mt-6">
     <div class="titulo bg-tercero mb-4">
       <h3 class="primero has-text-weight-bold px-4">{{ titulo }}</h3>
     </div>
-    <div class="slider-productos">
+    <div class="slider-productos" v-if="productos && productos.length > 0">
       <div class="item" v-for="(producto, index) in productos">
-        <Producto
-          :key="'slider_productos_' + producto.id"
-          :producto="producto"
-          formato="vertical"
-        ></Producto>
+        <Producto :key="'slider_productos_' + producto.id" :producto="producto" formato="vertical"></Producto>
       </div>
     </div>
   </section>
@@ -18,13 +14,16 @@
 <script>
 import "/src/assets/libs/jquery.min.js";
 import "/src/assets/libs/slick/slick.min.js";
-import "/src/assets/libs/slick/slick.min.css";
-import "/src/assets/libs/slick/slick-theme.min.css";
+// import "/src/assets/libs/slick/slick.min.css";
+// import "/src/assets/libs/slick/slick-theme.min.css";
 import Producto from "./producto/producto.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 export default {
   props: {
-    titulo: String,
+    titulo: {
+      type: String,
+      default: "Productos Destacados",
+    },
     productos: false,
   },
   data() {

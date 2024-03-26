@@ -32,7 +32,6 @@ export default {
         //   await this.obtenerToken();
         headers["Authorization"] =  'Bearer '+this.store.token;
 
-
         const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_RAPIDA_PRODUCTOS+'&category=33'+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })

@@ -1,24 +1,15 @@
 <template>
   <teleport to="#modal">
     <transition name="modal">
-      <div
-        class="toplayer toplayer-home"
-        v-if="mostrarToplayer"
-        @click.self="cerrar($event)"
-      >
+      <div class="toplayer toplayer-home" v-if="mostrarToplayer" @click.self="cerrar($event)">
         <div class="toplayer_content">
-          <button class="delete ecomas is-large" @click.prevent="cerrar($event)"></button>
+          <button class="delete ecomas is-large" @click.prevent="cerrar($event)" aria-label="Cerrar"></button>
           <div v-if="toplayer.link">
-            <a
-              :href="toplayer.link"
-              v-if="verificarUrlExterna(toplayer.link)"
-              target="_blank"
-              @click="cerrar($event)"
-            >
-              <img :src="toplayer.imagen.url" alt="this.toplayer.imagen.name" />
+            <a :href="toplayer.link" v-if="verificarUrlExterna(toplayer.link)" target="_blank" @click="cerrar($event)">
+              <span v-html="toplayer.imagen"></span>
             </a>
             <router-link :to="toplayer.link" @click="cerrar($event)" v-else>
-              <img :src="toplayer.imagen.url" alt="this.toplayer.imagen.name" />
+              <span v-html="toplayer.imagen"></span>
             </router-link>
           </div>
 

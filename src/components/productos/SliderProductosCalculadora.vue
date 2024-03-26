@@ -2,12 +2,8 @@
   <section class="mt-6" v-if="productos && productos.length > 0">
     <div class="slider-productos columns is-centered">
       <div class="item column is-4 is-relative" v-for="(producto, index) in productos">
-        <Producto
-          class="h-auto no-compra"
-          :key="'slider_productos_' + producto.id"
-          :producto="producto"
-          formato="vertical"
-        ></Producto>
+        <Producto class="h-auto no-compra" :key="'slider_productos_' + producto.id" :producto="producto"
+          formato="vertical"></Producto>
       </div>
     </div>
   </section>
@@ -16,7 +12,7 @@
 <script>
 import "/src/assets/libs/jquery.min.js";
 import "/src/assets/libs/slick/slick.min.js";
-import "/src/assets/libs/slick/slick.min.css";
+// import "/src/assets/libs/slick/slick.min.css";
 import "/src/assets/libs/slick/slick-theme.min.css";
 import Producto from "./producto/productoCalculadora.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";

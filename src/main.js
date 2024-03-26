@@ -15,10 +15,9 @@ import {createHead} from "@vueuse/head"
 axios.defaults.withCredentials = true
 
 // import "./assets/main.css";
-import "./assets/css/bulma/css/bulma.min.css";
-import "./assets/libs/fontawesome/css/all.min.css";
-import "./assets/css/main.css";
-import "./assets/css/media.css";
+// import "./assets/libs/fontawesome/css/all.min.css";
+// import "./assets/css/main.css";
+// import "./assets/css/media.css";
 
 
 createApp(App)

@@ -6,22 +6,17 @@
           <button class="button is-small is-rounded50" @click="disminuirCantidad()">
             -
           </button>
-          <input
-            type="text"
-            class="input is-rounded is-small is-inline-block"
-            v-model="cantidad"
-            readonly
-          />
+          <label for="">
+            <input type="text" class="input is-rounded is-small is-inline-block" aria-label="Cantidad Producto"
+              v-model="cantidad" readonly />
+          </label>
           <button class="button is-small is-rounded50" @click="this.aumentarCantidad()">
             +
           </button>
         </div>
         <div class="column is-narrow">
-          <button
-            v-if="!cargando"
-            class="button is-rounded is-small button-icono comprar"
-            @click.prevent="agregarProducto()"
-          >
+          <button v-if="!cargando" class="button is-rounded is-small button-icono comprar"
+            @click.prevent="agregarProducto()">
             <b><i class="fa-solid fa-cart-shopping"></i> Comprar</b>
           </button>
           <CargandoSeccion v-if="cargando" class="medium"></CargandoSeccion>
@@ -36,23 +31,15 @@
           <button class="button is-small is-rounded50" @click="disminuirCantidad()">
             -
           </button>
-          <input
-            type="text"
-            class="input is-rounded is-small is-inline-block"
-            v-model="cantidad"
-            readonly
-          />
+          <input type="text" class="input is-rounded is-small is-inline-block" v-model="cantidad" readonly />
           <button class="button is-small is-rounded50" @click="this.aumentarCantidad()">
             +
           </button>
         </div>
       </div>
       <div class="column has-text-centered">
-        <button
-          v-if="!cargando"
-          class="button is-rounded is-small button-icono comprar"
-          @click.prevent="agregarProducto()"
-        >
+        <button v-if="!cargando" class="button is-rounded is-small button-icono comprar"
+          @click.prevent="agregarProducto()">
           <b><i class="fa-solid fa-arrows-rotate is-size-7"></i> Actualizar</b>
         </button>
         <CargandoSeccion v-if="cargando" class="medium"></CargandoSeccion>

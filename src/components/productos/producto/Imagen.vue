@@ -1,6 +1,6 @@
 <template>
   <div class="imagen">
-    <router-link :to="url" v-html="imagen"> </router-link>
+    <router-link :to="url" v-html="imagen" :aria-label="alt"> </router-link>
   </div>
 </template>
 <script>

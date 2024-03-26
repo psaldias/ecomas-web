@@ -13,7 +13,7 @@
 <script>
 import "/src/assets/libs/jquery.min.js";
 import "/src/assets/libs/slick/slick.min.js";
-import "/src/assets/libs/slick/slick.min.css";
+// import "/src/assets/libs/slick/slick.min.css";
 import "/src/assets/libs/slick/slick-theme.min.css";
 export default {
   props: {

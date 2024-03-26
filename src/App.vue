@@ -1,36 +1,37 @@
 <template>
   <main>
     <HeaderView />
-    <router-view :key="$route.path" v-if="!store_opciones_generales.cargando"></router-view>
-    <CargandoSeccion v-if="store_opciones_generales.cargando"></CargandoSeccion>
+    <router-view :key="$route.path"></router-view>
+    <!-- <CargandoSeccion v-if="store_opciones_generales.cargando"></CargandoSeccion> -->
 
     <div v-if="customHtml" v-html="customHtml"></div>
-    <FooterView></FooterView>
-    <Toplayer></Toplayer>
-    <ToplayerGeneral></ToplayerGeneral>
+    <FooterView v-once></FooterView>
+    <Toplayer v-once></Toplayer>
+    <ToplayerGeneral v-once></ToplayerGeneral>
   </main>
 
   <Seo></Seo>
 </template>
 
 <script>
+import { defineAsyncComponent } from 'vue'
+const Toplayer = defineAsyncComponent(() => import('/src/components/productos/producto/Toplayer.vue'))
+const ToplayerGeneral = defineAsyncComponent(() => import('/src/components/general/ToplayerGeneral.vue'))
 import HeaderView from "./components/layout/HeaderView.vue";
 import FooterView from "./components/layout/FooterView.vue";
-import Toplayer from "/src/components/productos/producto/Toplayer.vue";
-import ToplayerGeneral from "/src/components/general/ToplayerGeneral.vue";
 
 import { useOpcionesGeneralesStore } from "./stores/opcionesGenerales";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
 import { useLlamadasApiStore } from "/src/stores/llamadasApi";
 
-import CargandoSeccion from "./components/general/CargandoSeccion.vue";
+// import CargandoSeccion from "./components/general/CargandoSeccion.vue";
 import helpers from "/src/utils/helpers.js";
 import Seo from "/src/components/general/Seo.vue";
 export default {
   components: {
     HeaderView,
     FooterView,
-    CargandoSeccion,
+    // CargandoSeccion,
     Toplayer,
     Seo,
     ToplayerGeneral,
@@ -62,7 +63,6 @@ export default {
 
       this.store_opciones_generales.guardarDatos(respuesta.data);
       this.store.guardarToken(token);
-
       /** SI YA SE TIENE UNA SUCURSAL ALMACENADA EN LOCALSTORAGE ENTONCES QUEDA POR DEFECTO */
       if (localStorage.sucursalSeleccionada) {
         this.store_opciones_generales.actualizarSucuralSeleccionada(
@@ -122,7 +122,6 @@ export default {
     },
     async verificarTokenUsuario() {
       const respuesta = await this.validaRToken();
-      console.log(respuesta);
     },
     haversineDistance(latlngA, latlngB, isMiles) {
       const squared = (x) => x * x;

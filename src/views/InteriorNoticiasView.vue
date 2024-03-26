@@ -1,9 +1,7 @@
 <template>
-  <main class="noticias" >
+  <main class="noticias">
     <div class="wrapper" v-if="!cargando">
-      <BannerSeccionNoticia v-if="noticia.acf.imagen_banner"
-        :imagen="noticia.acf.imagen_banner.sizes['2048x2048']"
-      />
+      <BannerSeccionNoticia v-if="noticia.acf.imagen_banner" :imagen="noticia.acf.imagen_banner.sizes['2048x2048']" />
       <div class="columns is-centered is-gapless">
         <div class="column is-8">
           <!-- <div  class="imagen mt-4 has-text-centered" v-if=" (typeof noticia._embedded['wp:featuredmedia'] !== 'undefined')">
@@ -14,7 +12,7 @@
           </div> -->
           <div class="content mt-4">
             <h3>{{ noticia.title.rendered }}</h3>
-            <div  v-html="noticia.content.rendered"></div>
+            <div v-html="noticia.content.rendered"></div>
           </div>
         </div>
       </div>
@@ -25,7 +23,7 @@
 
   </main>
 
-  <Seo  v-if="noticia.hasOwnProperty('yoast_head_json')" :data_api="noticia.yoast_head_json"></Seo>
+  <Seo v-if="noticia.hasOwnProperty('yoast_head_json')" :data_api="noticia.yoast_head_json"></Seo>
 
 </template>
 
@@ -42,23 +40,23 @@ export default {
     NoticiasDestacadas,
     CargandoSeccion,
     Seo
-},
+  },
   data() {
     return {
-      cargando:true,
-      noticia:{
+      cargando: true,
+      noticia: {
       },
     };
   },
 
-  async mounted (){
+  async mounted() {
     const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_PAGINA_INTERIOR_NOTICIA + this.$route.params.slug);
-    if(respuesta){
+    if (respuesta) {
       this.noticia = respuesta.data[0];
       this.cargando = false;
     }
 
-    if(!this.noticia)
+    if (!this.noticia)
       this.$router.replace({ name: '404' })
 
     document.title = this.noticia.title.rendered || VUE_APP_DEFAULT_TITLE;

@@ -807,6 +807,12 @@ footer {
   font-size: .9em;
   height: 100%;
 
+  h4 {
+    font-weight: 400;
+    font-size: 1em;
+    line-height: 1.2em;
+  }
+
   .imagen {
     border-radius: 15px;
     overflow: hidden;
@@ -901,9 +907,11 @@ footer {
 }
 
 .quienes-somos-home {
+  min-height: 578px;
+
   .wrapper {
     background-image:
-      url(../img/bg-home-quienes-somos.jpg);
+      url(../img/bg-home-quienes-somos.webp);
     background-size: cover;
     padding: 2em 0 0 0;
     border-radius: 15px;
@@ -2303,6 +2311,31 @@ button.dropdown-item.is-active {
       width: 100%;
     }
   }
+}
+
+
+.content-compra-rapida {
+  height: 210px;
+
+  .productos-compra-rapida {
+    height: 100%;
+  }
+}
+
+.banner-principal {
+  min-height: 520px;
+}
+
+.productos-destacados-home {
+  min-height: 595px;
+}
+
+.marcas-home {
+  min-height: 245px;
+}
+
+.noticias-home {
+  min-height: 642px;
 }
 
 // @import 'media.scss';

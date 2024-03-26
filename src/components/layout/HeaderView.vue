@@ -4,48 +4,22 @@
       <div class="top">
         <div class="columns is-vcentered is-mobile">
           <div class="column logo is-narrow-desktop">
-            <router-link to="/">
-              <img src="/img/Ecomas-Logo-r_2.png" alt="" width="228" height="67" />
+            <router-link to="/" aria-label="Ecomas.cl">
+              <img src="/img/Ecomas-Logo-r_2.webp" alt="Ecomas.cl" width="228" height="67" />
             </router-link>
           </div>
-          <!-- <div
-            class="column rrss is-1-fullhd is-narrow-desktop is-hidden-mobile has-text-centered"
-            v-if="!store_opciones_generales.cargando"
-          >
-            <a
-              :href="store_opciones_generales.rrss.facebook"
-              target="_blank"
-              v-if="store_opciones_generales.rrss.facebook"
-            >
-              <i class="fa-brands is-size-5 fa-square-facebook"></i>
-            </a>
-            <a
-              :href="store_opciones_generales.rrss.instagram"
-              target="_blank"
-              v-if="store_opciones_generales.rrss.instagram"
-            >
-              <i class="fa-brands is-size-5 fa-instagram"></i>
-            </a>
 
-            <a
-              :href="store_opciones_generales.rrss.whatsapp"
-              target="_blank"
-              v-if="store_opciones_generales.rrss.whatsapp"
-            >
-              <i class="fa-brands is-size-5 fa-whatsapp"></i>
-            </a>
-          </div> -->
-          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-narrow is-hidden-mobile">
-          </CargandoSeccion>
 
           <div class="column buscador is-3-desktop is-narrow-tablet is-hidden-mobile">
             <form action="#" @submit.prevent="enviarBuscador()">
               <input type="text" class="input is-small" placeholder="¿Qué estás buscando?" v-model="buscar" />
-              <button type="submit" class="bg-blanco">
+              <button type="submit" class="bg-blanco" aria-label="Buscar">
                 <i class="fa-solid fa-magnifying-glass primero"></i>
               </button>
             </form>
           </div>
+          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column ">
+          </CargandoSeccion>
           <div class="column menu" :class="{ active: mostrarMenu }" ref="menuMovil" v-if="menuPrincipal">
             <ul>
               <li v-for="menu in buscarMenusPricipales()" :key="menu.ID" :class="menu.classes">
@@ -66,8 +40,8 @@
                   </div>
                 </div>
                 <router-link :to="obtenerSlug(menu.url)" v-else>{{
-                  menu.title
-                }}</router-link>
+              menu.title
+            }}</router-link>
               </li>
               <!-- <li><router-link to="/quienes-somos">SOMOS</router-link></li>
               <li><router-link to="/noticias">NOTICIAS</router-link></li>
@@ -78,7 +52,7 @@
           <div
             class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow-desktop mb-0">
             <div class="column is-narrow comuna">
-              <SeleccionarUbicacionHeader v-if="!store_opciones_generales.cargando"></SeleccionarUbicacionHeader>
+              <SeleccionarUbicacionHeader></SeleccionarUbicacionHeader>
             </div>
             <!-- <div class="column is-narrow is-hidden-mobile" v-if="false">
               <router-link to="/pedidos/" class="has-text-white">
@@ -99,11 +73,11 @@
               </router-link>
             </div>
             <div class="column is-narrow icono-carro active">
-              <router-link to="/carro">
+              <router-link to="/carro" aria-label="Carro de Compras">
                 <i class="fa-solid fa-cart-shopping is-size-5 primero"></i>
                 <span class="contador-carro" v-if="cantidadProductos">{{
-                  cantidadProductos
-                }}</span>
+              cantidadProductos
+            }}</span>
               </router-link>
             </div>
           </div>

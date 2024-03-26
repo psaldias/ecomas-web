@@ -2,12 +2,9 @@
   <main class="sucursales">
     <div class="wrapper" v-if="!cargando">
       <section class="banner-seccion v2 no-icon calculadora mb-6">
-        <div
-          className="imagen is-relative "
-          :style="{
-            backgroundImage: 'url(' + data.acf.imagen_banner.sizes['2048x2048'] + ')',
-          }"
-        >
+        <div className="imagen is-relative " :style="{
+      backgroundImage: 'url(' + data.acf.imagen_banner.sizes['2048x2048'] + ')',
+    }">
           <h1>{{ data.title.rendered }}</h1>
         </div>
       </section>
@@ -15,10 +12,7 @@
       <div class="wrapper wrapper-fullm">
         <div class="columns is-centered">
           <div class="column is-6-fullhd is-8-desktop" v-if="paso != 4">
-            <h2
-              class="has-text-centered primero mb-5"
-              v-html="data.acf.mensaje_ayuda"
-            ></h2>
+            <h2 class="has-text-centered primero mb-5" v-html="data.acf.mensaje_ayuda"></h2>
           </div>
         </div>
 
@@ -40,12 +34,7 @@
                 <div class="control has-text-centered">
                   <label class="radio">
                     <div v-html="data.acf.paso_1.alternativas.alternativa_1"></div>
-                    <input
-                      type="radio"
-                      name="pregunta_1"
-                      v-model="pregunta_1"
-                      value="50-70"
-                    />
+                    <input type="radio" name="pregunta_1" v-model="pregunta_1" value="50-70" />
                   </label>
                 </div>
               </div>
@@ -53,12 +42,7 @@
                 <div class="control has-text-centered">
                   <label class="radio">
                     <div v-html="data.acf.paso_1.alternativas.alternativa_2"></div>
-                    <input
-                      type="radio"
-                      name="pregunta_1"
-                      value="75-90"
-                      v-model="pregunta_1"
-                    />
+                    <input type="radio" name="pregunta_1" value="75-90" v-model="pregunta_1" />
                   </label>
                 </div>
               </div>
@@ -66,12 +50,7 @@
                 <div class="control has-text-centered">
                   <label class="radio">
                     <div v-html="data.acf.paso_1.alternativas.alternativa_3"></div>
-                    <input
-                      type="radio"
-                      name="pregunta_1"
-                      value="95-130"
-                      v-model="pregunta_1"
-                    />
+                    <input type="radio" name="pregunta_1" value="95-130" v-model="pregunta_1" />
                   </label>
                 </div>
               </div>
@@ -79,12 +58,7 @@
             <div class="has-text-right">
               <div class="columns is-justify-content-flex-end">
                 <div class="column no-border is-3">
-                  <a
-                    href=""
-                    class="button button-icono is-fullwidth"
-                    @click.prevent="pasarPaso2()"
-                    >Siguiente</a
-                  >
+                  <a href="" class="button button-icono is-fullwidth" @click.prevent="pasarPaso2()">Siguiente</a>
                 </div>
               </div>
             </div>
@@ -102,12 +76,7 @@
                 <div class="control has-text-centered">
                   <label class="radio">
                     <div v-html="data.acf.paso_2.alternativas.alternativa_1"></div>
-                    <input
-                      type="radio"
-                      name="pregunta_2"
-                      v-model="pregunta_2"
-                      value="1"
-                    />
+                    <input type="radio" name="pregunta_2" v-model="pregunta_2" value="1" />
                   </label>
                 </div>
               </div>
@@ -115,12 +84,7 @@
                 <div class="control has-text-centered">
                   <label class="radio">
                     <div v-html="data.acf.paso_2.alternativas.alternativa_2"></div>
-                    <input
-                      type="radio"
-                      name="pregunta_2"
-                      value="2"
-                      v-model="pregunta_2"
-                    />
+                    <input type="radio" name="pregunta_2" value="2" v-model="pregunta_2" />
                   </label>
                 </div>
               </div>
@@ -128,12 +92,7 @@
             <div class="has-text-right">
               <div class="columns is-justify-content-flex-end">
                 <div class="column no-border is-3">
-                  <a
-                    href=""
-                    class="button button-icono is-fullwidth"
-                    @click.prevent="pasarPaso3()"
-                    >Siguiente</a
-                  >
+                  <a href="" class="button button-icono is-fullwidth" @click.prevent="pasarPaso3()">Siguiente</a>
                 </div>
               </div>
             </div>
@@ -165,12 +124,7 @@
             <div class="has-text-right">
               <div class="columns is-justify-content-flex-end">
                 <div class="column no-border is-3">
-                  <a
-                    href=""
-                    class="button button-icono is-fullwidth"
-                    @click.prevent="finalizar()"
-                    >Siguiente</a
-                  >
+                  <a href="" class="button button-icono is-fullwidth" @click.prevent="finalizar()">Siguiente</a>
                 </div>
               </div>
             </div>
@@ -182,35 +136,27 @@
             <h2 class="primero has-text-centered py-4">
               <strong>{{ data.acf.mensaje_resultado }}</strong>
             </h2>
-            <a href="" class="button button-icono" @click.prevent="reiniciar()"
-              >Volver a Calcular</a
-            >
+            <a href="" class="button button-icono" @click.prevent="reiniciar()">Volver a Calcular</a>
           </div>
 
           <h3 class="primero has-text-centered mb-6">
             {{ data.acf.mensaje_resultado_2 }}
           </h3>
-          <SliderProductosCalculadora
-            :productos="productos"
-            :productos_calculadora="this.data.acf.productos"
-            v-if="!cargando_productos"
-          ></SliderProductosCalculadora>
+          <SliderProductosCalculadora :productos="productos" :productos_calculadora="this.data.acf.productos"
+            v-if="!cargando_productos"></SliderProductosCalculadora>
           <CargandoSeccion v-else></CargandoSeccion>
         </div>
       </div>
     </div>
     <CargandoSeccion v-if="cargando"></CargandoSeccion>
   </main>
-  <Seo
-    v-if="!cargando && data.hasOwnProperty('yoast_head_json')"
-    :data_api="data.yoast_head_json"
-  ></Seo>
+  <Seo v-if="!cargando && data.hasOwnProperty('yoast_head_json')" :data_api="data.yoast_head_json"></Seo>
 </template>
 
 <script>
 import "/src/assets/libs/jquery.min.js";
 import "/src/assets/libs/slick/slick.min.js";
-import "/src/assets/libs/slick/slick.min.css";
+// import "/src/assets/libs/slick/slick.min.css";
 import "/src/assets/libs/slick/slick-theme.min.css";
 
 import SliderProductosCalculadora from "../components/productos/SliderProductosCalculadora.vue";
@@ -408,10 +354,10 @@ export default {
 
       const respuesta_producto = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_V2 +
-          "&include=" +
-          productos +
-          "&sucursal=" +
-          this.store_opciones_generales.sucursal_seleccionada.ID,
+        "&include=" +
+        productos +
+        "&sucursal=" +
+        this.store_opciones_generales.sucursal_seleccionada.ID,
         { authorization: true, cache: true }
       );
 
