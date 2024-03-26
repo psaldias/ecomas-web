@@ -1,5 +1,31 @@
 @import "variables.scss";
-@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700&display=swap');
+
+/* hebrew */
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/Heebo-Regular.ttf) format('woff2');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(../fonts/Heebo-Medium.ttf) format('woff2');
+}
+
+/* latin */
+@font-face {
+  font-family: 'Heebo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/Heebo-ExtraBold.ttf) format('woff2');
+}
 
 :root {
   --vdp-hover-bg-color: #80BD01;

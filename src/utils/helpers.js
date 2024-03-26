@@ -101,7 +101,7 @@
             let r = false;
             s.type = 'text/javascript';
             s.src = 'https://accounts.google.com/gsi/client';
-            s.async = true;
+            // s.async = true;
             s.defer = true;
             s.onerror = function(err) {
                 reject(err, s);
@@ -127,7 +127,7 @@
             s.type = 'text/javascript';
             s.src = libreria;
             s.async = true;
-            s.defer = true;
+            // s.defer = true;
             s.onerror = function(err) {
                 reject(err, s);
             };

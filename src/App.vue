@@ -6,7 +6,7 @@
 
     <div v-if="customHtml" v-html="customHtml"></div>
     <FooterView v-once></FooterView>
-    <Toplayer v-once></Toplayer>
+    <Toplayer></Toplayer>
     <ToplayerGeneral v-once></ToplayerGeneral>
   </main>
 
