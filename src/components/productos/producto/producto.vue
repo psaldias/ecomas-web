@@ -1,11 +1,11 @@
 <template>
   <main class="main-producto">
     <div class="card producto" :class="formato" v-if="formato == 'vertical'">
-      <a class="link-categoria">
+      <div cldivss="link-categoria">
         <div class="categoria">
           {{ categoria }}
         </div>
-      </a>
+      </div>
       <!-- <router-link :to="url" class="imagen" v-html="producto.imagen"> </router-link> -->
       <Imagen :imagen="producto_activo.imagen" :alt="producto_activo.name" :url="url"></Imagen>
 
@@ -21,7 +21,7 @@
       </div>
 
       <div class="block mb-2" v-if="producto.variable && variacionesColores.length > 0">
-        <label for="" class="primero is-size-7"><b>Color</b></label>
+        <span class="primero is-size-7"><b>Color</b></span>
         <div class="control color-producto">
           <div class="columns is-variable is-1 is-mobile is-multiline">
             <a v-for="variacion_producto in variacionesColores" @click.prevent="

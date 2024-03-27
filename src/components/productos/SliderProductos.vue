@@ -52,9 +52,9 @@ export default {
         arrows: true,
         infinite: false,
         prevArrow:
-          '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
+          '<span class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></span>',
         nextArrow:
-          '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
+          '<span class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></span>',
         responsive: [
           {
             breakpoint: 1240,

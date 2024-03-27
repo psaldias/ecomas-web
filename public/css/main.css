@@ -930,11 +930,17 @@ header .logo {
 header .menu-movil {
   align-items: center;
   width: 100%;
+  max-width: 50px;
 }
 header .menu-movil #btn-menu {
   font-size: 2.4em;
   line-height: 0.4em;
   display: inline-block;
+  width: 26px;
+  height: 30px;
+}
+header .menu-movil .lds-dual-ring {
+  margin-top: -20px;
 }
 
 footer {

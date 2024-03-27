@@ -7,7 +7,7 @@
     <div v-if="customHtml" v-html="customHtml"></div>
     <FooterView v-once></FooterView>
     <Toplayer></Toplayer>
-    <ToplayerGeneral v-once></ToplayerGeneral>
+    <ToplayerGeneral></ToplayerGeneral>
   </main>
 
   <Seo></Seo>
@@ -63,6 +63,9 @@ export default {
 
       this.store_opciones_generales.guardarDatos(respuesta.data);
       this.store.guardarToken(token);
+
+
+
       /** SI YA SE TIENE UNA SUCURSAL ALMACENADA EN LOCALSTORAGE ENTONCES QUEDA POR DEFECTO */
       if (localStorage.sucursalSeleccionada) {
         this.store_opciones_generales.actualizarSucuralSeleccionada(
@@ -91,15 +94,7 @@ export default {
     }
 
     /** CARGAR SCRIPT PERSONALIZADOS DEL ADMINISTRADOR OPCIONES ECOMAS - GENERALES */
-    if (this.store_opciones_generales.scripts_personalizados) {
-      this.customHtml = "";
-      this.store_opciones_generales.scripts_personalizados.forEach((script) => {
-        if (script.estado) {
-          if (script.html) this.customHtml += script.html;
-          if (script.url_script) helpers.importarLibereria(script.url_script);
-        }
-      });
-    }
+    this.cargarScripts();
 
     /** OBTENER ORIGEN DE VISITA Y GUARDAR */
     this.definirOrigenUsuario(); // mixin usuarios.js
@@ -143,6 +138,19 @@ export default {
 
       return distance;
     },
+    cargarScripts() {
+
+      if (this.store_opciones_generales.scripts_personalizados) {
+        this.customHtml = "";
+        this.store_opciones_generales.scripts_personalizados.forEach((script) => {
+          if (script.estado) {
+            if (script.html) this.customHtml += script.html;
+            if (script.url_script) helpers.importarLibereria(script.url_script);
+          }
+        });
+      }
+    },
+
   },
 };
 </script>

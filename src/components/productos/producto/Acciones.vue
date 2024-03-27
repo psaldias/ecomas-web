@@ -6,9 +6,9 @@
           <button class="button is-small is-rounded50" @click="disminuirCantidad()">
             -
           </button>
-          <label for="">
+          <label :for="'cantidad-' + idProducto">
             <input type="text" class="input is-rounded is-small is-inline-block" aria-label="Cantidad Producto"
-              v-model="cantidad" readonly />
+              v-model="cantidad" readonly :id="'cantidad-' + idProducto" />
           </label>
           <button class="button is-small is-rounded50" @click="this.aumentarCantidad()">
             +

@@ -126,8 +126,8 @@
             let r = false;
             s.type = 'text/javascript';
             s.src = libreria;
-            s.async = true;
-            // s.defer = true;
+            // s.async = true;
+            s.defer = true;
             s.onerror = function(err) {
                 reject(err, s);
             };
@@ -139,6 +139,32 @@
                 }
             };
             const t = document.getElementsByTagName('script')[0];
+            t.parentElement.insertBefore(s, t);
+            });
+        }
+    },
+    async preloadImagen(imagen){
+        if ($('link[href="'+imagen.url+'"]').length == 0){
+
+            return new Promise(function(resolve, reject) {
+            const s = document.createElement('link');
+            let r = false;
+            s.rel = 'preload';
+            s.fetchpriority = 'high';
+            s.href = imagen.url;
+            s.as = 'image';
+            s.type = imagen.type;
+            s.onerror = function(err) {
+                reject(err, s);
+            };
+            s.onload = s.onreadystatechange = function() {
+                // console.log(this.readyState); // uncomment this line to see which ready states are called.
+                if (!r && (!this.readyState || this.readyState == 'complete')) {
+                r = true;
+                resolve();
+                }
+            };
+            const t = document.getElementsByTagName('link')[0];
             t.parentElement.insertBefore(s, t);
             });
         }

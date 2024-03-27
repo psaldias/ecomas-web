@@ -30,6 +30,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         toplayer_general_color_fondo:false,
         toplayer_general_padding:false,
         toplayer_general_urls:[],
+        imagen_preload:[],
      }
   },
   actions: {

@@ -1,5 +1,6 @@
 import { createApp } from "vue";
 import { createPinia } from "pinia";
+import VueGtag from "vue-gtag";
 
 import axios from 'axios'
 import router from "./router";
@@ -27,4 +28,9 @@ createApp(App)
 .mixin( usuario )
 .use(router)
 .use(createHead())
+.use(VueGtag, {
+    config: {
+      id: "G-341FT8D8CC",
+    }
+  })
 .mount("#app");

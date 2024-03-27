@@ -10,7 +10,7 @@
 
     <section class="seleccionar-ubicacion" ref="seleccionarUbicacion" v-if="mostrarMenu">
       <div class="card">
-        <button class="delete ecomas is-large" @click.prevent="mostrarMenu = false"></button>
+        <button class="delete ecomas is-large" @click.prevent="mostrarMenu = false" aria-label="Cerrar"></button>
         <div v-if="error_ubicacion" class="has-text-centered">
           <img src="/img/icono-error.jpg" alt="" />
           <p class="mt-4">
@@ -24,13 +24,13 @@
             Seleccionar comuna en la que encuentras para ver la disponibilidad despacho o
             tiempos de entrega.
           </p>
-          <div class="columns is-variable mb-3 mt-5 is-1" v-if="!store_opciones_generales.cargando">
+          <div class="columns is-variable mb-3 mt-5 is-1">
             <div class="column mr-2">
               <div class="field">
-                <label for="" class="label">Región</label>
+                <label for="region" class="label">Región</label>
                 <div class="control">
-                  <div class="select is-fullwidth">
-                    <select v-model="regionSeleccionada" @change="cambiarComunas()">
+                  <div class="select is-fullwidth" :class="{ 'is-loading': store_opciones_generales.cargando }">
+                    <select v-model="regionSeleccionada" @change="cambiarComunas()" id="region">
                       <option :value="region.term_id" v-for="region in regiones" :key="region.term_id">
                         {{ region.name }}
                       </option>
@@ -41,10 +41,10 @@
             </div>
             <div class="column">
               <div class="field">
-                <label for="" class="label">Ciudad/Comuna</label>
+                <label for="comuna" class="label">Ciudad/Comuna</label>
                 <div class="control">
-                  <div class="select is-fullwidth">
-                    <select id="" v-model="comunaSeleccionada">
+                  <div class="select is-fullwidth" :class="{ 'is-loading': store_opciones_generales.cargando }">
+                    <select v-model="comunaSeleccionada" id="comuna" autocomplete="false">
                       <option :value="comuna.term_id" v-for="comuna in comunas" :key="comuna.term_id">
                         {{ comuna.name }}
                       </option>
@@ -84,11 +84,14 @@ export default {
   },
   mounted() {
     if (this.sucursal_por_defecto) {
-      const region_comuna = this.sucursal_por_defecto.regiones_comunas.find((comuna) =>
-        localStorage.sucursalSeleccionada
-          ? comuna.term_id == localStorage.sucursalSeleccionada
-          : true
-      );
+      const region_comuna = this.sucursal_por_defecto.regiones_comunas.find((comuna) => {
+
+        if (localStorage.sucursalSeleccionada) {
+          localStorage.sucursalSeleccionada
+            ? comuna.term_id == localStorage.sucursalSeleccionada
+            : true
+        } return true;
+      });
       this.regionSeleccionada = region_comuna.parent;
       this.comunaSeleccionada = region_comuna.term_id;
     } else if (this.regiones) {
@@ -136,6 +139,7 @@ export default {
           return sucursal.fields.sucursal_por_defecto;
         }
       );
+
       return sucursal_por_defecto;
     },
     regiones() {

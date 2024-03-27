@@ -12,13 +12,14 @@
 
           <div class="column buscador is-3-desktop is-narrow-tablet is-hidden-mobile">
             <form action="#" @submit.prevent="enviarBuscador()">
-              <input type="text" class="input is-small" placeholder="¿Qué estás buscando?" v-model="buscar" />
+              <input type="text" class="input is-small" placeholder="¿Qué estás buscando?" v-model="buscar"
+                id="buscar" />
               <button type="submit" class="bg-blanco" aria-label="Buscar">
                 <i class="fa-solid fa-magnifying-glass primero"></i>
               </button>
             </form>
           </div>
-          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column ">
+          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-hidden-mobile">
           </CargandoSeccion>
           <div class="column menu" :class="{ active: mostrarMenu }" ref="menuMovil" v-if="menuPrincipal">
             <ul>
@@ -52,7 +53,7 @@
           <div
             class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow-desktop mb-0">
             <div class="column is-narrow comuna">
-              <SeleccionarUbicacionHeader></SeleccionarUbicacionHeader>
+              <SeleccionarUbicacionHeader v-if="!store_opciones_generales.cargando"></SeleccionarUbicacionHeader>
             </div>
             <!-- <div class="column is-narrow is-hidden-mobile" v-if="false">
               <router-link to="/pedidos/" class="has-text-white">
@@ -61,13 +62,13 @@
               </router-link>
             </div> -->
             <div class="column is-narrow ingresar" v-if="!usuarioCarroCompra()">
-              <router-link to="/ingresar">
+              <router-link to="/ingresar" aria-label="Ingresar">
                 <i class="mr-2 fa-solid fa-circle-user primero"></i>
                 <span>Ingresar</span>
               </router-link>
             </div>
             <div class="column is-narrow ingresar" v-if="usuarioCarroCompra()">
-              <router-link to="/ingresar">
+              <router-link to="/ingresar" aria-label="Mi cuenta">
                 <i class="mr-2 fa-solid fa-circle-user primero"></i>
                 <span>{{ nombreUsuario }}</span>
               </router-link>
@@ -82,8 +83,10 @@
             </div>
           </div>
           <div class="column menu-movil is-hidden-desktop has-text-right is-narrow">
-            <a href="#" id="btn-menu" @click.prevent="toggleMenu()" ref="menuMovil">
-              <i class="fa-solid fa-bars primero is-block"></i>
+            <a href="#" id="btn-menu" @click.prevent="toggleMenu()" ref="menuMovil" aria-label="Menu">
+              <i class="fa-solid fa-bars primero is-block" v-if="!store_opciones_generales.cargando"></i>
+              <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-hidden-tablet px-0 py-0">
+              </CargandoSeccion>
             </a>
           </div>
         </div>

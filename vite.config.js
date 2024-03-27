@@ -2,7 +2,6 @@ import { fileURLToPath, URL } from "node:url";
 
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import basicSsl from '@vitejs/plugin-basic-ssl'
 
 
 
@@ -20,5 +19,9 @@ export default defineConfig(({ command, mode }) => {
     server:{
       proxy: 'http://ecomaswp.localhost',
     },
+    define: {
+      // enable hydration mismatch details in production build
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
+    }
   }
 });

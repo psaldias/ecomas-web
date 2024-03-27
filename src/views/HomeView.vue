@@ -89,6 +89,7 @@ const NoticiasDestacada = defineAsyncComponent(() => import('/src/components/gen
 const Marcas = defineAsyncComponent(() => import('/src/components/general/Marcas.vue'))
 const ToplayerHome = defineAsyncComponent(() => import('../components/general/ToplayerHome.vue'))
 import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
+import helpers from "/src/utils/helpers.js";
 export default {
   components: {
     CompraRapida,
@@ -102,17 +103,9 @@ export default {
     ToplayerHome,
   },
   async mounted() {
-    const respuesta = await this.enviarGet(
-      import.meta.env.VITE_ENDPOINT_PAGINA_HOME +
-      "?sucursal=" +
-      this.store_opciones_generales.sucursal_seleccionada.ID
-    );
 
-    if (respuesta) {
-      this.contenidoInicial = respuesta.data;
-      this.toplayer = this.contenidoInicial.acf.toplayer;
-      this.cargando = false;
-    }
+
+
   },
   data() {
     return {
@@ -133,6 +126,31 @@ export default {
       return import.meta.env.VITE_DEFAULT_TITLE;
     },
   },
-  methods: {},
+  async beforeMount() {
+    const respuesta = await this.enviarGet(
+      import.meta.env.VITE_ENDPOINT_PAGINA_HOME +
+      "?sucursal=" +
+      this.store_opciones_generales.sucursal_seleccionada.ID
+    );
+
+    if (respuesta) {
+      this.contenidoInicial = respuesta.data;
+      this.toplayer = this.contenidoInicial.acf.toplayer;
+      this.cargando = false;
+
+      /** PRECARGAR IMAGENES EN EL VIEWPORT PARA GOOGLE */
+      this.preloadImagenes();
+    }
+  },
+  methods: {
+
+    preloadImagenes() {
+      if (this.contenidoInicial.imagen_preload) {
+        this.contenidoInicial.imagen_preload.forEach(imagen => {
+          helpers.preloadImagen(imagen);
+        });
+      }
+    },
+  },
 };
 </script>
