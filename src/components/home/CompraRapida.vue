@@ -77,7 +77,7 @@ export default {
       });
     },
     sucursalCarro() {
-      return this.store_opciones_generales.sucursal_seleccionada.ID;
+      return this.store_opciones_generales.sucursalSeleccionada?.ID;
     },
   },
   methods: {

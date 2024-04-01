@@ -19,8 +19,6 @@
               </button>
             </form>
           </div>
-          <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-hidden-mobile">
-          </CargandoSeccion>
           <div class="column menu" :class="{ active: mostrarMenu }" ref="menuMovil" v-if="menuPrincipal">
             <ul>
               <li v-for="menu in buscarMenusPricipales()" :key="menu.ID" :class="menu.classes">
@@ -44,23 +42,13 @@
               menu.title
             }}</router-link>
               </li>
-              <!-- <li><router-link to="/quienes-somos">SOMOS</router-link></li>
-              <li><router-link to="/noticias">NOTICIAS</router-link></li>
-              <li><router-link to="/sucursales">SUCURSALES</router-link></li>
-              <li><router-link to="/contacto">CONTACTO</router-link></li> -->
             </ul>
           </div>
           <div
             class="column datos-carro columns is-mobile is-justify-content-flex-end is-vcentered is-narrow-desktop mb-0">
             <div class="column is-narrow comuna">
-              <SeleccionarUbicacionHeader v-if="!store_opciones_generales.cargando"></SeleccionarUbicacionHeader>
+              <SeleccionarUbicacionHeader></SeleccionarUbicacionHeader>
             </div>
-            <!-- <div class="column is-narrow is-hidden-mobile" v-if="false">
-              <router-link to="/pedidos/" class="has-text-white">
-                <i class="has-text-white mr-1 fa-solid fa-truck-fast"></i>
-                Pedido
-              </router-link>
-            </div> -->
             <div class="column is-narrow ingresar" v-if="!usuarioCarroCompra()">
               <router-link to="/ingresar" aria-label="Ingresar">
                 <i class="mr-2 fa-solid fa-circle-user primero"></i>
@@ -84,9 +72,7 @@
           </div>
           <div class="column menu-movil is-hidden-desktop has-text-right is-narrow">
             <a href="#" id="btn-menu" @click.prevent="toggleMenu()" ref="menuMovil" aria-label="Menu">
-              <i class="fa-solid fa-bars primero is-block" v-if="!store_opciones_generales.cargando"></i>
-              <CargandoSeccion v-if="store_opciones_generales.cargando" class="small column is-hidden-tablet px-0 py-0">
-              </CargandoSeccion>
+              <i class="fa-solid fa-bars primero is-block"></i>
             </a>
           </div>
         </div>

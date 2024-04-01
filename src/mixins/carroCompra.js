@@ -32,7 +32,7 @@ export default {
         //   await this.obtenerToken();
         headers["Authorization"] =  'Bearer '+this.store.token;
 
-        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_RAPIDA_PRODUCTOS+'&category=33'+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
+        const response = await axios.get( import.meta.env.VITE_ENDPOINT_COMPRA_RAPIDA_PRODUCTOS+'&category=33'+'&sucursal='+this.store_opciones_generales.sucursalSeleccionada?.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })
               return false;
@@ -130,7 +130,7 @@ export default {
           }
         }
 
-        const response = await axios.get(import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_V2+parametros_adicionales+'&sucursal='+this.store_opciones_generales.sucursal_seleccionada.ID ,{headers}).catch(error => {
+        const response = await axios.get(import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_V2+parametros_adicionales+'&sucursal='+this.store_opciones_generales.sucursalSeleccionada.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })
               return false;

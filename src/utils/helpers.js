@@ -230,7 +230,16 @@
         /** PASAR METROS A KILOMETROS */
         const kilometros_permitidos = parseInt(radio_permitido) / 1000;
         return (distancia <= kilometros_permitidos)
-    }
+    },
+    esMovil() {
+        // Create a media condition that targets viewports at least 768px wide
+        const mediaQuery = window.matchMedia('(max-width: 900px)')
+        // Check if the media query is true
+        if (mediaQuery.matches) {
+          return true;
+        }
+        return false;
+      },
 
 }
 const gradosARadianes = (grados) => {

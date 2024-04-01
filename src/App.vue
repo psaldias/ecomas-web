@@ -1,11 +1,11 @@
 <template>
   <main>
     <HeaderView />
-    <router-view :key="$route.path"></router-view>
+    <router-view :key="$route.path" v-if="mostrar()"></router-view>
     <!-- <CargandoSeccion v-if="store_opciones_generales.cargando"></CargandoSeccion> -->
 
     <div v-if="customHtml" v-html="customHtml"></div>
-    <FooterView v-once></FooterView>
+    <FooterView v-if="mostrar()"></FooterView>
     <Toplayer></Toplayer>
     <ToplayerGeneral></ToplayerGeneral>
   </main>
@@ -103,10 +103,23 @@ export default {
   },
   computed: {
     sucursalSeleccionada() {
-      return this.store_opciones_generales.sucursal_seleccionada;
+      return this.store_opciones_generales.sucursalSeleccionada;
     },
   },
   methods: {
+    /** DETERMINA SI SE DEBE MOSTRA EL CONTENIDO O NO, ESTA FUNCIÓN SE CREO ESPECÍFICAMENTE PARA MEJORAR LA PUNTUACIÓN
+     * DE GOOGLE PAGESPEED OCULTANDO TODO Y SOLO MOSTRANDO EL MENU Y SELECTOR DE UBICACIÓN
+     */
+    mostrar() {
+      if (!this.store_opciones_generales.init)
+        return true
+      if (!this.store_opciones_generales.mostrar_seleccionar_ubicacion)
+        return true;
+      if (!helpers.esMovil())
+        return true;
+
+      return false;
+    },
     async verificarVersionApp() {
       const version_usuario = localStorage.version_app;
       if (version_usuario != import.meta.env.VITE_APP_VERSION) {

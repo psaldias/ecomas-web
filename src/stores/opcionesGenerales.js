@@ -3,6 +3,8 @@ import { defineStore } from 'pinia'
 export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
   state: () => {
     return {
+        init:true,
+        mostrar_seleccionar_ubicacion:true,
         cargando:true,
         token:false,
         rrss:false,
@@ -11,8 +13,134 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         restricciones_compras:false,
         restricciones_sucursales:false,
         ingreso_con_google:{activo:false},
-        menus:{},
-        sucursales:false,
+        menus:{
+          "footer-1": [
+            {
+              "ID": 263,
+              "object_id": "15",
+              "url": "/somos-ecomas/",
+              "title": "Sobre Nosotros",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 262,
+              "object_id": "127",
+              "url": "/preguntas-frecuentes/",
+              "title": "Preguntas Frecuentes",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 261,
+              "object_id": "180",
+              "url": "/sucursales/",
+              "title": "Encuentra nuestras sucursales",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 260,
+              "object_id": "185",
+              "url": "/contacto/",
+              "title": "Contacto",
+              "menu_item_parent": "0"
+            }
+          ],
+          "footer-2": [
+            {
+              "ID": 264,
+              "object_id": "264",
+              "url": "/productos",
+              "title": "Productos",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 266,
+              "object_id": "150",
+              "url": "/bases-promocionales/",
+              "title": "Bases Promocionales",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 268,
+              "object_id": "139",
+              "url": "/terminos-y-condiciones/",
+              "title": "Términos y Condiciones",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 267,
+              "object_id": "144",
+              "url": "/politicas-y-devoluciones/",
+              "title": "Políticas y devoluciones",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 265,
+              "object_id": "203",
+              "url": "/distribuidores/",
+              "title": "Distribuidores",
+              "menu_item_parent": "0"
+            }
+          ],
+          "menu-principal": [
+            {
+              "ID": 1786,
+              "object_id": "1786",
+              "url": "/productos",
+              "title": "PRODUCTOS",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 1787,
+              "object_id": "1787",
+              "url": "/productos",
+              "title": "Pellets",
+              "menu_item_parent": "1786"
+            },
+            {
+              "ID": 1789,
+              "object_id": "1789",
+              "url": "/productos/equipos",
+              "title": "Estufas",
+              "menu_item_parent": "1786"
+            },
+            {
+              "ID": 1788,
+              "object_id": "1788",
+              "url": "/productos/accesorios",
+              "title": "Accesorios",
+              "menu_item_parent": "1786"
+            },
+            {
+              "ID": 1793,
+              "object_id": "1791",
+              "url": "/comparador/",
+              "title": "Comparador de estufas",
+              "menu_item_parent": "1786"
+            },
+            {
+              "ID": 258,
+              "object_id": "180",
+              "url": "/sucursales/",
+              "title": "SUCURSALES",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 1790,
+              "object_id": "1790",
+              "url": "/pedidos",
+              "title": "SIGUE TU COMPRA",
+              "menu_item_parent": "0"
+            },
+            {
+              "ID": 251,
+              "object_id": "185",
+              "url": "/contacto/",
+              "title": "CONTACTO",
+              "menu_item_parent": "0"
+            }
+          ]
+        },
+        sucursales:[],
         ubicaciones_sucursales:false,
         sucursal_seleccionada:false,
         asuntos:{},
@@ -75,8 +203,12 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
         }
       }else if(state.sucursal_seleccionada){
         sucursal = state.sucursal_seleccionada;
+      }else{
+        sucursal = state.sucursales.find(sucursal => {
+          return sucursal.fields.sucursal_por_defecto;
+        });
       }
-
+      StaticRange.sucursal_seleccionada = sucursal;
       return  sucursal;
     }
   },

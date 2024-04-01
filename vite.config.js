@@ -1,8 +1,6 @@
-import { fileURLToPath, URL } from "node:url";
-
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-
+import { ViteMinifyPlugin } from 'vite-plugin-minify'
 
 
 
@@ -11,10 +9,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [
       vue(),
-      // {
-      //   ...basicSsl(),
-      //   apply: 'serve'
-      // }
+      // ViteMinifyPlugin({}),
     ],
     server:{
       proxy: 'http://ecomaswp.localhost',

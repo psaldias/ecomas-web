@@ -4,35 +4,32 @@
       <div class="wrapper wrapper-fullm content-compra-rapida" v-if="contenidoInicial.acf.compra_rapida.visible">
         <section class="columns compra-rapida is-vcentered is-gapless is-mobile">
           <div class="column is-narrow-desktop is-3-tablet is-5-mobile titulo">
+            <h2 class="pr-4" v-if="cargando">
+              <p>¡Compra más<br>y <strong>paga menos</strong>!</p>
+            </h2>
             <div class="imagen" v-if="contenidoInicial.acf.calculadora?.estado">
               <router-link to="/calculadora">
                 <img src="/img/calculadora.webp" alt="Calculadora" width="186" height="159" />
-                <!-- <span v-html="contenidoInicial.acf.calculadora.imagen_banner_home"></span> -->
-
               </router-link>
             </div>
-
             <h2 class="pr-4" v-else v-html="contenidoInicial.acf.compra_rapida.titulo_home"></h2>
           </div>
           <div class="column is-narrow is-hidden-mobile" style="width: 20px"></div>
-
           <CompraRapida />
         </section>
       </div>
-
       <div class="wrapper">
-        <BannerHome :imagenes="contenidoInicial.acf.banner"></BannerHome>
+        <section class="banner-principal mt-4">
+          <BannerHome :imagenes="contenidoInicial.acf.banner"></BannerHome>
+        </section>
       </div>
-
       <div class="wrapper productos-destacados-home">
         <SliderProductos :titulo="this.contenidoInicial.acf.productos_home.titulo" :categoria="'equipos'"
           :productos="this.contenidoInicial.acf.productos_home.productos"></SliderProductos>
       </div>
-
       <div class="wrapper marcas-home">
         <marcas v-once></marcas>
       </div>
-
       <div class="wrapper wrapper-fullm">
         <section class="quienes-somos-home my-6" v-if="contenidoInicial.acf.quienes_somos.activo">
           <div class="wrapper" v-if="!cargando">
@@ -64,11 +61,8 @@
         </section>
         <NoticiasDestacada titulo="Noticias" v-once />
       </div>
-
       <ToplayerHome :toplayer="toplayer"></ToplayerHome>
     </div>
-
-    <!-- <CargandoSeccion v-if="cargando"></CargandoSeccion> -->
     <ErrorSeccion v-if="errorData"></ErrorSeccion>
   </main>
   <Seo v-if="!cargando && contenidoInicial.hasOwnProperty('yoast_head_json')"
@@ -84,6 +78,7 @@ import BannerHome from "/src/components/home/BannerHome.vue";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 import ErrorSeccion from "/src/components/general/ErrorSeccion.vue";
 import Seo from "/src/components/general/Seo.vue";
+// const BannerHome = defineAsyncComponent(() => import('/src/components/home/BannerHome.vue'))
 const SliderProductos = defineAsyncComponent(() => import('../components/productos/SliderProductos.vue'))
 const NoticiasDestacada = defineAsyncComponent(() => import('/src/components/general/NoticiasDestacadas.vue'))
 const Marcas = defineAsyncComponent(() => import('/src/components/general/Marcas.vue'))
@@ -95,12 +90,26 @@ export default {
     CompraRapida,
     NoticiasDestacada,
     Marcas,
-    BannerHome,
+    // BannerHome,
     CargandoSeccion,
     ErrorSeccion,
     Seo,
     SliderProductos,
     ToplayerHome,
+    BannerHome: defineAsyncComponent({
+      // the loader function
+      loader: () =>
+        new Promise((resolve) => {
+          setTimeout(() => {
+            resolve(import('/src/components/home/BannerHome.vue'))
+          }, 2000)
+        }),
+
+      // A component to use while the async component is loading
+      loadingComponent: CargandoSeccion,
+      // Delay before showing the loading component. Default: 200ms.
+      delay: 500,
+    }),
   },
   async mounted() {
 
@@ -112,6 +121,7 @@ export default {
       cargando: true,
       contenidoInicial: {
         acf: {
+          banner: [],
           compra_rapida: { visible: true },
           productos_home: { visible: false },
           quienes_somos: { activo: false, activo: true },
@@ -130,7 +140,7 @@ export default {
     const respuesta = await this.enviarGet(
       import.meta.env.VITE_ENDPOINT_PAGINA_HOME +
       "?sucursal=" +
-      this.store_opciones_generales.sucursal_seleccionada.ID
+      this.store_opciones_generales.sucursalSeleccionada?.ID
     );
 
     if (respuesta) {
@@ -139,13 +149,14 @@ export default {
       this.cargando = false;
 
       /** PRECARGAR IMAGENES EN EL VIEWPORT PARA GOOGLE */
-      this.preloadImagenes();
+      // this.preloadImagenes();
     }
   },
   methods: {
 
     preloadImagenes() {
-      if (this.contenidoInicial.imagen_preload) {
+      if (this.contenidoInicial.imagen_preload && !helpers.esMovil()) {
+        console.log('preload')
         this.contenidoInicial.imagen_preload.forEach(imagen => {
           helpers.preloadImagen(imagen);
         });

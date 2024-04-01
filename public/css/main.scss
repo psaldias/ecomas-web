@@ -2385,7 +2385,8 @@ button.dropdown-item.is-active {
 }
 
 [data-lazy] {
-  display: none;
+  // display: none;
+  opacity: 0;
 }
 
 // @import 'media.scss';

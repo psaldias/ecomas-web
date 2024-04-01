@@ -529,7 +529,25 @@
         }
     }
 
+    .banner-principal {
+        min-height: 400px;
+    }
 
+    .productos-destacados-home {
+        min-height: 650px;
+    }
+
+    .marcas-home {
+        min-height: 356px;
+    }
+
+    .quienes-somos-home {
+        min-height: 936px;
+    }
+
+    footer {
+        min-height: 609px;
+    }
 }
 
 .h-auto {
@@ -538,10 +556,18 @@
 
 @media (max-width:625px) {
     .seleccionar-ubicacion {
+        position: fixed;
+        top: 80px;
+        bottom: 0 !important;
+        padding: 0;
+
         &:after {
             left: 70% !important;
         }
 
+        .card {
+            height: 100%;
+        }
     }
 }
 

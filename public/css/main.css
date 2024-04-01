@@ -2236,5 +2236,5 @@ button.dropdown-item.is-active {
 }
 
 [data-lazy] {
-  display: none;
+  opacity: 0;
 }

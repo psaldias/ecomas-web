@@ -5,12 +5,12 @@
     error_ubicacion = false;
     ">
       <i class="primero mr-1 fa-solid fa-location-dot"></i>
-      <span>{{ this.store_opciones_generales.sucursal_seleccionada.post_title ?? 'Ubicación' }}</span>
+      <span>{{ this.store_opciones_generales.sucursalSeleccionada?.post_title ?? 'Ubicación' }}</span>
     </a>
 
     <section class="seleccionar-ubicacion" ref="seleccionarUbicacion" v-if="mostrarMenu">
       <div class="card">
-        <button class="delete ecomas is-large" @click.prevent="mostrarMenu = false" aria-label="Cerrar"></button>
+        <button class="delete ecomas is-large" @click.prevent="cerrar()" aria-label="Cerrar"></button>
         <div v-if="error_ubicacion" class="has-text-centered">
           <img src="/img/icono-error.jpg" alt="" />
           <p class="mt-4">
@@ -80,23 +80,11 @@ export default {
       storeCarroCompra: useCarroCompraStore(),
       store_opciones_generales: useOpcionesGeneralesStore(),
       comunas: {},
+      sucursales: [],
+      sucursal_por_defecto: false,
     };
   },
   mounted() {
-    if (this.sucursal_por_defecto) {
-      const region_comuna = this.sucursal_por_defecto.regiones_comunas.find((comuna) => {
-
-        if (localStorage.sucursalSeleccionada) {
-          localStorage.sucursalSeleccionada
-            ? comuna.term_id == localStorage.sucursalSeleccionada
-            : true
-        } return true;
-      });
-      this.regionSeleccionada = region_comuna.parent;
-      this.comunaSeleccionada = region_comuna.term_id;
-    } else if (this.regiones) {
-      this.regionSeleccionada = this.regiones[0].term_id;
-    }
     if (!localStorage.sucursalSeleccionada) {
       this.mostrarMenu = true;
       this.guardarUbicacion();
@@ -105,23 +93,74 @@ export default {
     if (!localStorage.seleccionaSucursal) {
       this.mostrarMenu = true;
     }
-
-    if (this.ubicaciones) {
-      this.comunas = this.ubicaciones.filter(
-        (ubicacion) => ubicacion.parent === this.regionSeleccionada
-      );
-    }
+  },
+  watch: {
+    "store_opciones_generales.sucursales": {
+      handler(newValue, oldValue) {
+        this.sucursales = newValue;
+        this.init();
+        this.determinar_sucursal_por_defecto();
+      },
+    },
   },
   computed: {
     ubicaciones() {
       return this.store_opciones_generales.ubicaciones_sucursales ?? false;
     },
-    sucursal_por_defecto() {
+
+    regiones() {
+      let regiones = false;
+      if (this.ubicaciones) {
+        regiones = this.ubicaciones.filter((ubicacion) => ubicacion.parent == 0);
+      }
+      return regiones;
+    },
+  },
+  methods: {
+    init() {
+      if (this.sucursal_por_defecto) {
+        const region_comuna = this.sucursal_por_defecto.regiones_comunas.find((comuna) => {
+
+          if (localStorage.sucursalSeleccionada) {
+            localStorage.sucursalSeleccionada
+              ? comuna.term_id == localStorage.sucursalSeleccionada
+              : true
+          } return true;
+        });
+        this.regionSeleccionada = region_comuna.parent;
+        this.comunaSeleccionada = region_comuna.term_id;
+      } else if (this.regiones) {
+        this.regionSeleccionada = this.regiones[0].term_id;
+      }
+      if (!localStorage.sucursalSeleccionada) {
+        this.mostrarMenu = true;
+        this.guardarUbicacion();
+      }
+
+      if (!localStorage.seleccionaSucursal) {
+        this.mostrarMenu = true;
+      }
+
+      if (this.ubicaciones) {
+        this.comunas = this.ubicaciones.filter(
+          (ubicacion) => ubicacion.parent === this.regionSeleccionada
+        );
+      }
+
+      /** SI SE DEBE MOSTRAR LA SECCIÓN DE UBICCIÓN SE GUARDA EN STORE PARA QUE OTROS COMPONENTES LO DETECTEN */
+      if (this.mostrarMenu) {
+        this.store_opciones_generales.guardarDatos({
+          mostrar_seleccionar_ubicacion: true,
+        });
+      }
+
+    },
+    determinar_sucursal_por_defecto() {
       /** VALIDA QUE EXISTAN SUCURSALES */
-      if (!this.store_opciones_generales.sucursales) return false;
+      if (!this.sucursales) return false;
       /** VALIDA SI HAY ALGUNA SUCURSAL SELECCIONADA EN LOCALSTORAGE */
       if (localStorage.sucursalSeleccionada) {
-        const sucursal = this.store_opciones_generales.sucursales.find((sucursal) => {
+        const sucursal = this.sucursales.find((sucursal) => {
           return sucursal.regiones_comunas.find(
             (comuna) => comuna.term_id == localStorage.sucursalSeleccionada
           );
@@ -133,24 +172,31 @@ export default {
         localStorage.removeItem("sucursalSeleccionada");
         localStorage.removeItem("seleccionaSucursal");
       }
+
       /** DEVUELVE LA SUCURSAL POR DEFECTO */
-      const sucursal_por_defecto = this.store_opciones_generales.sucursales.find(
+      const sucursal_por_defecto = this.sucursales.find(
         (sucursal) => {
           return sucursal.fields.sucursal_por_defecto;
         }
       );
+      if (sucursal_por_defecto.regiones_comunas.length > 0) {
+        this.regionSeleccionada = sucursal_por_defecto.regiones_comunas[0].parent;
+        this.comunaSeleccionada = sucursal_por_defecto.regiones_comunas[0].term_id;
+        this.store_opciones_generales.actualizarSucuralSeleccionada(
+          this.comunaSeleccionada
+        );
+      }
+
 
       return sucursal_por_defecto;
     },
-    regiones() {
-      let regiones = false;
-      if (this.ubicaciones) {
-        regiones = this.ubicaciones.filter((ubicacion) => ubicacion.parent == 0);
-      }
-      return regiones;
+    cerrar() {
+      this.mostrarMenu = false
+      this.store_opciones_generales.guardarDatos({
+        mostrar_seleccionar_ubicacion: false,
+        init: false,
+      });
     },
-  },
-  methods: {
     cambiarComunas() {
       this.comunas = this.ubicaciones.filter(
         (ubicacion) => ubicacion.parent === this.regionSeleccionada

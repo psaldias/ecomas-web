@@ -1,9 +1,8 @@
 <template>
-  <section class="banner-principal mt-4">
 
-    <div class="slider slider-desktop" v-if="!esMovil"></div>
-    <div class="slider slider-movil" v-if="esMovil"></div>
-  </section>
+  <div class="slider slider-desktop" v-if="!esMovil"></div>
+  <div class="slider slider-movil" v-if="esMovil"></div>
+
 </template>
 
 <script>
@@ -13,7 +12,11 @@ import "/src/assets/libs/slick/slick.min.js";
 // import "/src/assets/libs/slick/slick-theme.min.css";
 
 export default {
-  props: ["imagenes"],
+  props: {
+    imagenes: {
+      default: [],
+    }
+  },
   data() {
     return {
       slider: false,
@@ -23,11 +26,11 @@ export default {
     };
   },
   mounted() {
-
+    document.addEventListener('readystatechange', this.cargarSlider());
   },
   updated() {
-
     document.addEventListener('readystatechange', this.cargarSlider());
+
 
   },
   computed: {
