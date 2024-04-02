@@ -4,7 +4,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
   state: () => {
     return {
         init:true,
-        mostrar_seleccionar_ubicacion:true,
+        mostrar_seleccionar_ubicacion:false,
         cargando:true,
         token:false,
         rrss:false,

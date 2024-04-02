@@ -217,7 +217,13 @@ export default {
       localStorage.sucursalSeleccionada = this.comunaSeleccionada;
       this.mostrarMenu = false;
 
-      if (seleccionaSucursal) localStorage.seleccionaSucursal = true;
+      if (seleccionaSucursal) {
+        localStorage.seleccionaSucursal = true;
+        this.store_opciones_generales.guardarDatos({
+          mostrar_seleccionar_ubicacion: false,
+          init: false,
+        });
+      }
     },
   },
 };

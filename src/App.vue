@@ -1,11 +1,10 @@
 <template>
   <main>
     <HeaderView />
-    <router-view :key="$route.path" v-if="mostrar()"></router-view>
-    <!-- <CargandoSeccion v-if="store_opciones_generales.cargando"></CargandoSeccion> -->
+    <router-view :key="$route.path" v-if="mostrar"></router-view>
 
     <div v-if="customHtml" v-html="customHtml"></div>
-    <FooterView v-if="mostrar()"></FooterView>
+    <FooterView v-if="mostrar"></FooterView>
     <Toplayer></Toplayer>
     <ToplayerGeneral></ToplayerGeneral>
   </main>
@@ -105,8 +104,6 @@ export default {
     sucursalSeleccionada() {
       return this.store_opciones_generales.sucursalSeleccionada;
     },
-  },
-  methods: {
     /** DETERMINA SI SE DEBE MOSTRA EL CONTENIDO O NO, ESTA FUNCIÓN SE CREO ESPECÍFICAMENTE PARA MEJORAR LA PUNTUACIÓN
      * DE GOOGLE PAGESPEED OCULTANDO TODO Y SOLO MOSTRANDO EL MENU Y SELECTOR DE UBICACIÓN
      */
@@ -120,6 +117,8 @@ export default {
 
       return false;
     },
+  },
+  methods: {
     async verificarVersionApp() {
       const version_usuario = localStorage.version_app;
       if (version_usuario != import.meta.env.VITE_APP_VERSION) {
