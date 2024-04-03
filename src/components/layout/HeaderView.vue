@@ -24,12 +24,12 @@
               <li v-for="menu in buscarMenusPricipales()" :key="menu.ID" :class="menu.classes">
                 <div class="dropdown is-hoverable" v-if="buscarSubmenus(menu).length > 0">
                   <div class="dropdown-trigger">
-                    <a>
+                    <router-link :to="obtenerSlug(menu.url)">
                       <span>{{ menu.title }}</span>
                       <span class="icon is-small ml-1">
                         <i class="fas fa-angle-down" aria-hidden="true"></i>
                       </span>
-                    </a>
+                    </router-link>
                   </div>
                   <div class="dropdown-menu" role="menu">
                     <div class="dropdown-content">
