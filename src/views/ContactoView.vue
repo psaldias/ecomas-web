@@ -180,6 +180,9 @@ export default {
 
         }
 
+        if (!this.store_opciones_generales.cargando)
+            this.cargarDataFormulario();
+
     },
     computed: {
         cargando() {
