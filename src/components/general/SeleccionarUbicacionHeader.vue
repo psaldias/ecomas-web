@@ -156,29 +156,35 @@ export default {
 
     },
     determinar_sucursal_por_defecto() {
+      let sucursal_por_defecto = false;
       /** VALIDA QUE EXISTAN SUCURSALES */
       if (!this.sucursales) return false;
       /** VALIDA SI HAY ALGUNA SUCURSAL SELECCIONADA EN LOCALSTORAGE */
       if (localStorage.sucursalSeleccionada) {
-        const sucursal = this.sucursales.find((sucursal) => {
+        sucursal_por_defecto = this.sucursales.find((sucursal) => {
           return sucursal.regiones_comunas.find(
             (comuna) => comuna.term_id == localStorage.sucursalSeleccionada
           );
           // return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
         });
-        /** SI ENCUENTRA LA SUCURSAL LA DEVUELVE */
-        if (sucursal) return sucursal;
+        // /** SI ENCUENTRA LA SUCURSAL LA DEVUELVE */
+        // if (sucursal) return sucursal;
         /** SI NO LA CUENTRA ELIMINA LA SUCURSAL DEL LOCAL STORGA (POSIBLEMENTE FUE ELIMINADA DEL ADMIN) */
-        localStorage.removeItem("sucursalSeleccionada");
-        localStorage.removeItem("seleccionaSucursal");
+        if (!sucursal_por_defecto) {
+          localStorage.removeItem("sucursalSeleccionada");
+          localStorage.removeItem("seleccionaSucursal");
+        }
       }
 
       /** DEVUELVE LA SUCURSAL POR DEFECTO */
-      const sucursal_por_defecto = this.sucursales.find(
-        (sucursal) => {
-          return sucursal.fields.sucursal_por_defecto;
-        }
-      );
+      if (!sucursal_por_defecto) {
+        sucursal_por_defecto = this.sucursales.find(
+          (sucursal) => {
+            return sucursal.fields.sucursal_por_defecto;
+          }
+        );
+      }
+
       if (sucursal_por_defecto.regiones_comunas.length > 0) {
         this.regionSeleccionada = sucursal_por_defecto.regiones_comunas[0].parent;
         this.comunaSeleccionada = sucursal_por_defecto.regiones_comunas[0].term_id;

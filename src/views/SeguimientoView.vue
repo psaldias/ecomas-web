@@ -19,28 +19,41 @@
 
                                 <div class="field mb-4 ">
                                     <div class="control">
-                                        <input type="text" class="input input-2 " v-model="orden" />
+                                        <div v-if="tipo_busqueda == 1">
+                                            <input type="text" class="input input-2 " v-model="orden" />
+                                            <p class="help">Ingresa el número del pedido</p>
+                                        </div>
+                                        <div v-else-if="tipo_busqueda == 2">
+                                            <input type="text" class="input input-2 rut" v-model="rut"
+                                                placeHolder="76666666-0" />
+                                            <p class="help">Ingresa tu rut sin puntos y con guión</p>
+                                        </div>
+                                        <div v-else>
+                                            <input type="email" class="input input-2 email" v-model="email"
+                                                placeHolder="" />
+                                            <p class="help">Ingresa tu email</p>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- <div class="field mb-4 ">
+                                <div class="field mb-4 ">
                                     <div class="control">
                                         <label class="radio">
-                                            <input type="radio" value="1" name="tipo_busqueda"
+                                            <input type="radio" :value="1" name="tipo_busqueda"
                                                 v-model="tipo_busqueda" />
                                             Número de Pedido
                                         </label>
                                         <label class="radio">
-                                            <input type="radio" value="2" name="tipo_busqueda"
+                                            <input type="radio" :value="2" name="tipo_busqueda"
                                                 v-model="tipo_busqueda" />
                                             Rut
                                         </label>
                                         <label class="radio">
-                                            <input type="radio" value="3" name="tipo_busqueda"
+                                            <input type="radio" :value="3" name="tipo_busqueda"
                                                 v-model="tipo_busqueda" />
                                             Email
                                         </label>
                                     </div>
-                                </div> -->
+                                </div>
 
 
 
@@ -93,6 +106,7 @@ export default {
         return {
             cargando: false,
             orden: '',
+            rut: '',
             ordenActiva: false,
             tipo_busqueda: 1, // 1 numero pedido, 2 rut, 3 email
             mensajes: {},
