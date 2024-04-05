@@ -2,8 +2,8 @@
     <main class="pedidos">
         <div class="wrapper">
 
-            <div class="columns is-gapless is-centered mt-4">
-                <div class="column is-6-desktop is-8-tablet" v-if="!ordenActiva">
+            <div class="columns is-gapless is-centered mt-4 is-multiline" v-if="!cargandoApp">
+                <div class="column is-8-desktop is-8-tablet" v-if="!ordenActiva && !pedidos">
                     <h1 class="primero mb-4 is-size-5">SEGUIMIENTO PEDIDO</h1>
                     <div class="card ">
                         <div class="columns is-centered ">
@@ -67,8 +67,40 @@
                         </div>
                     </div>
                 </div>
+                <div class="column is-8-desktop is-8-tablet mt-4" v-if="pedidos">
+                    <div class="table-container">
+                        <table class="table is-fullwidth">
+                            <thead>
+                                <tr>
+                                    <th class="primero has-text-centered" width="8%">N°</th>
+                                    <th class="primero">Pedido</th>
+                                    <th class="has-text-centered">FECHA</th>
+                                    <th class="has-text-centered">PRECIO</th>
+                                    <th class="primero has-text-centered" width="10%">ESTADO</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(pedido, index) in pedidos" :key="pedido.id">
+                                    <td class="has-text-centered">{{ index + 1 }}</td>
+                                    <td class="primero">{{ pedido.number }}</td>
+                                    <td class="has-text-centered">
+                                        {{ fechaFormateada(pedido.date_created.date) }}
+                                    </td>
+                                    <td class="has-text-centered">{{ monedaChilena(pedido.total) }}</td>
+                                    <td>
+                                        <div class="button button-2" @click.prevent="ordenActiva = pedido"
+                                            :class="[pedido.status, ordenActiva.id == pedido.id ? 'active' : '']">
+                                            <!-- {{pedido.status_html}} -->
+                                            VER ESTADO
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
-                <div class="column is-10-fullhd is-12-desktop" v-if="ordenActiva">
+                <div class="column is-10-fullhd is-12-desktop  mt-6" v-if="ordenActiva">
                     <div class="pedido">
                         <h2 class="primero"><strong>SEGUIMIENTO PEDIDO</strong></h2>
 
@@ -93,47 +125,104 @@
 
                 </div>
             </div>
-            <CargandoSeccion v-if="cargando"></CargandoSeccion>
+            <CargandoSeccion v-if="cargando || cargandoApp"></CargandoSeccion>
         </div>
     </main>
 </template>
 
 <script>
+import helpers from '../utils/helpers';
 import RastreoPedido from '../components/carro/RastreoPedido.vue';
 import CargandoSeccion from '/src/components/general/CargandoSeccion.vue';
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 export default {
     data() {
         return {
             cargando: false,
             orden: '',
             rut: '',
+            email: '',
             ordenActiva: false,
+            pedidos: false,
             tipo_busqueda: 1, // 1 numero pedido, 2 rut, 3 email
             mensajes: {},
+            store_opciones_generales: useOpcionesGeneralesStore(),
         };
     },
     async mounted() {
 
     },
+    computed: {
+        cargandoApp() {
+            return this.store_opciones_generales.cargando;
+        }
+    },
     methods: {
         async validar() {
-            this.mensajes.error = '';
-            if (!this.orden) {
-                this.mensajes.error = 'Debes indicar un número de orden';
-                return false;
+            /** RESET MENSAJE ERROR */
+            this.mensajes.error = false;
+
+            let id = false;
+            /** VALIDAR DEPENDIENDO DEL TIPO DE BUSQUEDA */
+            switch (this.tipo_busqueda) {
+                case 1:
+                    this.validar_numero_pedido();
+                    id = this.orden
+                    break;
+                case 2:
+                    this.validar_rut();
+                    id = this.rut;
+                    break;
+                case 3:
+                    this.validar_email();
+                    id = this.email;
+                    break;
+                default:
+                    break;
             }
+            /** SI HAY ERRORES NO CONTINUA */
+            if (this.mensajes.error) return;
+
+            let respuesta;
             this.cargando = true;
+            if (this.tipo_busqueda == 1) {
+                respuesta = await this.obtenerPedido(
+                    id
+                );
+                if (respuesta.status == 200 && respuesta.data) { this.ordenActiva = respuesta.data }
+                else this.mensajes.error = "No existe el pedido";
+            } else {
+                respuesta = await this.buscarPedidosUsuario(
+                    id, this.tipo_busqueda
+                );
 
-            const respuesta = await this.obtenerPedido(
-                this.orden
-            );
+                if (respuesta.status == 200 && respuesta.data.length > 0) { this.pedidos = respuesta.data }
+                else this.mensajes.error = "No se encontraron pedidos";
 
-            if (respuesta.status == 200 && respuesta.data) { this.ordenActiva = respuesta.data }
-            else this.mensajes.error = "No existe el pedido";
+            }
 
             this.cargando = false;
 
 
+        },
+        /** VALIDAR QUE INGRESÓ UN NÚMERO DE PEDIDO */
+        validar_numero_pedido() {
+
+            if (!this.orden) {
+                this.mensajes.error = 'Debes indicar un número de orden';
+            }
+        },
+        /** VALIDAR QUE EL RUT INGRESADO SEA CORRECTO */
+        validar_rut() {
+            if (!helpers.validaRut(this.rut)) {
+                this.mensajes.error = 'Debes indicar un rut válido';
+            }
+        },
+        /** VALIDAR QUE EL EMAIL TENGA UN FORMATO CORRECTO */
+        validar_email() {
+            if (!helpers.validateEmail(this.email)) {
+                this.mensajes.error = 'Debes indicar un email válido';
+            }
         }
     },
     components: { CargandoSeccion, RastreoPedido }

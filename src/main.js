@@ -8,7 +8,6 @@ import router from "./router";
 import carroCompra from "/src/mixins/carroCompra";
 import api from "/src/mixins/api";
 import usuario from "/src/mixins/Usuario";
-
 import App from "./App.vue";
 
 import {createHead} from "@vueuse/head"
@@ -33,4 +32,5 @@ createApp(App)
       id: "G-341FT8D8CC",
     }
   })
+
 .mount("#app");

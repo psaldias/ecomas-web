@@ -342,6 +342,23 @@ export default {
             return response;
         },
 
+         /**  OBTENER UN PEDIDO SEGÚN SU ORDER_KEY */
+         async buscarPedidosUsuario(id,tipo = 1) {
+
+          let headers = {};
+          headers["Authorization"] =  'Bearer '+this.store.token;
+            let url = '?id='+id;
+            url += '&tipo='+tipo;
+
+            const response = await axios.get(
+              import.meta.env.VITE_BUSCAR_PEDIDOS+url,{headers}
+            ).catch(error => {
+              return error.response;
+            });
+            return response;
+        },
+
+
 
         /** VALIDAR TOKEN DE USUARIO SI ESTÁ CONECTADO */
         async validaRToken() {

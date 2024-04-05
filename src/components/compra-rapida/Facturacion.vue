@@ -2,66 +2,29 @@
   <div class="datos-facturacion block">
     <div class="columns is-variable is-2-desktop is-3-mobile">
       <div class="column py-0">
-        <InputBase
-          label="Rut Empresa"
-          placeHolder="ej:76666666-0"
-          type="text"
-          inputClass="input input-2 rut"
-          labelClass="primero"
-          :error="false"
-          v-model="dataFormularioFacturacion.rut"
-          ref="rut"
-          v-on:focusout="formatearRut($event)"
-        />
+        <InputBase label="Rut Empresa" placeHolder="ej:76666666-0" type="text" inputClass="input input-2 rut"
+          labelClass="primero" :error="false" v-model="dataFormularioFacturacion.rut" ref="rut"
+          v-on:focusout="formatearRut($event)" />
       </div>
       <div class="column is-hidden-tablet"></div>
       <div class="column py-0">
-        <InputBase
-          label="Razon Social"
-          placeHolder="ej:Transportinos Ltda"
-          type="text"
-          inputClass="input input-2"
-          labelClass="primero"
-          :error="false"
-          v-model="dataFormularioFacturacion.razon_social"
-        />
+        <InputBase label="Razon Social" placeHolder="ej:Transportinos Ltda" type="text" inputClass="input input-2"
+          labelClass="primero" :error="false" v-model="dataFormularioFacturacion.razon_social" />
       </div>
     </div>
 
-    <InputBase
-      label="Giro"
-      placeHolder="ej: Transporte y Carga"
-      type="text"
-      :error="false"
-      max="40"
-      inputClass="input input-2"
-      labelClass="primero"
-      v-model="dataFormularioFacturacion.giro"
-    />
+    <InputBase label="Giro" placeHolder="ej: Transporte y Carga" type="text" :error="false" max="40"
+      inputClass="input input-2" labelClass="primero" v-model="dataFormularioFacturacion.giro" />
 
     <div class="columns is-variable is-2-desktop is-3-mobile">
       <div class="column py-0">
-        <InputBase
-          label="Nombre"
-          placeHolder="ej:Pedro"
-          type="text"
-          inputClass="input input-2"
-          labelClass="primero"
-          :error="false"
-          v-model="dataFormularioFacturacion.nombre"
-        />
+        <InputBase label="Nombre" placeHolder="ej:Pedro" type="text" inputClass="input input-2" labelClass="primero"
+          :error="false" v-model="dataFormularioFacturacion.nombre" />
       </div>
       <div class="column is-hidden-tablet"></div>
       <div class="column py-0">
-        <InputBase
-          label="Apellidos"
-          placeHolder="ej:Perez"
-          type="text"
-          :error="false"
-          inputClass="input input-2"
-          labelClass="primero"
-          v-model="dataFormularioFacturacion.apellidos"
-        />
+        <InputBase label="Apellidos" placeHolder="ej:Perez" type="text" :error="false" inputClass="input input-2"
+          labelClass="primero" v-model="dataFormularioFacturacion.apellidos" />
       </div>
     </div>
 
@@ -70,22 +33,12 @@
         <div class="field">
           <label for="" class="primero">Dirección</label>
 
-          <GoogleMapsAutocompleteVue2
-            v-if="libreriaCargada"
-            id="direccion_google2"
-            :country="['cl']"
-            classname="input input-2"
-            :class="{ 'is-danger': dataFormularioFacturacion.direccion.error }"
-            placeholder="Ingresar Dirección"
-            v-on:placechanged="obtenerDireccionFacturacion"
-            key="map2"
-          >
+          <GoogleMapsAutocompleteVue2 v-if="libreriaCargada" id="direccion_google2" :country="['cl']"
+            classname="input input-2" :class="{ 'is-danger': dataFormularioFacturacion.direccion.error }"
+            placeholder="Ingresar Dirección" v-on:placechanged="obtenerDireccionFacturacion" key="map2">
           </GoogleMapsAutocompleteVue2>
 
-          <div
-            v-if="dataFormularioFacturacion.direccion.data.direccionCompleta"
-            class="is-size-7 mt-2"
-          >
+          <div v-if="dataFormularioFacturacion.direccion.data.direccionCompleta" class="is-size-7 mt-2">
             Dirección Seleccionada:
             <b>{{ direccionCompletaFacturacion }}</b>
           </div>
@@ -98,16 +51,10 @@
         <div class="field">
           <label for="" class="primero">Teléfono Móvil</label>
           <div class="control">
-            <input
-              class="input input-2"
-              placeHolder="ej:+56912345678"
-              type="text"
-              v-model="dataFormularioFacturacion.telefono.data"
-              maxlength="12"
-              :class="[{ 'is-danger': dataFormularioFacturacion.telefono.error }]"
-              @keypress="validarInputTelefono"
-              @focus="moverCursor"
-            />
+            <input class="input input-2" placeHolder="ej:+56912345678" type="text"
+              v-model="dataFormularioFacturacion.telefono.data" maxlength="12"
+              :class="[{ 'is-danger': dataFormularioFacturacion.telefono.error }]" @keypress="validarInputTelefono"
+              @focus="moverCursor" />
           </div>
         </div>
       </div>

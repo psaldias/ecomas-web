@@ -690,41 +690,20 @@ p {
     display: inline-block;
     font-size: 1.1em;
   }
-  .banner-principal {
-    min-height: 400px;
-  }
-  .productos-destacados-home {
-    min-height: 650px;
-  }
-  .marcas-home {
-    min-height: 356px;
-  }
-  .quienes-somos-home {
-    min-height: 936px;
-  }
-  footer {
-    min-height: 609px;
-  }
-  .pedidos .seguimiento .pasos .column:not(.active) {
-    display: none;
-  }
 }
 .h-auto {
   height: auto;
 }
 
 @media (max-width: 625px) {
-  .seleccionar-ubicacion {
-    position: fixed;
-    top: 80px;
-    bottom: 0 !important;
-    padding: 0;
-  }
   .seleccionar-ubicacion:after {
     left: 70% !important;
   }
-  .seleccionar-ubicacion .card {
-    height: 100%;
+  .pedidos .seguimiento .pasos .column {
+    background-color: red;
+  }
+  .pedidos .seguimiento .pasos .column.active {
+    display: none;
   }
 }
 @media (max-width: 470px) {

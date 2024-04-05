@@ -1,7 +1,7 @@
 <template>
-  <main class="pedidos">
+  <main class="pedidos" v-if="!cargandoApp">
     <div class="wrapper">
-      <div class="columns is-centered is-gapless"  v-if="!cargando">
+      <div class="columns is-centered is-gapless" v-if="!cargando">
         <div class="column is-10-fullhd is-12-desktop">
           <Mensajes :mensajes="mensajes" class="mb-4"></Mensajes>
           <div class="pedido" v-if="ordenActiva">
@@ -39,7 +39,8 @@
                       {{ ordenActiva.billing.phone }}<br />
                       {{ ordenActiva.billing.email }}<br />
                       <div v-if="ordenActiva.billing.company" v-html="ordenActiva.billing.company"></div>
-                      <div v-if="obtenerDatoMetaData('billing_giro')" v-html="obtenerDatoMetaData('billing_giro')"></div>
+                      <div v-if="obtenerDatoMetaData('billing_giro')" v-html="obtenerDatoMetaData('billing_giro')">
+                      </div>
                     </div>
                   </div>
 
@@ -56,7 +57,8 @@
                       }}<br />
                       {{ ordenActiva.shipping.address_1 }}<br />
                       {{ ordenActiva.shipping.address_2 }}<br />
-                      <div v-if="obtenerDatoMetaData('comentario_direccion')" v-html="obtenerDatoMetaData('comentario_direccion')"></div>
+                      <div v-if="obtenerDatoMetaData('comentario_direccion')"
+                        v-html="obtenerDatoMetaData('comentario_direccion')"></div>
                       {{ ordenActiva.shipping.city }}<br />
                       {{ ordenActiva.billing.email }}<br />
                     </div>
@@ -69,14 +71,11 @@
                     </div>
                   </div>
                 </div>
-                <div class="column is-5-desktop is-12-mobile" >
+                <div class="column is-5-desktop is-12-mobile">
                   <h5 class="primero mb-2"><strong>Detalles del pedido</strong></h5>
                   <div class="block is-size-6">
                     <table class="table is-fullwidth">
-                      <tr
-                        v-for="producto in ordenActiva.items"
-                        :key="producto.product_id"
-                      >
+                      <tr v-for="producto in ordenActiva.items" :key="producto.product_id">
                         <td>
                           <b class="primero">{{ producto.product_name }}</b> x
                           {{ producto.quantity }}
@@ -207,13 +206,14 @@
           </div>
         </div>
       </div>
-    <CargandoSeccion v-if="cargando"></CargandoSeccion>
 
     </div>
   </main>
+  <CargandoSeccion v-if="cargandoApp || cargando"></CargandoSeccion>
 </template>
 
 <script>
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 import CargandoSeccion from "/src/components/general/CargandoSeccion.vue";
 import Mensajes from "/src/components/general/Mensajes.vue";
 export default {
@@ -221,60 +221,76 @@ export default {
     return {
       cargando: true,
       ordenActiva: false,
-      mensajes:{}
+      mensajes: {},
+      store_opciones_generales: useOpcionesGeneralesStore(),
     };
   },
-  async mounted() {
-    if (!this.$route.query.id || !this.$route.query.key) {
-      this.$router.replace({ path: "/" });
-      return false;
-    }
+  watch: {
+    cargandoApp(newValue) {
+      if (!newValue) {
+        this.datosOrden();
+      }
 
-    const respuesta = await this.obtenerPedido(
-      this.$route.query.id,
-      this.$route.query.key
-    );
-
-    if (respuesta.status == 200 && respuesta.data){ this.ordenActiva = respuesta.data}
-    else  this.mensajes.error = "No existe el pedido";
-
-    this.cargando = false;
-
-    document.title = 'Orden #'+this.ordenActiva.number;
-
-    if(this.ordenActiva.status == 'failed'){
-      this.mensajes.error = 'Transacción fallida. Puedes volver a intentar el pago'
-    }
-
-    const tipo_compra = this.obtenerDatoMetaData("tipo_compra");
-    if(tipo_compra == 'normal' && this.ordenActiva.status != 'failed'){
-      this.limpiarCarro();
     }
   },
-  computed:{
-    urBackEnd(){
+  mounted() {
+
+
+  },
+  computed: {
+    urBackEnd() {
       return import.meta.env.VITE_ENDPOINT_BACKEND;
     },
-    metodo_pago(){
+    metodo_pago() {
       return this.obtenerDatoMetaData("metodo_pago") ?? false;
+    },
+    cargandoApp() {
+      return this.store_opciones_generales.cargando;
     }
   },
   methods: {
-    async reintentarPago(){
+    async datosOrden() {
+      if (!this.$route.query.id || !this.$route.query.key) {
+        this.$router.replace({ path: "/" });
+        return false;
+      }
+
+      const respuesta = await this.obtenerPedido(
+        this.$route.query.id,
+        this.$route.query.key
+      );
+
+      if (respuesta.status == 200 && respuesta.data) { this.ordenActiva = respuesta.data }
+      else this.mensajes.error = "No existe el pedido";
+
+      this.cargando = false;
+
+      document.title = 'Orden #' + this.ordenActiva.number;
+
+      if (this.ordenActiva.status == 'failed') {
+        this.mensajes.error = 'Transacción fallida. Puedes volver a intentar el pago'
+      }
+
+      const tipo_compra = this.obtenerDatoMetaData("tipo_compra");
+      if (tipo_compra == 'normal' && this.ordenActiva.status != 'failed') {
+        this.limpiarCarro();
+      }
+    },
+    async reintentarPago() {
       this.cargando = true;
 
-      if(!this.metodo_pago){
+      if (!this.metodo_pago) {
         this.mensajes.error = 'No se pudo volver a intentar';
         this.cargando = false;
         return false;
       }
-      const respuesta = await this.obtenerUrlPago(this.ordenActiva.id,this.metodo_pago);
-      if(respuesta.result != 'success'){
-          this.mensajes.error = 'Ocurrio un error';
-          this.cargando = false;
-        }else{
-          window.location.href = respuesta.redirect;
-        }
+      const respuesta = await this.obtenerUrlPago(this.ordenActiva.id, this.metodo_pago);
+      if (respuesta.result != 'success') {
+        this.mensajes.error = 'Ocurrio un error';
+        this.cargando = false;
+      } else {
+        window.location.href = respuesta.redirect;
+      }
 
     },
     obtenerDatoMetaData(key = false) {
@@ -289,6 +305,9 @@ export default {
     tipoPago() {
       if (this.ordenActiva && this.ordenActiva.status != 'failed') {
         let webpay_response = this.obtenerDatoMetaData("webpay_rest_response");
+        if (!webpay_response)
+          webpay_response = this.obtenerDatoMetaData('transactionResponse');
+
         webpay_response = JSON.parse(webpay_response);
         switch (webpay_response.paymentTypeCode) {
           case "VD":

@@ -3,8 +3,8 @@
     <div class="wrapper" v-if="!cargando">
       <section class="banner-seccion v2 no-icon calculadora mb-6">
         <div className="imagen is-relative " :style="{
-      backgroundImage: 'url(' + data.acf.imagen_banner.sizes['2048x2048'] + ')',
-    }">
+          backgroundImage: 'url(' + data.acf.imagen_banner.sizes['2048x2048'] + ')',
+        }">
           <h1>{{ data.title.rendered }}</h1>
         </div>
       </section>

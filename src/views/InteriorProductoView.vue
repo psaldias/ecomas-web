@@ -7,8 +7,8 @@
             <li><router-link to="/productos/">PRODUCTOS</router-link></li>
             <li>
               <router-link class="is-uppercase" :to="'/productos/' + categoria.slug">{{
-        categoria.name
-      }}</router-link>
+                categoria.name
+              }}</router-link>
             </li>
             <li class="is-active">
               <a href="#">{{ producto.name }}</a>
@@ -59,8 +59,8 @@
                     <Precio :precios="precios" class="mb-5"></Precio>
 
                     <div v-if="this.producto.campos_adicionales.despacho_domicilio ||
-        this.producto.campos_adicionales.retiro_en_tienda
-        " class="columns is-gapless is-mobile mb-5 caracteristicas">
+                      this.producto.campos_adicionales.retiro_en_tienda
+                    " class="columns is-gapless is-mobile mb-5 caracteristicas">
                       <div class="column" v-if="this.producto.campos_adicionales.despacho_domicilio">
                         <div class="columns is-mobile is-gapless envio-despacho is-vcentered">
                           <div class="column is-narrow mr-2">
@@ -84,13 +84,13 @@
                       <div class="control color-producto">
                         <div class="columns is-variable is-1 is-mobile is-multiline">
                           <a v-for="variacion_producto in variacionesColores" @click.prevent="
-        dropdown = false;
-      cambiarVariacion(variacion_producto);
-      " href="#" class="column is-narrow btn-color" :class="{
-        'is-active': variacion_producto.id == variacion.id,
-      }">
+                            dropdown = false;
+                          cambiarVariacion(variacion_producto);
+                          " href="#" class="column is-narrow btn-color" :class="{
+                            'is-active': variacion_producto.id == variacion.id,
+                          }">
                             <div :style="'background-color:' + variacion_producto.attributes[0].hex
-        "></div>
+                              "></div>
                           </a>
                         </div>
                       </div>
@@ -109,11 +109,11 @@
                             <div class="dropdown-content">
                               <a v-for="variacion_producto in variacionesColores"
                                 v-html="nombreVariacion(variacion_producto)" @click.prevent="
-        dropdown = false;
-      cambiarVariacion(variacion_producto);
-      " href="#" class="dropdown-item" :class="{
-        'is-active': variacion_producto.id == variacion.id,
-      }">
+                                  dropdown = false;
+                                cambiarVariacion(variacion_producto);
+                                " href="#" class="dropdown-item" :class="{
+                                  'is-active': variacion_producto.id == variacion.id,
+                                }">
                               </a>
                             </div>
                           </div>
@@ -133,8 +133,8 @@
             </div>
             <div class="column descripcion is-size-6 is-5-fullhd is-4-desktop is-12-tablet">
               <div class="tabs is-boxed mb-0 is-fullwidth bg-blanco tabs-producto" v-if="producto.campos_adicionales.tabla_ficha_tecnica ||
-        producto.campos_adicionales.instalacion
-        ">
+                producto.campos_adicionales.instalacion
+              ">
                 <ul>
                   <li :class="{ 'is-active': tab_activa == 1 }">
                     <a @click.prevent="tab_activa = 1">
@@ -154,10 +154,10 @@
                 </ul>
               </div>
               <div class="card p-5" :class="{
-        'height-100-tab-producto':
-          producto.campos_adicionales.tabla_ficha_tecnica,
-        'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
-      }">
+                'height-100-tab-producto':
+                  producto.campos_adicionales.tabla_ficha_tecnica,
+                'height-100': !producto.campos_adicionales.tabla_ficha_tecnica,
+              }">
                 <div v-if="tab_activa == 1">
                   <h2 class="primero mb-2"
                     v-if="!producto.campos_adicionales.tabla_ficha_tecnica && !producto.campos_adicionales.instalacion">
@@ -166,7 +166,7 @@
                   <div class="content gris3" v-html="producto.description"></div>
                 </div>
                 <div v-if="tab_activa == 2 && producto.campos_adicionales.tabla_ficha_tecnica
-        ">
+                ">
                   <div class="content gris3 tab-ficha-tecnica">
                     <table class="table table-sm is-narrow gris3 is-bordered">
                       <tr v-for="fila in producto.campos_adicionales.tabla_ficha_tecnica">
