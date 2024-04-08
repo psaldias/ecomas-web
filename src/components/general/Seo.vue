@@ -3,6 +3,7 @@
     <Head v-if="data.title">
         <title v-if="data.title">{{ data.title }}</title>
         <link rel="sitemap" type="application/xml" title="Sitemap" :href="urBackEnd + 'sitemap.xml'">
+        <link rel="sitemap" type="application/xml" title="Sitemap" :href="urBackEnd + 'sitemap.xml'">
         <meta name="description" v-if="data.hasOwnProperty('description') && data.description.length > 0"
             :content="data.description" />
         <meta name="robots" v-if="robots" :content="robots" />
