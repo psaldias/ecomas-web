@@ -29,7 +29,7 @@ createApp(App)
 .use(createHead())
 .use(VueGtag, {
     config: {
-      id: "G-341FT8D8CC",
+      id: "GTM-PN7NNR5",
     }
   })
 
