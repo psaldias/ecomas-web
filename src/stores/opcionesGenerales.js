@@ -198,7 +198,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
       if(localStorage.sucursalSeleccionada){
         if(state.sucursales){
           sucursal = state.sucursales.find(sucursal => {
-            return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
+            return sucursal.regiones_comunas[0]?.term_id == localStorage.sucursalSeleccionada;
           });
         }
       }else if(state.sucursal_seleccionada){
@@ -208,7 +208,7 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
           return sucursal.fields.sucursal_por_defecto;
         });
       }
-      StaticRange.sucursal_seleccionada = sucursal;
+      state.sucursal_seleccionada = sucursal;
       return  sucursal;
     }
   },

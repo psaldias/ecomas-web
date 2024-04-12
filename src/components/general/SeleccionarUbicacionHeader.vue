@@ -93,13 +93,14 @@ export default {
     if (!localStorage.seleccionaSucursal) {
       this.mostrarMenu = true;
     }
+
   },
   watch: {
     "store_opciones_generales.sucursales": {
       handler(newValue, oldValue) {
         this.sucursales = newValue;
-        this.init();
         this.determinar_sucursal_por_defecto();
+        this.init();
       },
     },
   },
@@ -194,6 +195,7 @@ export default {
       }
 
 
+      this.sucursal_por_defecto = sucursal_por_defecto;
       return sucursal_por_defecto;
     },
     cerrar() {

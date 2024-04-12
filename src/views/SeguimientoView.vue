@@ -68,7 +68,7 @@
                     </div>
                 </div>
                 <div class="column is-8-desktop is-8-tablet mt-4" v-if="pedidos">
-                    <div class="table-container">
+                    <div class="table-container maximo-alto">
                         <table class="table is-fullwidth">
                             <thead>
                                 <tr>
@@ -228,3 +228,9 @@ export default {
     components: { CargandoSeccion, RastreoPedido }
 };
 </script>
+<style>
+.maximo-alto {
+    max-height: 230px;
+    overflow: auto;
+}
+</style>

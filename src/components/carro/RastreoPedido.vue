@@ -9,14 +9,14 @@
             <span>1</span>
           </div>
           <h4>EN PREPARACIÓN</h4>
-          <p>El vendedor esta preparando tu pedido</p>
+          <p v-if="enPreparacion">El vendedor esta preparando tu pedido</p>
         </div>
         <div class="column is-3-desktop is-12-mobile" :class="{ active: enRuta }">
           <div class="numero">
             <span>2</span>
           </div>
           <h4>EN RUTA</h4>
-          <p>Tu pedido llegará en 2 días hábiles</p>
+          <p v-if="enRuta">Hora estimada de llegada <br> {{ ventana }}</p>
         </div>
         <div class="column is-3-desktop is-12-mobile" :class="{ active: entregado }">
           <div class="numero">
@@ -153,6 +153,9 @@ export default {
       const formattedDate = formatter.format(date);
       return formattedDate;
     },
+    ventana() {
+      return this.seguimiento.data.order.ventana;
+    },
     imagenes_entrega() {
       if (!this.seguimiento?.data?.photo) return [];
 
@@ -192,6 +195,6 @@ export default {
 <style>
 .object-fit {
   object-fit: contain;
-  height: 100%
+  height: 100% !important
 }
 </style>
