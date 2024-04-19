@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       error_ubicacion: false,
-      mostrarMenu: false,
+      mostrarMenu: true,
       cargando: true,
       regionSeleccionada: 0,
       comunaSeleccionada: 0,
@@ -85,14 +85,12 @@ export default {
     };
   },
   mounted() {
-    if (!localStorage.sucursalSeleccionada) {
-      this.mostrarMenu = true;
-      this.guardarUbicacion();
+
+    if (localStorage.seleccionaSucursal) {
+      this.mostrarMenu = false;
     }
 
-    if (!localStorage.seleccionaSucursal) {
-      this.mostrarMenu = true;
-    }
+
 
   },
   watch: {
@@ -101,6 +99,9 @@ export default {
         this.sucursales = newValue;
         this.determinar_sucursal_por_defecto();
         this.init();
+        if (!localStorage.sucursalSeleccionada) {
+          this.guardarUbicacion();
+        }
       },
     },
   },
@@ -168,6 +169,7 @@ export default {
           );
           // return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
         });
+        console.log(sucursal_por_defecto);
         // /** SI ENCUENTRA LA SUCURSAL LA DEVUELVE */
         // if (sucursal) return sucursal;
         /** SI NO LA CUENTRA ELIMINA LA SUCURSAL DEL LOCAL STORGA (POSIBLEMENTE FUE ELIMINADA DEL ADMIN) */
