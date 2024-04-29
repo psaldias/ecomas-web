@@ -169,7 +169,6 @@ export default {
           );
           // return sucursal.regiones_comunas[0].term_id == localStorage.sucursalSeleccionada;
         });
-        console.log(sucursal_por_defecto);
         // /** SI ENCUENTRA LA SUCURSAL LA DEVUELVE */
         // if (sucursal) return sucursal;
         /** SI NO LA CUENTRA ELIMINA LA SUCURSAL DEL LOCAL STORGA (POSIBLEMENTE FUE ELIMINADA DEL ADMIN) */
