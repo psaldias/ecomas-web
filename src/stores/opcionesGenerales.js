@@ -193,16 +193,20 @@ export const useOpcionesGeneralesStore = defineStore('opcionesGenerales', {
 
   },
   getters: {
+    /** DEVUELVE LA SUCURSAL SELECCIONADA, PUEDE SER LA POR DEFECTO, LA SELECCIONADA O LOCALSTORAGE */
     sucursalSeleccionada : (state) => {
       let sucursal = false;
-      if(localStorage.sucursalSeleccionada){
+      /** PRIMERO VALIDA SI TIENE UNA SELECCIONADA EN EN EL STORE */
+      if(state.sucursal_seleccionada){
+        sucursal = state.sucursal_seleccionada;
+        /** SI NO TIENE UNA SELECCIONADA DEVUELVE LA QUE ESTÁ EN EL LOCALSTORAGE */
+      }else if(localStorage.sucursalSeleccionada){
         if(state.sucursales){
           sucursal = state.sucursales.find(sucursal => {
             return sucursal.regiones_comunas[0]?.term_id == localStorage.sucursalSeleccionada;
           });
         }
-      }else if(state.sucursal_seleccionada){
-        sucursal = state.sucursal_seleccionada;
+        /** SI NO EXISTEN LAS ANTERIORES DEVUELVE LA SUCURSAL POR DEFECTO */
       }else{
         sucursal = state.sucursales.find(sucursal => {
           return sucursal.fields.sucursal_por_defecto;
