@@ -690,9 +690,6 @@ p {
     display: inline-block;
     font-size: 1.1em;
   }
-  .banner-principal {
-    min-height: 400px;
-  }
   .productos-destacados-home {
     min-height: 650px;
   }
@@ -713,6 +710,11 @@ p {
   height: auto;
 }
 
+@media (max-width: 768px) {
+  .banner-principal {
+    min-height: 112vw;
+  }
+}
 @media (max-width: 625px) {
   .seleccionar-ubicacion {
     position: fixed;
