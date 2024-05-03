@@ -4,17 +4,12 @@
       <form action="#" @submit.prevent="submitFormulario()">
         <Mensajes :mensajes="mensajes"></Mensajes>
         <div v-html="this.storeCarroCompra.carro.validado.mensajes"></div>
-        <article
-          class="message is-danger my-2 is-small"
-          v-if="dataFormularioDespacho.direccion.error"
-        >
+        <article class="message is-danger my-2 is-small" v-if="dataFormularioDespacho.direccion.error">
           <div class="message-body">
             Formato de la dirección de despacho incorrecto, debes ingresar calle y número
             calle, Ciudad Ej. Paicaví 983, concepción, Chile o ingresa tu dirección de
             forma manual <br />
-            <a @click.prevent="this.storeCarroCompra.direccion_manual(true)"
-              >Ingresar Dirección Manual</a
-            >
+            <a @click.prevent="this.storeCarroCompra.direccion_manual(true)">Ingresar Dirección Manual</a>
           </div>
         </article>
         <div class="columns">
@@ -23,26 +18,16 @@
 
             <div class="field">
               <label for="" class="label">Dirección</label>
-              <GoogleMapsAutocompleteVue
-                v-if="libreriaCargada"
-                v-on:placechanged="obtenerDireccionDespacho"
-                :class="{ 'is-danger': dataFormularioDespacho.direccion.error }"
-                :country="['cl']"
-                id="direccion_google"
-                classname="input input-2  "
-                placeholder="Ingresar Dirección (Calle, número, ciudad)"
-                key="map1"
+              <GoogleMapsAutocompleteVue v-if="libreriaCargada" v-on:placechanged="obtenerDireccionDespacho"
+                :class="{ 'is-danger': dataFormularioDespacho.direccion.error }" :country="['cl']" id="direccion_google"
+                classname="input input-2  " placeholder="Ingresar Dirección (Calle, número, ciudad)" key="map1"
                 :latLongBounds="{
                   latLng: gmapsBounds,
                   radius: parseInt(
                     store_opciones_generales.restricciones_sucursales.radio_permitido
                   ),
-                }"
-              ></GoogleMapsAutocompleteVue>
-              <div
-                v-if="dataFormularioDespacho.direccion.data.direccionCompleta"
-                class="is-size-7 mt-2"
-              >
+                }"></GoogleMapsAutocompleteVue>
+              <div v-if="dataFormularioDespacho.direccion.data.direccionCompleta" class="is-size-7 mt-2">
                 Dirección Seleccionada:
                 <b>{{ direccionCompletaDespacho }}</b>
               </div>
@@ -50,28 +35,18 @@
 
             <div class="field" v-if="libreriaCargada">
               <div class="control">
-                <input
-                  class="input input-2"
-                  placeHolder="Casa, departamento o condominio ( información adicional)"
-                  type="text"
-                  v-model="dataFormularioDespacho.comentario_direccion.data"
-                />
+                <input class="input input-2" placeHolder="Casa, departamento o condominio ( información adicional)"
+                  type="text" v-model="dataFormularioDespacho.comentario_direccion.data" maxlength="100" />
               </div>
             </div>
 
             <div class="field">
               <label for="" class="label">Teléfono Móvil</label>
               <div class="control">
-                <input
-                  class="input"
-                  placeHolder="ej:+56912345678"
-                  type="text"
-                  v-model="dataFormularioDespacho.telefono.data"
-                  maxlength="12"
-                  :class="[{ 'is-danger': dataFormularioDespacho.telefono.error }]"
-                  @keypress="validarInputTelefono"
-                  @focus="moverCursor"
-                />
+                <input class="input" placeHolder="ej:+56912345678" type="text"
+                  v-model="dataFormularioDespacho.telefono.data" maxlength="12"
+                  :class="[{ 'is-danger': dataFormularioDespacho.telefono.error }]" @keypress="validarInputTelefono"
+                  @focus="moverCursor" />
               </div>
             </div>
           </div>
@@ -81,54 +56,28 @@
 
             <div class="columns is-variable is-2-desktop is-3-mobile">
               <div class="column py-0">
-                <InputBase
-                  label="Rut Empresa"
-                  placeHolder="ej:76666666-0"
-                  type="text"
-                  :error="false"
-                  v-model="dataFormularioFacturacion.rut"
-                />
+                <InputBase label="Rut Empresa" placeHolder="ej:76666666-0" type="text" :error="false"
+                  v-model="dataFormularioFacturacion.rut" />
               </div>
               <div class="column is-hidden-tablet"></div>
               <div class="column py-0">
-                <InputBase
-                  label="Razon Social"
-                  placeHolder="ej:Transportinos Ltda"
-                  type="text"
-                  :error="false"
-                  v-model="dataFormularioFacturacion.razon_social"
-                />
+                <InputBase label="Razon Social" placeHolder="ej:Transportinos Ltda" type="text" :error="false"
+                  v-model="dataFormularioFacturacion.razon_social" />
               </div>
             </div>
 
-            <InputBase
-              label="Giro"
-              placeHolder="ej: Transporte y Carga"
-              type="text"
-              :error="false"
-              max="40"
-              v-model="dataFormularioFacturacion.giro"
-            />
+            <InputBase label="Giro" placeHolder="ej: Transporte y Carga" type="text" :error="false" max="40"
+              v-model="dataFormularioFacturacion.giro" />
 
             <div class="columns is-variable is-2-desktop is-3-mobile">
               <div class="column py-0">
-                <InputBase
-                  label="Nombre"
-                  placeHolder="ej:Pedro"
-                  type="text"
-                  :error="false"
-                  v-model="dataFormularioFacturacion.nombre"
-                />
+                <InputBase label="Nombre" placeHolder="ej:Pedro" type="text" :error="false"
+                  v-model="dataFormularioFacturacion.nombre" />
               </div>
               <div class="column is-hidden-tablet"></div>
               <div class="column py-0">
-                <InputBase
-                  label="Apellidos"
-                  placeHolder="ej:Perez"
-                  type="text"
-                  :error="false"
-                  v-model="dataFormularioFacturacion.apellidos"
-                />
+                <InputBase label="Apellidos" placeHolder="ej:Perez" type="text" :error="false"
+                  v-model="dataFormularioFacturacion.apellidos" />
               </div>
             </div>
 
@@ -137,22 +86,12 @@
                 <div class="field">
                   <label for="" class="label">Dirección</label>
 
-                  <GoogleMapsAutocompleteVue2
-                    v-if="libreriaCargada"
-                    id="direccion_google2"
-                    :country="['cl']"
-                    classname="input input-2"
-                    :class="{ 'is-danger': dataFormularioFacturacion.direccion.error }"
-                    placeholder="Ingresar Dirección"
-                    v-on:placechanged="obtenerDireccionFacturacion"
-                    key="map2"
-                  >
+                  <GoogleMapsAutocompleteVue2 v-if="libreriaCargada" id="direccion_google2" :country="['cl']"
+                    classname="input input-2" :class="{ 'is-danger': dataFormularioFacturacion.direccion.error }"
+                    placeholder="Ingresar Dirección" v-on:placechanged="obtenerDireccionFacturacion" key="map2">
                   </GoogleMapsAutocompleteVue2>
 
-                  <div
-                    v-if="dataFormularioFacturacion.direccion.data.direccionCompleta"
-                    class="is-size-7 mt-2"
-                  >
+                  <div v-if="dataFormularioFacturacion.direccion.data.direccionCompleta" class="is-size-7 mt-2">
                     Dirección Seleccionada:
                     <b>{{ direccionCompletaFacturacion }}</b>
                   </div>
@@ -165,16 +104,10 @@
                 <div class="field">
                   <label for="" class="label">Teléfono Móvil</label>
                   <div class="control">
-                    <input
-                      class="input"
-                      placeHolder="ej:+56912345678"
-                      type="text"
-                      v-model="dataFormularioFacturacion.telefono.data"
-                      maxlength="12"
+                    <input class="input" placeHolder="ej:+56912345678" type="text"
+                      v-model="dataFormularioFacturacion.telefono.data" maxlength="12"
                       :class="[{ 'is-danger': dataFormularioFacturacion.telefono.error }]"
-                      @keypress="validarInputTelefono"
-                      @focus="moverCursor"
-                    />
+                      @keypress="validarInputTelefono" @focus="moverCursor" />
                   </div>
                 </div>
               </div>
@@ -184,11 +117,7 @@
 
         <div class="columns is-centered">
           <div class="column is-5">
-            <button
-              type="submit"
-              class="button button-icono is-fullwidth"
-              v-if="!cargando"
-            >
+            <button type="submit" class="button button-icono is-fullwidth" v-if="!cargando">
               <b>Continuar</b>
             </button>
             <CargandoSeccion v-if="cargando"></CargandoSeccion>
@@ -200,10 +129,8 @@
       <BoxDespacho></BoxDespacho>
       <BoxTotales></BoxTotales>
     </div>
-    <DireccionManual
-      @direccion-manual="direccionManual"
-      v-if="this.storeCarroCompra.direccionManual.mostrar"
-    ></DireccionManual>
+    <DireccionManual @direccion-manual="direccionManual" v-if="this.storeCarroCompra.direccionManual.mostrar">
+    </DireccionManual>
   </div>
   <ToplayerRadioDespacho></ToplayerRadioDespacho>
 </template>
@@ -345,8 +272,8 @@ export default {
         .despacho.telefono
         ? this.storeCarroCompra.carro.data.despacho.telefono
         : this.storeCarroCompra.usuario
-        ? this.storeCarroCompra.usuario.shipping.phone
-        : "+569";
+          ? this.storeCarroCompra.usuario.shipping.phone
+          : "+569";
 
       this.dataFormularioDespacho.comentario_direccion.data = this.storeCarroCompra.carro
         .data.despacho.comentario_direccion
@@ -359,38 +286,38 @@ export default {
           .facturacion.rut
           ? this.storeCarroCompra.carro.data.facturacion.rut
           : this.storeCarroCompra.usuario.billing_direccion_completa
-          ? this.storeCarroCompra.usuario.billing_direccion_completa.rut
-          : "";
+            ? this.storeCarroCompra.usuario.billing_direccion_completa.rut
+            : "";
         this.dataFormularioFacturacion.razon_social.data = this.storeCarroCompra.carro
           .data.facturacion.razon_social
           ? this.storeCarroCompra.carro.data.facturacion.razon_social
           : this.storeCarroCompra.usuario.billing_direccion_completa
-          ? this.storeCarroCompra.usuario.billing_direccion_completa.razon_social
-          : "";
+            ? this.storeCarroCompra.usuario.billing_direccion_completa.razon_social
+            : "";
         this.dataFormularioFacturacion.giro.data = this.storeCarroCompra.carro.data
           .facturacion.giro
           ? this.storeCarroCompra.carro.data.facturacion.giro
           : this.storeCarroCompra.usuario.billing_direccion_completa
-          ? this.storeCarroCompra.usuario.billing_direccion_completa.giro
-          : "";
+            ? this.storeCarroCompra.usuario.billing_direccion_completa.giro
+            : "";
         this.dataFormularioFacturacion.nombre.data = this.storeCarroCompra.carro.data
           .facturacion.nombre
           ? this.storeCarroCompra.carro.data.facturacion.nombre
           : this.storeCarroCompra.usuario.billing_direccion_completa
-          ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre
-          : "";
+            ? this.storeCarroCompra.usuario.billing_direccion_completa.nombre
+            : "";
         this.dataFormularioFacturacion.apellidos.data = this.storeCarroCompra.carro.data
           .facturacion.apellidos
           ? this.storeCarroCompra.carro.data.facturacion.apellidos
           : this.storeCarroCompra.usuario.billing_direccion_completa
-          ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos
-          : "";
+            ? this.storeCarroCompra.usuario.billing_direccion_completa.apellidos
+            : "";
         this.dataFormularioFacturacion.telefono.data = this.storeCarroCompra.carro.data
           .facturacion.telefono
           ? this.storeCarroCompra.carro.data.facturacion.telefono
           : this.storeCarroCompra.usuario.billing_direccion_completa
-          ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono
-          : "+569";
+            ? this.storeCarroCompra.usuario.billing_direccion_completa.telefono
+            : "+569";
 
         if (this.storeCarroCompra.carro.data.facturacion.direccion.direccionCompleta) {
           this.dataFormularioFacturacion.direccion.data = this.storeCarroCompra.carro.data.facturacion.direccion;

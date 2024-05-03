@@ -1,10 +1,6 @@
 <template>
   <transition name="modal">
-    <div
-      class="toplayer toplayer-direccion"
-      v-if="mostrarToplayer"
-      @click.self="cerrar($event)"
-    >
+    <div class="toplayer toplayer-direccion" v-if="mostrarToplayer" @click.self="cerrar($event)">
       <div class="toplayer_content card p-4">
         <h3 class="primero is-size-5 px-2">Ingresar Dirección Manual</h3>
 
@@ -20,25 +16,13 @@
           <div class="column">
             <div class="field">
               <label for="">Región</label>
-              <input
-                type="text"
-                class="input"
-                :value="this.region.name"
-                readonly
-                disabled
-              />
+              <input type="text" class="input" :value="this.region.name" readonly disabled />
             </div>
           </div>
           <div class="column">
             <div class="field">
               <label>Comuna</label>
-              <input
-                type="text"
-                class="input"
-                :value="this.comuna.name"
-                readonly
-                disabled
-              />
+              <input type="text" class="input" :value="this.comuna.name" readonly disabled />
             </div>
           </div>
         </div>
@@ -47,13 +31,7 @@
           <div class="column">
             <div class="field">
               <label for="">Dirección</label>
-              <input
-                type="text"
-                class="input disabled"
-                v-model="direccion.calle"
-                maxlength="100"
-                readonly
-              />
+              <input type="text" class="input disabled" v-model="direccion.calle" maxlength="100" readonly />
             </div>
           </div>
           <div class="column">
@@ -67,7 +45,7 @@
           <div class="column">
             <div class="field">
               <label for="">Comentario</label>
-              <input type="text" class="input" v-model="comentario_direccion" />
+              <input type="text" class="input" v-model="comentario_direccion" maxlength="100" />
             </div>
           </div>
         </div>
@@ -81,16 +59,11 @@
         </div>
 
         <div class="block has-text-right-tablet mt-5 px-2">
-          <a
-            class="button is-rounded is-small button-icono px-5 mr-3 bg-gris3"
-            @click.prevent="this.storeCarroCompra.direccion_manual(false)"
-          >
+          <a class="button is-rounded is-small button-icono px-5 mr-3 bg-gris3"
+            @click.prevent="this.storeCarroCompra.direccion_manual(false)">
             Cerrar
           </a>
-          <a
-            class="button is-rounded is-small button-icono px-5"
-            @click.prevent="validarDireccion"
-          >
+          <a class="button is-rounded is-small button-icono px-5" @click.prevent="validarDireccion">
             Continuar
           </a>
         </div>

@@ -34,7 +34,7 @@
             <div class="field">
               <div class="control">
                 <input class="input input-2 w-80" placeHolder="Casa, departamento o condominio ( información adicional)"
-                  type="text" v-model="comentario_direccion" />
+                  type="text" v-model="comentario_direccion" maxlength="100" />
               </div>
             </div>
 
