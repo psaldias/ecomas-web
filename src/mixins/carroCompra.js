@@ -97,10 +97,10 @@ export default {
        */
       /** OBTENER PRODUCTOS PARA LA TIENDA */
       async obtenerProductosTienda(  data = { } ){
-
         let headers = {};
         const {category} = data;
         let parametros_adicionales = false;
+        this.storeCarroCompra.actualizarCarro([], "productos");
         // if(!this.store.token)
         //   await this.obtenerToken();
 

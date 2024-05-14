@@ -34,7 +34,7 @@
         </div>
 
         <div class="column py-0" :class="[{ 'is-10': categoria.slug == 'pellet' }]">
-          <ListadoProductos :grilla="grilla" :categoria="categoria"></ListadoProductos>
+          <ListadoProductos :grilla="grilla" :categoria="categoria" v-if="categoria"></ListadoProductos>
 
           <div class="columns is-justify-content-flex-end" v-if="categoria.slug != 'pellet'">
             <div class="column is-narrow">
@@ -88,8 +88,8 @@ export default {
       this.categoria = Object.values(this.categorias).find(categoria => categoria.term_id == 33);
     }
 
-    console.log(this.categoria);
     document.title = this.categoria.name || import.meta.env.VUE_APP_DEFAULT_TITLE;
+    console.log(this.categoria);
 
   },
   computed: {

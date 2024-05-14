@@ -1,6 +1,6 @@
 <template>
   <div class="listado-productos">
-    <div class="columns is-multiline is-variable is-1" v-if="!cargando">
+    <div class="columns is-multiline is-variable is-1" v-if="!cargando && categoria">
       <div class="column" :class="clasesColumna" v-for="(producto, index) in productos"
         :key="'listado_productos_column_' + producto.id">
         <Producto :producto="producto" v-if="formato == 'vertical'" :key="'listado_productos_producto_' + producto.id">
@@ -12,7 +12,7 @@
         <h3 class="primero">No hay productos</h3>
       </div>
     </div>
-    <CargandoSeccion v-if="cargando"></CargandoSeccion>
+    <CargandoSeccion v-if="cargando || !categoria"></CargandoSeccion>
   </div>
 </template>
 
@@ -48,16 +48,17 @@ export default {
       },
       deep: true,
     },
-    categoria: {
-      handler(newValue, oldValue) {
-        this.obtenerProductos();
-      },
-      deep: true,
-    },
+    // categoria: {
+    //   handler(newValue, oldValue) {
+    //     console.log('categoria');
+    //     this.obtenerProductos();
+    //   },
+    //   deep: true,
+    // },
   },
   mounted() {
+    console.log(this.categoria);
     if (this.categoria.slug == "pellet") this.obtenerProductos();
-    else this.storeCarroCompra.actualizarCarro({}, "productos");
   },
   computed: {
     filtrosCarro() {
@@ -83,7 +84,8 @@ export default {
   methods: {
     async obtenerProductos() {
       this.cargando = true;
-      await this.obtenerProductosTienda({ category: this.categoria.slug });
+      if (this.categoria)
+        await this.obtenerProductosTienda({ category: this.categoria.slug });
       this.cargando = false;
     },
   },

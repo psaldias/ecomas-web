@@ -53,82 +53,69 @@ export default {
     };
   },
   mounted() {
+    this.cargarSlider();
 
   },
   updated() {
-    if (this.imagenes.length > 0) {
-      const vue = this;
-
-      /** CREAR INSTANCIA DE CARRUSEL */
-      this.slider = $(".banner-principal .slider-desktop").slick({
-        lazyLoad: 'ondemand',
-
-        slidesToShow: 1,
-        dots: true,
-        arrows: false,
-        infinite: true,
-        pauseOnHover: false,
-        pauseOnFocus: false,
-        autoplay: false,
-        autoplaySpeed: 5000,
-        lazyload: true,
-        prevArrow:
-          '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
-        nextArrow:
-          '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
-      });
-      // this.imagenes.forEach(imagen => {
-      //   let html = '<div class="imagen">';
-      //   html += imagen.imagen;
-      //   if (imagen.link) {
-      //     const target = (vue.verificarUrlExterna(imagen.link) ? 'target="_blank"' : '');
-      //     html += '<a href="' + imagen.link + '" ' + target + '>';
-      //     html += imagen.imagen;
-      //     html += '</a>';
-
-      //   } else {
-      //     html += imagen.imagen;
-      //   }
-      //   html += '</div>';
-      //   vue.slider.slick('slickAdd', html);
-
-      // });
-      // this.slider.slick('slickAdd', '<div><h3>asdasdasd</h3></div>');
-      // this.slider.slick('slickAdd', '<div><h3>asdasdasd</h3></div>');
-
-
-      /** VALIDAR EN CADA CAMBIO EL TIEMPO DE TRANSISIÓN O SI SE DEBE QUEADAR FIJO */
-      $(".banner-principal .slider-desktop").on(
-        "afterChange",
-        function (event, slick, currentSlide, nextSlide) {
-          /** DESPUES DE CADA CAMBIO DE SLIDE SE VALIDA EL AUTOPLAY */
-          vue.autoplaySlider(currentSlide);
-        }
-      );
-      /** VALIDA PRIMER SLIDE */
-
-      this.autoplaySlider(0);
-
-
-      this.slider_movil = $(".banner-principal .slider-movil").slick({
-        slidesToShow: 1,
-        dots: true,
-        arrows: false,
-        infinite: true,
-        pauseOnHover: false,
-        pauseOnFocus: false,
-        autoplay: false,
-        autoplaySpeed: 5000,
-        lazyload: true,
-        prevArrow:
-          '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
-        nextArrow:
-          '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
-      });
-    }
+    this.cargarSlider();
   },
   computed: {},
   methods: {
+    cargarSlider() {
+      if (this.imagenes.length > 0) {
+        const vue = this;
+
+        /** CREAR INSTANCIA DE CARRUSEL */
+        this.slider = $(".banner-principal .slider-desktop").slick({
+          lazyLoad: 'ondemand',
+
+          slidesToShow: 1,
+          dots: true,
+          arrows: false,
+          infinite: true,
+          pauseOnHover: false,
+          pauseOnFocus: false,
+          autoplay: false,
+          autoplaySpeed: 5000,
+          lazyload: true,
+          prevArrow:
+            '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
+          nextArrow:
+            '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
+        });
+
+
+
+        /** VALIDAR EN CADA CAMBIO EL TIEMPO DE TRANSISIÓN O SI SE DEBE QUEADAR FIJO */
+        $(".banner-principal .slider-desktop").on(
+          "afterChange",
+          function (event, slick, currentSlide, nextSlide) {
+            /** DESPUES DE CADA CAMBIO DE SLIDE SE VALIDA EL AUTOPLAY */
+            vue.autoplaySlider(currentSlide);
+          }
+        );
+        /** VALIDA PRIMER SLIDE */
+
+        this.autoplaySlider(0);
+
+
+        this.slider_movil = $(".banner-principal .slider-movil").slick({
+          slidesToShow: 1,
+          dots: true,
+          arrows: false,
+          infinite: true,
+          pauseOnHover: false,
+          pauseOnFocus: false,
+          autoplay: false,
+          autoplaySpeed: 5000,
+          lazyload: true,
+          prevArrow:
+            '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
+          nextArrow:
+            '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
+        });
+      }
+    },
     verificarUrlExterna(url) {
       var pattern = /^((http|https|ftp):\/\/)/;
       return pattern.test(url);
