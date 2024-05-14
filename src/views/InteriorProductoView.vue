@@ -1,5 +1,5 @@
 <template>
-  <main class="interior-producto">
+  <main class="interior-producto" v-if="!cargando">
     <div class="wrapper">
       <div class="px-3" v-if="!cargando">
         <nav class="breadcrumb is-small" aria-label="breadcrumbs">
@@ -234,9 +234,9 @@
             :productos="productos_relacionados"></SliderProductos>
         </div>
       </div>
-      <CargandoSeccion v-if="cargando"></CargandoSeccion>
     </div>
   </main>
+  <CargandoSeccion v-if="cargando"></CargandoSeccion>
   <Seo v-if="!cargando && producto.hasOwnProperty('yoast_head_json')" :data_api="producto.yoast_head_json"></Seo>
 </template>
 
@@ -295,29 +295,31 @@ export default {
   async mounted() {
     this.cargando = true;
     await this.obtenerProducto();
-    /** SI EL PRODUCTO ES VARIABLE, OBTENER INFORMACIÓN DE CADA VARIACIÓN */
-    if (this.producto.type == "variable") await this.obtenerVariaciones();
-    this.cargando = false;
-
-    this.obtenerProductosRelacionados();
-
-    $.fancybox.defaults.backFocus = false;
-
-    document.title = this.producto.name || "";
-
-    this.mediaQuery();
-    window.addEventListener("resize", (event) => {
-      this.mediaQuery();
-    });
-
-    if (this.producto.campos_adicionales.galeria) {
-      this.cargarSliderGaleria();
-    }
   },
   watch: {
     async sucursalCarro() {
-      this.obtenerProductos();
+      this.obtenerProducto();
     },
+    async producto() {
+      /** SI EL PRODUCTO ES VARIABLE, OBTENER INFORMACIÓN DE CADA VARIACIÓN */
+      if (this.producto.type == "variable") await this.obtenerVariaciones();
+      this.cargando = false;
+
+      this.obtenerProductosRelacionados();
+
+      $.fancybox.defaults.backFocus = false;
+
+      document.title = this.producto.name || "";
+
+      this.mediaQuery();
+      window.addEventListener("resize", (event) => {
+        this.mediaQuery();
+      });
+
+      if (this.producto.campos_adicionales.galeria) {
+        this.cargarSliderGaleria();
+      }
+    }
   },
   computed: {
     conStock() {
@@ -331,7 +333,7 @@ export default {
       return false;
     },
     sucursalCarro() {
-      return this.store_opciones_generales.sucursal_seleccionada.ID;
+      return this.store_opciones_generales.sucursal_seleccionada?.ID;
     },
     // producto() {
     //   return this.storeCarroCompra.carro.productos.find((producto) => {
@@ -394,6 +396,8 @@ export default {
   },
   methods: {
     async obtenerProducto() {
+      /** si no existe la sucursal no buscar los productos */
+      if (!this.sucursalCarro) return;
       const respuesta_producto = await this.enviarGet(
         import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS +
         "&slug=" +

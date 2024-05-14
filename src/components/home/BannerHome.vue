@@ -1,8 +1,39 @@
 <template>
+  <section class="banner-principal mt-4">
 
-  <div class="slider slider-desktop" v-if="!esMovil"></div>
-  <div class="slider slider-movil" v-if="esMovil"></div>
+    <div class="slider slider-desktop" v-if="!esMovil()">
+      <div class="imagen" v-for="imagen in imagenes">
+        <div v-if="imagen.link">
+          <a :href="imagen.link" v-if="verificarUrlExterna(imagen.link)" target="_blank">
+            <span v-html="imagen.imagen"></span>
+          </a>
+          <router-link :to="imagen.link" v-else>
+            <span v-html="imagen.imagen"></span>
+          </router-link>
+        </div>
+        <div v-else>
+          <span v-html="imagen.imagen"></span>
+        </div>
+      </div>
+    </div>
 
+    <div class="slider slider-movil" v-if="esMovil()">
+      <div class="imagen" v-for="imagen in imagenes">
+        <div v-if="imagen.link">
+          <a :href="imagen.link" v-if="verificarUrlExterna(imagen.link)" target="_blank">
+            <span v-html="imagen.imagen_responsiva"></span>
+          </a>
+          <router-link :to="imagen.link" v-else>
+            <span v-html="imagen.imagen_responsiva"></span>
+          </router-link>
+        </div>
+
+        <div v-else>
+          <span v-if="imagen.imagen_responsiva" v-html="imagen.imagen_responsiva"></span>
+        </div>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -12,11 +43,7 @@ import "/src/assets/libs/slick/slick.min.js";
 // import "/src/assets/libs/slick/slick-theme.min.css";
 
 export default {
-  props: {
-    imagenes: {
-      default: [],
-    }
-  },
+  props: ["imagenes"],
   data() {
     return {
       slider: false,
@@ -26,36 +53,12 @@ export default {
     };
   },
   mounted() {
-    document.addEventListener('readystatechange', this.cargarSlider());
+
   },
   updated() {
-    document.addEventListener('readystatechange', this.cargarSlider());
-
-
-  },
-  computed: {
-    esMovil() {
-      // Create a media condition that targets viewports at least 768px wide
-      const mediaQuery = window.matchMedia('(max-width: 768px)')
-      // Check if the media query is true
-      if (mediaQuery.matches) {
-        return true;
-      }
-      return false;
-    },
-  },
-  methods: {
-    cargarSlider() {
-      if (this.imagenes.length > 0) {
-        const vue = this;
-        if (this.esMovil)
-          this.cargarSliderMovil();
-        else
-          this.cargarSliderDesktop();
-      }
-    },
-    cargarSliderDesktop() {
+    if (this.imagenes.length > 0) {
       const vue = this;
+
       /** CREAR INSTANCIA DE CARRUSEL */
       this.slider = $(".banner-principal .slider-desktop").slick({
         lazyLoad: 'ondemand',
@@ -68,26 +71,31 @@ export default {
         pauseOnFocus: false,
         autoplay: false,
         autoplaySpeed: 5000,
+        lazyload: true,
         prevArrow:
-          '<span class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></span>',
+          '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
         nextArrow:
-          '<span class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></span>',
+          '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
       });
-      this.imagenes.forEach(imagen => {
-        let html = '<div class="imagen">';
-        if (imagen.link) {
-          const target = (vue.verificarUrlExterna(imagen.link) ? 'target="_blank"' : '');
-          html += '<a href="' + imagen.link + '" ' + target + '>';
-          html += imagen.imagen;
-          html += '</a>';
+      // this.imagenes.forEach(imagen => {
+      //   let html = '<div class="imagen">';
+      //   html += imagen.imagen;
+      //   if (imagen.link) {
+      //     const target = (vue.verificarUrlExterna(imagen.link) ? 'target="_blank"' : '');
+      //     html += '<a href="' + imagen.link + '" ' + target + '>';
+      //     html += imagen.imagen;
+      //     html += '</a>';
 
-        } else {
-          html += imagen.imagen;
-        }
-        html += '</div>';
-        vue.slider.slick('slickAdd', html);
+      //   } else {
+      //     html += imagen.imagen;
+      //   }
+      //   html += '</div>';
+      //   vue.slider.slick('slickAdd', html);
 
-      });
+      // });
+      // this.slider.slick('slickAdd', '<div><h3>asdasdasd</h3></div>');
+      // this.slider.slick('slickAdd', '<div><h3>asdasdasd</h3></div>');
+
 
       /** VALIDAR EN CADA CAMBIO EL TIEMPO DE TRANSISIÓN O SI SE DEBE QUEADAR FIJO */
       $(".banner-principal .slider-desktop").on(
@@ -97,12 +105,10 @@ export default {
           vue.autoplaySlider(currentSlide);
         }
       );
-
       /** VALIDA PRIMER SLIDE */
+
       this.autoplaySlider(0);
-    },
-    cargarSliderMovil() {
-      const vue = this;
+
 
       this.slider_movil = $(".banner-principal .slider-movil").slick({
         slidesToShow: 1,
@@ -113,29 +119,16 @@ export default {
         pauseOnFocus: false,
         autoplay: false,
         autoplaySpeed: 5000,
+        lazyload: true,
         prevArrow:
-          '<span class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></span>',
+          '<a class="slick-prev-ecomas"><i class="primero fa-solid fa-angle-left"></i></a>',
         nextArrow:
-          '<span class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></span>',
+          '<a class="slick-next-ecomas"><i class="primero fa-solid fa-angle-right"></i></a>',
       });
-
-      this.imagenes.forEach(imagen => {
-        let html = '<div class="imagen">';
-        if (!imagen.imagen_responsiva) return;
-        if (imagen.link) {
-          const target = (vue.verificarUrlExterna(imagen.link) ? 'target="_blank"' : '');
-          html += '<a href="' + imagen.link + '" ' + target + '>';
-          html += imagen.imagen_responsiva;
-          html += '</a>';
-
-        } else {
-          html += imagen.imagen_responsiva;
-        }
-        html += '</div>';
-        vue.slider_movil.slick('slickAdd', html);
-
-      });
-    },
+    }
+  },
+  computed: {},
+  methods: {
     verificarUrlExterna(url) {
       var pattern = /^((http|https|ftp):\/\/)/;
       return pattern.test(url);
@@ -144,7 +137,15 @@ export default {
     clearTimeout() {
       if (this.timeout) clearTimeout(this.timeout);
     },
-
+    esMovil() {
+      // Create a media condition that targets viewports at least 768px wide
+      const mediaQuery = window.matchMedia('(max-width: 768px)')
+      // Check if the media query is true
+      if (mediaQuery.matches) {
+        return true;
+      }
+      return false;
+    },
     /** FUNCIÓN PERSONALIZADA PARA AUTOPLAY DE SLIDER SEGÚN PARAMETROS INDICADOS EN ADMIN */
     autoplaySlider(currentSlide) {
       /** ELIMINAR TIMEOUT SI EXISTE */

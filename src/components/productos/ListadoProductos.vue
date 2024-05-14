@@ -1,21 +1,11 @@
 <template>
   <div class="listado-productos">
     <div class="columns is-multiline is-variable is-1" v-if="!cargando">
-      <div
-        class="column"
-        :class="clasesColumna"
-        v-for="(producto, index) in productos"
-        :key="'listado_productos_column_' + producto.id"
-      >
-        <Producto
-          :producto="producto"
-          v-if="formato == 'vertical'"
-          :key="'listado_productos_producto_' + producto.id"
-        ></Producto>
-        <ProductoHorizontal
-          :producto="producto"
-          v-if="formato == 'horizontal'"
-        ></ProductoHorizontal>
+      <div class="column" :class="clasesColumna" v-for="(producto, index) in productos"
+        :key="'listado_productos_column_' + producto.id">
+        <Producto :producto="producto" v-if="formato == 'vertical'" :key="'listado_productos_producto_' + producto.id">
+        </Producto>
+        <ProductoHorizontal :producto="producto" v-if="formato == 'horizontal'"></ProductoHorizontal>
       </div>
 
       <div class="column has-text-centered" v-if="productos.length == 0">
@@ -58,6 +48,12 @@ export default {
       },
       deep: true,
     },
+    categoria: {
+      handler(newValue, oldValue) {
+        this.obtenerProductos();
+      },
+      deep: true,
+    },
   },
   mounted() {
     if (this.categoria.slug == "pellet") this.obtenerProductos();
@@ -70,8 +66,8 @@ export default {
     productos() {
       return this.storeCarroCompra.carro.productos.listado
         ? this.storeCarroCompra.carro.productos.listado.filter((producto) => {
-            return producto.stock_quantity == null || producto.stock_quantity > 0;
-          })
+          return producto.stock_quantity == null || producto.stock_quantity > 0;
+        })
         : [];
     },
     clasesColumna() {

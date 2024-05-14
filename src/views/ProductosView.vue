@@ -3,9 +3,9 @@
     <div class="wrapper">
       <div class="columns is-vcentered mb-4 is-mobile is-multiline titulo-opciones is-variable is-1 is-centered">
         <div class="column py-0" :class="[
-    { 'is-10': categoria.slug == 'pellet' },
-    { 'is-3': categoria.slug != 'pellet' },
-  ]">
+          { 'is-10': categoria.slug == 'pellet' },
+          { 'is-3': categoria.slug != 'pellet' },
+        ]">
           <h2 class="primero is-size-4">
             <b class="is-uppercase">
               {{ categoria.name }}
@@ -15,14 +15,7 @@
         <div class="column py-0" v-if="categoria.slug != 'pellet'">
           <div class="opciones columns is-vcentered is-gapless mb-0 px-3">
             <div class="column is-hidden-mobile">
-              <!-- <nav class="breadcrumb is-small" aria-label="breadcrumbs">
-                <ul>
-                  <li><a href="#">Pellet</a></li>
-                  <li><a href="#">Ecoheat</a></li>
-                  <li><a href="#">55 70m2</a></li>
-                  <li><a href="#">$500.000 - $1.000.000</a></li>
-                </ul>
-              </nav> -->
+
             </div>
             <div class="column is-narrow acciones-paginador">
               <div class="columns is-mobile is-vcentered is-gapless is-justify-content-flex-end">
@@ -55,24 +48,6 @@
   <CargandoSeccion v-if="cargando"></CargandoSeccion>
 </template>
 
-<!--<template>
-    <main class="productos">
-        <div class="wrapper">
-            <div class="columns is-centered mt-4 titulo-opciones is-variable">
-                <div class="column is-10 py-0">
-                    <h2 class="primero is-size-4 is-uppercase"><b>{{ categoria.name }}</b></h2>
-                </div>
-            </div>
-            <div class="columns is-centered ">
-                <div class="column is-10">
-                    <ListadoProductos  :grilla="grilla" :categoria="categoria"></ListadoProductos>
-                </div>
-
-            </div>
-
-        </div>
-    </main>
-</template>-->
 
 <script>
 // import BannerSeccion from "../components/general/BannerSeccion.vue";
@@ -95,11 +70,7 @@ export default {
       grilla: "grid",
       store_opciones_generales: useOpcionesGeneralesStore(),
       categorias: {},
-      categoria: {
-        term_id: 33,
-        name: "Pellet",
-        slug: "pellet",
-      }, // pellet por defecto
+      categoria: false, // pellet por defecto
 
     };
   },
@@ -107,17 +78,19 @@ export default {
     const respuesta = await this.enviarGet(import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_CATEGORIAS);
     if (respuesta) {
       this.categorias = respuesta.data;
-
     }
     if (this.$route.params.categoria) {
-      const categoria_seleccionada = Object.values(
-        this.categorias
-      ).find((categoria) => categoria.slug == this.$route.params.categoria);
+      const categoria_seleccionada = Object.values(this.categorias).find((categoria) => categoria.slug == this.$route.params.categoria);
 
-      if (categoria_seleccionada) this.categoria = categoria_seleccionada;
+      this.categoria = (categoria_seleccionada) ? categoria_seleccionada : { slug: '-' };
 
+    } else {
+      this.categoria = Object.values(this.categorias).find(categoria => categoria.term_id == 33);
     }
+
+    console.log(this.categoria);
     document.title = this.categoria.name || import.meta.env.VUE_APP_DEFAULT_TITLE;
+
   },
   computed: {
     cargando() {
