@@ -21,7 +21,7 @@ import Producto from "./producto/producto.vue";
 import ProductoHorizontal from "./producto/ProductoHorizontal.vue";
 import CargandoSeccion from "../general/CargandoSeccion.vue";
 import { useCarroCompraStore } from "/src/stores/carroCompra";
-
+import { useOpcionesGeneralesStore } from "/src/stores/opcionesGenerales";
 export default {
   components: {
     Producto,
@@ -32,10 +32,13 @@ export default {
     grilla: "",
     categoria: "",
   },
+  emits: ['cargando'],
   data() {
     return {
       cargando: false,
       storeCarroCompra: useCarroCompraStore(),
+      store_opciones_generales: useOpcionesGeneralesStore(),
+      controller: false,// signal para parar axios
     };
   },
   watch: {
@@ -57,8 +60,7 @@ export default {
     // },
   },
   mounted() {
-    console.log(this.categoria);
-    if (this.categoria.slug == "pellet") this.obtenerProductos();
+    this.obtenerProductos();
   },
   computed: {
     filtrosCarro() {
@@ -80,13 +82,20 @@ export default {
     sucursalCarro() {
       return this.store_opciones_generales.sucursal_seleccionada.ID;
     },
+    cargandoApp() {
+      return this.store_opciones_generales.cargando;
+    }
   },
   methods: {
     async obtenerProductos() {
+      if (this.cargando || this.cargandoApp) return;
       this.cargando = true;
+
       if (this.categoria)
         await this.obtenerProductosTienda({ category: this.categoria.slug });
+
       this.cargando = false;
+      this.$emit('cargando', this.cargando);
     },
   },
 };

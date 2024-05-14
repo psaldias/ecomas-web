@@ -100,7 +100,7 @@ export default {
         let headers = {};
         const {category} = data;
         let parametros_adicionales = false;
-        this.storeCarroCompra.actualizarCarro([], "productos");
+        this.storeCarroCompra.actualizarCarro({}, "productos");
         // if(!this.store.token)
         //   await this.obtenerToken();
 
@@ -129,7 +129,6 @@ export default {
             parametros_adicionales += '&offset='+this.storeCarroCompra.carro.data.filtros.pagina;
           }
         }
-
         const response = await axios.get(import.meta.env.VITE_ENDPOINT_COMPRA_PRODUCTOS_V2+parametros_adicionales+'&sucursal='+this.store_opciones_generales.sucursalSeleccionada.ID ,{headers}).catch(error => {
             if(error.code == "ERR_NETWORK")
               this.$router.replace({ name: 'error' })
@@ -141,7 +140,6 @@ export default {
 
         /** GUARDAR DATOS CARRO EN STORE */
         this.storeCarroCompra.actualizarCarro(response.data, "productos");
-
       },
 
       /** FUNCIÓN PARA VALIDAR SI EL PRODUCTO SE PUEDE AGREGAR AL CARRO */

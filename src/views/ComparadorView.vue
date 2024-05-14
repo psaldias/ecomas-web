@@ -1,8 +1,8 @@
 <template>
   <main class="page comparador">
     <div class="wrapper" v-if="!cargando">
-      <BannerSeccion class="v2 no-icon" :titulo="data.title.rendered" :imagen="data.acf.imagen_banner.sizes['2048x2048']"
-        v-if="data.acf.imagen_banner" />
+      <BannerSeccion class="v2 no-icon" :titulo="data.title.rendered"
+        :imagen="data.acf.imagen_banner.sizes['2048x2048']" v-if="data.acf.imagen_banner" />
 
       <div class="columns is-centered">
         <div class="column is-9">
@@ -75,7 +75,7 @@ export default {
       this.data = respuesta.data[0];
       this.cargando = false;
 
-      document.title = this.data.title.rendered || VUE_APP_DEFAULT_TITLE;
+      document.title = this.data.title.rendered || VITE_DEFAULT_TITLE;
     }
   },
 };

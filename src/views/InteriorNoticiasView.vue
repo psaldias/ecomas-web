@@ -59,7 +59,7 @@ export default {
     if (!this.noticia)
       this.$router.replace({ name: '404' })
 
-    document.title = this.noticia.title.rendered || VUE_APP_DEFAULT_TITLE;
+    document.title = this.noticia.title.rendered || VITE_DEFAULT_TITLE;
   },
   computed: {
   },
