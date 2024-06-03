@@ -122,15 +122,13 @@ export default {
     init() {
       if (this.sucursal_por_defecto) {
         const region_comuna = this.sucursal_por_defecto.regiones_comunas.find((comuna) => {
-
           if (localStorage.sucursalSeleccionada) {
-            localStorage.sucursalSeleccionada
-              ? comuna.term_id == localStorage.sucursalSeleccionada
-              : true
-          } return true;
+            return comuna.term_id == parseInt(localStorage.sucursalSeleccionada)
+          }
         });
         this.regionSeleccionada = region_comuna.parent;
         this.comunaSeleccionada = region_comuna.term_id;
+
       } else if (this.regiones) {
         this.regionSeleccionada = this.regiones[0].term_id;
       }
