@@ -40,9 +40,9 @@
           </nav>
         </div>
         <div class="column is-narrow-desktop is-12-mobile px-4" v-if="!store_opciones_generales.cargando && store_opciones_generales.telefono_footer
-              "></div>
+        "></div>
         <div class="column is-narrow-desktop is-align-self-center has-text-centered-mobile" v-if="!store_opciones_generales.cargando && store_opciones_generales.telefono_footer
-              ">
+        ">
           <a :href="'tel:' + store_opciones_generales.telefono_footer"
             class="button is-rounded button-fono has-text-white">
             <b><i class="fa-solid fa-phone-volume primero"></i>

@@ -2,6 +2,7 @@
     <main>
 
         <CargandoSeccion v-if="cargando"></CargandoSeccion>
+        <a href="ecomas://help" target="_blank">Link App</a>
     </main>
     <Seo v-if="!cargando && contenidoInicial.hasOwnProperty('yoast_head_json')"
         :data_api="contenidoInicial.yoast_head_json"></Seo>
